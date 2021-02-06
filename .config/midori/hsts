@@ -1,0 +1,5 @@
+www.oss.kr max-age=31536000; includeSubDomains
+www.oss.kr max-age=31536000; includeSubDomains
+www.oss.kr max-age=31536000; includeSubDomains
+www.google-analytics.com max-age=10886400; includeSubDomains; preload
+i.creativecommons.org max-age=15768000

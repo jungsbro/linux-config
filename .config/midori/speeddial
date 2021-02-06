@@ -1,0 +1,7 @@
+[settings]
+columns=3
+rows=3
+
+[Dial 1]
+uri=https://www.midori-browser.org/#section2
+title=Midori Browser
