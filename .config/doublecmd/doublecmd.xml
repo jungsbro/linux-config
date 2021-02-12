@@ -292,58 +292,12 @@
         </Command>
         <Separator/>
         <Program>
-          <ID>{22D12728-D689-4A0C-AE69-8F8F56A54FCA}</ID>
-          <Icon>/usr/share/applications/gimp.desktop</Icon>
-          <Hint>gimp-2</Hint>
-          <Command>/usr/bin/gimp-2.8</Command>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Program>
-          <ID>{2E425080-8101-4312-B9C9-66C4F47BF410}</ID>
-          <Icon>/var/lib/flatpak/exports/share/icons/hicolor/256x256/apps/fr.natron.Natron.png</Icon>
-          <Hint>natron</Hint>
-          <Command>/usr/bin/flatpak </Command>
-          <Params>run fr.natron.Natron</Params>
-        </Program>
-        <Separator/>
-        <Program>
-          <ID>{ED633D79-ABB9-4824-82BC-393975890F82}</ID>
-          <Icon>/usr/share/icons/Mint-X/apps/16/fusion-icon.png</Icon>
-          <Hint>flatpak</Hint>
-          <Command>/usr/bin/flatpak</Command>
-          <Params>run --branch=stable --arch=i386 --command=FreeFileSync --file-forwarding org.freefilesync.FreeFileSync</Params>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Program>
-          <ID>{2917BD6B-EBDC-4284-8F03-3076778D0804}</ID>
-          <Icon>/usr/share/applications/org.gnome.Calculator.desktop</Icon>
-          <Hint>gnome-calculator</Hint>
-          <Command>/usr/bin/gnome-calculator</Command>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Program>
           <ID>{7767BD32-D7FD-4A96-9974-618218AFA061}</ID>
           <Icon>/usr/share/applications/org.gnome.DiskUtility.desktop</Icon>
           <Hint>gnome-disks</Hint>
           <Command>/usr/bin/gnome-disks</Command>
           <StartPath>/usr/bin/</StartPath>
         </Program>
-        <Program>
-          <ID>{2D040614-273E-4904-8F1C-5C0670B2CCDE}</ID>
-          <Icon>/usr/share/applications/cinnamon-settings-mouse.desktop</Icon>
-          <Hint>toggleTouchpad</Hint>
-          <Command>/home/brian/Documents/myScript/toggleTouchpad.sh</Command>
-          <StartPath>/home/brian/Documents/myScript/</StartPath>
-        </Program>
-        <Program>
-          <ID>{8B43A39D-BE8E-4CDA-998E-E32B2D03CB8B}</ID>
-          <Icon>/usr/share/applications/cinnamon-display-panel.desktop</Icon>
-          <Hint>xfce4-display-settings</Hint>
-          <Command>/usr/bin/cinnamon-settings</Command>
-          <Params>display</Params>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Separator/>
         <Program>
           <ID>{73A44CF5-5082-4B36-81E4-C2E99EE59AFE}</ID>
           <Icon>/usr/share/applications/org.gnome.baobab.desktop</Icon>
@@ -358,41 +312,33 @@
           <Command>/usr/bin/timeshift-launcher</Command>
           <StartPath>/usr/bin/</StartPath>
         </Program>
+        <Separator/>
         <Program>
-          <ID>{E82A001C-2CEC-417E-A43D-8E6B7E7A8F65}</ID>
-          <Icon>/usr/share/applications/mintinstall.desktop</Icon>
-          <Hint>mintinstall</Hint>
-          <Command>/usr/bin/mintinstall</Command>
+          <ID>{2917BD6B-EBDC-4284-8F03-3076778D0804}</ID>
+          <Icon>/usr/share/applications/org.gnome.Calculator.desktop</Icon>
+          <Hint>gnome-calculator</Hint>
+          <Command>/usr/bin/gnome-calculator</Command>
+          <StartPath>/usr/bin/</StartPath>
+        </Program>
+        <Separator/>
+        <Program>
+          <ID>{22D12728-D689-4A0C-AE69-8F8F56A54FCA}</ID>
+          <Icon>/usr/share/applications/gimp.desktop</Icon>
+          <Hint>gimp-2</Hint>
+          <Command>/usr/bin/gimp-2.8</Command>
           <StartPath>/usr/bin/</StartPath>
         </Program>
         <Program>
-          <ID>{827FE387-3F09-4BBF-8E6B-F371314BA74B}</ID>
-          <Icon>/usr/share/applications/mintsources.desktop</Icon>
-          <Hint>pkexec</Hint>
-          <Command>/usr/bin/pkexec </Command>
-          <Params>mintsources</Params>
-          <StartPath>/usr/bin/</StartPath>
+          <ID>{CCC7869B-0FD6-4244-B64A-82D0C0FDAF44}</ID>
+          <Icon>/var/lib/flatpak/exports/share/applications/org.audacityteam.Audacity.desktop</Icon>
+          <Command>/usr/bin/flatpak</Command>
+          <Params>run org.audacityteam.Audacity</Params>
         </Program>
         <Program>
-          <ID>{3C92432C-FAC0-40B4-B3C8-4C2BB103B139}</ID>
-          <Icon>/usr/share/applications/synaptic.desktop</Icon>
-          <Hint>synaptic-pkexec</Hint>
-          <Command>/usr/bin/synaptic-pkexec</Command>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Program>
-          <ID>{25DCFECC-B851-49E1-A565-80300F9A316C}</ID>
-          <Icon>/usr/share/applications/mintupdate.desktop</Icon>
-          <Hint>mintupdate</Hint>
-          <Command>/usr/bin/mintupdate</Command>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
-        <Program>
-          <ID>{EBFE5A9D-E34F-4B21-95A7-D23959F2F72D}</ID>
-          <Icon>/usr/share/applications/xfce4-taskmanager.desktop</Icon>
-          <Hint>xfce4-taskmanager</Hint>
-          <Command>/usr/bin/xfce4-taskmanager</Command>
-          <StartPath>/usr/bin/</StartPath>
+          <ID>{6D761B18-C0E2-430F-BD59-F03D1542F4B4}</ID>
+          <Icon>/var/lib/flatpak/exports/share/applications/org.videolan.VLC.desktop</Icon>
+          <Command>/usr/bin/flatpak</Command>
+          <Params>run org.videolan.VLC</Params>
         </Program>
         <Separator/>
         <Program>
@@ -416,14 +362,13 @@
           <Command>/usr/lib/firefox/firefox.sh</Command>
           <StartPath>/usr/lib/firefox/</StartPath>
         </Program>
-        <Program>
-          <ID>{1460E2C7-CB3E-4FEC-979B-7310617056F3}</ID>
-          <Icon>/usr/share/applications/midori.desktop</Icon>
-          <Hint>midori</Hint>
-          <Command>/usr/bin/midori</Command>
-          <StartPath>/usr/bin/</StartPath>
-        </Program>
         <Separator/>
+        <Program>
+          <ID>{FB446572-9A4A-46A7-9B4D-DABE03620073}</ID>
+          <Icon>/var/lib/flatpak/exports/share/applications/org.freefilesync.FreeFileSync.desktop</Icon>
+          <Command>/usr/bin/flatpak</Command>
+          <Params>run org.freefilesync.FreeFileSync</Params>
+        </Program>
         <Program>
           <ID>{13438404-0233-43C2-81D1-34347B64C0F3}</ID>
           <Icon>/usr/share/applications/filezilla.desktop</Icon>
@@ -451,17 +396,23 @@
           <Command>/usr/bin/libreoffice</Command>
           <Params>--calc</Params>
         </Program>
+        <Program>
+          <ID>{AEAD9427-502F-4816-8E0A-1D886D292F09}</ID>
+          <Icon>/usr/share/applications/virtualbox.desktop</Icon>
+          <Command>/usr/bin/virtualbox</Command>
+        </Program>
+        <Separator/>
       </Row>
     </MainToolbar>
   </Toolbars>
   <MainWindow>
     <Position Save="True">
-      <Maximized>False</Maximized>
+      <Maximized>True</Maximized>
       <Splitter>52.4256651017214</Splitter>
       <Left>960</Left>
       <Top>0</Top>
-      <Width>958</Width>
-      <Height>1021</Height>
+      <Width>960</Width>
+      <Height>1007</Height>
       <PixelsPerInch>96</PixelsPerInch>
     </Position>
   </MainWindow>
@@ -733,7 +684,7 @@
     <ActionOnDoubleClick>2</ActionOnDoubleClick>
     <OpenedTabs>
       <Left>
-        <ActiveTab>1</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Tab>
           <FileView Type="columns">
             <History>
@@ -755,77 +706,16 @@
                   <Path Filename="">/home/brian/</Path>
                   <Path Filename="jungs">/home/</Path>
                   <Path Filename="lost+found">/media/jungs/slax/</Path>
-                  <Path Filename="">/media/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>12</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="pixmaps">/usr/lib/doublecmd/</Path>
-                  <Path Filename="brian">/home/</Path>
-                  <Path Filename="..">/home/brian/</Path>
-                  <Path Filename="brian">/home/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/</Path>
-                  <Path Filename="brian">/home/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename=".odrive-agent">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/.odrive-agent/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename="GoogleDrive">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/GoogleDrive/</Path>
-                  <Path Filename="GoogleDrive">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/GoogleDrive/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
-                  <Path Filename="GoogleDrive">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/GoogleDrive/</Path>
-                  <Path Filename="GoogleDrive">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/GoogleDrive/</Path>
-                  <Path Filename="GoogleDrive">/home/brian/</Path>
-                  <Path Filename="..">/home/brian/GoogleDrive/</Path>
-                  <Path Filename="">/home/brian/</Path>
-                  <Path Filename="jungs">/home/</Path>
-                  <Path Filename="Downloads">/home/jungs/</Path>
-                  <Path Filename="..">/home/jungs/Downloads/</Path>
-                  <Path Filename="Music">/home/jungs/</Path>
-                  <Path Filename="..">/home/jungs/Music/</Path>
-                  <Path Filename="Downloads">/home/jungs/</Path>
-                  <Path Filename="">/home/jungs/Downloads/</Path>
-                  <Path Filename="brian">/home/</Path>
-                  <Path Filename="Downloads">/home/brian/</Path>
-                  <Path Filename="rpm">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/Downloads/rpm/</Path>
-                  <Path Filename="rpm">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/Downloads/rpm/</Path>
-                  <Path Filename="etc">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/Downloads/etc/</Path>
-                  <Path Filename="rpm">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/Downloads/rpm/</Path>
-                  <Path Filename="appImage">/home/brian/Downloads/</Path>
-                  <Path Filename="..">/home/brian/Downloads/appImage/</Path>
+                  <Path Filename="..">/media/</Path>
+                  <Path Filename=".redhat">/home/brian/</Path>
+                  <Path Filename="sbin">/usr/</Path>
+                  <Path Filename="abrt-action-analyze-python">/usr/bin/</Path>
+                  <Path Filename="app-info">/usr/share/</Path>
+                  <Path Filename="caja-autorun-software.desktop">/usr/share/applications/</Path>
+                  <Path Filename="gnome">/usr/share/icons/</Path>
+                  <Path Filename="BlackMATE">/usr/share/themes/</Path>
+                  <Path Filename="doublecmd">/home/brian/.config/</Path>
+                  <Path Filename="..">/home/brian/.config/doublecmd/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -836,7 +726,7 @@
         </Tab>
       </Left>
       <Right>
-        <ActiveTab>4</ActiveTab>
+        <ActiveTab>0</ActiveTab>
         <Tab>
           <FileView Type="columns">
             <Sortings>
@@ -849,7 +739,6 @@
               <Entry Active="True">
                 <FileSource Type="FileSystem"/>
                 <Paths>
-                  <Path Filename="..">/usr/lib/doublecmd/</Path>
                   <Path Filename="apt">/usr/lib/</Path>
                   <Path Filename="">/usr/</Path>
                   <Path Filename="Downloads">/home/</Path>
@@ -895,269 +784,11 @@
                   <Path Filename="..">/media/jungs/JSBR_HDD_4T/down/__new/__movie/Cinderella 2015 1080p BRRip x264 DTS-JYK/</Path>
                   <Path Filename="Cinderella 2015 1080p BRRip x264 DTS-JYK">/media/jungs/JSBR_HDD_4T/down/__new/__movie/</Path>
                   <Path Filename="">/media/jungs/</Path>
-                  <Path Filename="">/media/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>12</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="..">/home/</Path>
-                  <Path Filename="etc">/</Path>
-                  <Path Filename="..">/etc/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="media">/mnt/hdd1/__files/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="__backup">/mnt/hdd1/__files/</Path>
-                  <Path Filename="jurie">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/__backup/jurie/</Path>
-                  <Path Filename="natron">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/__backup/natron/</Path>
-                  <Path Filename="natron">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/__backup/natron/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="__files">/mnt/hdd1/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/</Path>
-                  <Path Filename="__cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="home">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/</Path>
-                  <Path Filename="brian">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/</Path>
-                  <Path Filename=".cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="backgrounds">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/backgrounds/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename=".config">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="autostart">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/autostart/</Path>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="Chernobyl.S01E05.iNTERNAL.1080p.WEB.H264-EDHD[rartv]-[rarbg.to].torrent">/home/jungs/Downloads/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="__files">/mnt/hdd1/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/</Path>
-                  <Path Filename="__files">/mnt/hdd1/</Path>
-                  <Path Filename="media">/mnt/hdd1/__files/</Path>
-                  <Path Filename="chernobyl">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="torrent">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/torrent/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/</Path>
-                  <Path Filename="__torrent">/mnt/hdd1/</Path>
-                  <Path Filename="Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__torrent/</Path>
-                  <Path Filename="..">/mnt/hdd1/__torrent/Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__torrent/</Path>
-                  <Path Filename="..">/mnt/hdd1/__torrent/Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="">/mnt/hdd1/__torrent/</Path>
-                  <Path Filename="">/mnt/hdd1/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>12</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="..">/usr/lib/doublecmd/</Path>
-                  <Path Filename="apt">/usr/lib/</Path>
-                  <Path Filename="">/usr/</Path>
-                  <Path Filename="Downloads">/home/</Path>
-                  <Path Filename="usr">/</Path>
-                  <Path Filename="bin">/usr/</Path>
-                  <Path Filename="gcov-tool-7">/usr/bin/</Path>
-                  <Path Filename="..">/home/</Path>
-                  <Path Filename="etc">/</Path>
-                  <Path Filename="..">/etc/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="media">/mnt/hdd1/__files/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/</Path>
-                  <Path Filename="__backup">/mnt/hdd1/__files/</Path>
-                  <Path Filename="jurie">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/__backup/jurie/</Path>
-                  <Path Filename="natron">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/__backup/natron/</Path>
-                  <Path Filename="natron">/mnt/hdd1/__files/__backup/</Path>
-                  <Path Filename="jungstv">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/jungstv/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="..">/mnt/</Path>
-                  <Path Filename="..">/home/brian/Desktop/</Path>
-                  <Path Filename="Documents">/home/brian/</Path>
-                  <Path Filename="mint">/home/brian/Documents/</Path>
-                  <Path Filename="..">/home/brian/Documents/mint/</Path>
-                  <Path Filename="mint">/home/brian/Documents/</Path>
-                  <Path Filename="..">/home/brian/Documents/mint/</Path>
-                  <Path Filename="..">/home/brian/Documents/</Path>
-                  <Path Filename="">/home/brian/</Path>
-                  <Path Filename="">/home/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>12</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="..">/mnt/</Path>
-                  <Path Filename="opt">/</Path>
-                  <Path Filename=".vim">/home/brian/</Path>
-                  <Path Filename="bundle">/home/brian/.vim/</Path>
-                  <Path Filename="nerdcommenter">/home/brian/.vim/bundle/</Path>
-                  <Path Filename="..">/home/brian/.vim/bundle/nerdcommenter/</Path>
-                  <Path Filename="..">/home/brian/.vim/bundle/</Path>
-                  <Path Filename="..">/home/brian/.vim/</Path>
-                  <Path Filename="Documents">/home/brian/</Path>
-                  <Path Filename="mint">/home/brian/Documents/</Path>
-                  <Path Filename="..">/home/brian/Documents/mint/</Path>
-                  <Path Filename="mint">/home/brian/Documents/</Path>
-                  <Path Filename="..">/home/brian/Documents/mint/</Path>
-                  <Path Filename="mint">/home/brian/Documents/</Path>
-                  <Path Filename="n04_service.txt">/home/brian/Documents/mint/</Path>
-                  <Path Filename="jungs">/home/</Path>
-                  <Path Filename="Documents">/home/jungs/</Path>
-                  <Path Filename="myScript">/home/jungs/Documents/</Path>
-                  <Path Filename="..">/home/jungs/Documents/myScript/</Path>
-                  <Path Filename="..">/home/jungs/Documents/</Path>
-                  <Path Filename="..">/home/jungs/</Path>
-                  <Path Filename="home">/</Path>
-                  <Path Filename="jungs">/home/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/kbfnbcaeplbcioakkpcpgfkobkghlhen/14.962.0_0/src/files/6a838499830b0c29490541ffdb6154b7/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/kbfnbcaeplbcioakkpcpgfkobkghlhen/14.962.0_0/src/files/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/kbfnbcaeplbcioakkpcpgfkobkghlhen/14.962.0_0/src/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/kbfnbcaeplbcioakkpcpgfkobkghlhen/14.962.0_0/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/kbfnbcaeplbcioakkpcpgfkobkghlhen/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/Extensions/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/Default/</Path>
-                  <Path Filename="..">/home/jungs/.config/google-chrome/</Path>
-                  <Path Filename="..">/home/jungs/.config/</Path>
-                  <Path Filename="">/home/jungs/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/</Path>
-                  <Path Filename="OS">/mnt/hdd1/__files/Program/</Path>
-                  <Path Filename="Linux">/mnt/hdd1/__files/Program/OS/</Path>
-                  <Path Filename="mint">/mnt/hdd1/__files/Program/OS/Linux/</Path>
-                  <Path Filename="__cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="home">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/</Path>
-                  <Path Filename="brian">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/</Path>
-                  <Path Filename=".config">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="mc">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="menu">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/mc/</Path>
-                  <Path Filename="cg">/mnt/hdd1/__files/Program/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/</Path>
-                  <Path Filename="">/mnt/hdd1/</Path>
-                </Paths>
-              </Entry>
-            </History>
-            <ColumnsView>
-              <ColumnsSet>Default</ColumnsSet>
-            </ColumnsView>
-          </FileView>
-        </Tab>
-        <Tab>
-          <FileView Type="columns">
-            <Sortings>
-              <Sorting>
-                <Direction>1</Direction>
-                <Function>12</Function>
-              </Sorting>
-            </Sortings>
-            <History>
-              <Entry Active="True">
-                <FileSource Type="FileSystem"/>
-                <Paths>
-                  <Path Filename="mnt">/</Path>
-                  <Path Filename="hdd1">/mnt/</Path>
-                  <Path Filename="">/mnt/hdd1/</Path>
-                  <Path Filename="__cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/</Path>
-                  <Path Filename="home">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/</Path>
-                  <Path Filename="brian">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/</Path>
-                  <Path Filename=".cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="configs">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/configs/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename=".cinnamon">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="configs">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/configs/</Path>
-                  <Path Filename="backgrounds">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/backgrounds/</Path>
-                  <Path Filename="spices.cache">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/spices.cache/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.cinnamon/</Path>
-                  <Path Filename=".config">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="autostart">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/autostart/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="Documents">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="myScript">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/Documents/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/Documents/myScript/</Path>
-                  <Path Filename="myScript">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/Documents/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/Documents/myScript/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/Documents/</Path>
-                  <Path Filename=".config">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="autostart">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/autostart/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/.config/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/</Path>
-                  <Path Filename="home">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/</Path>
-                  <Path Filename="brian">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/Program/OS/Linux/mint/__cinnamon/home/brian/</Path>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="Chernobyl.S01E02.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/Chernobyl.S01E02.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/Chernobyl.S01E01.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="Chernobyl.S01E02.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="RARBG_DO_NOT_MIRROR.exe">/mnt/hdd1/__files/media/chernobyl/Chernobyl.S01E02.iNTERNAL.1080p.WEB.H264-EDHD[rarbg]/</Path>
-                  <Path Filename="..">/mnt/hdd1/__files/media/chernobyl/</Path>
-                  <Path Filename="">/mnt/hdd1/__files/</Path>
-                  <Path Filename="..">/mnt/hdd1/</Path>
-                  <Path Filename="..">/home/brian/Downloads/</Path>
+                  <Path Filename="..">/media/</Path>
+                  <Path Filename="linux-config">/home/brian/</Path>
+                  <Path Filename=".config">/home/brian/linux-config/</Path>
+                  <Path Filename="doublecmd">/home/brian/linux-config/.config/</Path>
+                  <Path Filename="..">/home/brian/linux-config/.config/doublecmd/</Path>
                 </Paths>
               </Entry>
             </History>
@@ -1244,57 +875,49 @@
     <HotDir Name="Desktop" Path="$Home/Desktop"/>
     <HotDir Name="Documents" Path="$Home/Documents"/>
     <HotDir Name="Downloads" Path="$Home/Downloads"/>
-    <HotDir Name="Pictures" Path="$Home/Pictures"/>
-    <HotDir Name="-" Path=""/>
-    <HotDir Name="-Dropbox" Path=""/>
-    <HotDir Name="Dropbox" Path="/home/brian/Dropbox"/>
-    <HotDir Name="Document" Path="/home/brian/Dropbox/Document"/>
-    <HotDir Name="__mint" Path="/home/brian/Dropbox/Document/M_Program/__OS/linux/__mint"/>
-    <HotDir Name="--" Path=""/>
-    <HotDir Name="-" Path=""/>
-    <HotDir Name="down(win)" Path="/mnt/d/down"/>
     <HotDir Name="-" Path=""/>
     <HotDir Name="/" Path=""/>
+    <HotDir Name="bin" Path="/bin"/>
+    <HotDir Name="boot" Path="/boot"/>
+    <HotDir Name="dev" Path="/dev"/>
     <HotDir Name="etc" Path="/etc"/>
     <HotDir Name="home" Path="/home"/>
     <HotDir Name="media" Path="/media"/>
-    <HotDir Name="root" Path="/root"/>
     <HotDir Name="-mnt" Path=""/>
     <HotDir Name="mnt" Path="/mnt"/>
-    <HotDir Name="mnt/hdd1/__files/Program/OS/Linux/mint" Path="/mnt/hdd1/__files/Program/OS/Linux/mint"/>
-    <HotDir Name="mnt/hdd1/__files/media" Path="/mnt/hdd1/__files/media"/>
+    <HotDir Name="-contents" Path=""/>
+    <HotDir Name="contents" Path="/mnt/contents/"/>
+    <HotDir Name="doc" Path="/mnt/contents/doc/"/>
+    <HotDir Name="downloads/complete" Path="/mnt/contents/downloads/__torrent/downloads/complete/"/>
+    <HotDir Name="downloads/watch" Path="/mnt/contents/downloads/__torrent/watch/"/>
+    <HotDir Name="game" Path="/mnt/contents/game/"/>
+    <HotDir Name="media" Path="/mnt/contents/media/"/>
+    <HotDir Name="program_backup" Path="/mnt/contents/program_backup/"/>
+    <HotDir Name="project" Path="/mnt/contents/project/"/>
     <HotDir Name="--" Path=""/>
+    <HotDir Name="-hdd1" Path=""/>
+    <HotDir Name="hdd1" Path="/mnt/hdd1/"/>
+    <HotDir Name="__files" Path="/mnt/hdd1/__files/"/>
+    <HotDir Name="movie" Path="/mnt/hdd1/__files/movie/"/>
+    <HotDir Name="brian" Path="/mnt/hdd1/__files/program_backup/os/linux/mint/__config/__cinnamon/home/brian/"/>
+    <HotDir Name="--" Path=""/>
+    <HotDir Name="--" Path=""/>
+    <HotDir Name="opt" Path="/opt"/>
+    <HotDir Name="proc" Path="/proc"/>
+    <HotDir Name="root" Path="/root"/>
+    <HotDir Name="snap" Path="/snap"/>
+    <HotDir Name="srv" Path="/srv"/>
+    <HotDir Name="tmp" Path="/tmp"/>
     <HotDir Name="-usr" Path=""/>
     <HotDir Name="usr" Path="/usr"/>
-    <HotDir Name="usr/bin" Path="/usr/bin"/>
-    <HotDir Name="usr/share" Path="/usr/share"/>
-    <HotDir Name="usr/applications" Path="/usr/share/applications"/>
-    <HotDir Name="usr/share/icons/Mint-X/apps/16" Path="/usr/share/icons/Mint-X/apps/16"/>
-    <HotDir Name="usr/share/icons/Mint-X/apps/96" Path="/usr/share/icons/Mint-X/apps/96"/>
+    <HotDir Name="bin" Path="/usr/bin"/>
+    <HotDir Name="share" Path="/usr/share"/>
+    <HotDir Name="applications" Path="/usr/share/applications"/>
+    <HotDir Name="icons" Path="/usr/share/icons"/>
+    <HotDir Name="themes" Path="/usr/share/themes"/>
     <HotDir Name="--" Path=""/>
     <HotDir Name="var" Path="/var"/>
     <HotDir Name="-" Path=""/>
-    <HotDir Name="-DoubleCmd" Path=""/>
-    <HotDir Name="doublecmd" Path="/usr/lib/doublecmd"/>
-    <HotDir Name="doublecmd_config" Path="$Home/.config/doublecmd"/>
-    <HotDir Name="--" Path=""/>
-    <HotDir Name="-Iptime" Path=""/>
-    <HotDir Name="files" Path="smb://192.168.0.1/hdd1/hdd1/__files"/>
-    <HotDir Name="media" Path="smb://192.168.0.1/hdd1/hdd1/__files/media"/>
-    <HotDir Name="mint" Path="smb://192.168.0.1/hdd1/__files/Program/OS/Linux/mint"/>
-    <HotDir Name="--" Path=""/>
-    <HotDir Name="-Jungspi4" Path=""/>
-    <HotDir Name="-contents" Path=""/>
-    <HotDir Name="contents" Path="smb://192.168.0.10/contents"/>
-    <HotDir Name="doc" Path="smb://192.168.0.10/contents/doc"/>
-    <HotDir Name="downloads" Path="smb://192.168.0.10/contents/downloads"/>
-    <HotDir Name="game" Path="smb://192.168.0.10/contents/game"/>
-    <HotDir Name="media" Path="smb://192.168.0.10/contents/media"/>
-    <HotDir Name="program_backup" Path="smb://192.168.0.10/contents/program_backup"/>
-    <HotDir Name="--" Path=""/>
-    <HotDir Name="dockerApp" Path="smb://192.168.0.10/dockerApp"/>
-    <HotDir Name="public" Path="smb://192.168.0.10/public"/>
-    <HotDir Name="--" Path=""/>
   </DirectoryHotList>
   <Viewer>
     <PreviewVisible>False</PreviewVisible>
@@ -1324,11 +947,11 @@
     <SynEditTabWidth>8</SynEditTabWidth>
   </Editor>
   <SyncDirs>
-    <Subdirs>False</Subdirs>
+    <Subdirs>True</Subdirs>
     <ByContent>False</ByContent>
     <IgnoreDate>False</IgnoreDate>
     <FilterCopyRight>True</FilterCopyRight>
-    <FilterEqual>True</FilterEqual>
+    <FilterEqual>False</FilterEqual>
     <FilterNotEqual>True</FilterNotEqual>
     <FilterCopyLeft>True</FilterCopyLeft>
     <FilterDuplicates>True</FilterDuplicates>
