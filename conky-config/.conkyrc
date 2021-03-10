@@ -143,7 +143,9 @@ $swapbar
 
 ## HDD ##
 ${font Arial:bold:size=10}${color3}HDD ${color5}${hr 2}
-$font${color2}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_free_perc /home}%
+$font${color2}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /}%
+${fs_bar /}
+$font${color2}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
 
 ## TOP PROCESS ##
