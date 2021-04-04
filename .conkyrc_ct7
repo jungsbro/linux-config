@@ -31,10 +31,10 @@ override_utf8_locale no
 # Create own window instead of using desktop (required in nautilus, pcmanfm and rox desktops)
 # own_window no
 # own_window_type desktop
-own_window yes
-own_window_type normal
 # own_window yes
-# own_window_type override
+# own_window_type normal
+own_window yes
+own_window_type override
 own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
@@ -148,9 +148,14 @@ $swapbar
 ## HDD ##
 ${font Arial:bold:size=10}${color3}HDD ${color5}${hr 2}
 $font${color2}/ $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_used_perc /}%
-${fs_bar /home}
+${fs_bar /}
 $font${color2}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_used_perc /home}%
 ${fs_bar /home}
+
+$font${color2}/mnt/contents $alignc ${fs_used /mnt/contents} / ${fs_size /mnt/contents} $alignr ${fs_used_perc /mnt/contents}%
+${fs_bar /mnt/contents}
+$font${color2}/mnt/hdd1 $alignc ${fs_used /mnt/hdd1} / ${fs_size /mnt/hdd1} $alignr ${fs_used_perc /mnt/hdd1}%
+${fs_bar /mnt/hdd1}
 
 ## TOP PROCESS ##
 ${font Arial:bold:size=10}${color3}TOP PROCESSES ${color5}${hr 2}
@@ -161,13 +166,13 @@ $font${top_mem name 5}${alignr}${top mem 5} %
 
 ## NETWORK ##
 ${font Arial:bold:size=10}${color4}NETWORK ${color5}${hr 2}
-$font${color2}IP on enp0s3 $alignr ${addr enp0s3}
+$font${color2}IP on enp3s0 $alignr ${addr enp3s0}
 
-Up $alignr ${upspeed enp0s3} kb/s
-Down $alignr ${downspeed enp0s3} kb/s
+Up $alignr ${upspeed enp3s0} kb/s
+Down $alignr ${downspeed enp3s0} kb/s
 
-Uploaded: $alignr  ${totalup enp0s3}
-Downloaded: $alignr  ${totaldown enp0s3}
+Uploaded: $alignr  ${totalup enp3s0}
+Downloaded: $alignr  ${totaldown enp3s0}
 #$font${color2}IP on wlan0 $alignr ${addr wlan0}
 
 #Up $alignr ${upspeed wlan0} kb/s
