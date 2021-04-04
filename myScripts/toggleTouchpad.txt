@@ -1,0 +1,3 @@
+chmod +x /home/brian/myScript/toggleTouchpad.sh
+
+ln -s /home/brian/myScript/toggleTouchpad.sh /home/brian/Desktop/toggleTouchpad.sh
