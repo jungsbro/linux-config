@@ -31,10 +31,16 @@ override_utf8_locale no
 # Create own window instead of using desktop (required in nautilus, pcmanfm and rox desktops)
 # own_window no
 # own_window_type desktop
+## xfce4, lxde
 # own_window yes
 # own_window_type normal
+## gnome3
+# own_window yes
+# own_window_type desktop
+## mate
 own_window yes
 own_window_type override
+## total
 own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
