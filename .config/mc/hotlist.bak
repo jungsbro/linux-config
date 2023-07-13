@@ -1,0 +1,21 @@
+GROUP "brian"
+  ENTRY "/home/brian" URL "/home/brian"
+  ENTRY "/home/brian/Desktop" URL "/home/brian/Desktop"
+  ENTRY "/home/brian/Documents" URL "/home/brian/Documents"
+  ENTRY "/home/brian/Downloads" URL "/home/brian/Downloads"
+ENDGROUP
+GROUP "dropbox"
+  ENTRY "/mnt/c/Users/brian/Dropbox" URL "/mnt/c/Users/brian/Dropbox"
+  ENTRY "/mnt/c/Users/brian/Dropbox/Document" URL "/mnt/c/Users/brian/Dropbox/Document"
+  ENTRY "/mnt/c/Users/brian/Dropbox/macro" URL "/mnt/c/Users/brian/Dropbox/macro"
+ENDGROUP
+GROUP "/mnt"
+  ENTRY "/mnt/d" URL "/mnt/d"
+  ENTRY "/mnt/c" URL "/mnt/c"
+ENDGROUP
+ENTRY "/" URL "/"
+ENTRY "/etc" URL "/etc"
+ENTRY "/home" URL "/home"
+ENTRY "/media" URL "/media"
+ENTRY "/usr" URL "/usr"
+ENTRY "/var" URL "/var"
