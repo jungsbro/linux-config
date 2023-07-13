@@ -1,0 +1,6 @@
+[main:empty-cmdline]
+ChangePanel = tab
+[main]
+ChangePanel =
+[input]
+Complete = tab; alt-tab
