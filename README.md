@@ -413,17 +413,13 @@ reboot
 
 > user가 설정한 내용 root 사용
 ```bash
-sudo rm -rf /root/.config;
-sudo ln -s ~/.config /root/.config;
+sudo cp -rf ~/.config /root/.config;
 
-sudo rm -rf /root/.vim;
-sudo ln -s ~/.vim /root/.vim;
+sudo cp -rf ~/.vim /root/.vim;
 
-sudo rm -rf /root/.vimrc;
-sudo ln -s ~/.vimrc /root/.vimrc;
+sudo cp -rf ~/.vimrc /root/.vimrc;
 
-sudo rm -rf /root/.selected_editor;
-sudo ln -s ~/.selected_editor /root/.selected_editor;
+sudo cp -rf ~/.selected_editor /root/.selected_editor;
 ```
 <br><br>
 
@@ -456,18 +452,25 @@ UUID=b1111111-1111-1111-1111-111111111111   /volume2        ext4    defaults,noa
 sudo apt install samba samba-common cifs-utils
 ```
 
+`# pi(user) 생성`
 ```bash
 sudo useradd -m -g pi pi
 sudo passwd pi
 ```
 
+`# samba에서 사용할 passwd 설정`
 ```bash
 sudo smbpasswd -a pi
+```
+
+`# samba user확인`
+```bash
 sudo pdbedit -L -v
 ```
 
+`# samba 설정`
 ```bash
-sudo vi /etc/smb.conf
+sudo vi /etc/samba/smb.conf
 ```
 
 ```bash
@@ -543,15 +546,18 @@ sudo exportfs -v
 ```
 <br>
 
+
 > nfs (client) 설치
 ```bash
 sudo apt update
 sudo apt install nfs-common
 ```
+
 `# nfs server(192.168.0.100) 정보 출력(-e:exports)`
 ```bash
-showmount -e 192.168.0.100
+sudo showmount -e 192.168.0.100
 ```
+
 `# 방법1) mount`
 ```bash
 mkdir /mnt/nfs
@@ -559,6 +565,7 @@ sudo mount -t nfs 192.168.0.100:/nfs /mnt/nfs
 cd /mnt/nfs
 ls -al
 ```
+
 `# 방법2) fstab`
 ```bash
 sudo vi /etc/fstab
