@@ -39,7 +39,7 @@ apt install -y ntfs-3g exfat-utils exfat-fuse;
 
 
 # vim ==========================================================================
-apt install -y vim-gtk git xclip xsel;
+apt install -y vim-gtk3 git xclip xsel;
 #apt install -y ctags;
 su - $CUR_USER -c "git clone https://github.com/jungsbro/vim-config.git ~/github/vim-config";
 su - $CUR_USER -c "cp -rf ~/github/vim-config/.vim/ ~";
