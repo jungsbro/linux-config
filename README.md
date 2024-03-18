@@ -1,6 +1,6 @@
 # **Linux-Config**
 
-`<br><br>`
+<br><br>
 
 # **FolderTree**
 
@@ -48,7 +48,7 @@ README.md               #
 
 ---
 
-`<br><br>`
+<br><br>
 
 # **Installation**
 
@@ -143,7 +143,7 @@ sudo apt install -y mc fonts-noto-cjk fonts-roboto;
 [zsh-config](https://github.com/jungsbro/zsh-config)
 
 [ranger-config](https://github.com/jungsbro/ranger-config)
-`<br><br>`
+<br><br>
 
 > UI
 
@@ -178,7 +178,7 @@ sudo apt install -y redshift-gtk timeshfit;
 [doublecmd-config](https://github.com/jungsbro/doublecmd-config)
 
 [conky-config](https://github.com/jungsbro/conky-config)
-`<br><br>`
+<br><br>
 
 > Clone linux-config
 
@@ -196,7 +196,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 
 ---
 
-`<br><br>`
+<br><br>
 
 # **Settings**
 
@@ -217,7 +217,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 %p %I:%M%n%y-%m-%d (%a)
 ```
 
-`<br><br>`
+<br><br>
 
 > TimeZone 설정
 
@@ -227,18 +227,20 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 sudo dpkg-reconfigure tzdata
 ```
 
-`<br><br>`
+<br><br>
 
 > locale 설정
 
-`en_US.UTF-8<br>`
+`en_US.UTF-8`
 `ko_KR.UTF-8`
 
 ```bash
+locale
+
 sudo dpkg-reconfigure locales
 ```
 
-`<br><br>`
+<br><br>
 
 > BlueLight 설정
 
@@ -263,7 +265,7 @@ lat=37.6
 lon=127.0
 ```
 
-`<br><br>`
+<br><br>
 
 > Linux / Windows 듀얼부팅시 메인모드시간 설정
 
@@ -275,7 +277,7 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 timedatectl
 ```
 
-`<br><br>`
+<br><br>
 
 > 한글 설정
 
@@ -420,8 +422,8 @@ Toolbar                 Display behvior
 Byeoru                  Properties
                         ESC turns off Hangul mode (for vi users)    : on
 # ==============================================================================
-Byeoru key binding 1    [Byeoru] on     : “<Shift>space”, hangul
-                        [Byeoru] off    : “<Shift>space”, hangul
+Byeoru key binding 1    [Byeoru] on     : "<Shift>space", hangul
+                        [Byeoru] off    : "<Shift>space", hangul
 # ==============================================================================
 ```
 
@@ -439,7 +441,7 @@ IM_CONFIG_DEFAULT_MODE=uim
 reboot
 ```
 
-`<br><br>`
+<br><br>
 
 > 한글 유저디렉토리 영문으로 변환
 
@@ -473,13 +475,15 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 reboot
 ```
 
-`<br><br>`
+<br><br>
 
 > user가 설정한 내용 root 사용
 
 ```bash
+sudo rm -Rf /root/.config;
 sudo cp -Rf ~/.config /root/.config;
 
+sudo rm -Rf /root/.vim;
 sudo cp -Rf ~/.vim /root/.vim;
 
 sudo cp -f ~/.vimrc /root/.vimrc;
@@ -487,30 +491,34 @@ sudo cp -f ~/.vimrc /root/.vimrc;
 sudo cp -f ~/.selected_editor /root/.selected_editor;
 ```
 
-`<br><br>`
+<br><br>
 
 > fstab 설정
 
 ```bash
-sudo mkdir /mnt/{a3004ns,j1900,j4105};
+sudo blkid;
+
+sudo mkdir /mnt/{a3004ns,jessie,j4105}/_share;
+
 sudo vi /etc/fstab;
 ```
 
 ```bash
 # samba
-//192.168.0.0/hdd1  /mnt/a3004ns   cifs    username=id,password=1234,iocharset=utf8,vers=2.0,uid=1000,gid=1000,x-systemd.automount   0   0
-//192.168.0.0/_share    /mnt/j1900/_share   cifs    username=id,password=1234,iocharset=utf8,vers=2.0,uid=1000,gid=1000,x-systemd.automount  0   0
-//192.168.0.0/_share    /mnt/j4105/_share   cifs    username=id,password=1234,iocharset=utf8,vers=2.0,uid=1000,gid=1000,x-systemd.automount   0   0
+//192.168.0.1/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,noatime,_netdev 0   0
+# //192.168.0.0/_share  /mnt/j1900/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,noatime,_netdev 0   0
+# //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,noatime,_netdev 0   0
 
 # nfs
-192.168.0.0:/volume1/docker_data    /mnt/j1900/_private/docker_data nfs defaults    0   0
-192.168.0.0:/export/docker_data /mnt/j4105/_private/docker_data nfs defaults    0   0
+# 192.168.0.0:/volume1/docker_data  /mnt/jessie/_private/docker_data nfs defaults    0   0
+# 192.168.0.0:/export/docker_data   /mnt/j4105/_private/docker_data nfs defaults    0   0
 
-UUID=a1111111-1111-1111-1111-111111111111   /volume1    ext4    defaults,noatime,nofail 0   0
-UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0
+# storage
+# UUID=a1111111-1111-1111-1111-111111111111   /volume1    ext4    defaults,noatime,nofail 0   0
+# UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0
 ```
 
-`<br><br>`
+<br><br>
 
 > samba 설치
 
@@ -588,7 +596,7 @@ sudo ufw allow 445/tcp;
 sudo ufw status;
 ```
 
-`<br><br>`
+<br><br>
 
 > nfs (server) 설치
 
@@ -645,9 +653,9 @@ sudo showmount -e 192.168.0.100
 `# 방법1) mount`
 
 ```bash
-mkdir /mnt/j1900/docker_data
-sudo mount -t nfs 192.168.0.100:/volume1/docker_data /mnt/j1900/docker_data
-cd /mnt/j1900/docker_data
+mkdir /mnt/jessie/docker_data
+sudo mount -t nfs 192.168.0.100:/volume1/docker_data /mnt/jessie/docker_data
+cd /mnt/jessie/docker_data
 ls -al
 ```
 
@@ -658,11 +666,12 @@ sudo vi /etc/fstab
 ```
 
 ```bash
-192.168.0.100:volume1/docker_data  /mnt/j1900/docker_data nfs defaults    0   0
-192.168.0.200:export/docker_data   /mnt/j4105/docker_data nfs defaults    0   0
+192.168.0.100:/volume1/docker_data  /mnt/jessie/_private/docker_data nfs defaults    0   0
+192.168.0.200:/export/docker_data   /mnt/j4105/_private/docker_data nfs defaults    0   0
+
 ```
 
-`<br><br>`
+<br><br>
 
 > fail2ban 설치
 
@@ -723,7 +732,7 @@ fail2ban-client unbanip 222.222.222.222
 fail2ban-client unban --all
 ```
 
-`<br><br>`
+<br><br>
 
 > openSSH 설치
 
@@ -742,7 +751,7 @@ sudo ufw allow 22/tcp;
 sudo ufw status;
 ```
 
-`<br><br>`
+<br><br>
 
 > ssh 포트(22 → 2222) 변경
 
@@ -766,7 +775,7 @@ sudo systemctl restart sshd
 ssh -p 2222 user@192.168.0.100
 ```
 
-`<br><br>`
+<br><br>
 
 > client에서 ssh보안키를 생성후, 서버(192.168.0.100)에 등록
 
@@ -784,7 +793,7 @@ ssh-keygen -t rsa;
 ssh-copy-id test@192.168.0.100
 ```
 
-`<br><br>`
+<br><br>
 
 > 원격접속(xrdp)
 
@@ -857,7 +866,7 @@ sudo systemctl resrat xrdp;
 # lxde는 여기까지하면 정상 작동한다.
 ```
 
-`<br><br>`
+<br><br>
 
 > zRAM
 
@@ -879,4 +888,4 @@ sudo cat /proc/swaps
 
 ---
 
-`<br><br>`
+<br><br>
