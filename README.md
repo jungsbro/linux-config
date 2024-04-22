@@ -1,6 +1,6 @@
 # **Linux-Config**
 
-<br><br>
+`<br><br>`
 
 # **FolderTree**
 
@@ -48,7 +48,7 @@ README.md               #
 
 ---
 
-<br><br>
+`<br><br>`
 
 # **Installation**
 
@@ -73,24 +73,87 @@ sudo apt install -y git build-essential python3-pip python3-dev python3-setuptoo
 ```bash
 # ==============================================================================
 unattended-upgrades     # Auto update
-autofs                  # Auto filesystem (auto mount)
-neofetch                # Impormation for OS
-net-tools               # NETwork-TOOLs (ifconfig, route, ...)
-hdparm                  # checking disk-reading
-htop                    # Process Monitoring
-glances                 # monitoring tools
-ncdu                    # NCurses Disk Usage
-nmon                    # Niegel performance MONitor
+rsync                   # file-sync
+nala                    # alternative to apt
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y unattended-upgrades autofs neofetch net-tools htop hdparm ncdu nmon mc bpytop whois cifs-utils rsync rclone;
+sudo apt install -y unattended-upgrades rsync;
+sudo apt install -y nala;
 ```
 
 <br>
 
-> Screen-saver
+> Storage
+
+```bash
+# ==============================================================================
+ntfs-3g                 # ntfs for linux
+exfat-utils             # exfat for linux ( exfat-utils, exfat-fuse )
+exfat-fuse              # exfat for linux ( exfat-utils, exfat-fuse )
+cifs-utils              # utils for samba
+autofs                  # Auto filesystem ( auto mount)
+rclone                  # rclone for clouds ( google-drive, ... )
+# ==============================================================================
+```
+
+```bash
+sudo apt install -y ntfs-3g exfat-utils exfat-fuse cifs-utils autofs rclone;
+```
+
+<br>
+
+> Network
+
+```bash
+# ==============================================================================
+net-tools               # NETwork-TOOLs (ifconfig, route, ...)
+whois                   # utility for retrieving information about a domain or an IP
+# ==============================================================================
+```
+
+```bash
+sudo apt install -y net-tools whois;
+```
+
+<br>
+
+> Info
+
+```bash
+# ==============================================================================
+neofetch                # Information for OS
+hdparm                  # Checking disk-reading
+ncdu                    # NCurses Disk Usage
+# ==============================================================================
+```
+
+```bash
+sudo apt install -y neofetch hdparm ncdu;
+```
+
+<br>
+
+> Monitoring
+
+```bash
+# ==============================================================================
+htop                    # Process Monitoring
+bpytop                  # monitoring tools
+nmon                    # Niegel performance MONitor
+glances                 # monitoring tools
+# ==============================================================================
+```
+
+```bash
+sudo apt install -y htop bpytop nmon;
+# sudo apt install -y glances;
+```
+
+<br>
+
+> ETC
 
 ```bash
 # ==============================================================================
@@ -106,34 +169,16 @@ sudo apt install -y nyancat cmatrix tty-clock;
 
 <br>
 
-> Filesystem
-
-```bash
-# ==============================================================================
-ntfs-3g                 # ntfs for linux
-exfat-utils             # exfat for linux ( exfat-utils, exfat-fuse )
-exfat-fuse              # exfat for linux ( exfat-utils, exfat-fuse )
-# ==============================================================================
-```
-
-```bash
-sudo apt install -y ntfs-3g exfat-utils exfat-fuse;
-```
-
-<br>
-
-> ETC
+> mc
 
 ```bash
 # ==============================================================================
 mc                      # midnight commander
-fonts-noto-cjk          # fonts
-fonts-roboto            # fonts
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y mc fonts-noto-cjk fonts-roboto;
+sudo apt install -y mc;
 ```
 
 [vim-config](https://github.com/jungsbro/vim-config)
@@ -143,28 +188,36 @@ sudo apt install -y mc fonts-noto-cjk fonts-roboto;
 [zsh-config](https://github.com/jungsbro/zsh-config)
 
 [ranger-config](https://github.com/jungsbro/ranger-config)
-<br><br>
+`<br><br>`
 
-> UI
+> GUI
 
 ```bash
 # ==============================================================================
-chromium                # chromium browser
+flatpak                 # package management
+bottles                 # bottles
+papirus-icon-theme      # desktop icon themes
 geany                   # ide
 geany-plugins           # ide plugin
+vscode                  # idde
+chromium                # chromium browser
+firefox                 # firefox browser
+googlechrome            # chrome browser
 filezilla               # ftp client
-papirus-icon-theme      # desktop icon themes
-redshift-gtk            # bluelight
+freefilesync            # file sync
 timeshift               # os snapshot
+redshift-gtk            # bluelight
+remmina                 # rdp
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y chromium;
+sudo apt install -y flatpak;
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo;
 ```
 
 ```bash
-sudo apt install -y geany geany-plugins filezilla;
+sudo flatpak install -y flathub com.usebottles.bottles;
 ```
 
 ```bash
@@ -172,13 +225,44 @@ sudo apt install -y papirus-icon-theme;
 ```
 
 ```bash
-sudo apt install -y redshift-gtk timeshfit;
+sudo apt install -y geany geany-plugins;
+
+sudo flatpak install flathub com.visualstudio.code;
+```
+
+```bash
+sudo apt install -y chromium;
+
+sudo apt install -y firefox;
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb;
+sudo apt install -y ./google-chrome-stable_current_amd64.deb;
+```
+
+```bash
+sudo apt install -y filezilla;
+```
+
+```bash
+sudo flatpak install -y flathub org.freefilesync.FreeFileSync;
+```
+
+```bash
+sudo apt install -y timeshfit;
+```
+
+```bash
+sudo apt install -y redshift-gtk;
+```
+
+```bash
+sudo apt install -y remmina;
 ```
 
 [doublecmd-config](https://github.com/jungsbro/doublecmd-config)
 
 [conky-config](https://github.com/jungsbro/conky-config)
-<br><br>
+`<br><br>`
 
 > Clone linux-config
 
@@ -196,7 +280,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 
 ---
 
-<br><br>
+`<br><br>`
 
 # **Settings**
 
@@ -217,7 +301,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 %p %I:%M%n%y-%m-%d (%a)
 ```
 
-<br><br>
+`<br><br>`
 
 > TimeZone 설정
 
@@ -227,7 +311,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 sudo dpkg-reconfigure tzdata
 ```
 
-<br><br>
+`<br><br>`
 
 > locale 설정
 
@@ -240,7 +324,7 @@ locale
 sudo dpkg-reconfigure locales
 ```
 
-<br><br>
+`<br><br>`
 
 > BlueLight 설정
 
@@ -265,7 +349,7 @@ lat=37.6
 lon=127.0
 ```
 
-<br><br>
+`<br><br>`
 
 > Linux / Windows 듀얼부팅시 메인모드시간 설정
 
@@ -277,7 +361,7 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 timedatectl
 ```
 
-<br><br>
+`<br><br>`
 
 > 한글 설정
 
@@ -441,7 +525,7 @@ IM_CONFIG_DEFAULT_MODE=uim
 reboot
 ```
 
-<br><br>
+`<br><br>`
 
 > 한글 유저디렉토리 영문으로 변환
 
@@ -475,7 +559,7 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 reboot
 ```
 
-<br><br>
+`<br><br>`
 
 > user가 설정한 내용 root 사용
 
@@ -491,7 +575,7 @@ sudo cp -f ~/.vimrc /root/.vimrc;
 sudo cp -f ~/.selected_editor /root/.selected_editor;
 ```
 
-<br><br>
+`<br><br>`
 
 > fstab 설정
 
@@ -505,9 +589,9 @@ sudo vi /etc/fstab;
 
 ```bash
 # samba
-//192.168.0.0/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
-# //192.168.0.0/_share  /mnt/jessie/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
-# //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+//192.168.0.0/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/jessie/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 
 # nfs
 # 192.168.0.0:/volume1/docker_data  /mnt/jessie/_private/docker_data nfs defaults    0   0
@@ -518,7 +602,7 @@ sudo vi /etc/fstab;
 # UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0
 ```
 
-<br><br>
+`<br><br>`
 
 > samba 설치
 
@@ -596,7 +680,7 @@ sudo ufw allow 445/tcp;
 sudo ufw status;
 ```
 
-<br><br>
+`<br><br>`
 
 > nfs (server) 설치
 
@@ -671,7 +755,7 @@ sudo vi /etc/fstab
 
 ```
 
-<br><br>
+`<br><br>`
 
 > fail2ban 설치
 
@@ -732,7 +816,7 @@ fail2ban-client unbanip 222.222.222.222
 fail2ban-client unban --all
 ```
 
-<br><br>
+`<br><br>`
 
 > openSSH 설치
 
@@ -751,7 +835,7 @@ sudo ufw allow 22/tcp;
 sudo ufw status;
 ```
 
-<br><br>
+`<br><br>`
 
 > ssh 포트(22 → 2222) 변경
 
@@ -775,7 +859,7 @@ sudo systemctl restart sshd
 ssh -p 2222 user@192.168.0.100
 ```
 
-<br><br>
+`<br><br>`
 
 > client에서 ssh보안키를 생성후, 서버(192.168.0.100)에 등록
 
@@ -793,7 +877,7 @@ ssh-keygen -t rsa;
 ssh-copy-id test@192.168.0.100
 ```
 
-<br><br>
+`<br><br>`
 
 > 원격접속(xrdp)
 
@@ -866,7 +950,7 @@ sudo systemctl resrat xrdp;
 # lxde는 여기까지하면 정상 작동한다.
 ```
 
-<br><br>
+`<br><br>`
 
 > zRAM
 
@@ -888,4 +972,4 @@ sudo cat /proc/swaps
 
 ---
 
-<br><br>
+`<br><br>`
