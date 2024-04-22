@@ -1,6 +1,6 @@
 # **Linux-Config**
 
-`<br><br>`
+<br>
 
 # **FolderTree**
 
@@ -48,7 +48,7 @@ README.md               #
 
 ---
 
-`<br><br>`
+<br>
 
 # **Installation**
 
@@ -188,7 +188,7 @@ sudo apt install -y mc;
 [zsh-config](https://github.com/jungsbro/zsh-config)
 
 [ranger-config](https://github.com/jungsbro/ranger-config)
-`<br><br>`
+<br>
 
 > GUI
 
@@ -262,7 +262,7 @@ sudo apt install -y remmina;
 [doublecmd-config](https://github.com/jungsbro/doublecmd-config)
 
 [conky-config](https://github.com/jungsbro/conky-config)
-`<br><br>`
+<br>
 
 > Clone linux-config
 
@@ -280,7 +280,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 
 ---
 
-`<br><br>`
+<br>
 
 # **Settings**
 
@@ -301,7 +301,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 %p %I:%M%n%y-%m-%d (%a)
 ```
 
-`<br><br>`
+<br>
 
 > TimeZone 설정
 
@@ -311,7 +311,7 @@ cp -f ~/github/linux-config/mount.sh ~/mount.sh;
 sudo dpkg-reconfigure tzdata
 ```
 
-`<br><br>`
+<br>
 
 > locale 설정
 
@@ -324,7 +324,7 @@ locale
 sudo dpkg-reconfigure locales
 ```
 
-`<br><br>`
+<br>
 
 > BlueLight 설정
 
@@ -349,7 +349,7 @@ lat=37.6
 lon=127.0
 ```
 
-`<br><br>`
+<br>
 
 > Linux / Windows 듀얼부팅시 메인모드시간 설정
 
@@ -361,7 +361,7 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 timedatectl
 ```
 
-`<br><br>`
+<br>
 
 > 한글 설정
 
@@ -525,7 +525,7 @@ IM_CONFIG_DEFAULT_MODE=uim
 reboot
 ```
 
-`<br><br>`
+<br>
 
 > 한글 유저디렉토리 영문으로 변환
 
@@ -559,7 +559,7 @@ XDG_VIDEOS_DIR="$HOME/Videos"
 reboot
 ```
 
-`<br><br>`
+<br>
 
 > user가 설정한 내용 root 사용
 
@@ -575,7 +575,7 @@ sudo cp -f ~/.vimrc /root/.vimrc;
 sudo cp -f ~/.selected_editor /root/.selected_editor;
 ```
 
-`<br><br>`
+<br>
 
 > fstab 설정
 
@@ -602,7 +602,7 @@ sudo vi /etc/fstab;
 # UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0
 ```
 
-`<br><br>`
+<br>
 
 > samba 설치
 
@@ -680,7 +680,7 @@ sudo ufw allow 445/tcp;
 sudo ufw status;
 ```
 
-`<br><br>`
+<br>
 
 > nfs (server) 설치
 
@@ -755,7 +755,7 @@ sudo vi /etc/fstab
 
 ```
 
-`<br><br>`
+<br>
 
 > fail2ban 설치
 
@@ -816,7 +816,7 @@ fail2ban-client unbanip 222.222.222.222
 fail2ban-client unban --all
 ```
 
-`<br><br>`
+<br>
 
 > openSSH 설치
 
@@ -835,7 +835,7 @@ sudo ufw allow 22/tcp;
 sudo ufw status;
 ```
 
-`<br><br>`
+<br>
 
 > ssh 포트(22 → 2222) 변경
 
@@ -859,7 +859,7 @@ sudo systemctl restart sshd
 ssh -p 2222 user@192.168.0.100
 ```
 
-`<br><br>`
+<br>
 
 > client에서 ssh보안키를 생성후, 서버(192.168.0.100)에 등록
 
@@ -877,7 +877,7 @@ ssh-keygen -t rsa;
 ssh-copy-id test@192.168.0.100
 ```
 
-`<br><br>`
+<br>
 
 > 원격접속(xrdp)
 
@@ -950,7 +950,7 @@ sudo systemctl resrat xrdp;
 # lxde는 여기까지하면 정상 작동한다.
 ```
 
-`<br><br>`
+<br>
 
 > zRAM
 
@@ -972,4 +972,4 @@ sudo cat /proc/swaps
 
 ---
 
-`<br><br>`
+<br>
