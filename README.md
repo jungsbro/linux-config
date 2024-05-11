@@ -74,12 +74,13 @@ sudo apt install -y git build-essential python3-pip python3-dev python3-setuptoo
 # ==============================================================================
 unattended-upgrades     # Auto update
 rsync                   # file-sync
+locales			# national language data
 nala                    # alternative to apt
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y unattended-upgrades rsync;
+sudo apt install -y unattended-upgrades rsync locales;
 sudo apt install -y nala;
 ```
 
@@ -110,11 +111,12 @@ sudo apt install -y ntfs-3g exfat-utils exfat-fuse cifs-utils autofs rclone;
 # ==============================================================================
 net-tools               # NETwork-TOOLs (ifconfig, route, ...)
 whois                   # utility for retrieving information about a domain or an IP
+iputils-ping		# tools to test the reachablility of network hosts (ping, ...)
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y net-tools whois;
+sudo apt install -y net-tools whois iputils-ping;
 ```
 
 <br>
@@ -126,11 +128,12 @@ sudo apt install -y net-tools whois;
 neofetch                # Information for OS
 hdparm                  # Checking disk-reading
 ncdu                    # NCurses Disk Usage
+procps			# /proc file system utilities (free, ...)
 # ==============================================================================
 ```
 
 ```bash
-sudo apt install -y neofetch hdparm ncdu;
+sudo apt install -y neofetch hdparm ncdu procps;
 ```
 
 <br>
@@ -188,7 +191,7 @@ sudo apt install -y mc;
 [zsh-config](https://github.com/jungsbro/zsh-config)
 
 [ranger-config](https://github.com/jungsbro/ranger-config)
-<br>
+`<br>`
 
 > GUI
 
@@ -262,7 +265,7 @@ sudo apt install -y remmina;
 [doublecmd-config](https://github.com/jungsbro/doublecmd-config)
 
 [conky-config](https://github.com/jungsbro/conky-config)
-<br>
+`<br>`
 
 > Clone linux-config
 

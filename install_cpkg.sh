@@ -27,7 +27,7 @@ apt install -y git build-essential python3-pip python3-dev python3-setuptools;
 # ==============================================================================
 
 # maintenance ==================================================================
-apt install -y unattended-upgrades rsync;
+apt install -y unattended-upgrades rsync locales;
 apt install -y nala;
 # ==============================================================================
 
@@ -36,11 +36,11 @@ apt install -y ntfs-3g exfat-utils exfat-fuse cifs-utils autofs rclone;
 # ==============================================================================
 
 # network ======================================================================
-apt install -y net-tools whois;
+apt install -y net-tools whois iputils-ping;
 # ==============================================================================
 
 # info =========================================================================
-apt install -y neofetch hdparm ncdu;
+apt install -y neofetch hdparm ncdu procps;
 # ==============================================================================
 
 # monitoring ===================================================================
@@ -80,7 +80,7 @@ apt install -y mc;
 # ranger =======================================================================
 apt install -y ranger;
 apt install -y caca-utils highlight atool w3m poppler-utils mediainfo;
-apt install -y python tar p7zip-full trash-cli fzf fasd findutils mlocate;
+apt install -y python3 tar p7zip-full trash-cli fzf fasd findutils mlocate;
 apt install -y mpv imagemagick catimg;
 su - $CUR_USER -c "git clone https://github.com/jungsbro/ranger-config.git ~/github/ranger-config";
 su - $CUR_USER -c "chmod 755 ~/github/ranger-config/.config/ranger/scope.sh";
@@ -91,7 +91,7 @@ su - $CUR_USER -c "git clone https://github.com/maximtrp/ranger-archives.git ~/.
 # zsh ==========================================================================
 apt install -y zsh;
 apt install -y curl;
-apt install -y fonts-powerline autojump fzf fd-find fasd ;
+apt install -y fonts-powerline autojump fzf fd-find fasd;
 su - $CUR_USER -c "chsh -s /usr/bin/zsh";
 su - $CUR_USER -c "sh -c $(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";
 su - $CUR_USER -c "git clone https://github.com/jungsbro/zsh-config.git ~/github/zsh-config";
