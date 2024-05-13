@@ -585,7 +585,7 @@ sudo cp -f ~/.selected_editor /root/.selected_editor;
 ```bash
 sudo blkid;
 
-sudo mkdir -p /mnt/{a3004ns,jessie,j4105}/_share;
+sudo mkdir -p /mnt/{a3004ns,jessie,lucy,j4105}/_share;
 
 sudo vi /etc/fstab;
 ```
@@ -594,13 +594,14 @@ sudo vi /etc/fstab;
 # samba
 //192.168.0.0/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 # //192.168.0.0/_share  /mnt/jessie/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/lucy/_share   cifs    username=jungs,password=apple8282,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 # //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 
 # nfs
 # 192.168.0.0:/volume1/docker_data  /mnt/jessie/_private/docker_data nfs defaults    0   0
 # 192.168.0.0:/export/docker_data   /mnt/j4105/_private/docker_data nfs defaults    0   0
 
-# storage
+# disk
 # UUID=a1111111-1111-1111-1111-111111111111   /volume1    ext4    defaults,noatime,nofail 0   0
 # UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0
 ```
@@ -951,6 +952,17 @@ exec /bin/sh /etc/X11/Xsession
 source ~/.profile;
 sudo systemctl resrat xrdp;
 # lxde는 여기까지하면 정상 작동한다.
+```
+
+<br>
+
+> swap 사용을 최소화 설정
+
+```bash
+sudo vi /etc/sysctl.conf
+```
+```bash
+vm.swappiness=10
 ```
 
 <br>
