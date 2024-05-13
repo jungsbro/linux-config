@@ -100,7 +100,7 @@ rclone                  # rclone for clouds ( google-drive, ... )
 ```
 
 ```bash
-sudo apt install -y ntfs-3g exfat-utils exfat-fuse cifs-utils autofs rclone;
+sudo apt install -y ntfs-3g exfat-fuse cifs-utils autofs rclone;
 ```
 
 <br>

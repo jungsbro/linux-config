@@ -8,14 +8,6 @@
 # CUR_USER="jungs"
 CUR_USER=$1
 
-# if [[ $CUR_USER != "root" ]]; then
-#     while [[ -z $CUR_USER || ! -e /home/$CUR_USER ]]
-#     do
-#         echo "$CUR_USER not found"
-#         read -p "Please input username : " CUR_USER
-#     done
-# fi
-
 while [[ -z $CUR_USER ]]
 do
     echo "$CUR_USER not found"
@@ -38,7 +30,8 @@ apt install -y nala;
 # ==============================================================================
 
 # storage ======================================================================
-apt install -y ntfs-3g exfat-utils exfat-fuse cifs-utils autofs rclone;
+# exfat-utils
+apt install -y ntfs-3g exfat-fuse cifs-utils autofs rclone;
 # ==============================================================================
 
 # network ======================================================================
@@ -98,24 +91,18 @@ su - $CUR_USER -c "git clone https://github.com/maximtrp/ranger-archives.git ~/.
 apt install -y zsh;
 apt install -y curl;
 apt install -y fonts-powerline autojump fzf fd-find fasd;
-# su - $CUR_USER -c "chsh -s /usr/bin/zsh";
+
 chsh -s /usr/bin/zsh $CUR_USER;
-su - $CUR_USER -c "sh -c $(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";
+su - $CUR_USER -c "sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended";
 su - $CUR_USER -c "git clone https://github.com/jungsbro/zsh-config.git ~/github/zsh-config";
 su - $CUR_USER -c "cp -Rfv ~/github/zsh-config/.oh-my-zsh/custom ~/.oh-my-zsh/";
 su - $CUR_USER -c "cp -Rfv ~/github/zsh-config/.zshrc ~";
 su - $CUR_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions";
 su - $CUR_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting";
 su - $CUR_USER -c "git clone https://github.com/chrissicool/zsh-256color.git ~/.oh-my-zsh/custom/plugins/zsh-256color";
-# ==============================================================================
 
-# D2Coding fonts ===============================================================
-# if [[ $CUR_USER == "root" ]]; then
-#     cp -r /$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-# else
-#     cp -r /home/$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-# fi
-cp -r ~/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-
+# ~/D2Coding-font
+su - $CUR_USER -c "cp -r ~/github/zsh-config/D2Coding-Ver1.3.2-20180524 /tmp";
+cp -r /tmp/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
 fc-cache -rv;
 # ==============================================================================
