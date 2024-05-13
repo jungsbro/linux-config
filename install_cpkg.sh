@@ -8,13 +8,19 @@
 # CUR_USER="jungs"
 CUR_USER=$1
 
-if [[ $CUR_USER != "root" ]]; then
-    while [[ -z $CUR_USER || ! -e /home/$CUR_USER ]]
-    do
-        echo "$CUR_USER not found"
-        read -p "Please input username : " CUR_USER
-    done
-fi
+# if [[ $CUR_USER != "root" ]]; then
+#     while [[ -z $CUR_USER || ! -e /home/$CUR_USER ]]
+#     do
+#         echo "$CUR_USER not found"
+#         read -p "Please input username : " CUR_USER
+#     done
+# fi
+
+while [[ -z $CUR_USER ]]
+do
+    echo "$CUR_USER not found"
+    read -p "Please input username : " CUR_USER
+done
 # echo "your name : $CUR_USER"
 # ==============================================================================
 
@@ -92,7 +98,8 @@ su - $CUR_USER -c "git clone https://github.com/maximtrp/ranger-archives.git ~/.
 apt install -y zsh;
 apt install -y curl;
 apt install -y fonts-powerline autojump fzf fd-find fasd;
-su - $CUR_USER -c "chsh -s /usr/bin/zsh";
+# su - $CUR_USER -c "chsh -s /usr/bin/zsh";
+chsh -s /usr/bin/zsh $CUR_USER;
 su - $CUR_USER -c "sh -c $(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)";
 su - $CUR_USER -c "git clone https://github.com/jungsbro/zsh-config.git ~/github/zsh-config";
 su - $CUR_USER -c "cp -Rfv ~/github/zsh-config/.oh-my-zsh/custom ~/.oh-my-zsh/";
@@ -103,10 +110,12 @@ su - $CUR_USER -c "git clone https://github.com/chrissicool/zsh-256color.git ~/.
 # ==============================================================================
 
 # D2Coding fonts ===============================================================
-if [[ $CUR_USER == "root" ]]; then
-    cp -r /$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-else
-    cp -r /home/$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-fi
+# if [[ $CUR_USER == "root" ]]; then
+#     cp -r /$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
+# else
+#     cp -r /home/$CUR_USER/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
+# fi
+cp -r ~/github/zsh-config/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
+
 fc-cache -rv;
 # ==============================================================================
