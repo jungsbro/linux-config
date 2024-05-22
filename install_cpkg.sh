@@ -1,108 +1,368 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_cpkg.sh jungs
+# sudo bash ./install_cpkg.sh jungs;
 # ==============================================================================
 
-# setting the current user =====================================================
-# CUR_USER="jungs"
-CUR_USER=$1
 
-while [[ -z $CUR_USER ]]
+# CUR_USER  / CUR_VER ==========================================================
+# CUR_USER="jungs";
+CUR_USER=$1;
+while [[ -z ${CUR_USER} ]]
 do
-    echo "$CUR_USER not found"
-    read -p "Please input username : " CUR_USER
+    echo "${CUR_USER} not found";
+    read -p "Please input username : " CUR_USER;
 done
-# echo "your name : $CUR_USER"
+# echo "your name : ${CUR_USER}";
+
+CUR_VER=$(cat /etc/*-release);
 # ==============================================================================
+
 
 # update =======================================================================
-apt update;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt update;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum check-update;
+fi
 # ==============================================================================
+
 
 # development ==================================================================
-apt install -y git build-essential python3-pip python3-dev python3-setuptools;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y git build-essential 
+    apt install -y python3-pip python3-dev python3-setuptools;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y git;
+    yum install -y python3 python3-libs python3-pip python3-setuptools;
+fi
 # ==============================================================================
+
 
 # maintenance ==================================================================
-apt install -y unattended-upgrades rsync locales;
-apt install -y nala;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y unattended-upgrades rsync locales;
+    apt install -y nala;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y rsync;
+fi
 # ==============================================================================
+
 
 # storage ======================================================================
-# exfat-utils
-apt install -y ntfs-3g exfat-fuse cifs-utils autofs rclone;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    # apt install -y exfat-utils;
+    apt install -y ntfs-3g exfat-fuse cifs-utils autofs rclone;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y epel-release && yum install -y ntfs-3g;
+    
+    yum install -y epel-release && \
+    rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
+    rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm && \
+    yum install -y fuse-exfat exfat-utils;
+    
+    yum install -y cifs-utils;
+    yum install -y autofs;
+    yum install -y epel-release && yum install -y rclone;
+fi
 # ==============================================================================
+
 
 # network ======================================================================
-apt install -y net-tools whois iputils-ping;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y net-tools whois iputils-ping;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y net-tools whois iputils;
+fi
 # ==============================================================================
+
 
 # info =========================================================================
-apt install -y neofetch hdparm ncdu procps;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y neofetch hdparm ncdu procps;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo \
+    https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo && \
+    yum install -y neofetch;
+    
+    yum install -y hdparm;
+    yum install -y epel-release && yum install -y ncdu;
+    yum install -y procps-ng;
+fi
 # ==============================================================================
+
 
 # monitoring ===================================================================
-apt install -y htop bpytop nmon;
-# apt install -y glances;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y htop bpytop nmon;
+    # apt install -y glances;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y epel-release && yum install -y htop;
+    # yum install -y bpytop;
+    yum install -y epel-release && yum install -y nmon;
+    yum install -y epel-release && yum install -y glances;
+fi
 # ==============================================================================
+
 
 # etc ==========================================================================
-# apt install -y nyancat cmatrix tty-clock;
+#if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+#     apt install -y nyancat cmatrix tty-clock;
+#elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+#     yum install -y nyancat cmatrix tty-clock;
+#fi
 # ==============================================================================
+
 
 # vim ==========================================================================
-apt install -y vim-gtk3;
-apt install -y xclip xsel;
-# apt install -y ctags;
-su - $CUR_USER -c "git clone https://github.com/jungsbro/vim-config.git ~/github/vim-config";
-su - $CUR_USER -c "cp -rf ~/github/vim-config/.vim/ ~";
-su - $CUR_USER -c "cp -f ~/github/vim-config/.vimrc ~";
-su - $CUR_USER -c "cp -f ~/github/vim-config/.vimrc_simple ~";
+CONFIG_DIR="/tmp/github/vim-config";
+
+SEL_EDIT_CMD="# Generated by /usr/bin/select-editor
+SELECTED_EDITOR="/usr/bin/vim"";
+
+SEL_EDIT_PATH="/tmp/github/.selected_editor";
+
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y vim-gtk3;
+    apt install -y xclip xsel;
+    # apt install -y ctags;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y vim-X11;
+    yum install -y epel-release && yum install -y xclip xsel;
+fi
+
+su - ${CUR_USER} -c "git clone https://github.com/jungsbro/vim-config.git ${CONFIG_DIR}";
+su - ${CUR_USER} -c "echo '${SEL_EDIT_CMD}' > ${SEL_EDIT_PATH}";
+# user -------------------------------------------------------------------------
+su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.vim ~/";
+su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc_full";
+su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc_simple ~/.vimrc_simple";
+su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc";
+su - ${CUR_USER} -c "cp -f ${SEL_EDIT_PATH} ~/.selected_editor";
+# root -------------------------------------------------------------------------
+if [[ ${CUR_USER} != "root" ]]; then
+    cp -Rf ${CONFIG_DIR}/.vim /root/;
+    cp -f ${CONFIG_DIR}/.vimrc /root/.vimrc_full;
+    cp -f ${CONFIG_DIR}/.vimrc_simple /root/.vimrc_simple;
+    cp -f ${CONFIG_DIR}/.vimrc_simple /root/.vimrc;
+    cp -f ${SEL_EDIT_PATH} /root/.selected_editor;
+fi
+# ------------------------------------------------------------------------------
+
 #vim
 #:PlugInstall
+# plugin error on centos7 : nathanaelkane/vim-indent-guides
 # ==============================================================================
+
 
 # tmux =========================================================================
-apt install -y tmux;
-apt install -y xclip xsel;
-apt install -y powerline fonts-powerline python3-powerline;
-su - $CUR_USER -c "git clone https://github.com/jungsbro/tmux-config.git ~/github/tmux-config";
-su - $CUR_USER -c "cp -rf ~/github/tmux-config/.tmux/ ~";
-su - $CUR_USER -c "cp -f ~/github/tmux-config/.tmux.conf ~";
+CONFIG_DIR="/tmp/github/tmux-config";
+
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y tmux;
+    apt install -y xclip xsel;
+    apt install -y powerline fonts-powerline python3-powerline;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y tmux;
+    yum install -y epel-release && yum install -y xclip xsel;
+    #yum install -y powerline fonts-powerline python3-powerline;    
+fi
+
+su - ${CUR_USER} -c "git clone https://github.com/jungsbro/tmux-config.git ${CONFIG_DIR}";
+su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.tmux ~/";
+
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux_ct7.conf ~/.tmux.conf";
+fi
 # ==============================================================================
+
 
 # mc ===========================================================================
-apt install -y mc;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y mc;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y mc;
+fi
 # ==============================================================================
+
 
 # ranger =======================================================================
-apt install -y ranger;
-apt install -y caca-utils highlight atool w3m poppler-utils mediainfo;
-apt install -y python3 tar p7zip-full trash-cli fzf fasd findutils mlocate;
-apt install -y mpv imagemagick catimg;
-su - $CUR_USER -c "git clone https://github.com/jungsbro/ranger-config.git ~/github/ranger-config";
-su - $CUR_USER -c "chmod 755 ~/github/ranger-config/.config/ranger/scope.sh";
-su - $CUR_USER -c "cp -rf ~/github/ranger-config/.config ~";
-su - $CUR_USER -c "git clone https://github.com/maximtrp/ranger-archives.git ~/.config/ranger/plugins/ranger-archives";
+BASHRC_PATH="/root/.bashrc";
+BASHRC_CMD=$(cat ${BASHRC_PATH});
+PATH_CMD='if [[ *"$PATH"* != *"$HOME:"* ]]; then
+    export PATH=$PATH:$HOME
+fi
+if [[ *"$PATH"* != *"$HOME/.local/bin"* ]]; then
+    export PATH=$PATH:$HOME/.local/bin
+fi';
+
+
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+
+    apt install -y ranger;
+    apt install -y caca-utils highlight atool w3m poppler-utils mediainfo;
+    apt install -y python3 tar p7zip-full trash-cli fzf fasd findutils mlocate;
+    apt install -y ffmpeg mpv imagemagick catimg;
+    
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+
+    # user ---------------------------------------------------------------------
+    # alias ranger="~/.local/bin/ranger"
+    su - ${CUR_USER} -c "pip3 install --user ranger-fm";
+    # root ---------------------------------------------------------------------
+    if [[ ${CUR_USER} != "root" ]]; then
+        pip3 install --user ranger-fm;
+        if [[ -e ${BASHRC_PATH} ]] && [[ *"${BASHRC_CMD}"* != *"${PATH_CMD}"* ]]; then
+            echo "" >> ${BASHRC_PATH};
+            echo "${PATH_CMD}" >> ${BASHRC_PATH};
+        fi
+    fi    
+    # --------------------------------------------------------------------------
+    
+    yum install -y epel-release && yum install -y caca-utils;
+    yum install -y highlight;
+    yum install -y epel-release && yum install -y atool;
+    yum install -y epel-release && yum install -y w3m;
+    yum install -y poppler-utils;
+    yum install -y epel-release && yum install -y mediainfo;
+    yum install -y python3;
+    yum install -y tar;
+    yum install -y epel-release && yum install -y p7zip;
+    #yum install -y trash-cli; 
+    
+    # user ---------------------------------------------------------------------
+    su - ${CUR_USER} -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf";
+    su - ${CUR_USER} -c "~/.fzf/install --all";
+    # root ---------------------------------------------------------------------
+    if [[ ${CUR_USER} != "root" ]]; then
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf;
+        ~/.fzf/install --all;
+    fi
+    # --------------------------------------------------------------------------
+    
+    yum install -y epel-release && yum install -y fasd;
+    yum install -y findutils;
+    yum install -y mlocate;
+
+    yum install -y epel-release && \
+    rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
+    rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm && \
+    yum install -y ffmpeg mpv;
+    
+    yum install -y ImageMagick; 
+    #yum install -y catimg;
+fi
+
+CONFIG_DIR="/tmp/github/ranger-config";
+ARCHIVE_DIR="/tmp/github/ranger-archives";
+
+su - ${CUR_USER} -c "git clone https://github.com/jungsbro/ranger-config.git ${CONFIG_DIR}";
+su - ${CUR_USER} -c "chmod 755 ${CONFIG_DIR}/.config/ranger/scope.sh";
+su - ${CUR_USER} -c "git clone https://github.com/maximtrp/ranger-archives.git ${ARCHIVE_DIR}";
+
+# user -------------------------------------------------------------------------
+su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/ranger ~/.config/";
+su - ${CUR_USER} -c "mkdir -p ~/.config/ranger/plugins";
+su - ${CUR_USER} -c "cp -Rf ${ARCHIVE_DIR} ~/.config/ranger/plugins/";
+# root -------------------------------------------------------------------------
+if [[ ${CUR_USER} != "root" ]]; then
+    cp -Rf ${CONFIG_DIR}/.config/ranger /root/.config/;
+    mkdir -p /root/.config/ranger/plugins
+    cp -Rf ${ARCHIVE_DIR} /root/.config/ranger/plugins/;
+fi
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
-# zsh ==========================================================================
-apt install -y zsh;
-apt install -y curl;
-apt install -y fonts-powerline autojump fzf fd-find fasd;
 
-chsh -s /usr/bin/zsh $CUR_USER;
-su - $CUR_USER -c "sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended";
-su - $CUR_USER -c "git clone https://github.com/jungsbro/zsh-config.git ~/github/zsh-config";
-su - $CUR_USER -c "cp -Rfv ~/github/zsh-config/.oh-my-zsh/custom ~/.oh-my-zsh/";
-su - $CUR_USER -c "cp -Rfv ~/github/zsh-config/.zshrc ~";
-su - $CUR_USER -c "git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions";
-su - $CUR_USER -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting";
-su - $CUR_USER -c "git clone https://github.com/chrissicool/zsh-256color.git ~/.oh-my-zsh/custom/plugins/zsh-256color";
+# zsh ==========================================================================
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    apt install -y zsh;
+    apt install -y curl;
+    apt install -y fonts-powerline autojump fzf fd-find fasd;
+    chsh -s /usr/bin/zsh ${CUR_USER};
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    yum install -y zsh;
+    yum install -y curl;
+    #yum install -y fonts-powerline;
+    yum install -y epel-release && yum install -y autojump;
+
+    # user ---------------------------------------------------------------------
+    #su - ${CUR_USER} -c "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf";
+    #su - ${CUR_USER} -c "~/.fzf/install --all";
+    # root ---------------------------------------------------------------------
+    #if [[ ${CUR_USER} != "root" ]]; then
+    #    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf;
+    #    ~/.fzf/install --all;
+    #fi
+    # --------------------------------------------------------------------------
+    
+    #yum install -y fd-find;
+    yum install -y epel-release && yum install -y fasd;
+    chsh -s /bin/zsh ${CUR_USER};
+fi
+
+CONFIG_DIR="/tmp/github/zsh-config";
+
+su - ${CUR_USER} -c "sh -c $(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended";
+su - ${CUR_USER} -c "git clone https://github.com/jungsbro/zsh-config.git ${CONFIG_DIR}";
+su - ${CUR_USER} -c "cp -Rfv ${CONFIG_DIR}/.oh-my-zsh/custom ~/.oh-my-zsh/";
+su - ${CUR_USER} -c "cp -fv ${CONFIG_DIR}/.zshrc ~/.zshrc";
+su - ${CUR_USER} -c "git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions";
+su - ${CUR_USER} -c "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting";
+su - ${CUR_USER} -c "git clone https://github.com/chrissicool/zsh-256color.git ~/.oh-my-zsh/custom/plugins/zsh-256color";
 
 # ~/D2Coding-font
-su - $CUR_USER -c "cp -r ~/github/zsh-config/D2Coding-Ver1.3.2-20180524 /tmp";
-cp -r /tmp/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype/;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/;
+fi
+
 fc-cache -rv;
+# ==============================================================================
+
+
+# swap =========================================================================
+SYSCTL_PATH="/etc/sysctl.conf";
+SYSCTL_CMD=$(cat ${SYSCTL_PATH});
+SWAP_CMD="vm.swappiness=10";
+
+if [[ -e ${SYSCTL_PATH} ]] && [[ *"${SYSCTL_CMD}"* != *"${SWAP_CMD}"* ]]; then
+    echo "" >> ${SYSCTL_PATH};
+    echo "${SWAP_CMD}" >> ${SYSCTL_PATH};
+fi
+# ==============================================================================
+
+
+# fstab ========================================================================
+mkdir -p /mnt/{a3004ns,jessie,lucy,j4105}/{_share,_private};
+
+FSTAB_PATH="/etc/fstab";
+FSTAB_CMD=$(cat ${FSTAB_PATH});
+MOUNT_CMD="# samba
+# //192.168.0.0/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/jessie/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/lucy/_share   cifs    username=jungs,password=apple8282,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+# //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
+
+# nfs
+# 192.168.0.0:/volume1/docker_data  /mnt/jessie/_private/docker_data nfs defaults    0   0
+# 192.168.0.0:/export/docker_data   /mnt/j4105/_private/docker_data nfs defaults    0   0
+
+# disk
+# UUID=a1111111-1111-1111-1111-111111111111   /volume1    ext4    defaults,noatime,nofail 0   0
+# UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0";
+
+
+if [[ -e ${FSTAB_PATH} ]] && [[ *"${FSTAB_CMD}"* != *"${MOUNT_CMD}"* ]]; then
+    echo "" >> ${FSTAB_PATH};
+    echo "${MOUNT_CMD}" >> ${FSTAB_PATH};
+fi
+# ==============================================================================
+
+
+# reboot =======================================================================
+/usr/sbin/init 6;
 # ==============================================================================
