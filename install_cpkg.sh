@@ -167,11 +167,11 @@ fi
 function install_vim()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^vim) ]] || apt install -y vim-gtk3;
+        [[ ! -z $(apt list --installed | grep -i ^vim-gtk3) ]] || apt install -y vim-gtk3;
         [[ ! -z $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
         # apt install -y ctags;
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-        [[ ! -z $(yum list installed | grep -i ^vim) ]] || yum install -y vim-X11;
+        [[ ! -z $(yum list installed | grep -i ^vim-X11) ]] || yum install -y vim-X11;
         
         #yum install -y epel-release && 
         [[ ! -z $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
@@ -395,8 +395,8 @@ function config_ranger()
     su - ${CUR_USER} -c "git clone https://github.com/maximtrp/ranger-archives.git ${ARCHIVE_DIR}";
 
     # user ---------------------------------------------------------------------
-    su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/ranger ~/.config/";
     su - ${CUR_USER} -c "mkdir -p ~/.config/ranger/plugins";
+    su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/ranger ~/.config/";
     su - ${CUR_USER} -c "cp -Rf ${ARCHIVE_DIR} ~/.config/ranger/plugins/";
     # root ---------------------------------------------------------------------
     if [[ ${CUR_USER} != "root" ]]; then
