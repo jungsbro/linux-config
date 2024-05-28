@@ -17,7 +17,7 @@ done
 # echo "your name : ${CUR_USER}";
 # ------------------------------------------------------------------------------
 
-CUR_VER=$(cat /etc/*-release);
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
 
@@ -31,7 +31,7 @@ function add_nux_dextop_repo()
     rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm;
 }
 
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     apt update;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     [[ ! -z $(yum list installed | grep -i ^epel-release) ]] || yum install -y epel-release;
@@ -42,7 +42,7 @@ fi
 
 
 # development ==================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential 
     apt install -y python3-pip python3-dev python3-setuptools;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
@@ -53,11 +53,13 @@ fi
 
 
 # maintenance ==================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
     [[ ! -z $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
     [[ ! -z $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
-    apt install -y nala;
+    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+        [[ ! -z $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
+    if
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     [[ ! -z $(yum list installed | grep -i ^rsync) ]] || yum install -y rsync;
 fi
@@ -65,7 +67,7 @@ fi
 
 
 # storage ======================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # apt install -y exfat-utils;
     [[ ! -z $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
     [[ ! -z $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
@@ -92,7 +94,7 @@ fi
 
 
 # network ======================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
     [[ ! -z $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
     [[ ! -z $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
@@ -115,7 +117,7 @@ function install_neofetch_rpm()
     yum install -y neofetch;
 }
 
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
     [[ ! -z $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
     [[ ! -z $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
@@ -134,9 +136,11 @@ fi
 
 
 # monitoring ===================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
-    [[ ! -z $(apt list --installed | grep -i ^bpytop) ]] || apt install -y bpytop;
+    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+        [[ ! -z $(apt list --installed | grep -i ^bpytop) ]] || apt install -y bpytop;
+    fi
     [[ ! -z $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
     # apt install -y glances;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
@@ -155,7 +159,7 @@ fi
 
 
 # etc ==========================================================================
-#if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+#if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 #     apt install -y nyancat cmatrix tty-clock;
 #elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
 #     yum install -y nyancat cmatrix tty-clock;
@@ -166,7 +170,7 @@ fi
 # vim ==========================================================================
 function install_vim()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ ! -z $(apt list --installed | grep -i ^vim-gtk3) ]] || apt install -y vim-gtk3;
         [[ ! -z $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
         # apt install -y ctags;
@@ -219,7 +223,7 @@ config_vim;
 # tmux =========================================================================
 function install_tmux()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ ! -z $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
         [[ ! -z $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
         [[ ! -z $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
@@ -244,7 +248,7 @@ function config_tmux()
     su - ${CUR_USER} -c "git clone https://github.com/jungsbro/tmux-config.git ${CONFIG_DIR}";
     su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.tmux ~/";
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux_ct7.conf ~/.tmux.conf";
@@ -257,7 +261,7 @@ config_tmux;
 
 
 # mc ===========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ ! -z $(apt list --installed | grep -i ^mc) ]] || apt install -y mc;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     [[ ! -z $(yum list installed | grep -i ^mc) ]] || yum install -y mc;
@@ -298,13 +302,15 @@ function install_ranger_pip()
 
 function install_ranger()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ ! -z $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
         [[ ! -z $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
         [[ ! -z $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
         [[ ! -z $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
         [[ ! -z $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
-        [[ ! -z $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+        if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+            [[ ! -z $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+        fi
         [[ ! -z $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
         apt install -y python3;
         [[ ! -z $(apt list --installed | grep -i ^tar) ]] || apt install -y tar;
@@ -313,7 +319,9 @@ function install_ranger()
         [[ ! -z $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
         [[ ! -z $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
         [[ ! -z $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
-        [[ ! -z $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
+        if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+            [[ ! -z $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
+        fi
         [[ ! -z $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
         [[ ! -z $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
         [[ ! -z $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
@@ -416,7 +424,7 @@ config_ranger;
 # zsh ==========================================================================
 function install_zsh()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ ! -z $(apt list --installed | grep -i ^zsh) ]] || apt install -y zsh;
         [[ ! -z $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
         [[ ! -z $(apt list --installed | grep -i ^fonts-powerline) ]] || apt install -y fonts-powerline;
@@ -463,7 +471,7 @@ function config_zsh()
     su - ${CUR_USER} -c "git clone https://github.com/chrissicool/zsh-256color.git ~/.oh-my-zsh/custom/plugins/zsh-256color";
 
     # D2Coding-font ------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
         cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts;
@@ -479,21 +487,28 @@ config_zsh;
 
 
 # swap =========================================================================
-SYSCTL_PATH="/etc/sysctl.conf";
-SWAP_CMD="vm.swappiness=10";
+function config_swap()
+{
+    local SYSCTL_PATH="/etc/sysctl.conf";
+    local SWAP_CMD="vm.swappiness=10";
 
-if [[ -e ${SYSCTL_PATH} ]] && [[ *"$(cat ${SYSCTL_PATH})"* != *"${SWAP_CMD}"* ]]; then
-    echo "" >> ${SYSCTL_PATH};
-    echo "${SWAP_CMD}" >> ${SYSCTL_PATH};
-fi
+    if [[ -e ${SYSCTL_PATH} ]] && [[ *"$(cat ${SYSCTL_PATH})"* != *"${SWAP_CMD}"* ]]; then
+        echo "" >> ${SYSCTL_PATH};
+        echo "${SWAP_CMD}" >> ${SYSCTL_PATH};
+    fi
+}
+
+config_swap;
 # ==============================================================================
 
 
 # fstab ========================================================================
-mkdir -p /mnt/{a3004ns,jessie,lucy,j4105}/{_share,_private};
+function config_fstab()
+{
+    mkdir -p /mnt/{a3004ns,jessie,lucy,j4105}/{_share,_private};
 
-FSTAB_PATH="/etc/fstab";
-MOUNT_CMD="# samba
+    local FSTAB_PATH="/etc/fstab";
+    local MOUNT_CMD="# samba
 # //192.168.0.0/hdd1  /mnt/a3004ns    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 # //192.168.0.0/_share  /mnt/jessie/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
 # //192.168.0.0/_share  /mnt/lucy/_share   cifs    username=jungs,password=apple8282,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0
@@ -507,14 +522,16 @@ MOUNT_CMD="# samba
 # UUID=a1111111-1111-1111-1111-111111111111   /volume1    ext4    defaults,noatime,nofail 0   0
 # UUID=b1111111-1111-1111-1111-111111111111   /volume2    ext4    defaults,noatime,nofail 0   0";
 
+    if [[ -e ${FSTAB_PATH} ]] && [[ *"$(cat ${FSTAB_PATH})"* != *"${MOUNT_CMD}"* ]]; then
+        echo "" >> ${FSTAB_PATH};
+        echo "${MOUNT_CMD}" >> ${FSTAB_PATH};
+    fi
+}
 
-if [[ -e ${FSTAB_PATH} ]] && [[ *"$(cat ${FSTAB_PATH})"* != *"${MOUNT_CMD}"* ]]; then
-    echo "" >> ${FSTAB_PATH};
-    echo "${MOUNT_CMD}" >> ${FSTAB_PATH};
-fi
+config_fstab;
 # ==============================================================================
 
 
 # reboot =======================================================================
-/usr/sbin/init 6;
+#/usr/sbin/init 6;
 # ==============================================================================
