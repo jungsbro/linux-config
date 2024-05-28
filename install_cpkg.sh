@@ -59,7 +59,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ ! -z $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
     if [[ *"${CUR_VER}"* == *"debian"* ]]; then
         [[ ! -z $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
-    if
+    fi
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     [[ ! -z $(yum list installed | grep -i ^rsync) ]] || yum install -y rsync;
 fi
