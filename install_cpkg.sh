@@ -24,7 +24,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # update =======================================================================
 function add_nux_dextop_repo()
 {
-    if [[ ! -z $(yum list installed | grep -i ^nux-dextop) ]]; then
+    if [[ -n $(yum list installed | grep -i ^nux-dextop) ]]; then
         return
     fi
     rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
@@ -34,7 +34,7 @@ function add_nux_dextop_repo()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     apt update;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    [[ ! -z $(yum list installed | grep -i ^epel-release) ]] || yum install -y epel-release;
+    [[ -n $(yum list installed | grep -i ^epel-release) ]] || yum install -y epel-release;
     add_nux_dextop_repo;
     yum check-update;
 fi
@@ -43,10 +43,10 @@ fi
 
 # development ==================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential 
+    [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential 
     apt install -y python3-pip python3-dev python3-setuptools;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    [[ ! -z $(yum list installed | grep -i ^git) ]] || yum install -y git;
+    [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
     yum install -y python3 python3-libs python3-pip python3-setuptools;
 fi
 # ==============================================================================
@@ -54,14 +54,14 @@ fi
 
 # maintenance ==================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
-    [[ ! -z $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
-    [[ ! -z $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
+    [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
+    [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
+    [[ -n $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
     if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
+        [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
     fi
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    [[ ! -z $(yum list installed | grep -i ^rsync) ]] || yum install -y rsync;
+    [[ -n $(yum list installed | grep -i ^rsync) ]] || yum install -y rsync;
 fi
 # ==============================================================================
 
@@ -69,39 +69,39 @@ fi
 # storage ======================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # apt install -y exfat-utils;
-    [[ ! -z $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
-    [[ ! -z $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
-    [[ ! -z $(apt list --installed | grep -i ^cifs) ]] || apt install -y cifs-utils;
-    [[ ! -z $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
-    [[ ! -z $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
+    [[ -n $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
+    [[ -n $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
+    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y cifs-utils;
+    [[ -n $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
+    [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     #yum install -y epel-release && \
-    [[ ! -z $(yum list installed | grep -i ^ntfs-3g) ]] || yum install -y ntfs-3g; 
+    [[ -n $(yum list installed | grep -i ^ntfs-3g) ]] || yum install -y ntfs-3g; 
 
     #yum install -y epel-release && \
     #rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
     #rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm &&\
-    [[ ! -z $(yum list installed | grep -i ^exfat) ]] || yum install -y fuse-exfat exfat-utils;
+    [[ -n $(yum list installed | grep -i ^exfat) ]] || yum install -y fuse-exfat exfat-utils;
     
-    [[ ! -z $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y cifs-utils;
+    [[ -n $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y cifs-utils;
     
-    [[ ! -z $(yum list installed | grep -i ^autofs) ]] || yum install -y autofs;
+    [[ -n $(yum list installed | grep -i ^autofs) ]] || yum install -y autofs;
 
     #yum install -y epel-release && \
-    [[ ! -z $(yum list installed | grep -i ^rclone) ]] ||  yum install -y rclone;
+    [[ -n $(yum list installed | grep -i ^rclone) ]] ||  yum install -y rclone;
 fi
 # ==============================================================================
 
 
 # network ======================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
-    [[ ! -z $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
-    [[ ! -z $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
+    [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
+    [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
+    [[ -n $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    [[ ! -z $(yum list installed | grep -i ^net-tools) ]] || yum install -y net-tools;
-    [[ ! -z $(yum list installed | grep -i ^whois) ]] || yum install -y whois;
-    [[ ! -z $(yum list installed | grep -i ^iputils) ]] || yum install -y iputils;
+    [[ -n $(yum list installed | grep -i ^net-tools) ]] || yum install -y net-tools;
+    [[ -n $(yum list installed | grep -i ^whois) ]] || yum install -y whois;
+    [[ -n $(yum list installed | grep -i ^iputils) ]] || yum install -y iputils;
 fi
 # ==============================================================================
 
@@ -109,7 +109,7 @@ fi
 # info =========================================================================
 function install_neofetch_rpm()
 {
-    if [[ ! -z $(yum list installed | grep -i ^neofetch) ]]; then
+    if [[ -n $(yum list installed | grep -i ^neofetch) ]]; then
         return
     fi
     curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo \
@@ -118,42 +118,42 @@ function install_neofetch_rpm()
 }
 
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
-    [[ ! -z $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
-    [[ ! -z $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
-    [[ ! -z $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
+    [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
+    [[ -n $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
+    [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
+    [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     install_neofetch_rpm;
 
-    [[ ! -z $(yum list installed | grep -i ^hdparm) ]] || yum install -y hdparm;
+    [[ -n $(yum list installed | grep -i ^hdparm) ]] || yum install -y hdparm;
 
     #yum install -y epel-release &&
-    [[ ! -z $(yum list installed | grep -i ^ncdu) ]] || yum install -y ncdu;
+    [[ -n $(yum list installed | grep -i ^ncdu) ]] || yum install -y ncdu;
     
-    [[ ! -z $(yum list installed | grep -i ^procps-ng) ]] || yum install -y procps-ng;
+    [[ -n $(yum list installed | grep -i ^procps-ng) ]] || yum install -y procps-ng;
 fi
 # ==============================================================================
 
 
 # monitoring ===================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
+    [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
     if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^bpytop) ]] || apt install -y bpytop;
+        [[ -n $(apt list --installed | grep -i ^bpytop) ]] || apt install -y bpytop;
     fi
-    [[ ! -z $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
+    [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
     # apt install -y glances;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     #yum install -y epel-release && 
-    [[ ! -z $(yum list installed | grep -i ^htop) ]] || yum install -y htop;
+    [[ -n $(yum list installed | grep -i ^htop) ]] || yum install -y htop;
     
     # yum install -y bpytop;
     
     #yum install -y epel-release && 
-    [[ ! -z $(yum list installed | grep -i ^nmon) ]] || yum install -y nmon;
+    [[ -n $(yum list installed | grep -i ^nmon) ]] || yum install -y nmon;
     
     #yum install -y epel-release && 
-    [[ ! -z $(yum list installed | grep -i ^glances) ]] || yum install -y glances;
+    [[ -n $(yum list installed | grep -i ^glances) ]] || yum install -y glances;
 fi
 # ==============================================================================
 
@@ -171,14 +171,14 @@ fi
 function install_vim()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^vim-gtk3) ]] || apt install -y vim-gtk3;
-        [[ ! -z $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
+        [[ -n $(apt list --installed | grep -i ^vim-gtk3) ]] || apt install -y vim-gtk3;
+        [[ -n $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
         # apt install -y ctags;
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-        [[ ! -z $(yum list installed | grep -i ^vim-X11) ]] || yum install -y vim-X11;
+        [[ -n $(yum list installed | grep -i ^vim-X11) ]] || yum install -y vim-X11;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
+        [[ -n $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
     fi
 }
 
@@ -224,14 +224,14 @@ config_vim;
 function install_tmux()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
-        [[ ! -z $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
-        [[ ! -z $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
+        [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
+        [[ -n $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
+        [[ -n $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-        [[ ! -z $(yum list installed | grep -i ^tmux) ]] || yum install -y tmux;
+        [[ -n $(yum list installed | grep -i ^tmux) ]] || yum install -y tmux;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
+        [[ -n $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
         
         #yum install -y powerline fonts-powerline python3-powerline;    
     fi
@@ -262,9 +262,9 @@ config_tmux;
 
 # mc ===========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ ! -z $(apt list --installed | grep -i ^mc) ]] || apt install -y mc;
+    [[ -n $(apt list --installed | grep -i ^mc) ]] || apt install -y mc;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    [[ ! -z $(yum list installed | grep -i ^mc) ]] || yum install -y mc;
+    [[ -n $(yum list installed | grep -i ^mc) ]] || yum install -y mc;
 fi
 # ==============================================================================
 
@@ -303,71 +303,71 @@ function install_ranger_pip()
 function install_ranger()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
-        [[ ! -z $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
-        [[ ! -z $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
-        [[ ! -z $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
-        [[ ! -z $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
+        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
+        [[ -n $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
+        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
+        [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
+        [[ -n $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
         if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-            [[ ! -z $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+            [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
         fi
-        [[ ! -z $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
+        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
         apt install -y python3;
-        [[ ! -z $(apt list --installed | grep -i ^tar) ]] || apt install -y tar;
-        [[ ! -z $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-        [[ ! -z $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
-        [[ ! -z $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ ! -z $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
-        [[ ! -z $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
+        [[ -n $(apt list --installed | grep -i ^tar) ]] || apt install -y tar;
+        [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
+        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
+        [[ -n $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
+        [[ -n $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
         if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-            [[ ! -z $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
+            [[ -n $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
         fi
-        [[ ! -z $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
-        [[ ! -z $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
-        [[ ! -z $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
-        [[ ! -z $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
+        [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
+        [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
+        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
+        [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
         install_ranger_pip;
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^caca-utils) ]] || yum install -y caca-utils;
+        [[ -n $(yum list installed | grep -i ^caca-utils) ]] || yum install -y caca-utils;
         
-        [[ ! -z $(yum list installed | grep -i ^highlight) ]] || yum install -y highlight;
-        
-        #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^atool) ]] || yum install -y atool;
+        [[ -n $(yum list installed | grep -i ^highlight) ]] || yum install -y highlight;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^w3m) ]] || yum install -y w3m;
-        
-        [[ ! -z $(yum list installed | grep -i ^poppler-utils) ]] || yum install -y poppler-utils;
+        [[ -n $(yum list installed | grep -i ^atool) ]] || yum install -y atool;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^mediainfo) ]] || yum install -y mediainfo;
+        [[ -n $(yum list installed | grep -i ^w3m) ]] || yum install -y w3m;
         
-        [[ ! -z $(yum list installed | grep -i ^python3) ]] || yum install -y python3;
-        
-        [[ ! -z $(yum list installed | grep -i ^tar) ]] || yum install -y tar;
+        [[ -n $(yum list installed | grep -i ^poppler-utils) ]] || yum install -y poppler-utils;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^p7zip) ]] || yum install -y p7zip;
+        [[ -n $(yum list installed | grep -i ^mediainfo) ]] || yum install -y mediainfo;
+        
+        [[ -n $(yum list installed | grep -i ^python3) ]] || yum install -y python3;
+        
+        [[ -n $(yum list installed | grep -i ^tar) ]] || yum install -y tar;
+        
+        #yum install -y epel-release && 
+        [[ -n $(yum list installed | grep -i ^p7zip) ]] || yum install -y p7zip;
         
         #yum install -y trash-cli;
         
         install_fzf_git;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
+        [[ -n $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
         
-        [[ ! -z $(yum list installed | grep -i ^findutils) ]] || yum install -y findutils;
+        [[ -n $(yum list installed | grep -i ^findutils) ]] || yum install -y findutils;
         
-        [[ ! -z $(yum list installed | grep -i ^mlocate) ]] || yum install -y mlocate;
+        [[ -n $(yum list installed | grep -i ^mlocate) ]] || yum install -y mlocate;
 
         #yum install -y epel-release && \
         #rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
         #rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm && \
-        [[ ! -z $(yum list installed | grep -i ^mpv) ]] || yum install -y ffmpeg mpv;
+        [[ -n $(yum list installed | grep -i ^mpv) ]] || yum install -y ffmpeg mpv;
         
-        [[ ! -z $(yum list installed | grep -i ^ImageMagick) ]] || yum install -y ImageMagick; 
+        [[ -n $(yum list installed | grep -i ^ImageMagick) ]] || yum install -y ImageMagick; 
         
         #yum install -y catimg;
     fi
@@ -425,30 +425,30 @@ config_ranger;
 function install_zsh()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ ! -z $(apt list --installed | grep -i ^zsh) ]] || apt install -y zsh;
-        [[ ! -z $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
-        [[ ! -z $(apt list --installed | grep -i ^fonts-powerline) ]] || apt install -y fonts-powerline;
-        [[ ! -z $(apt list --installed | grep -i ^autojump) ]] || apt install -y autojump;
-        [[ ! -z $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ ! -z $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-        [[ ! -z $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
+        [[ -n $(apt list --installed | grep -i ^zsh) ]] || apt install -y zsh;
+        [[ -n $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
+        [[ -n $(apt list --installed | grep -i ^fonts-powerline) ]] || apt install -y fonts-powerline;
+        [[ -n $(apt list --installed | grep -i ^autojump) ]] || apt install -y autojump;
+        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
+        [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
+        [[ -n $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
         chsh -s /usr/bin/zsh ${CUR_USER};
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-        [[ ! -z $(yum list installed | grep -i ^zsh) ]] || yum install -y zsh;
+        [[ -n $(yum list installed | grep -i ^zsh) ]] || yum install -y zsh;
         
-        [[ ! -z $(yum list installed | grep -i ^curl) ]] || yum install -y curl;
+        [[ -n $(yum list installed | grep -i ^curl) ]] || yum install -y curl;
         
         #yum install -y fonts-powerline;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^autojump) ]] || yum install -y autojump;
+        [[ -n $(yum list installed | grep -i ^autojump) ]] || yum install -y autojump;
         
         install_fzf_git;
         
         #yum install -y fd-find;
         
         #yum install -y epel-release && 
-        [[ ! -z $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
+        [[ -n $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
         
         chsh -s /bin/zsh ${CUR_USER};
     fi
