@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# ==============================================================================
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+# ==============================================================================
+
+# simplescreenrecorder : x86_64, aarch64 =======================================
+function install_ssr_rpm()
+{
+    if [[ -n $(yum list installed | grep -i ^simplescreenrecorder) ]]; then
+        return
+    fi
+
+    [[ -n $(yum list installed | grep -i ^epel-release) ]] || yum install -y epel-release;
+    [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    yum install -y simplescreenrecorder;
+}
+
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+   [[ -n $(apt list --installed | grep -i ^simplescreenrecorder) ]] || apt install -y simplescreenrecorder;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+   install_ssr_rpm;
+fi
+# ==============================================================================
+
+exit 0

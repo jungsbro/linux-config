@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# ==============================================================================
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_ARCH=$(uname -m);
+# ==============================================================================
+
+# xnview : x86_64 ==============================================================
+function install_xnview()
+{
+    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+    elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+        [[ -n $(yum list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+    fi
+
+    [[ -n $(flatpak list --app | grep -i xnview) ]] || flatpak install -y flathub com.xnview.XnViewMP;
+}
+
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    install_xnview;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    install_xnview;
+fi
+# ==============================================================================
+
+exit 0
