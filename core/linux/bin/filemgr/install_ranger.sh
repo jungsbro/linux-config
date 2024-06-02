@@ -147,8 +147,8 @@ function config_ranger()
     # root ---------------------------------------------------------------------
     if [[ ${CUR_USER} != "root" ]]; then
         config_ranger_pip;
+        mkdir -p /root/.config/ranger/plugins;
         cp -Rf ${CONFIG_DIR}/.config/ranger /root/.config/;
-        mkdir -p /root/.config/ranger/plugins
         cp -Rf ${ARCHIVE_DIR} /root/.config/ranger/plugins/;
     fi
     # --------------------------------------------------------------------------
