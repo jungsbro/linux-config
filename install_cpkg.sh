@@ -21,15 +21,19 @@ done
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
+# CUR_ARCH ---------------------------------------------------------------------
+CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
+
 # /core/linux/bin/ -------------------------------------------------------------
 CORE_DIR="./core";
 BIN_DIR="/core/linux/bin/";
 SRC_DIR="/core/linux/src/";
 
-if [[ ! -d ${BIN_DIR} ]]; then
-    cp -rf ${CORE_DIR} /;
-    chmod -R 755 ${BIN_DIR};
-fi
+# if [[ ! -d ${BIN_DIR} ]]; then
+cp -rf ${CORE_DIR} /;
+chmod -R 755 ${BIN_DIR};
+# fi
 
 [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
 chmod 777 ${SRC_DIR};

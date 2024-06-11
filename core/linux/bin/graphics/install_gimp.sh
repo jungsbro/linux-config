@@ -13,7 +13,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # gimp =========================================================================
 # method 1) x86_64, aarch64 ----------------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    [[ -n $(apt list --installed | grep -i ^gimp) ]] || apt install -y gimp;
+    [[ -n $(apt list --installed gimp | grep -i ^gimp) ]] || apt install -y gimp;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
     #[[ -n $(yum list installed | grep -i ^gimp) ]] || yum install -y gimp;
     [[ -n $(yum list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;

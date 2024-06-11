@@ -21,15 +21,23 @@ done
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
+# CUR_ARCH ---------------------------------------------------------------------
+CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
+
+# CUR_DE -----------------------------------------------------------------------
+CUR_DE=$(ls /usr/bin/*-session);
+# ------------------------------------------------------------------------------
+
 # /core/linux/bin/ -------------------------------------------------------------
 CORE_DIR="./core";
 BIN_DIR="/core/linux/bin/";
 SRC_DIR="/core/linux/src/";
 
-if [[ ! -d ${BIN_DIR} ]]; then
-    cp -rf ${CORE_DIR} /;
-    chmod -R 755 ${BIN_DIR};
-fi
+# if [[ ! -d ${BIN_DIR} ]]; then
+cp -rf ${CORE_DIR} /;
+chmod -R 755 ${BIN_DIR};
+# fi
 
 [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
 chmod 777 ${SRC_DIR};
@@ -46,11 +54,15 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # snap =========================================================================
-bash /core/linux/bin/pkgmgmt/install_snap.sh;
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    echo "";
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    bash /core/linux/bin/pkgmgmt/install_snap.sh;
+fi
 # ==============================================================================
 
 # bottles ======================================================================
-bash /core/linux/bin/pkgmgmt/install_bottles.sh;
+# bash /core/linux/bin/pkgmgmt/install_bottles.sh;
 # ==============================================================================
 
 # graphic driver ===============================================================
@@ -85,8 +97,12 @@ elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
 fi
 # ==============================================================================
 
+# desktop environment ==========================================================
+bash /core/linux/bin/de/config_de.sh ${CUR_USER};
+# ==============================================================================
+
 # monitoring ===================================================================
-bash /core/linux/bin/system/install_conky.sh;
+# bash /core/linux/bin/system/install_conky.sh;
 # ==============================================================================
 
 # korean =======================================================================
@@ -97,20 +113,16 @@ bash /core/linux/bin/system/install_korean.sh;
 bash /core/linux/bin/system/install_redshift.sh;
 # ==============================================================================
 
-# theme ========================================================================
-bash /core/linux/bin/system/install_theme.sh;
-# ==============================================================================
-
 # snapshot =====================================================================
 bash /core/linux/bin/system/install_timeshift.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================
-bash /core/linux/bin/system/install_virtualbox.sh;
+# bash /core/linux/bin/system/install_virtualbox.sh;
 # ==============================================================================
 
 # ide ==========================================================================
-bash /core/linux/bin/ide/install_geany.sh;
+# bash /core/linux/bin/ide/install_geany.sh;
 bash /core/linux/bin/ide/install_vscode.sh;
 # ==============================================================================
 
@@ -119,9 +131,13 @@ bash /core/linux/bin/filemgr/install_doublecmd.sh;
 # ==============================================================================
 
 # web browser ==================================================================
-bash /core/linux/bin/internet/install_chromium.sh;
+if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    bash /core/linux/bin/internet/install_chromium.sh;
+else
+    bash /core/linux/bin/internet/install_chrome.sh;
+fi
+
 bash /core/linux/bin/internet/install_firefox.sh;
-bash /core/linux/bin/internet/install_chrome.sh;
 # ==============================================================================
 
 # ftp ==========================================================================
@@ -133,7 +149,7 @@ bash /core/linux/bin/internet/install_remmina.sh;
 # ==============================================================================
 
 # anydesk ======================================================================
-bash /core/linux/bin/internet/install_anydesk.sh;
+# bash /core/linux/bin/internet/install_anydesk.sh;
 # ==============================================================================
 
 # libreoffice ==================================================================
@@ -143,11 +159,11 @@ bash /core/linux/bin/office/install_libreoffice.sh;
 # paint ========================================================================
 bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
 bash /core/linux/bin/graphics/install_kolourpaint.sh;
-bash /core/linux/bin/graphics/install_drawing.sh;
+# bash /core/linux/bin/graphics/install_drawing.sh;
 # ==============================================================================
 
 # xnview =======================================================================
-bash /core/linux/bin/graphics/install_xnview.sh;
+# bash /core/linux/bin/graphics/install_xnview.sh;
 # ==============================================================================
 
 # vlc ==========================================================================
@@ -159,7 +175,7 @@ bash /core/linux/bin/utilities/install_freefilesync.sh;
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-bash /core/linux/bin/utilities/install_simplescreenrecorder.sh;
+# bash /core/linux/bin/utilities/install_simplescreenrecorder.sh;
 # ==============================================================================
 
 

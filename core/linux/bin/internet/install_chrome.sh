@@ -22,7 +22,7 @@ function install_chrome_deb()
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     local URL="https://dl.google.com/linux/direct/${FNAME}";
 
-    if [[ ! -e ${TMP_DIR}/${FNAME} ]]; then
+    if [[ ! -d ${TMP_DIR} ]]; then
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         wget ${URL} -O ${TMP_DIR}/${FNAME};
@@ -47,7 +47,7 @@ function install_chrome_rpm()
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
     local URL="https://dl.google.com/linux/direct/${FNAME}";
 
-    if [[ ! -e ${TMP_DIR}/${FNAME} ]]; then
+    if [[ ! -d ${TMP_DIR} ]]; then
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         wget ${URL} -O ${TMP_DIR}/${FNAME};
