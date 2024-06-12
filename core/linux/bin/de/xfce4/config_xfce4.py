@@ -68,23 +68,29 @@ def indent(elem, level=0):
 
 # ==============================================================================
 def get_bk_dir(dst_dir):
-    ''' ~/temp/dst >> ~/temp/_backup/dst_0001 '''
+    ''' ~/.config/temp/test  >>  ~/.config/_backup/temp/test_0001 '''
 
     # 1) bk_parent_dir, dir_basename -------------------------------------------
     parent_dir = os.path.dirname(dst_dir)
-    bk_parent_dir = f"{parent_dir}/_bakcup"
+
+    if ".config" in parent_dir:                 #  ~/.config/temp  >>  ~/.config/_backup/temp
+        prefix = parent_dir.split(".config")[0]
+        suffix = parent_dir.split(".config")[1]
+        bk_parent_dir = f"{prefix}.config/_bakcup{suffix}"
+    else:                                       # ~/temp  >>  ~/temp/_backup
+        bk_parent_dir = f"{parent_dir}/_bakcup"
 
     if not os.path.isdir(bk_parent_dir):
         os.makedirs(bk_parent_dir)
-        
+
     dir_basename = os.path.basename(dst_dir)
 
     # 2) bk_dir ----------------------------------------------------------------
     num = 1
 
     while True:
-        suffix = f"{num:04d}"
-        bk_dir = f"{bk_parent_dir}/{dir_basename}_{suffix}"
+        padding = f"{num:04d}"
+        bk_dir = f"{bk_parent_dir}/{dir_basename}_{padding}"
 
         if os.path.isdir(bk_dir):
             num += 1
@@ -94,26 +100,35 @@ def get_bk_dir(dst_dir):
 
 # ==============================================================================
 def get_bk_path(dst_path):
-    ''' ~/temp/dst.txt >> ~/temp/_backup/dst0001.txt '''
-    
+    ''' ~/.config/temp/dst.txt  >>  ~/.config/_backup/temp/dst_0001.txt '''
+
     # 1) bk_parent_dir ---------------------------------------------------------
     dst_dir = os.path.dirname(dst_path)
-    bk_parent_dir = f"{dst_dir}/_bakcup"
+    if ".config" in dst_dir:                    #  ~/.config/temp  >>  ~/.config/_backup/temp
+        prefix = dst_dir.split(".config")[0]
+        suffix = dst_dir.split(".config")[1]
+        bk_parent_dir = f"{prefix}.config/_bakcup{suffix}"
+    else:                                       # ~/temp  >>  ~/temp/_backup
+        bk_parent_dir = f"{dst_dir}/_bakcup"
 
     if not os.path.isdir(bk_parent_dir):
         os.makedirs(bk_parent_dir)
-    
+
     # 2) dst_basename, dst_fname, dst_ext --------------------------------------
     dst_basename = os.path.basename(dst_path)
-    dst_fname = dst_basename.split(".")[0]
-    dst_ext = dst_basename.split(".")[-1]
+    if "." in dst_basename:
+        dst_fname = dst_basename.split(".")[0]
+        dst_ext = dst_basename.split(".")[-1]
+    else:
+        dst_fname = dst_basename
+        dst_ext = ""
 
     # 3) bk_path ---------------------------------------------------------------
     num = 1
 
     while True:
-        suffix = f"{num:04d}"
-        bk_path = f"{bk_parent_dir}/{dst_fname}_{suffix}.{dst_ext}"
+        padding = f"{num:04d}"
+        bk_path = f"{bk_parent_dir}/{dst_fname}_{padding}.{dst_ext}"
 
         if os.path.isfile(bk_path):
             num += 1
@@ -142,12 +157,12 @@ def config_settings(prop_dict, dst_path):
         cur_dict = prop_dict[name_path]
         # print(cur_dict)
 
-        if son_elem == None:            # elem 추가
+        if son_elem == None:            # append elem
             son_elem = ET.SubElement(parent_elem, "property")
             son_elem.attrib = cur_dict
-        elif cur_dict["name"] == "":    # elem 삭제
+        elif cur_dict["name"] == "":    # delete elem
             parent_elem.remove(son_elem)
-        else:                           # elem attrib 수정
+        else:                           # fix elem attrib
             son_elem.attrib = cur_dict
 
     # 3) check results ---------------------------------------------------------
@@ -217,7 +232,7 @@ def check_xsettings(dst_path):
 # ==============================================================================
 
 
-# xfce4-shortcuts 수정 =========================================================
+# 1) xfce4-shortcuts settings ==================================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
 
@@ -249,7 +264,7 @@ config_settings(prop_dict, dst_path)
 # ==============================================================================
 
 
-# wockspace-scroll / workspace-count 수정 ======================================
+# 2) wockspace-scroll / workspace-count settings ===============================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
 
@@ -263,7 +278,7 @@ config_settings(prop_dict, dst_path)
 # ==============================================================================
 
 
-# panel 설정 ===================================================================
+# 3) panel settings ============================================================
 xfce4_panel_dir = "/core/linux/bin/de/xfce4/panel";
 xfce4_panel_path = "/core/linux/bin/de/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml";
 
@@ -301,7 +316,7 @@ else:
 # ==============================================================================
 
 
-# theme 수정 ===================================================================
+# 4) theme settings ============================================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 
@@ -318,7 +333,7 @@ config_settings(prop_dict, dst_path);
 # ==============================================================================
 
 
-# default applications 설정 ====================================================
+# 5) default applications settings =============================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/xfce4/helpers.rc"
 

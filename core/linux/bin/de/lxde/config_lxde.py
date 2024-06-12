@@ -75,26 +75,35 @@ def indent(elem, level=0):
 
 # ==============================================================================
 def get_bk_path(dst_path):
-    ''' ~/temp/dst.txt >> ~/temp/_backup/dst0001.txt '''
-    
+    ''' ~/.config/temp/dst.txt  >>  ~/.config/_backup/temp/dst_0001.txt '''
+
     # 1) bk_parent_dir ---------------------------------------------------------
     dst_dir = os.path.dirname(dst_path)
-    bk_parent_dir = f"{dst_dir}/_bakcup"
+    if ".config" in dst_dir:                    #  ~/.config/temp  >>  ~/.config/_backup/temp
+        prefix = dst_dir.split(".config")[0]
+        suffix = dst_dir.split(".config")[1]
+        bk_parent_dir = f"{prefix}.config/_bakcup{suffix}"
+    else:                                       # ~/temp  >>  ~/temp/_backup
+        bk_parent_dir = f"{dst_dir}/_bakcup"
 
     if not os.path.isdir(bk_parent_dir):
         os.makedirs(bk_parent_dir)
-    
+
     # 2) dst_basename, dst_fname, dst_ext --------------------------------------
     dst_basename = os.path.basename(dst_path)
-    dst_fname = dst_basename.split(".")[0]
-    dst_ext = dst_basename.split(".")[-1]
+    if "." in dst_basename:
+        dst_fname = dst_basename.split(".")[0]
+        dst_ext = dst_basename.split(".")[-1]
+    else:
+        dst_fname = dst_basename
+        dst_ext = ""
 
     # 3) bk_path ---------------------------------------------------------------
     num = 1
 
     while True:
-        suffix = f"{num:04d}"
-        bk_path = f"{bk_parent_dir}/{dst_fname}_{suffix}.{dst_ext}"
+        padding = f"{num:04d}"
+        bk_path = f"{bk_parent_dir}/{dst_fname}_{padding}.{dst_ext}"
 
         if os.path.isfile(bk_path):
             num += 1
@@ -149,9 +158,6 @@ def config_hotkey(dst_path):
 
     # --------------------------------------------------------------------------
     def add_hotkey(hotkey, cmd):
-        # 없는데 추가
-        # 있는것 삭제
-        # 있는것 수정
 
         family_info_list = [
             # tag             attrib
@@ -383,7 +389,7 @@ def config_hotkey(dst_path):
 
 
 
-# 1) panel-height / panel-style / panel-clock 수정 =============================
+# 1) panel-height / panel-style / panel-clock settings =========================
 data='''# lxpanel <profile> config file. Manually editing is not recommended.
 # Use preference dialog in lxpanel to adjust config when you can.
 
@@ -577,7 +583,7 @@ else:
 # ==============================================================================
 
 
-# 2) desktop icon 수정 =========================================================
+# 2) desktop icon settings =====================================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/pcmanfm/LXDE/desktop-items-0.conf"
 
@@ -595,7 +601,7 @@ fix_settings(old_str, new_str, dst_path)
 # ==============================================================================
 
 
-# 3) icon theme 수정 ===========================================================
+# 3) icon theme settings =======================================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/lxsession/LXDE/desktop.conf"
 
@@ -612,7 +618,7 @@ fix_settings(old_str, new_str, dst_path)
 # ==============================================================================
 
 
-# 4) defualt textEditor(mousepad) 수정 =========================================
+# 4) defualt textEditor(mousepad) settings =====================================
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/mimeapps.list"
 
@@ -633,8 +639,8 @@ text/plain=org.xfce.mousepad.desktop;
 # ==============================================================================
 
 
-# 5) lxde-rc 수정 ==============================================================
-# 5-1) mouse double click 속도 수정 --------------------------------------------
+# 5) lxde-rc settings ==========================================================
+# 5-1) mouse double_click_time settings ----------------------------------------
 home_dir = set_home_dir()
 dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
 
@@ -644,7 +650,7 @@ new_str = "<doubleClickTime>750</doubleClickTime>"
 fix_settings(old_str, new_str, dst_path)
 # ------------------------------------------------------------------------------
 
-# 5-2) lxde-hotkey 수정 --------------------------------------------------------
+# 5-2) lxde-hotkey settings ----------------------------------------------------
 lxde_rc_path = "/core/linux/bin/de/lxde/lxde-rc.xml";
 
 home_dir = set_home_dir()
