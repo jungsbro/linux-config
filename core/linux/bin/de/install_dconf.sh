@@ -9,7 +9,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^dconf-cli) ]] || apt install -y dconf-cli;
     [[ -n $(apt list --installed | grep -i ^dconf-editor) ]] || apt install -y dconf-editor;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    echo ""
+    [[ -n $(yum list installed | grep -i ^dconf) ]] || yum install -y dconf;
+    [[ -n $(yum list installed | grep -i ^dconf-editor) ]] || yum install -y dconf-editor;
 fi
 # ==============================================================================
 

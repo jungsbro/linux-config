@@ -133,6 +133,8 @@ bash /core/linux/bin/filemgr/install_doublecmd.sh;
 # web browser ==================================================================
 if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
     bash /core/linux/bin/internet/install_chromium.sh;
+elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    bash /core/linux/bin/internet/install_chromium.sh;
 else
     bash /core/linux/bin/internet/install_chrome.sh;
 fi

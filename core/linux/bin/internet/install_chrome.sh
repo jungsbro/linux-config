@@ -16,7 +16,7 @@ function install_chrome_deb()
     fi
 
     local NAME="google-chrome";
-    local TMP_DIR= "/tmp/${NAME}";
+    local TMP_DIR= "/core/linux/src/${NAME}";
 
     local FNAME="google-chrome-stable_current_amd64.deb";
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
@@ -41,7 +41,7 @@ function install_chrome_rpm()
     fi
     
     local NAME="google-chrome";
-    local TMP_DIR= "/tmp/${NAME}";
+    local TMP_DIR= "/core/linux/src/${NAME}";
 
     local FNAME="google-chrome-stable_current_x86_64.rpm";
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
@@ -59,7 +59,7 @@ function install_chrome_rpm()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then   
     install_chrome_deb;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    install_chrome_rpm;
+    # install_chrome_rpm;
 fi
 # ==============================================================================
 

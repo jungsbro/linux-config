@@ -53,7 +53,8 @@ Categories=Development";
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed | grep -i ^doublecmd) ]] || apt install -y doublecmd-gtk;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    install_dc_appimg;
+    # install_dc_appimg;
+    echo "";
 fi
 # ==============================================================================
 

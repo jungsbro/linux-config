@@ -39,7 +39,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
     install_skippy-xd;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-    echo ""
+    [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(yum list installed | grep -i ^skippy-xd) ]] || yum install -y skippy-xd;
 fi
 # ==============================================================================
 
