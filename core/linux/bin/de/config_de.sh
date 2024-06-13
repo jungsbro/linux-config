@@ -50,14 +50,14 @@ elif [[ *"${CUR_DE}" != *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then
     # bash /core/linux/bin/de/install_theme.sh;
     su - ${CUR_USER} -c \
     "[[ -f /core/linux/bin/de/gnome/gnome-backup ]] && \
-    dconf load /org/gnome/ < /core/linux/bin/de/gnome/gnome-backup";
+    dbus-run-session dconf load /org/gnome/ < /core/linux/bin/de/gnome/gnome-backup";
 elif [[ *"${CUR_DE}" == *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then    # cinnamon(mint)
     bash /core/linux/bin/de/install_dconf.sh;
     bash /core/linux/bin/de/install_gnome-tweaks.sh;
     # bash /core/linux/bin/de/install_theme.sh;
     su - ${CUR_USER} -c \
     "[[ -f /core/linux/bin/de/cinnamon/cinnamon-backup ]] && \
-    dconf load /org/cinnamon/ < /core/linux/bin/de/cinnamon/cinnamon-backup";
+    dbus-run-session dconf load /org/cinnamon/ < /core/linux/bin/de/cinnamon/cinnamon-backup";
 fi
 # ==============================================================================
 
