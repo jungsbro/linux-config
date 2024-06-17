@@ -59,6 +59,7 @@ function install_chrome_rpm()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then   
     install_chrome_deb;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    echo "";
     # install_chrome_rpm;
 fi
 # ==============================================================================

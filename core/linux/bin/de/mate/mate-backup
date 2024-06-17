@@ -1,5 +1,5 @@
 [caja/window-state]
-geometry='639x636+150+0'
+geometry='639x636+34+44'
 maximized=false
 start-with-sidebar=true
 start-with-status-bar=true
@@ -58,7 +58,7 @@ cursor-size=32
 cursor-theme='Adwaita'
 
 [desktop/session]
-session-start=1718109434
+session-start=1718632105
 
 [marco/general]
 theme='ClearlooksRe'
@@ -82,9 +82,9 @@ popup-location='top_right'
 theme='standard'
 
 [panel/general]
-history-mate-run=['gimp', 'mate-system-monitor']
-object-id-list=['notification-area', 'clock', 'object-0', 'object-4', 'object-5', 'object-2', 'object-6', 'object-7', 'object-8', 'object-10', 'object-11', 'object-12', 'object-13', 'object-14', 'object-15', 'object-16', 'object-17', 'object-1']
-toplevel-id-list=['top']
+history-mate-run=['kolourpaint ', 'pluma', 'kolourpaint', 'caja', 'doublecmd', 'gimp', 'mate-system-monitor']
+object-id-list=['menu-bar', 'notification-area', 'clock', 'show-desktop', 'window-list', 'workspace-switcher']
+toplevel-id-list=['top', 'bottom']
 
 [panel/objects/clock]
 applet-iid='ClockAppletFactory::ClockApplet'
@@ -96,7 +96,7 @@ toplevel-id='top'
 
 [panel/objects/clock/prefs]
 custom-format=''
-format='24-hour'
+format='12-hour'
 
 [panel/objects/menu-bar]
 locked=true
@@ -110,12 +110,6 @@ locked=true
 object-type='applet'
 position=10
 relative-to-edge='end'
-toplevel-id='top'
-
-[panel/objects/object-0]
-applet-iid='BriskMenuFactory::BriskMenu'
-object-type='applet'
-position=0
 toplevel-id='top'
 
 [panel/objects/object-1]
@@ -136,27 +130,6 @@ object-type='launcher'
 position=401
 toplevel-id='top'
 
-[panel/objects/object-12]
-applet-iid='TrashAppletFactory::TrashApplet'
-object-type='applet'
-position=479
-relative-to-edge='start'
-toplevel-id='top'
-
-[panel/objects/object-13]
-applet-iid='InhibitAppletFactory::InhibitApplet'
-object-type='applet'
-position=440
-relative-to-edge='start'
-toplevel-id='top'
-
-[panel/objects/object-14]
-applet-iid='WnckletFactory::WindowListApplet'
-object-type='applet'
-position=551
-relative-to-edge='start'
-toplevel-id='top'
-
 [panel/objects/object-15]
 launcher-location='mate-control-center.desktop'
 object-type='launcher'
@@ -164,28 +137,10 @@ position=512
 relative-to-edge='start'
 toplevel-id='top'
 
-[panel/objects/object-16]
-applet-iid='MultiLoadAppletFactory::MultiLoadApplet'
-object-type='applet'
-position=150
-relative-to-edge='end'
-toplevel-id='top'
-
-[panel/objects/object-16/prefs]
-size=uint32 30
-view-memload=true
-view-netload=true
-
 [panel/objects/object-17]
 launcher-location='mate-calculator.desktop'
 object-type='launcher'
 position=323
-toplevel-id='top'
-
-[panel/objects/object-2]
-launcher-location='doublecmd.desktop'
-object-type='launcher'
-position=163
 toplevel-id='top'
 
 [panel/objects/object-4]
@@ -198,24 +153,6 @@ toplevel-id='top'
 launcher-location='firefox.desktop'
 object-type='launcher'
 position=124
-toplevel-id='top'
-
-[panel/objects/object-6]
-launcher-location='mate-terminal.desktop'
-object-type='launcher'
-position=202
-toplevel-id='top'
-
-[panel/objects/object-7]
-launcher-location='pluma.desktop'
-object-type='launcher'
-position=241
-toplevel-id='top'
-
-[panel/objects/object-8]
-launcher-location='code.desktop'
-object-type='launcher'
-position=284
 toplevel-id='top'
 
 [panel/objects/show-desktop]
@@ -245,16 +182,14 @@ expand=true
 orientation='bottom'
 screen=0
 size=24
-y=695
+y=743
 y-bottom=0
 
 [panel/toplevels/top]
 expand=true
-orientation='bottom'
+orientation='top'
 screen=0
-size=39
-y=680
-y-bottom=0
+size=24
 
 [pluma]
 background-pattern='grid'
@@ -269,6 +204,11 @@ side-panel-size=200
 size=(650, 500)
 state=128
 statusbar-visible=true
+
+[pluma/plugins/filebrowser/on-load]
+root='file:///'
+tree-view=true
+virtual-root='file:///home/jungs/Desktop'
 
 [screenshot]
 border-effect='none'
