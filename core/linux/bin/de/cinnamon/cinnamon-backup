@@ -1,161 +1,79 @@
 [/]
 alttab-switcher-delay=100
-alttab-switcher-show-all-workspaces=false
-alttab-switcher-style='icons+thumbnails'
-command-history=['ranger', 'firefox', 'xed']
-desklet-snap-interval=25
-desktop-effects-close-effect='traditional'
-desktop-effects-close-time=120
-desktop-effects-close-transition='easeOutQuad'
-desktop-effects-map-effect='traditional'
-desktop-effects-map-time=100
-desktop-effects-map-transition='easeOutQuad'
-desktop-effects-maximize-effect='none'
-desktop-effects-maximize-time=100
-desktop-effects-maximize-transition='easeInExpo'
-desktop-effects-minimize-effect='traditional'
-desktop-effects-minimize-time=160
-desktop-effects-minimize-transition='easeInQuad'
-desktop-effects-tile-effect='none'
-desktop-effects-tile-time=100
-desktop-effects-tile-transition='easeInQuad'
-desktop-effects-unmaximize-effect='none'
-desktop-effects-unmaximize-time=100
-desktop-effects-unmaximize-transition='easeNone'
-enabled-applets=['panel1:center:0:menu@cinnamon.org:0', 'panel1:center:1:show-desktop@cinnamon.org:1', 'panel1:center:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13']
-enabled-desklets=@as []
-hotcorner-layout=['expo:false:0', 'scale:false:0', 'scale:false:0', 'desktop:false:0']
-next-applet-id=14
+enabled-applets=['panel1:center:0:menu@cinnamon.org:0', 'panel1:center:1:separator@cinnamon.org:1', 'panel1:center:2:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13', 'panel1:right:11:cornerbar@cinnamon.org:14']
+next-applet-id=15
 panel-edit-mode=false
-panel-zone-icon-sizes='[{"panelId":1,"left":0,"center":0,"right":24}]'
-panel-zone-symbolic-icon-sizes='[{"panelId":1,"left":28,"center":28,"right":16}]'
-panel-zone-text-sizes='[{"panelId":1,"left":0,"center":0,"right":0}]'
-panels-autohide=['1:false', '2:false']
-panels-enabled=['1:0:bottom']
-panels-height=['1:40', '2:40']
-panels-hide-delay=['1:0', '2:0']
-panels-show-delay=['1:0', '2:0']
 
 [cinnamon-session]
 quit-time-delay=60
 
-[desktop/a11y/applications]
-screen-keyboard-enabled=false
-screen-reader-enabled=false
-
-[desktop/a11y/keyboard]
-bouncekeys-beep-reject=true
-bouncekeys-delay=300
-bouncekeys-enable=false
-disable-timeout=120
-enable=false
-feature-state-change-beep=false
-mousekeys-accel-time=1200
-mousekeys-enable=false
-mousekeys-init-delay=160
-mousekeys-max-speed=750
-slowkeys-beep-accept=true
-slowkeys-beep-press=true
-slowkeys-beep-reject=false
-slowkeys-delay=300
-slowkeys-enable=false
-stickykeys-enable=false
-stickykeys-modifier-beep=true
-stickykeys-two-key-off=true
-timeout-enable=false
-
-[desktop/a11y/mouse]
-dwell-click-enabled=false
-dwell-threshold=10
-dwell-time=1.2
-secondary-click-enabled=false
-secondary-click-time=1.2
-
-[desktop/applications/calculator]
-exec='gnome-calculator'
-
-[desktop/applications/terminal]
-exec='gnome-terminal'
-
-[desktop/background]
-picture-uri='file:///usr/share/backgrounds/linuxmint-ulyssa/bfantinatti_grass.jpg'
-
 [desktop/background/slideshow]
 delay=15
-image-source='xml:///usr/share/cinnamon-background-properties/linuxmint-ulyssa.xml'
-slideshow-enabled=true
+image-source='xml:///usr/share/cinnamon-background-properties/linuxmint.xml'
 
 [desktop/interface]
 cursor-blink-time=1200
-cursor-theme='DMZ-White'
-gtk-theme='Mint-Y'
-icon-theme='Mint-Y'
-scaling-factor=uint32 0
-toolkit-accessibility=false
 
 [desktop/keybindings]
 custom-list=['custom1', 'custom0', '__dummy__']
 looking-glass-keybinding=@as []
 
 [desktop/keybindings/custom-keybindings/custom0]
-binding=['<Primary><Shift>Escape']
-command='/usr/bin/gnome-system-monitor'
-name='system-monitor'
-
-[desktop/keybindings/custom-keybindings/custom1]
 binding=['<Super>i']
 command='/usr/bin/cinnamon-settings'
-name='system settings'
+name='System Settings'
+
+[desktop/keybindings/custom-keybindings/custom1]
+binding=['<Primary><Shift>Escape']
+command='/usr/bin/gnome-system-monitor'
+name='System-monitor'
 
 [desktop/keybindings/media-keys]
 screensaver=['<Control><Alt>l', '<Super>l']
-search=@as []
+search=['<Super>f']
 
 [desktop/keybindings/wm]
-activate-window-menu=['<Alt>space']
+panel-run-dialog=@as []
 switch-to-workspace-down=['<Control><Alt>Down', '<Super>Tab']
 
-[desktop/media-handling]
-autorun-never=false
+[desktop/peripherals/keyboard]
+delay=uint32 500
+numlock-state=true
+repeat-interval=uint32 30
 
 [desktop/screensaver]
 date-format='%y-%m-%d (%a)'
-layout-group=0
 time-format='%p %I:%M'
 use-custom-format=true
 
 [desktop/sound]
 event-sounds=false
-maximum-volume=100
 
 [desktop/wm/preferences]
 min-window-opacity=30
-theme='Mint-Y'
+mouse-button-modifier='<Super>'
+
+[gestures]
+swipe-down-2='PUSH_TILE_DOWN::end'
+swipe-down-3='TOGGLE_OVERVIEW::end'
+swipe-down-4='VOLUME_DOWN::end'
+swipe-left-2='PUSH_TILE_LEFT::end'
+swipe-left-3='WORKSPACE_NEXT::end'
+swipe-left-4='WINDOW_WORKSPACE_PREVIOUS::end'
+swipe-right-2='PUSH_TILE_RIGHT::end'
+swipe-right-3='WORKSPACE_PREVIOUS::end'
+swipe-right-4='WINDOW_WORKSPACE_NEXT::end'
+swipe-up-2='PUSH_TILE_UP::end'
+swipe-up-3='TOGGLE_EXPO::end'
+swipe-up-4='VOLUME_UP::end'
+tap-3='MEDIA_PLAY_PAUSE::end'
 
 [launcher]
 check-frequency=300
 memory-limit=2048
 
 [muffin]
-resize-threshold=24
-tile-hud-threshold=25
+draggable-border-width=10
 
 [settings-daemon/peripherals/keyboard]
-delay=uint32 500
 numlock-state='on'
-repeat-interval=uint32 30
-
-[settings-daemon/peripherals/touchpad]
-touchpad-enabled=true
-
-[settings-daemon/plugins/power]
-lid-close-ac-action='suspend'
-lid-close-battery-action='suspend'
-lid-close-suspend-with-external-monitor=true
-sleep-display-ac=1800
-sleep-display-battery=1800
-sleep-inactive-ac-timeout=0
-sleep-inactive-battery-timeout=0
-
-[theme]
-name='Mint-Y-Dark'
