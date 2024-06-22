@@ -10,16 +10,26 @@ python3 ./config_lxde.py username
 """
 
 # ==============================================================================
+def is_rpi():
+    cmd = "uname -r"        # kernel-release
+    stream = os.popen(cmd)
+    output = stream.read()  # 6.6.31+rpt-rpi-v8
+
+    if "rpi" in output:
+        return True
+    else:
+        return False
+# ==============================================================================
+
+# ==============================================================================
 def set_home_dir():
     home_dir = ""
 
     if len(sys.argv) != 2:
         print("Please input username!")
     else:
-        # ~jungs
-        cmd = "~{}".format(sys.argv[1])
-        # /home/jungs
-        home_dir = os.path.expanduser(cmd)
+        cmd = "~{}".format(sys.argv[1])     # ~jungs
+        home_dir = os.path.expanduser(cmd)  # /home/jungs
 
     return home_dir
 # ==============================================================================
@@ -536,10 +546,17 @@ Plugin {
 }
 '''
 
-panel_path = "/core/linux/bin/de/lxde/panel";
+if is_rpi():
+    panel_path = "/core/linux/bin/de/lxde/panel-pi";
+else:
+    panel_path = "/core/linux/bin/de/lxde/panel";
 
 home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/lxpanel/LXDE/panels/panel"
+
+if is_rpi():
+    dst_path = f"{home_dir}/.config/lxpanel/LXDE-pi/panels/panel"
+else:
+    dst_path = f"{home_dir}/.config/lxpanel/LXDE/panels/panel"
 
 if not os.path.isfile(dst_path):
     f = open(dst_path, "w")
@@ -585,7 +602,10 @@ else:
 
 # 2) desktop icon settings =====================================================
 home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/pcmanfm/LXDE/desktop-items-0.conf"
+if is_rpi():
+    dst_path = f"{home_dir}/.config/pcmanfm/LXDE-pi/desktop-items-0.conf"
+else:
+    dst_path = f"{home_dir}/.config/pcmanfm/LXDE/desktop-items-0.conf"
 
 # documents : on ---------------------------------------------------------------
 old_str = "show_documents=0"
@@ -603,7 +623,10 @@ fix_settings(old_str, new_str, dst_path)
 
 # 3) icon theme settings =======================================================
 home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/lxsession/LXDE/desktop.conf"
+if is_rpi():
+    dst_path = f"{home_dir}/.config/lxsession/LXDE-pi/desktop.conf"
+else:
+    dst_path = f"{home_dir}/.config/lxsession/LXDE/desktop.conf"
 
 old_str = "sNet/IconThemeName=nuoveXT2"
 
@@ -642,19 +665,30 @@ text/plain=org.xfce.mousepad.desktop;
 # 5) lxde-rc settings ==========================================================
 # 5-1) mouse double_click_time settings ----------------------------------------
 home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
+if is_rpi():
+    dst_path = f"{home_dir}/.config/lxsession/LXDE-pi/desktop.conf"
 
-old_str = "<doubleClickTime>200</doubleClickTime>"
-new_str = "<doubleClickTime>750</doubleClickTime>"
+    old_str = "iNet/DoubleClickTime=200"
+    new_str = "iNet/DoubleClickTime=750"
 
-fix_settings(old_str, new_str, dst_path)
+    fix_settings(old_str, new_str, dst_path)
+else:
+    dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
+
+    old_str = "<doubleClickTime>200</doubleClickTime>"
+    new_str = "<doubleClickTime>750</doubleClickTime>"
+
+    fix_settings(old_str, new_str, dst_path)
 # ------------------------------------------------------------------------------
 
 # 5-2) lxde-hotkey settings ----------------------------------------------------
 lxde_rc_path = "/core/linux/bin/de/lxde/lxde-rc.xml";
 
 home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
+if is_rpi():
+    dst_path = f"{home_dir}/.config/openbox/lxde-pi-rc.xml"
+else:
+    dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
 
 if os.path.isfile(lxde_rc_path):
     # backup dst-file ----------------------------------------------------------
@@ -662,6 +696,10 @@ if os.path.isfile(lxde_rc_path):
         bk_path = get_bk_path(dst_path)
         shutil.copy2(dst_path, bk_path)
     # --------------------------------------------------------------------------
+    dst_dir = os.path.dirname(dst_path)
+    if not os.path.isdir(dst_dir):
+        os.makedirs(dst_dir)
+        
     shutil.copy2(lxde_rc_path, dst_path)
 else:
     ns = "{http://openbox.org/3.4/rc}"
