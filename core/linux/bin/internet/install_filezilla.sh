@@ -4,7 +4,7 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-# filezilla : x86_64, aarch64 ==================================================
+# filezilla : x86_64, i686, aarch64 ============================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed | grep -i ^filezilla) ]] || apt install -y filezilla;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then

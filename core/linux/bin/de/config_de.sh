@@ -26,6 +26,7 @@ CUR_DE=$(ls /usr/bin/*-session);
 # desktop environment ==========================================================
 if [[ *"${CUR_DE}" == *"openbox"* ]]; then                                          # lmde
     bash /core/linux/bin/de/install_skippy-xd.sh;
+    bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
     # bash /core/linux/bin/de/install_theme.sh;
     su - ${CUR_USER} -c "python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
 elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4

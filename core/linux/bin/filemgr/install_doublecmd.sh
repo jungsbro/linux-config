@@ -5,13 +5,15 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ==============================================================================
 
-# file-manager : x86_64, aarch64 ===============================================
+# file-manager : x86_64 ========================================================
 function install_dc_appimg()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
-    
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     local APP_NAME="doublecmd";
 
     local APP_IMG_DIR="/opt/${APP_NAME}";

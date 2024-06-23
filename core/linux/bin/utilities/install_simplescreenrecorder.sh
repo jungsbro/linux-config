@@ -4,7 +4,7 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-# simplescreenrecorder : x86_64, aarch64 =======================================
+# simplescreenrecorder : x86_64, i686, aarch64 =================================
 function install_ssr_rpm()
 {
     if [[ -n $(yum list installed | grep -i ^simplescreenrecorder) ]]; then

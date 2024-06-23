@@ -5,24 +5,24 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ==============================================================================
 
-# filesync : x86_64, aarch64 ===================================================
-# method 1) x86_64 -------------------------------------------------------------
+# filesync : x86_64 ============================================================
+# method 1) x86_64, i686 -------------------------------------------------------
 function install_freefilesync()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
-    
+
     local NAME="FreeFileSync";
-    local VER="13.6"
-    # FreeFileSync_13.6_Linux.tar.gz
+    local VER="13.7"
+    # FreeFileSync_13.7_Linux.tar.gz
     local FNAME="${NAME}_${VER}_Linux.tar.gz";
-    # https://freefilesync.org/download/FreeFileSync_13.6_Linux.tar.gz
+    # https://freefilesync.org/download/FreeFileSync_13.7_Linux.tar.gz
     local URL="https://freefilesync.org/download/${FNAME}";
     local TMP_DIR="/core/linux/src/${NAME}";
     local FFS_DIR="/opt/${NAME}";
     local TGZ_PATH="${TMP_DIR}/${FNAME}";
-    # /core/linux/src/FreeFileSync/FreeFileSync_13.6_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
     local EXEC_CMD="${TMP_DIR}/${NAME}_${VER}_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview";
 
     # /opt/FreeFileSync
@@ -39,7 +39,7 @@ function install_freefilesync()
     # tar -zxvf /core/linux/src/FreeFileSync/FreeFileSync_*_Linux.tar.gz -C /core/linux/src/FreeFileSync;
     tar -zxvf "${TGZ_PATH}" -C ${TMP_DIR};
 
-    # /core/linux/src/FreeFileSync/FreeFileSync_13.6_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
     ${EXEC_CMD};
 
     #rm -rf ${TMP_DIR};

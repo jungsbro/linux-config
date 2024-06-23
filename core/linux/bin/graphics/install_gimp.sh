@@ -11,7 +11,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 
 # gimp =========================================================================
-# method 1) x86_64, aarch64 ----------------------------------------------------
+# method 1) x86_64, i686, aarch64 ----------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed gimp | grep -i ^gimp) ]] || apt install -y gimp;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then

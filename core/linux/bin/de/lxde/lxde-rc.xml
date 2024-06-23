@@ -271,14 +271,11 @@
         <command>lxpanelctl run</command>
       </action>
   </keybind>
-
-<!--  
   <keybind key="A-F2">
       <action name="Execute">
           <command>lxpanelctl run</command>
       </action>
   </keybind>
-  -->
 
   <keybind key="C-Escape">
       <action name="Execute">
@@ -318,12 +315,6 @@
   <keybind key="W-Tab">
     <action name="Execute">
       <command>/usr/bin/skippy-xd</command>
-    </action>
-  </keybind>
-
-  <keybind key="A-F2">
-    <action name="Execute">
-      <command>/usr/bin/lxpanelctl menu</command>
     </action>
   </keybind>
 

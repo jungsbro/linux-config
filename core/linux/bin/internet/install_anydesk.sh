@@ -11,6 +11,9 @@ function install_anydesk_deb()
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     if [[ -n $(apt list --installed | grep -i ^anydesk) ]]; then
         return
     fi
@@ -22,6 +25,9 @@ function install_anydesk_deb()
 function install_anydesk_rpm1()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     if [[ -n $(yum list installed | grep -i ^anydesk) ]]; then
@@ -50,6 +56,9 @@ function install_anydesk_rpm1()
 function install_anydesk_rpm2()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     # repo error : not working!!!

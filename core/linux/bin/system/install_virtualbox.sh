@@ -11,6 +11,9 @@ function install_vbox_deb()
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     if [[ -n $(apt list --installed | grep -i ^virtualbox) ]]; then
         return
     fi
@@ -31,6 +34,9 @@ function install_vbox_deb()
 function install_vbox_ubu20()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     if [[ -n $(apt list --installed | grep -i ^virtualbox) ]]; then
@@ -65,6 +71,9 @@ function install_vbox_ubu20()
 function install_vbox_rpm()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     if [[ -n $(yum list installed | grep -i ^virtualbox) ]]; then

@@ -4,7 +4,7 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-# drawing : x86_64, aarch64 ====================================================
+# drawing : x86_64, i686, aarch64 ==============================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed | grep -i ^drawing) ]] || apt install -y drawing;
 elif [[ *"${CUR_VER}"* == *"centos"* ]]; then

@@ -4,7 +4,7 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-# firefox : x86_64, aarch64 ====================================================
+# firefox : x86_64, i686, aarch64 ==============================================
 if [[ *"${CUR_VER}"* == *"debian"* ]]; then
     [[ -n $(apt list --installed | grep -i ^firefox) ]] || apt install -y firefox-esr;
 elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then

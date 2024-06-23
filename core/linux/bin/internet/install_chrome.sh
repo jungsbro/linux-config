@@ -11,6 +11,9 @@ function install_chrome_deb()
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
         return
     fi
@@ -34,6 +37,9 @@ function install_chrome_deb()
 function install_chrome_rpm()
 {
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     if [[ -n $(yum list installed | grep -i ^google-chrome) ]]; then

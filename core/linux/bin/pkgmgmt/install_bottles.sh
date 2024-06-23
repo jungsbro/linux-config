@@ -11,7 +11,9 @@ function install_bottles()
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
-    
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh
     elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
