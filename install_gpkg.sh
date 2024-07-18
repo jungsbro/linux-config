@@ -55,9 +55,17 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 
 # snap =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
     echo "";
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_snap.sh;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    bash /core/linux/bin/pkgmgmt/install_snap.sh;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
@@ -79,7 +87,8 @@ function install_nvidia_deb()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     echo "";
     #install_nvidia_deb;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     echo "";
     #yum update;
     #yum install kernel-devel kernel-headers gcc make;
@@ -94,6 +103,9 @@ elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
 
     #/sbin/init 5
     #alt + ctrl + F7
+    
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    echo "";
 fi
 # ==============================================================================
 
@@ -110,7 +122,7 @@ bash /core/linux/bin/system/install_korean.sh;
 # ==============================================================================
 
 # bluelight ====================================================================
-bash /core/linux/bin/system/install_redshift.sh;
+bash /core/linux/bin/system/install_redshift.sh ${CUR_USER};
 # ==============================================================================
 
 # snapshot =====================================================================
@@ -132,13 +144,21 @@ bash /core/linux/bin/filemgr/install_doublecmd.sh;
 
 # web browser ==================================================================
 if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    # --------------------------------------------------------------------------
     bash /core/linux/bin/internet/install_chromium.sh;
+    # --------------------------------------------------------------------------
 elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    # --------------------------------------------------------------------------
     bash /core/linux/bin/internet/install_chromium.sh;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
     bash /core/linux/bin/internet/install_chromium.sh;
+    # --------------------------------------------------------------------------
 else
-    bash /core/linux/bin/internet/install_chrome.sh;
+    # --------------------------------------------------------------------------
+    bash /core/linux/bin/internet/install_google-chrome.sh;
+    # --------------------------------------------------------------------------
 fi
 
 bash /core/linux/bin/internet/install_firefox.sh;

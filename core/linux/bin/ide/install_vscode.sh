@@ -5,16 +5,19 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ==============================================================================
 
+
 # vscode =======================================================================
 # method 1) x86_64, aarch64 ----------------------------------------------------
-function install_vscode_deb()
+function install_vscode_for_deb()
 {
+    # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
     if [[ -n $(apt list --installed | grep -i ^code) ]]; then
         return
     fi
+    # --------------------------------------------------------------------------
 
     # method 1) ----------------------------------------------------------------
     apt install wget gpg
@@ -28,29 +31,62 @@ function install_vscode_deb()
     # --------------------------------------------------------------------------
 
     # method 2) ----------------------------------------------------------------
-    #apt install -y software-properties-common apt-transport-https curl;
-    #curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -;
-    #add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main";
-    #apt update;
-    #apt install -y code;
+    # apt install -y software-properties-common apt-transport-https curl;
+    # curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -;
+    # add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main";
+    # apt update;
+    # apt install -y code;
     # --------------------------------------------------------------------------
 }
 
+function install_vscode_for_rocky()
+{
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
+    if [[ -n $(dnf list installed | grep -i ^code) ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+    dnf check-update
+    dnf install -y code
+    # --------------------------------------------------------------------------
+}
+
+# ------------------------------------------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    install_vscode_deb;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    # --------------------------------------------------------------------------
+    install_vscode_for_deb;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^snapd) ]] || bash /core/linux/bin/pkgmgmt/install_snap.sh;
     [[ -n $(snap list | grep -i ^code) ]] || snap install code --classic;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    install_vscode_for_rocky;
+    # --------------------------------------------------------------------------
 fi
 # ------------------------------------------------------------------------------
 
 
 # method 2) x86_64, aarch64 ----------------------------------------------------
 # if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+#     # --------------------------------------------------------------------------
 #     [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-# elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+#     # --------------------------------------------------------------------------
+# elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+#     # --------------------------------------------------------------------------
 #     [[ -n $(yum list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+#     # --------------------------------------------------------------------------
 # fi
+#
 # [[ -n $(flatpak list --app | grep -i code) ]] || flatpak install -y flathub com.visualstudio.code;
 # ------------------------------------------------------------------------------
 # ==============================================================================

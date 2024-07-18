@@ -4,21 +4,39 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
+
 # remmina ======================================================================
 # method 1) x86_64, i686, aarch64 ----------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^remmina) ]] || yum install -y remmina;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^remmina) ]] || dnf install -y remmina;
+    # --------------------------------------------------------------------------
 fi
 # ------------------------------------------------------------------------------
 
 # method 2) x86_64, aarch64 ----------------------------------------------------
 # if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+#     # --------------------------------------------------------------------------
 #     [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-# elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-#     [[ -n $(yum list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+#     # --------------------------------------------------------------------------
+# elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+#     # --------------------------------------------------------------------------
+#     [[ -n $(yum list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+#     # --------------------------------------------------------------------------
+# elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+#     # --------------------------------------------------------------------------
+#     [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+#     # --------------------------------------------------------------------------
 # fi
 #
 # [[ -n $(flatpak list --app | grep -i remmina) ]] || flatpak install -y flathub org.remmina.Remmina;

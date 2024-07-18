@@ -4,20 +4,21 @@
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-# timeshift : x86_64, i686, aarch64 ============================================
+
+# xfce4-taskmanager : x86_64, aarch64 ===============================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^timeshift) ]] || apt install -y timeshift;
+    [[ -n $(apt list --installed | grep -i ^xfce4-taskmanager) ]] || apt install -y xfce4-taskmanager;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^timeshift) ]] || yum install -y timeshift;
+    [[ -n $(yum list installed | grep -i ^xfce4-taskmanager) ]] || yum install -y xfce4-taskmanager;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^timeshift) ]] || dnf install -y timeshift;
+    [[ -n $(dnf list installed | grep -i ^xfce4-taskmanager) ]] || dnf install -y xfce4-taskmanager;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

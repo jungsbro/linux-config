@@ -1,13 +1,26 @@
 #!/bin/bash
 
 # ==============================================================================
+# ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+NAME="virtualbox-7.0";
+
+# /core/linux/src/virtualbox-7.0
+TMP_DIR= "/core/linux/src/${NAME}";
+
+VER="7.0.18"
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
+
 # virtualbox : x86_64 ==========================================================
-function install_vbox_deb()
+function install_vbox_for_deb()
 {
+    # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
@@ -17,22 +30,30 @@ function install_vbox_deb()
     if [[ -n $(apt list --installed | grep -i ^virtualbox) ]]; then
         return
     fi
+    # --------------------------------------------------------------------------
     
+    # --------------------------------------------------------------------------
     local REPO_PATH="/etc/apt/sources.list";
     local REPO_CMD=$(cat ${REPO_PATH});
     local VBOX_REPO_CMD="deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian bullseye contrib";
+    # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # /etc/apt/sources.list
     if [[ -e ${REPO_PATH} ]] && [[ *"${REPO_CMD}"* != *"${VBOX_REPO_CMD}"* ]]; then
         echo "" >> ${REPO_PATH};
         echo "${VBOX_REPO_CMD}" >> ${REPO_PATH};
     fi
+    
     wget -O- "https://www.virtualbox.org/download/oracle_vbox_2016.asc" | gpg --yes --output "/usr/share/keyrings/oracle-virtualbox-2016.gpg" --dearmor;
     apt update;
     apt install -y virtualbox-7.0;
+    # --------------------------------------------------------------------------
 }
 
-function install_vbox_ubu20()
+function install_vbox_for_ubu20()
 {
+    # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
@@ -42,34 +63,45 @@ function install_vbox_ubu20()
     if [[ -n $(apt list --installed | grep -i ^virtualbox) ]]; then
         return
     fi
+    # --------------------------------------------------------------------------
 
-    local NAME="virtualbox-7.0";
-    local TMP_DIR= "/core/linux/src/${NAME}";
-    
-    local VER="7.0.18"
+    # --------------------------------------------------------------------------   
     # virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
     local FNAME1="${NAME}_${VER}-162988~Ubuntu~focal_amd64.deb";
+    
     # https://download.virtualbox.org/virtualbox/7.0.18/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
     local URL1="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
     
     # Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
     local FNAME2="Oracle_VM_VirtualBox_Extension_Pack-${VER}.vbox-extpack";
+    
     # https://download.virtualbox.org/virtualbox/7.0.18/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
     local URL2="https://download.virtualbox.org/virtualbox/${VER}/${FNAME2}";
-    
-       
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
     if [[ ! -e ${TMP_DIR}/${FNAME1} ]]; then
+        # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
         wget ${URL1} -O ${TMP_DIR}/${FNAME1};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
         wget ${URL2} -O ${TMP_DIR}/${FNAME2};
+        # ----------------------------------------------------------------------
     fi
 
+    # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
     apt install -y ${TMP_DIR}/${FNAME1};
+    # --------------------------------------------------------------------------
 }
 
-function install_vbox_rpm()
+function install_vbox_for_cent()
 {
+    # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
@@ -79,38 +111,109 @@ function install_vbox_rpm()
     if [[ -n $(yum list installed | grep -i ^virtualbox) ]]; then
         return
     fi
+    # --------------------------------------------------------------------------
 
-    local NAME="VirtualBox-7.0";
-    local TMP_DIR= "/core/linux/src/${NAME}";
-    
-    local VER="7.0.18"
+    # --------------------------------------------------------------------------    
     # VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
     local FNAME1="${NAME}-${VER}_162988_el7-1.x86_64.rpm";
+    
     # https://download.virtualbox.org/virtualbox/7.0.18/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
     local URL1="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
     
     # Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
     local FNAME2="Oracle_VM_VirtualBox_Extension_Pack-${VER}.vbox-extpack";
+    
     # https://download.virtualbox.org/virtualbox/7.0.18/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
     local URL2="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
-           
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
     if [[ ! -e ${TMP_DIR}/${FNAME1} ]]; then
+        # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
         wget ${URL1} -O ${TMP_DIR}/${FNAME1};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
         wget ${URL2} -O ${TMP_DIR}/${FNAME2};
+        # ----------------------------------------------------------------------
     fi
 
-    yum localinstall -y ${TMP_DIR}/${FNAME1};
+    # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+    yum install -y ${TMP_DIR}/${FNAME1};
+    # --------------------------------------------------------------------------
 }
 
+function install_vbox_for_rocky()
+{
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        return
+    fi
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
+    if [[ -n $(dnf list installed | grep -i ^virtualbox) ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------    
+    # VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+    local FNAME1="${NAME}-${VER}_162988_el7-1.x86_64.rpm";
+    
+    # https://download.virtualbox.org/virtualbox/7.0.18/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+    local URL1="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
+    
+    # Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
+    local FNAME2="Oracle_VM_VirtualBox_Extension_Pack-${VER}.vbox-extpack";
+    
+    # https://download.virtualbox.org/virtualbox/7.0.18/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
+    local URL2="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+    if [[ ! -e ${TMP_DIR}/${FNAME1} ]]; then
+        # ----------------------------------------------------------------------
+        mkdir -p ${TMP_DIR};
+        chmod 777 ${TMP_DIR};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+        wget ${URL1} -O ${TMP_DIR}/${FNAME1};
+        # ----------------------------------------------------------------------
+        # /core/linux/src/virtualbox-7.0/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
+        wget ${URL2} -O ${TMP_DIR}/${FNAME2};
+        # ----------------------------------------------------------------------
+    fi
+
+    # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
+    dnf install -y ${TMP_DIR}/${FNAME1};
+    # --------------------------------------------------------------------------
+}
+
+# ------------------------------------------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-   install_vbox_deb;
+    # --------------------------------------------------------------------------
+    install_vbox_for_deb;
+    # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-   install_vbox_ubu20;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
-   install_vbox_rpm;
+    # --------------------------------------------------------------------------
+    install_vbox_for_ubu20;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
+    install_vbox_for_cent;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    install_vbox_for_rocky;
+    # --------------------------------------------------------------------------
 fi
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 exit 0

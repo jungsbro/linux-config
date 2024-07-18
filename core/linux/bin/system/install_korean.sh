@@ -2,22 +2,68 @@
 
 # ==============================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_DE=$(ls /usr/bin/*-session);
 # ==============================================================================
 
 # korean =======================================================================
+function install_nanum_fonts()
+{
+    local NANUM_URL="http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip"
+    local NANUM_ZIP_PATH="/tmp/nanumfont.zip";
+    local NANUM_DST_DIR="/usr/share/fonts/nanum";
+    
+    # --------------------------------------------------------------------------
+    if [[ -d "${NANUM_DST_DIR}" ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+    
+    # --------------------------------------------------------------------------
+    curl ${NANUM_URL} -o ${NANUM_ZIP_PATH}
+    sudo unzip ${NANUM_ZIP_PATH} -d ${NANUM_DST_DIR}
+    rm -f ${NANUM_ZIP_PATH}
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    fc-cache -f -v
+    # --------------------------------------------------------------------------
+}
+
+# ------------------------------------------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed | grep -i ^fontconfig) ]] || apt install -y fontconfig;
-    
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
+    [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^fonts-nanum) ]] || apt install -y \
     fonts-nanum fonts-nanum-coding fonts-nanum-extra;
-    
-    [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
-elif [[ *"${CUR_VER}"* == *"centos"* ]]; then
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     [[ -n $(yum list installed | grep -i ^fontconfig) ]] || yum install -y fontconfig;
-    # yum search fonts | grep -i korean;
-    # yum install -y fonts-nanum*;
+    # --------------------------------------------------------------------------
+    [[ -n $(yum list installed | grep -i ^ibus-hangul) ]] || yum install -y ibus-hangul;
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_DE}" == *"xfce4"* ]] || [[ *"${CUR_DE}" == *"mate"* ]]; then
+        [[ -n $(yum list installed | grep -i ^im-chooser) ]] || yum install -y im-chooser;
+    fi
+    # --------------------------------------------------------------------------
+    install_nanum_fonts;
+    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    [[ -n $(dnf list installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^ibus-hangul) ]] || dnf install -y ibus-hangul;
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_DE}" == *"xfce4"* ]] || [[ *"${CUR_DE}" == *"mate"* ]]; then
+        [[ -n $(dnf list installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
+    fi
+    # --------------------------------------------------------------------------
+    install_nanum_fonts;
+    # --------------------------------------------------------------------------
 fi
-#fc-cache -f -v;
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 exit 0
