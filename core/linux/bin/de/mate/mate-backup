@@ -1,5 +1,5 @@
 [caja/window-state]
-geometry='639x636+34+44'
+geometry='639x636+1011+200'
 maximized=false
 start-with-sidebar=true
 start-with-status-bar=true
@@ -36,38 +36,55 @@ togglekeys-enable=false
 
 [desktop/background]
 color-shading-type='vertical-gradient'
-picture-filename='/usr/share/images/desktop-base/desktop-background'
-picture-options='zoom'
+picture-filename=''
+picture-options='wallpaper'
 primary-color='rgb(88,145,188)'
 secondary-color='rgb(60,143,37)'
 
 [desktop/interface]
-icon-theme='Adwaita'
+gtk-decoration-layout='menu:minimize,maximize,close'
+gtk-theme='Menta'
+icon-theme='menta'
 menus-have-icons=true
 
 [desktop/keybindings/custom0]
 action='/usr/bin/skippy-xd'
 binding='<Mod4>Tab'
-name='expose'
+name='Expose'
+
+[desktop/keybindings/custom1]
+action='/usr/bin/gnome-system-monitor'
+binding='<Primary><Shift>Escape'
+name='System-monitor'
+
+[desktop/keybindings/custom2]
+action='/usr/bin/mate-control-center'
+binding='<Mod4>i'
+name='System Settings'
 
 [desktop/peripherals/keyboard]
 numlock-state='on'
 
 [desktop/peripherals/mouse]
-cursor-size=32
-cursor-theme='Adwaita'
+cursor-size=24
+cursor-theme='mate-black'
 
 [desktop/session]
-session-start=1718632105
+session-start=1721358970
 
 [marco/general]
-theme='ClearlooksRe'
+action-double-click-titlebar='toggle_maximize'
+button-layout='menu:minimize,maximize,close'
+mouse-button-modifier='<Super>'
+theme='Menta'
 
 [marco/global-keybindings]
 panel-main-menu='<Primary>Escape'
+run-command-terminal='<Primary><Alt>t'
 show-desktop='<Mod4>d'
 
 [marco/window-keybindings]
+maximize='<Mod4>Up'
 move-to-side-e='<Mod4>KP_4'
 move-to-side-n='<Mod4>KP_8'
 move-to-side-s='<Mod4>KP_2'
@@ -76,27 +93,46 @@ tile-to-corner-ne='<Mod4>KP_9'
 tile-to-corner-nw='<Mod4>KP_7'
 tile-to-corner-se='<Mod4>KP_3'
 tile-to-corner-sw='<Mod4>KP_1'
+tile-to-side-e='<Mod4>Right'
+tile-to-side-w='<Mod4>Left'
+unmaximize='<Mod4>Down'
 
 [notification-daemon]
-popup-location='top_right'
+popup-location='bottom_right'
 theme='standard'
 
 [panel/general]
-history-mate-run=['kolourpaint ', 'pluma', 'kolourpaint', 'caja', 'doublecmd', 'gimp', 'mate-system-monitor']
-object-id-list=['menu-bar', 'notification-area', 'clock', 'show-desktop', 'window-list', 'workspace-switcher']
-toplevel-id-list=['top', 'bottom']
+history-mate-run=['gimp', 'mate-system-monitor']
+object-id-list=['notification-area', 'clock', 'object-0', 'object-1', 'object-3', 'object-4', 'object-6', 'object-7', 'object-2', 'object-8']
+toplevel-id-list=['top']
 
 [panel/objects/clock]
 applet-iid='ClockAppletFactory::ClockApplet'
 locked=true
 object-type='applet'
+panel-right-stick=true
 position=0
 relative-to-edge='end'
 toplevel-id='top'
 
 [panel/objects/clock/prefs]
+cities=['<location name="" city="Seoul" timezone="Asia/Seoul" latitude="37.549999" longitude="126.800003" code="RKSS" current="true"/>']
 custom-format=''
 format='12-hour'
+
+[panel/objects/email-client]
+launcher-location='/usr/share/applications/thunderbird.desktop'
+locked=true
+object-type='launcher'
+position=40
+toplevel-id='top'
+
+[panel/objects/file-browser]
+launcher-location='/usr/share/applications/caja-browser.desktop'
+locked=true
+object-type='launcher'
+position=10
+toplevel-id='top'
 
 [panel/objects/menu-bar]
 locked=true
@@ -108,14 +144,23 @@ toplevel-id='top'
 applet-iid='NotificationAreaAppletFactory::NotificationArea'
 locked=true
 object-type='applet'
+panel-right-stick=true
 position=10
 relative-to-edge='end'
 toplevel-id='top'
 
+[panel/objects/object-0]
+object-type='menu'
+position=0
+tooltip='Compact Menu'
+toplevel-id='top'
+use-menu-path=false
+
 [panel/objects/object-1]
+applet-iid='InhibitAppletFactory::InhibitApplet'
 launcher-location='mate-calculator.desktop'
-object-type='launcher'
-position=130
+object-type='applet'
+position=156
 toplevel-id='top'
 
 [panel/objects/object-10]
@@ -143,10 +188,24 @@ object-type='launcher'
 position=323
 toplevel-id='top'
 
+[panel/objects/object-2]
+action-type='run'
+object-type='action'
+panel-right-stick=false
+position=78
+toplevel-id='top'
+
+[panel/objects/object-3]
+applet-iid='TrashAppletFactory::TrashApplet'
+object-type='applet'
+position=195
+toplevel-id='top'
+
 [panel/objects/object-4]
+applet-iid='WnckletFactory::WindowListApplet'
 launcher-location='google-chrome-stable.desktop'
-object-type='launcher'
-position=85
+object-type='applet'
+position=266
 toplevel-id='top'
 
 [panel/objects/object-5]
@@ -155,12 +214,53 @@ object-type='launcher'
 position=124
 toplevel-id='top'
 
+[panel/objects/object-6]
+launcher-location='/usr/share/applications/matecc.desktop'
+object-type='launcher'
+position=227
+toplevel-id='top'
+
+[panel/objects/object-7]
+launcher-location='/usr/share/applications/mate-terminal.desktop'
+object-type='launcher'
+position=117
+toplevel-id='top'
+
+[panel/objects/object-8]
+action-type='search'
+object-type='action'
+panel-right-stick=false
+position=39
+toplevel-id='top'
+
 [panel/objects/show-desktop]
 applet-iid='WnckletFactory::ShowDesktopApplet'
 locked=true
 object-type='applet'
 position=0
 toplevel-id='bottom'
+
+[panel/objects/terminal]
+launcher-location='/usr/share/applications/mate-terminal.desktop'
+locked=true
+object-type='launcher'
+position=20
+toplevel-id='top'
+
+[panel/objects/volume-control]
+applet-iid='GvcAppletFactory::GvcApplet'
+locked=true
+object-type='applet'
+panel-right-stick=true
+position=20
+toplevel-id='top'
+
+[panel/objects/web-browser]
+launcher-location='/usr/share/applications/firefox.desktop'
+locked=true
+object-type='launcher'
+position=30
+toplevel-id='top'
 
 [panel/objects/window-list]
 applet-iid='WnckletFactory::WindowListApplet'
@@ -173,6 +273,7 @@ toplevel-id='bottom'
 applet-iid='WnckletFactory::WorkspaceSwitcherApplet'
 locked=true
 object-type='applet'
+panel-right-stick=true
 position=0
 relative-to-edge='end'
 toplevel-id='bottom'
@@ -182,14 +283,16 @@ expand=true
 orientation='bottom'
 screen=0
 size=24
-y=743
+y=1055
 y-bottom=0
 
 [panel/toplevels/top]
 expand=true
-orientation='top'
+orientation='bottom'
 screen=0
-size=24
+size=39
+y=1040
+y-bottom=0
 
 [pluma]
 background-pattern='grid'
@@ -217,7 +320,7 @@ include-border=true
 include-pointer=true
 
 [search-tool]
-default-window-height=357
+default-window-height=361
 default-window-maximized=false
 default-window-width=554
 look-in-folder='/home/jungs'
@@ -226,7 +329,7 @@ look-in-folder='/home/jungs'
 contains-the-text=true
 
 [settings-daemon/plugins/media-keys]
-home='disabled'
+home='<Mod4>e'
 power='disabled'
 search='<Mod4>f'
 
@@ -251,5 +354,7 @@ background-color='#000000000000'
 bold-color='#000000000000'
 foreground-color='#AAAAAAAAAAAA'
 palette='#2E2E34343636:#CCCC00000000:#4E4E9A9A0606:#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC'
+title='Mate Terminal'
+title-mode='ignore'
 use-theme-colors=false
 visible-name='Default'
