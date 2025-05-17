@@ -200,6 +200,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
     # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
+    # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -213,6 +215,8 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^glances) ]] || yum install -y glances;
     # --------------------------------------------------------------------------
+    [[ -n $(yum list installed | grep -i ^powertop) ]] || yum install -y powertop;
+    # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -225,6 +229,8 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;    
     [[ -n $(dnf list installed | grep -i ^glances) ]] || dnf install -y glances;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^powertop) ]] || dnf install -y powertop;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
