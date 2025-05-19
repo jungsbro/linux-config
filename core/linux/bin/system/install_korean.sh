@@ -34,8 +34,14 @@ function install_nanum_fonts()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     [[ -n $(apt list --installed | grep -i ^fontconfig) ]] || apt install -y fontconfig;
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
-    [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
+    if [[ *"${CUR_VER}"* == *"ID=MX"* ]] || [[ *"${CUR_VER}"* == *"antix"* ]]; then
+        echo "mxlinux and anix needs to use package installer"
+        # [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
+        # [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n fcitx;
+    else
+        [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
+        [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
+    fi
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^fonts-nanum) ]] || apt install -y \
     fonts-nanum fonts-nanum-coding fonts-nanum-extra;

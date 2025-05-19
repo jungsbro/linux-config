@@ -31,17 +31,22 @@ function install_de_pkg()
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
-        # bash /core/linux/bin/utilities/install_galculator.sh;
-        # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
-        bash /core/linux/bin/utilities/install_mate-calc.sh;
-        bash /core/linux/bin/ide/install_mousepad.sh;
-        bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
-        bash /core/linux/bin/system/install_xscreensaver.sh;
-        # ----------------------------------------------------------------------
-        bash /core/linux/bin/system/install_skippy-xd.sh;
-        # ----------------------------------------------------------------------
-        bash /core/linux/bin/system/install_theme.sh;
-        # ----------------------------------------------------------------------
+        if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
+            bash /core/linux/bin/system/install_skippy-xd.sh;
+            bash /core/linux/bin/system/install_xscreensaver.sh;            
+        else
+            # bash /core/linux/bin/utilities/install_galculator.sh;
+            # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
+            bash /core/linux/bin/utilities/install_mate-calc.sh;
+            bash /core/linux/bin/ide/install_mousepad.sh;
+            bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
+            bash /core/linux/bin/system/install_xscreensaver.sh;
+            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_skippy-xd.sh;
+            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_theme.sh;
+            # ------------------------------------------------------------------        
+        fi
     elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_gnome-system-monitor.sh;
