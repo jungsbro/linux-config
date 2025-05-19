@@ -33,7 +33,7 @@ function install_de_pkg()
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
             bash /core/linux/bin/system/install_skippy-xd.sh;
-            bash /core/linux/bin/system/install_xscreensaver.sh;            
+            # bash /core/linux/bin/system/install_xscreensaver.sh;            
         else
             # bash /core/linux/bin/utilities/install_galculator.sh;
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;

@@ -274,14 +274,18 @@ def set_shortcuts():
         "commands/custom/<Alt>F1" : {"name":"<Primary>Escape", "type":"string", "value":"xfce4-popup-applicationsmenu"},
         # ----------------------------------------------------------------------
 
-        # screensaver : ctrl+alt+l >> win+l ------------------------------------
-        "commands/custom/<Primary><Alt>l" : {"name":"<Super>l", "type":"string", "value":"xscreensaver"},
-        # ----------------------------------------------------------------------
-
         # taskmanager : ctrl+shift+esc (for mxlinux) ---------------------------
         "commands/custom/<Primary><Shift>Escape" : {"name":"<Primary><Shift>Escape", "type":"string", "value":"xfce4-taskmanager"},
         # ----------------------------------------------------------------------
     }
+
+    # screensaver : ctrl+alt+l >> win+l ----------------------------------------
+    if is_mxlinux:
+        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --activate"}
+        # prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --lock"}
+    else:
+        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver -lock"}
+    # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
 # ==============================================================================
@@ -408,12 +412,65 @@ def set_default_app():
 # ==============================================================================
 
 
+# ==============================================================================
+def set_desktop():
+    home_dir = set_home_dir()
+    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+
+    prop_dict = \
+    {
+        # desktop icon size:32 -------------------------------------------------
+        "desktop-icons/icon-size" : {"name":"icon-size", "type":"unit", "value":"32"},
+        # ----------------------------------------------------------------------
+        
+        # show home in desktop -------------------------------------------------
+        "desktop-icons/show-home" : {"name":"show-home", "type":"bool", "value":"true"},
+        # ----------------------------------------------------------------------
+
+        # show filesystem in desktop -------------------------------------------
+        "desktop-icons/show-filesystem" : {"name":"show-filesystem", "type":"bool", "value":"true"},
+        # ----------------------------------------------------------------------
+        
+        # show trash in desktop ------------------------------------------------
+        "desktop-icons/show-trash" : {"name":"show-trash", "type":"bool", "value":"true"},
+        # ----------------------------------------------------------------------
+        
+        # show removable in desktop ------------------------------------------------
+        "desktop-icons/show-removable" : {"name":"show-removable", "type":"bool", "value":"true"},
+        # ----------------------------------------------------------------------
+        
+        # single_click:off (double_click:on) -----------------------------------
+        "desktop-icons/single-click" : {"name":"single-click", "type":"bool", "value":"false"},
+        # ----------------------------------------------------------------------
+    }
+
+    config_settings(prop_dict, dst_path)
+# ==============================================================================
+
+
+# ==============================================================================
+def set_thunar():
+    home_dir = set_home_dir()
+    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+
+    prop_dict = \
+    {
+        # single_click:off (double_click:on) -----------------------------------
+        "misc-single-click" : {"name":"misc-single-click", "type":"bool", "value":"false"},
+        # ----------------------------------------------------------------------
+    }
+
+    config_settings(prop_dict, dst_path)
+# ==============================================================================
+
 if __name__ == "__main__":
 
     if is_mxlinux:
         set_shortcuts()
         set_workspace()
         set_panel_clock()
+        set_desktop()
+        set_thunar()
     else:
         set_shortcuts()
         set_workspace()
@@ -421,3 +478,5 @@ if __name__ == "__main__":
         #  set_panel()
         set_theme()
         set_default_app()
+        # set_desktop()
+        # set_thunar()

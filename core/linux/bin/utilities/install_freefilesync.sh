@@ -19,12 +19,12 @@ function install_freefilesync()
     # --------------------------------------------------------------------------
     local NAME="FreeFileSync";
     
-    local VER="13.7"
+    local VER="14.3"
     
-    # FreeFileSync_13.7_Linux.tar.gz
+    # FreeFileSync_14.3_Linux.tar.gz
     local FNAME="${NAME}_${VER}_Linux.tar.gz";
     
-    # https://freefilesync.org/download/FreeFileSync_13.7_Linux.tar.gz
+    # https://freefilesync.org/download/FreeFileSync_14.3_Linux.tar.gz
     local URL="https://freefilesync.org/download/${FNAME}";
     
     # /core/linux/src/FreeFileSync
@@ -33,7 +33,7 @@ function install_freefilesync()
     # /opt/FreeFileSync
     local FFS_DIR="/opt/${NAME}";
     
-    # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Linux.tar.gz
+    # /core/linux/src/FreeFileSync/FreeFileSync_14.3_Linux.tar.gz
     local TGZ_PATH="${TMP_DIR}/${FNAME}";
     
     # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
@@ -46,14 +46,14 @@ function install_freefilesync()
         return
     fi
 
-    # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Linux.tar.gz
+    # /core/linux/src/FreeFileSync/FreeFileSync_14.3_Linux.tar.gz
     if [[ ! -e "${TGZ_PATH}" ]]; then
         # ----------------------------------------------------------------------
         # /core/linux/src/FreeFileSync
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         # ----------------------------------------------------------------------
-        # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Linux.tar.gz
+        # /core/linux/src/FreeFileSync/FreeFileSync_14.3_Linux.tar.gz
         wget "${URL}" -O "${TGZ_PATH}";
         # ----------------------------------------------------------------------
     fi
@@ -63,7 +63,7 @@ function install_freefilesync()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    # /core/linux/src/FreeFileSync/FreeFileSync_14.3_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
     ${EXEC_CMD};
 
     #rm -rf ${TMP_DIR};
