@@ -241,11 +241,20 @@ def check_xsettings(dst_path):
 # 1) xfce4-shortcuts settings ==================================================
 def set_shortcuts():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    if not os.path.isfile(dst_path): return
 
     prop_dict = \
     {
+        # maximize windows : alt+f10 (for mxlinx) ------------------------------
+        "xfwm4/custom/<Alt>F10" : {"name":"<Alt>F10", "type":"string", "value":"maximize_window_key"},
+        # ----------------------------------------------------------------------
+
         # window tile :  win+up / win+down / win+left / win+right --------------
-        "xfwm4/custom/<Super>KP_Up" : {"name":"<Super>Up", "type":"string", "value":"tile_up_key"},
+        # ......................................................................
+        # "xfwm4/custom/<Super>KP_Up" : {"name":"<Super>Up", "type":"string", "value":"tile_up_key"},        
+        "xfwm4/custom/<Super>KP_Up" : {"name":"", "type":"string", "value":"tile_up_key"},
+        "xfwm4/custom/<Super>KP_Up" : {"name":"<Super>Up", "type":"string", "value":"fill_window_key"},
+        # ......................................................................
         "xfwm4/custom/<Super>KP_Down" : {"name":"<Super>Down", "type":"string", "value":"tile_down_key"},
         "xfwm4/custom/<Super>KP_Left" : {"name":"<Super>Left", "type":"string", "value":"tile_left_key"},
         "xfwm4/custom/<Super>KP_Right" : {"name":"<Super>Right", "type":"string", "value":"tile_right_key"},
@@ -253,10 +262,6 @@ def set_shortcuts():
 
         # show desktop : ctrl+alt+d >> wind+d ----------------------------------
         "xfwm4/custom/<Primary><Alt>d" : {"name":"<Super>d", "type":"string", "value":"show_desktop_key"},
-        # ----------------------------------------------------------------------
-
-        # maximize windows : alt+f10 (for mxlinx) ------------------------------
-        "xfwm4/custom/<Alt>F10" : {"name":"<Alt>F10", "type":"string", "value":"maximize_window_key"},
         # ----------------------------------------------------------------------
 
         # expose : win+tab -----------------------------------------------------
@@ -304,6 +309,7 @@ def set_shortcuts():
 # 2) wockspace-scroll / workspace-count settings ===============================
 def set_workspace():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    if not os.path.isfile(dst_path): return
 
     prop_dict = \
     {
@@ -323,6 +329,7 @@ def set_workspace():
 # 3) panel settings ============================================================
 def set_panel_clock():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    if not os.path.isfile(dst_path): return
 
     if IS_MXLINUX:
         prop_dict = \
@@ -364,6 +371,7 @@ def set_panel(): # not used
 
     dst_dir = f"{HOME_DIR}/.config/xfce4/panel"
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    if not os.path.isfile(dst_path): return    
 
     if os.path.isdir(xfce4_panel_dir) and os.path.isfile(xfce4_panel_path):
         # xfce4_panel_dir ------------------------------------------------------
@@ -391,6 +399,7 @@ def set_panel(): # not used
 # 4) theme settings ============================================================
 def set_theme():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+    if not os.path.isfile(dst_path): return
 
     check_xsettings(dst_path)
 
@@ -408,7 +417,7 @@ def set_theme():
 # 5) default applications settings =============================================
 def set_default_app():
     dst_path = f"{HOME_DIR}/.config/xfce4/helpers.rc"
-
+    
     if not os.path.isfile(dst_path):
         data = "TerminalEmulator=xfce4-terminal"
         f = open(dst_path, "w")
@@ -420,6 +429,7 @@ def set_default_app():
 # ==============================================================================
 def set_desktop():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+    if not os.path.isfile(dst_path): return
 
     prop_dict = \
     {
@@ -455,6 +465,7 @@ def set_desktop():
 # ==============================================================================
 def set_thunar():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+    if not os.path.isfile(dst_path): return    
 
     prop_dict = \
     {

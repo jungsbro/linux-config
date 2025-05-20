@@ -58,6 +58,22 @@ function install_vscode_for_rocky()
     # --------------------------------------------------------------------------
 }
 
+function fix_vscode()
+{
+    old_str="/usr/share/code/code"
+    new_str="/usr/bin/code"
+
+    tmp_path="./code.desktop"
+    dst_path="/usr/share/applications/code.desktop"
+
+    grep "${old_str}" "${dst_path}" > /dev/null
+
+    if [[ ${?} == 0 ]]; then
+        sed "s|${old_str}|${new_str}|g" ${dst_path} > ${tmp_path}
+        mv -f ${tmp_path} ${dst_path}
+    fi
+}
+
 # ------------------------------------------------------------------------------
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
@@ -73,6 +89,8 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     install_vscode_for_rocky;
     # --------------------------------------------------------------------------
 fi
+
+fix_vscode;
 # ------------------------------------------------------------------------------
 
 
