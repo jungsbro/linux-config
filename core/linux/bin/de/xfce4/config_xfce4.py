@@ -8,16 +8,17 @@ import xml.etree.ElementTree as ET
 # python3 ./config_xfce4.py username
 # ==============================================================================
 
-# ==============================================================================
+# env ==========================================================================
+# IS_MXLINUX -------------------------------------------------------------------
 result = os.popen("cat /etc/*-release").read()
 
 if "ID=MX" in result:   # for mxlinux
-    is_mxlinux = True
+    IS_MXLINUX = True
 else:
-    is_mxlinux = False
-# ==============================================================================
+    IS_MXLINUX = False
+# ------------------------------------------------------------------------------
 
-
+# HOME_DIR ---------------------------------------------------------------------
 def set_home_dir():
     home_dir = ""
 
@@ -30,7 +31,11 @@ def set_home_dir():
         home_dir = os.path.expanduser(cmd)
 
     return home_dir
+
+HOME_DIR = set_home_dir()
 # ------------------------------------------------------------------------------
+# ==============================================================================
+
 
 def get_child_elem(parent_elem, child_attrib_name):
     for child_elem in parent_elem:
@@ -235,8 +240,7 @@ def check_xsettings(dst_path):
 
 # 1) xfce4-shortcuts settings ==================================================
 def set_shortcuts():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
 
     prop_dict = \
     {
@@ -280,11 +284,17 @@ def set_shortcuts():
     }
 
     # screensaver : ctrl+alt+l >> win+l ----------------------------------------
-    if is_mxlinux:
+    if IS_MXLINUX:
         prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --activate"}
         # prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --lock"}
     else:
-        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver -lock"}
+        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver-command -lock"}
+    # --------------------------------------------------------------------------
+
+    # terminal dropdown : f4 >> off --------------------------------------------
+    if IS_MXLINUX:
+        #       <property name="F4" type="string" value="xfce4-terminal --drop-down"/>
+        prop_dict["commands/custom/F4"] = {"name":"", "type":"string", "value":"xfce4-terminal --drop-down"}
     # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
@@ -293,8 +303,7 @@ def set_shortcuts():
 
 # 2) wockspace-scroll / workspace-count settings ===============================
 def set_workspace():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
 
     prop_dict = \
     {
@@ -313,10 +322,9 @@ def set_workspace():
 
 # 3) panel settings ============================================================
 def set_panel_clock():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 
-    if is_mxlinux:
+    if IS_MXLINUX:
         prop_dict = \
         {
             # digital layout ---------------------------------------------------
@@ -354,9 +362,8 @@ def set_panel(): # not used
     xfce4_panel_dir = "/core/linux/bin/de/xfce4/panel";
     xfce4_panel_path = "/core/linux/bin/de/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml";
 
-    home_dir = set_home_dir()
-    dst_dir = f"{home_dir}/.config/xfce4/panel"
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    dst_dir = f"{HOME_DIR}/.config/xfce4/panel"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 
     if os.path.isdir(xfce4_panel_dir) and os.path.isfile(xfce4_panel_path):
         # xfce4_panel_dir ------------------------------------------------------
@@ -383,8 +390,7 @@ def set_panel(): # not used
 
 # 4) theme settings ============================================================
 def set_theme():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
 
     check_xsettings(dst_path)
 
@@ -401,8 +407,7 @@ def set_theme():
 
 # 5) default applications settings =============================================
 def set_default_app():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/helpers.rc"
+    dst_path = f"{HOME_DIR}/.config/xfce4/helpers.rc"
 
     if not os.path.isfile(dst_path):
         data = "TerminalEmulator=xfce4-terminal"
@@ -414,15 +419,14 @@ def set_default_app():
 
 # ==============================================================================
 def set_desktop():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
 
     prop_dict = \
     {
         # desktop icon size:32 -------------------------------------------------
         "desktop-icons/icon-size" : {"name":"icon-size", "type":"unit", "value":"32"},
         # ----------------------------------------------------------------------
-        
+
         # show home in desktop -------------------------------------------------
         "desktop-icons/show-home" : {"name":"show-home", "type":"bool", "value":"true"},
         # ----------------------------------------------------------------------
@@ -430,15 +434,15 @@ def set_desktop():
         # show filesystem in desktop -------------------------------------------
         "desktop-icons/show-filesystem" : {"name":"show-filesystem", "type":"bool", "value":"true"},
         # ----------------------------------------------------------------------
-        
+
         # show trash in desktop ------------------------------------------------
         "desktop-icons/show-trash" : {"name":"show-trash", "type":"bool", "value":"true"},
         # ----------------------------------------------------------------------
-        
+
         # show removable in desktop ------------------------------------------------
         "desktop-icons/show-removable" : {"name":"show-removable", "type":"bool", "value":"true"},
         # ----------------------------------------------------------------------
-        
+
         # single_click:off (double_click:on) -----------------------------------
         "desktop-icons/single-click" : {"name":"single-click", "type":"bool", "value":"false"},
         # ----------------------------------------------------------------------
@@ -450,8 +454,7 @@ def set_desktop():
 
 # ==============================================================================
 def set_thunar():
-    home_dir = set_home_dir()
-    dst_path = f"{home_dir}/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
+    dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
 
     prop_dict = \
     {
@@ -464,19 +467,14 @@ def set_thunar():
 # ==============================================================================
 
 if __name__ == "__main__":
+    set_shortcuts()
+    set_workspace()
+    set_panel_clock()
 
-    if is_mxlinux:
-        set_shortcuts()
-        set_workspace()
-        set_panel_clock()
+    if IS_MXLINUX:
         set_desktop()
         set_thunar()
     else:
-        set_shortcuts()
-        set_workspace()
-        set_panel_clock()
         #  set_panel()
         set_theme()
         set_default_app()
-        # set_desktop()
-        # set_thunar()
