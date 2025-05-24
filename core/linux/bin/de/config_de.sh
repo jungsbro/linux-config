@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# usage ========================================================================
-# sudo bash ./config_de.sh jungs;
+# desktop environment ==========================================================
+# bash /core/linux/bin/de/config_de.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -29,11 +29,12 @@ function install_de_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
             bash /core/linux/bin/system/install_skippy-xd.sh;
-            # bash /core/linux/bin/system/install_xscreensaver.sh;            
+            bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
         else
             # bash /core/linux/bin/utilities/install_galculator.sh;
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
@@ -43,10 +44,12 @@ function install_de_pkg()
             bash /core/linux/bin/system/install_xscreensaver.sh;
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_skippy-xd.sh;
+            bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_theme.sh;
             # ------------------------------------------------------------------        
         fi
+        
     elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_gnome-system-monitor.sh;
@@ -57,12 +60,14 @@ function install_de_pkg()
         bash /core/linux/bin/de/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" != *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
         bash /core/linux/bin/de/install_gnome-tweaks.sh;
         # bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
@@ -85,22 +90,26 @@ function config_de()
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "python3 /core/linux/bin/de/xfce4/config_xfce4.py ${CUR_USER}";
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/de/mate/mate-backup ]] && \
         dbus-launch dconf load /org/mate/ < /core/linux/bin/de/mate/mate-backup";
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" != *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/de/gnome/gnome-backup ]] && \
         dbus-run-session dconf load /org/gnome/ < /core/linux/bin/de/gnome/gnome-backup";
         # ----------------------------------------------------------------------
+        
     elif [[ *"${CUR_DE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \

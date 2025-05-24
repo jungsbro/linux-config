@@ -3,15 +3,37 @@ import sys
 import shutil
 import xml.etree.ElementTree as ET
 
-"""
-# usage ========================================================================
-python3 ./config_lxde.py username
+# config_lxde ==================================================================
+# python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}
 # ==============================================================================
-"""
 
-# ==============================================================================
+# env ==========================================================================
+# CUR_USER ---------------------------------------------------------------------
+# CUR_USER = "{}".format(sys.argv[1])
+CUR_USER = f"{sys.argv[1]}"
+# ------------------------------------------------------------------------------
+
+# HOME_DIR ---------------------------------------------------------------------
+def set_home_dir():
+    home_dir = ""
+
+    if len(sys.argv) != 2:
+        print("Please input username!")
+    else:
+        # ~jungs
+        cmd = f"~{CUR_USER}"
+
+        # /home/jungs
+        home_dir = os.path.expanduser(cmd)
+
+    return home_dir
+
+HOME_DIR = set_home_dir()
+# ------------------------------------------------------------------------------
+
+# IS_RPI------------------------------------------------------------------------
 def is_rpi():
-    cmd = "uname -r"        # kernel-release
+    cmd = "uname -r"        # -r : kernel-release
     stream = os.popen(cmd)
     output = stream.read()  # 6.6.31+rpt-rpi-v8
 
@@ -19,20 +41,9 @@ def is_rpi():
         return True
     else:
         return False
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
-# ==============================================================================
-def set_home_dir():
-    home_dir = ""
-
-    if len(sys.argv) != 2:
-        print("Please input username!")
-    else:
-        cmd = "~{}".format(sys.argv[1])     # ~jungs
-        home_dir = os.path.expanduser(cmd)  # /home/jungs
-
-    return home_dir
-# ==============================================================================
 
 # ==============================================================================
 def get_child_elem(parent_elem, child_tag, child_attrib):
@@ -140,7 +151,7 @@ def fix_settings(old_str, new_str, dst_path):
 # ==============================================================================
 
 # ==============================================================================
-def config_hotkey(dst_path):
+def config_hotkey(ns, dst_path):
     if not os.path.isfile(dst_path): return
 
     elem_tree = ET.parse(dst_path)
@@ -398,9 +409,10 @@ def config_hotkey(dst_path):
 
 
 
-
 # 1) panel-height / panel-style / panel-clock settings =========================
-data='''# lxpanel <profile> config file. Manually editing is not recommended.
+def set_panel():
+    # data ---------------------------------------------------------------------
+    data='''# lxpanel <profile> config file. Manually editing is not recommended.
 # Use preference dialog in lxpanel to adjust config when you can.
 
 Global {
@@ -545,165 +557,187 @@ Plugin {
   }
 }
 '''
-
-if is_rpi():
-    panel_path = "/core/linux/bin/de/lxde/panel-pi";
-else:
-    panel_path = "/core/linux/bin/de/lxde/panel";
-
-home_dir = set_home_dir()
-
-if is_rpi():
-    dst_path = f"{home_dir}/.config/lxpanel/LXDE-pi/panels/panel"
-else:
-    dst_path = f"{home_dir}/.config/lxpanel/LXDE/panels/panel"
-
-if not os.path.isfile(dst_path):
-    f = open(dst_path, "w")
-    f.write(data)
-    f.close()
-
-if os.path.isfile(panel_path):
-    # backup dst-file ----------------------------------------------------------
-    if os.path.isfile(dst_path):
-        bk_path = get_bk_path(dst_path)
-        shutil.copy2(dst_path, bk_path)
     # --------------------------------------------------------------------------
 
-    shutil.copy2(panel_path, dst_path)
-else:
-    # panel-height -------------------------------------------------------------
-    old_str = "height=26"
-    new_str = "height=40"
-    fix_settings(old_str, new_str, dst_path)
+    # --------------------------------------------------------------------------
+    if is_rpi():
+        panel_path = "/core/linux/bin/de/lxde/panel-pi";
+        dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE-pi/panels/panel"
+    else:
+        panel_path = "/core/linux/bin/de/lxde/panel";
+        dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE/panels/panel"
+
+    if not os.path.isfile(dst_path):
+        f = open(dst_path, "w")
+        f.write(data)
+        f.close()
     # --------------------------------------------------------------------------
 
-    # panel-style --------------------------------------------------------------
-    old_str = "background=1"
-    new_str = "background=0"
-    fix_settings(old_str, new_str, dst_path)
-    # --------------------------------------------------------------------------
+    if os.path.isfile(panel_path):
+        # backup dst-file ------------------------------------------------------
+        if os.path.isfile(dst_path):
+            bk_path = get_bk_path(dst_path)
+            shutil.copy2(dst_path, bk_path)
+        # ----------------------------------------------------------------------
 
-    # panel-fontcolor ----------------------------------------------------------
-    # old_str = "fontcolor=#000000"
-    # new_str = "fontcolor=#ffffff"
-    old_str = "usefontcolor=1"
-    new_str = "usefontcolor=0"
-    fix_settings(old_str, new_str, dst_path)
-    # --------------------------------------------------------------------------
+        shutil.copy2(panel_path, dst_path)
+    else:
+        # panel-height ---------------------------------------------------------
+        old_str = "height=26"
+        new_str = "height=40"
+        fix_settings(old_str, new_str, dst_path)
+        # ----------------------------------------------------------------------
 
-    # panel-clock --------------------------------------------------------------
-    old_str = "ClockFmt=%R"
-    new_str = "ClockFmt=     %p %I:%M\\n%y-%m-%d (%a)"
-    fix_settings(old_str, new_str, dst_path)
-    # --------------------------------------------------------------------------
+        # panel-style ----------------------------------------------------------
+        old_str = "background=1"
+        new_str = "background=0"
+        fix_settings(old_str, new_str, dst_path)
+        # ----------------------------------------------------------------------
+
+        # panel-fontcolor ------------------------------------------------------
+        # old_str = "fontcolor=#000000"
+        # new_str = "fontcolor=#ffffff"
+        old_str = "usefontcolor=1"
+        new_str = "usefontcolor=0"
+        fix_settings(old_str, new_str, dst_path)
+        # ----------------------------------------------------------------------
+
+        # panel-clock ----------------------------------------------------------
+        old_str = "ClockFmt=%R"
+        new_str = "ClockFmt=     %p %I:%M\\n%y-%m-%d (%a)"
+        fix_settings(old_str, new_str, dst_path)
+        # ----------------------------------------------------------------------
 # ==============================================================================
 
 
 # 2) desktop icon settings =====================================================
-home_dir = set_home_dir()
-if is_rpi():
-    dst_path = f"{home_dir}/.config/pcmanfm/LXDE-pi/desktop-items-0.conf"
-else:
-    dst_path = f"{home_dir}/.config/pcmanfm/LXDE/desktop-items-0.conf"
+def set_desktop_icons():
+    # --------------------------------------------------------------------------
+    if is_rpi():
+        dst_path = f"{HOME_DIR}/.config/pcmanfm/LXDE-pi/desktop-items-0.conf"
+    else:
+        dst_path = f"{HOME_DIR}/.config/pcmanfm/LXDE/desktop-items-0.conf"
+    if not os.path.isfile(dst_path): return
+    # --------------------------------------------------------------------------
 
-# documents : on ---------------------------------------------------------------
-old_str = "show_documents=0"
-new_str = "show_documents=1"
-fix_settings(old_str, new_str, dst_path)
-# ------------------------------------------------------------------------------
+    # documents : on -----------------------------------------------------------
+    old_str = "show_documents=0"
+    new_str = "show_documents=1"
+    fix_settings(old_str, new_str, dst_path)
+    # --------------------------------------------------------------------------
 
-# mounts : on ------------------------------------------------------------------
-old_str = "show_mounts=0"
-new_str = "show_mounts=1"
-fix_settings(old_str, new_str, dst_path)
-# ------------------------------------------------------------------------------
+    # mounts : on --------------------------------------------------------------
+    old_str = "show_mounts=0"
+    new_str = "show_mounts=1"
+    fix_settings(old_str, new_str, dst_path)
+    # --------------------------------------------------------------------------
 # ==============================================================================
 
 
 # 3) icon theme settings =======================================================
-home_dir = set_home_dir()
-if is_rpi():
-    dst_path = f"{home_dir}/.config/lxsession/LXDE-pi/desktop.conf"
-else:
-    dst_path = f"{home_dir}/.config/lxsession/LXDE/desktop.conf"
+def set_theme():
+    # --------------------------------------------------------------------------
+    if is_rpi():
+        dst_path = f"{HOME_DIR}/.config/lxsession/LXDE-pi/desktop.conf"
+    else:
+        dst_path = f"{HOME_DIR}/.config/lxsession/LXDE/desktop.conf"
+    if not os.path.isfile(dst_path): return
+    # --------------------------------------------------------------------------
 
-old_str = "sNet/IconThemeName=nuoveXT2"
+    # --------------------------------------------------------------------------
+    old_str = "sNet/IconThemeName=nuoveXT2"
 
-if os.path.isdir("/usr/share/icons/Papirus"):
-    new_str = "sNet/IconThemeName=Papirus"
-elif os.path.isdir("/usr/share/icons/Adwaita"):
-    new_str = "sNet/IconThemeName=Adwaita"
-else:
-    new_str = old_str
+    if os.path.isdir("/usr/share/icons/Papirus"):
+        new_str = "sNet/IconThemeName=Papirus"
+    elif os.path.isdir("/usr/share/icons/Adwaita"):
+        new_str = "sNet/IconThemeName=Adwaita"
+    else:
+        new_str = old_str
+    # --------------------------------------------------------------------------
 
-fix_settings(old_str, new_str, dst_path)
+    fix_settings(old_str, new_str, dst_path)
 # ==============================================================================
 
 
 # 4) defualt textEditor(mousepad) settings =====================================
-home_dir = set_home_dir()
-dst_path = f"{home_dir}/.config/mimeapps.list"
+def set_text_editor():
+    dst_path = f"{HOME_DIR}/.config/mimeapps.list"
 
-if not os.path.isfile(dst_path):
-    data = '''[Default Applications]
+    # --------------------------------------------------------------------------
+    if not os.path.isfile(dst_path):
+        data = '''[Default Applications]
 text/plain=org.xfce.mousepad.desktop
 
 [Added Associations]
 text/plain=org.xfce.mousepad.desktop;
 '''
-
-    f = open(dst_path, "w")
-    f.write(data)
-    f.close()
-# else:
-#     bk_path = get_bk_path(dst_path)
-#     shutil.copy2(dst_path, bk_path
+        f = open(dst_path, "w")
+        f.write(data)
+        f.close()
+    # else:
+    #     bk_path = get_bk_path(dst_path)
+    #     shutil.copy2(dst_path, bk_path
+    # --------------------------------------------------------------------------
 # ==============================================================================
 
 
 # 5) lxde-rc settings ==========================================================
-# 5-1) mouse double_click_time settings ----------------------------------------
-home_dir = set_home_dir()
-if is_rpi():
-    dst_path = f"{home_dir}/.config/lxsession/LXDE-pi/desktop.conf"
+def set_mouse_double_click():
+    if is_rpi():
+        dst_path = f"{HOME_DIR}/.config/lxsession/LXDE-pi/desktop.conf"
+        if not os.path.isfile(dst_path): return
 
-    old_str = "iNet/DoubleClickTime=200"
-    new_str = "iNet/DoubleClickTime=750"
+        old_str = "iNet/DoubleClickTime=200"
+        new_str = "iNet/DoubleClickTime=750"
 
-    fix_settings(old_str, new_str, dst_path)
-else:
-    dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
+    else:
+        dst_path = f"{HOME_DIR}/.config/openbox/lxde-rc.xml"
+        if not os.path.isfile(dst_path): return
 
-    old_str = "<doubleClickTime>200</doubleClickTime>"
-    new_str = "<doubleClickTime>750</doubleClickTime>"
+        old_str = "<doubleClickTime>200</doubleClickTime>"
+        new_str = "<doubleClickTime>750</doubleClickTime>"
 
     fix_settings(old_str, new_str, dst_path)
 # ------------------------------------------------------------------------------
 
-# 5-2) lxde-hotkey settings ----------------------------------------------------
-lxde_rc_path = "/core/linux/bin/de/lxde/lxde-rc.xml";
-
-home_dir = set_home_dir()
-if is_rpi():
-    dst_path = f"{home_dir}/.config/openbox/lxde-pi-rc.xml"
-else:
-    dst_path = f"{home_dir}/.config/openbox/lxde-rc.xml"
-
-if os.path.isfile(lxde_rc_path):
-    # backup dst-file ----------------------------------------------------------
-    if os.path.isfile(dst_path):
-        bk_path = get_bk_path(dst_path)
-        shutil.copy2(dst_path, bk_path)
+def set_shortcuts():
     # --------------------------------------------------------------------------
-    dst_dir = os.path.dirname(dst_path)
-    if not os.path.isdir(dst_dir):
-        os.makedirs(dst_dir)
-        
-    shutil.copy2(lxde_rc_path, dst_path)
-else:
-    ns = "{http://openbox.org/3.4/rc}"
+    lxde_rc_path = "/core/linux/bin/de/lxde/lxde-rc.xml";
 
-    config_hotkey(dst_path)
+    if is_rpi():
+        dst_path = f"{HOME_DIR}/.config/openbox/lxde-pi-rc.xml"
+    else:
+        dst_path = f"{HOME_DIR}/.config/openbox/lxde-rc.xml"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if os.path.isfile(lxde_rc_path):
+        # backup dst-file ------------------------------------------------------
+        if os.path.isfile(dst_path):
+            bk_path = get_bk_path(dst_path)
+            shutil.copy2(dst_path, bk_path)
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        dst_dir = os.path.dirname(dst_path)
+        if not os.path.isdir(dst_dir):
+            os.makedirs(dst_dir)
+
+        shutil.copy2(lxde_rc_path, dst_path)
+        # ----------------------------------------------------------------------
+    else:
+        ns = "{http://openbox.org/3.4/rc}"
+
+        config_hotkey(ns, dst_path)
+    # --------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 # ==============================================================================
+
+
+if __name__ == "__main__":
+    set_panel()
+    set_desktop_icons()
+    set_theme()
+    set_text_editor()
+    set_mouse_double_click()
+    set_shortcuts()

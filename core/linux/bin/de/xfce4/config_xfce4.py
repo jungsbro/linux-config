@@ -4,18 +4,14 @@ import shutil
 import xml.etree.ElementTree as ET
 
 
-# usage ========================================================================
-# python3 ./config_xfce4.py username
+# config_xfce4 =================================================================
+# python3 /core/linux/bin/de/xfce4/config_xfce4.py ${CUR_USER}
 # ==============================================================================
 
 # env ==========================================================================
-# IS_MXLINUX -------------------------------------------------------------------
-result = os.popen("cat /etc/*-release").read()
-
-if "ID=MX" in result:   # for mxlinux
-    IS_MXLINUX = True
-else:
-    IS_MXLINUX = False
+# CUR_USER ---------------------------------------------------------------------
+# CUR_USER = "{}".format(sys.argv[1])
+CUR_USER = f"{sys.argv[1]}"
 # ------------------------------------------------------------------------------
 
 # HOME_DIR ---------------------------------------------------------------------
@@ -26,13 +22,24 @@ def set_home_dir():
         print("Please input username!")
     else:
         # ~jungs
-        cmd = "~{}".format(sys.argv[1])
+        cmd = f"~{CUR_USER}"
+
         # /home/jungs
         home_dir = os.path.expanduser(cmd)
 
     return home_dir
 
 HOME_DIR = set_home_dir()
+# ------------------------------------------------------------------------------
+
+# IS_MXLINUX -------------------------------------------------------------------
+cmd = "cat /etc/*-release"
+result = os.popen(cmd).read()
+
+if "ID=MX" in result:   # for mxlinux
+    IS_MXLINUX = True
+else:
+    IS_MXLINUX = False
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -154,34 +161,47 @@ def config_settings(prop_dict, dst_path):
         # 1) get elements ------------------------------------------------------
         elem_list = get_family_elem_list(root_elem, name_path)
         # print(elem_list)
+
         if len(elem_list) == 1:
             parent_elem = root_elem
         else:
             parent_elem = elem_list[-2]
         son_elem = elem_list[-1]
+        # ----------------------------------------------------------------------
 
-        # 2) fix elements-------------------------------------------------------
+        # 2) append elements / delete elements / fix elements ------------------
+        # {"name":"<Super>Down", "type":"string", "value":"tile_down_key"}
         cur_dict = prop_dict[name_path]
-        # print(cur_dict)
 
-        if son_elem == None:            # append elem
+        if son_elem == None:            # append son elem (new elem)
+            if cur_dict["name"] == "": continue
+
             son_elem = ET.SubElement(parent_elem, "property")
             son_elem.attrib = cur_dict
-        elif cur_dict["name"] == "":    # delete elem
+            # print("append", cur_dict)
+
+        elif cur_dict["name"] == "":    # delete son elem
             parent_elem.remove(son_elem)
-        else:                           # fix elem attrib
+            # print("delete", cur_dict)
+
+        else:                           # fix son elem attrib
             son_elem.attrib = cur_dict
+            # print("fix", cur_dict)
+        # ----------------------------------------------------------------------
 
     # 3) check results ---------------------------------------------------------
     indent(root_elem)
     # ET.dump(root_elem)
+    # --------------------------------------------------------------------------
 
     # 4) backup dst-file -------------------------------------------------------
     bk_path = get_bk_path(dst_path)
     shutil.copy2(dst_path, bk_path)
+    # --------------------------------------------------------------------------
 
     # 5) apply results ---------------------------------------------------------
     elem_tree.write(dst_path, encoding="utf-8", xml_declaration=True)
+    # --------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
 def check_xsettings(dst_path):
@@ -243,60 +263,109 @@ def set_shortcuts():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
     if not os.path.isfile(dst_path): return
 
-    prop_dict = \
-    {
-        # maximize windows : alt+f10 (for mxlinx) ------------------------------
-        "xfwm4/custom/<Alt>F10" : {"name":"<Alt>F10", "type":"string", "value":"maximize_window_key"},
-        # ----------------------------------------------------------------------
+    prop_dict = {}
 
-        # window tile :  win+up / win+down / win+left / win+right --------------
-        # ......................................................................
-        # "xfwm4/custom/<Super>KP_Up" : {"name":"<Super>Up", "type":"string", "value":"tile_up_key"},        
-        "xfwm4/custom/<Super>KP_Up" : {"name":"", "type":"string", "value":"tile_up_key"},
-        "xfwm4/custom/<Super>KP_Up" : {"name":"<Super>Up", "type":"string", "value":"fill_window_key"},
-        # ......................................................................
-        "xfwm4/custom/<Super>KP_Down" : {"name":"<Super>Down", "type":"string", "value":"tile_down_key"},
-        "xfwm4/custom/<Super>KP_Left" : {"name":"<Super>Left", "type":"string", "value":"tile_left_key"},
-        "xfwm4/custom/<Super>KP_Right" : {"name":"<Super>Right", "type":"string", "value":"tile_right_key"},
-        # ----------------------------------------------------------------------
+    # window tile --------------------------------------------------------------
+    tog_fs_path = "/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
 
-        # show desktop : ctrl+alt+d >> wind+d ----------------------------------
-        "xfwm4/custom/<Primary><Alt>d" : {"name":"<Super>d", "type":"string", "value":"show_desktop_key"},
-        # ----------------------------------------------------------------------
+    # win+keypad_up >> win+up
+    prop_dict["xfwm4/custom/<Super>KP_Up"] = {"name":"", "type":"string", "value":"tile_up_key"}
+    prop_dict["xfwm4/custom/<Super>Up"] = {"name":"", "type":"string", "value":"tile_up_key"}
 
-        # expose : win+tab -----------------------------------------------------
-        "xfwm4/custom/<Super>Tab" : {"name":"", "type":"string", "value":"switch_window_key"},
-        "commands/custom/<Super>Tab" : {"name":"<Super>Tab", "type":"string", "value":"/usr/bin/skippy-xd"},
-        # ----------------------------------------------------------------------
-
-        # settings : win+i -----------------------------------------------------
-        "commands/custom/<Super>i" : {"name":"<Super>i", "type":"string", "value":"xfce4-settings-manager"},
-        # ----------------------------------------------------------------------
-
-        # spotlight : alt+f2 >> ctrl+space / alt+f3 >> alt+f2 ------------------
-        "commands/custom/<Alt>F2" : {"name":"<Primary>space", "type":"string", "value":"xfce4-appfinder --collapsed"},
-        "commands/custom/<Alt>F3" : {"name":"<Alt>F2", "type":"string", "value":"xfce4-appfinder"},
-        # ----------------------------------------------------------------------
-
-        # appmenu : ctrl+esc >> removed / alt+f1 >> ctrl+esc -------------------
-        "commands/custom/<Primary>Escape" : {"name":"", "type":"string", "value":"xfdesktop --menu"},
-        "commands/custom/<Alt>F1" : {"name":"<Primary>Escape", "type":"string", "value":"xfce4-popup-applicationsmenu"},
-        # ----------------------------------------------------------------------
-
-        # taskmanager : ctrl+shift+esc (for mxlinux) ---------------------------
-        "commands/custom/<Primary><Shift>Escape" : {"name":"<Primary><Shift>Escape", "type":"string", "value":"xfce4-taskmanager"},
-        # ----------------------------------------------------------------------
-    }
-
-    # screensaver : ctrl+alt+l >> win+l ----------------------------------------
-    if IS_MXLINUX:
-        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --activate"}
-        # prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --lock"}
+    if os.path.isfile(tog_fs_path):
+        prop_dict["commands/custom/<Super>KP_Up"] = {"name":"<Super>Up", "type":"string", "value":f"{tog_fs_path}"}
     else:
-        prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver-command -lock"}
+        prop_dict["xfwm4/custom/<Super>Up"] = {"name":"<Super>Up", "type":"string", "value":"tile_up_key"}
     # --------------------------------------------------------------------------
 
-    # terminal dropdown : f4 >> off --------------------------------------------
+    # window tile --------------------------------------------------------------
+    # win+keypad_down >> win+down
+    prop_dict["xfwm4/custom/<Super>KP_Down"] = {"name":"", "type":"string", "value":"tile_down_key"}
+    prop_dict["xfwm4/custom/<Super>Down"] = {"name":"", "type":"string", "value":"tile_down_key"}
+    prop_dict["xfwm4/custom/<Super>Down"] = {"name":"<Super>Down", "type":"string", "value":"tile_down_key"}
+
+    # win+keypad_left >> win+left
+    prop_dict["xfwm4/custom/<Super>KP_Left"] = {"name":"", "type":"string", "value":"tile_left_key"}
+    prop_dict["xfwm4/custom/<Super>Left"] = {"name":"", "type":"string", "value":"tile_left_key"}
+    prop_dict["xfwm4/custom/<Super>Left"] = {"name":"<Super>Left", "type":"string", "value":"tile_left_key"}
+
+    # win+keypad_right >> win+right
+    prop_dict["xfwm4/custom/<Super>KP_Right"] = {"name":"", "type":"string", "value":"tile_right_key"}
+    prop_dict["xfwm4/custom/<Super>Right"] = {"name":"", "type":"string", "value":"tile_right_key"}
+    prop_dict["xfwm4/custom/<Super>Right"] = {"name":"<Super>Right", "type":"string", "value":"tile_right_key"}
+    # --------------------------------------------------------------------------
+
+    # fill window --------------------------------------------------------------
+    # shift+win+up
+    prop_dict["xfwm4/custom/<Shift><Super>Up"] = {"name":"", "type":"string", "value":"fill_window_key"}
+    prop_dict["xfwm4/custom/<Shift><Super>Up"] = {"name":"<Shift><Super>Up", "type":"string", "value":"fill_window_key"}
+    # --------------------------------------------------------------------------
+
+    # maximize window ----------------------------------------------------------
+    # alt+f10 (for mxlinux)
+    prop_dict["xfwm4/custom/<Alt>F10"] = {"name":"", "type":"string", "value":"maximize_window_key"}
+    prop_dict["xfwm4/custom/<Alt>F10"] = {"name":"<Alt>F10", "type":"string", "value":"maximize_window_key"}
+    # --------------------------------------------------------------------------
+
+    # show desktop -------------------------------------------------------------
+    # ctrl+alt+d >> win+d
+    prop_dict["xfwm4/custom/<Primary><Alt>d"] = {"name":"", "type":"string", "value":"show_desktop_key"}
+    prop_dict["xfwm4/custom/<Super>d"] = {"name":"", "type":"string", "value":"show_desktop_key"}
+    prop_dict["xfwm4/custom/<Super>d"] = {"name":"<Super>d", "type":"string", "value":"show_desktop_key"}
+    # --------------------------------------------------------------------------
+
+    # expose -------------------------------------------------------------------
+    # win+tab
+    prop_dict["xfwm4/custom/<Super>Tab"] = {"name":"", "type":"string", "value":"switch_window_key"}
+    prop_dict["commands/custom/<Super>Tab"] = {"name":"<Super>Tab", "type":"string", "value":"/usr/bin/skippy-xd"}
+    # --------------------------------------------------------------------------
+
+    # settings -----------------------------------------------------------------
+    # win+i
+    prop_dict["commands/custom/<Super>i"] = {"name":"", "type":"string", "value":"xfce4-settings-manager"}
+    prop_dict["commands/custom/<Super>i"] = {"name":"<Super>i", "type":"string", "value":"xfce4-settings-manager"}
+    # --------------------------------------------------------------------------
+
+    # spotlight ----------------------------------------------------------------
+    # alt+f2 >> ctrl+space
+    prop_dict["commands/custom/<Alt>F2"] = {"name":"", "type":"string", "value":"xfce4-appfinder"}
+    prop_dict["commands/custom/<Primary>space"] = {"name":"", "type":"string", "value":"xfce4-appfinder"}
+    prop_dict["commands/custom/<Primary>space"] = {"name":"<Primary>space", "type":"string", "value":"xfce4-appfinder"}
+    # prop_dict["commands/custom/<Alt>F2"] = {"name":"<Primary>space", "type":"string", "value":"xfce4-appfinder --collapsed"}
+
+    # alt+f3 >> alt+f2
+    prop_dict["commands/custom/<Alt>F3"] = {"name":"", "type":"string", "value":"xfce4-appfinder"}
+    prop_dict["commands/custom/<Alt>F2"] = {"name":"", "type":"string", "value":"xfce4-appfinder"}
+    prop_dict["commands/custom/<Alt>F2"] = {"name":"<Alt>F2", "type":"string", "value":"xfce4-appfinder"}
+    # --------------------------------------------------------------------------
+
+    # appmenu ------------------------------------------------------------------
+    # alt+f1 >> ctrl+esc
+    prop_dict["commands/custom/<Alt>F1"] = {"name":"", "type":"string", "value":"xfce4-popup-applicationsmenu"}
+    prop_dict["commands/custom/<Primary>Escape"] = {"name":"", "type":"string", "value":"xfdesktop --menu"}
+    prop_dict["commands/custom/<Primary>Escape"] = {"name":"<Primary>Escape", "type":"string", "value":"xfce4-popup-applicationsmenu"}
+    # --------------------------------------------------------------------------
+
+    # taskmanager --------------------------------------------------------------
+    # ctrl+shift+esc (for mxlinux)
+    prop_dict["commands/custom/<Primary><Shift>Escape"] = {"name":"", "type":"string", "value":"xfce4-taskmanager"}
+    prop_dict["commands/custom/<Primary><Shift>Escape"] = {"name":"<Primary><Shift>Escape", "type":"string", "value":"xfce4-taskmanager"}
+    # --------------------------------------------------------------------------
+
+    # screensaver --------------------------------------------------------------
+    # ctrl+alt+l >> win+l
+    prop_dict["commands/custom/<Primary><Alt>l"] = {"name":"", "type":"string", "value":"xflock4"}
+    prop_dict["commands/custom/<Super>l"] = {"name":"", "type":"string", "value":""}
+
+    if IS_MXLINUX:
+        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --activate"}
+        # prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --lock"}
+    else:
+        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver-command -lock"}
+    # --------------------------------------------------------------------------
+
+    # terminal dropdown --------------------------------------------------------
+    # f4 >> removed
     if IS_MXLINUX:
         #       <property name="F4" type="string" value="xfce4-terminal --drop-down"/>
         prop_dict["commands/custom/F4"] = {"name":"", "type":"string", "value":"xfce4-terminal --drop-down"}
@@ -311,16 +380,15 @@ def set_workspace():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
     if not os.path.isfile(dst_path): return
 
-    prop_dict = \
-    {
-        # scroll workspace : off -----------------------------------------------
-        "general/scroll_workspaces" : {"name":"scroll_workspaces", "type":"bool", "value":"false"},
-        # ----------------------------------------------------------------------
+    prop_dict = {}
 
-        # workspace count : 2 --------------------------------------------------
-        "general/workspace_count" : {"name":"workspace_count", "type":"int", "value":"2"},
-        # ----------------------------------------------------------------------
-    }
+    # scroll workspace : off ---------------------------------------------------
+    prop_dict["general/scroll_workspaces"] = {"name":"scroll_workspaces", "type":"bool", "value":"false"}
+    # --------------------------------------------------------------------------
+
+    # workspace count : 2 ------------------------------------------------------
+    prop_dict["general/workspace_count"] = {"name":"workspace_count", "type":"int", "value":"2"}
+    # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
 # ==============================================================================
@@ -331,47 +399,35 @@ def set_panel_clock():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
     if not os.path.isfile(dst_path): return
 
+    prop_dict = {}
+
     if IS_MXLINUX:
-        prop_dict = \
-        {
-            # digital layout ---------------------------------------------------
-            "plugins/plugin-1/digital-layout" : {"name":"digital-layout", "type":"uint", "value":"1"},
-            # ------------------------------------------------------------------
-
-            # date : 25-12-12 --------------------------------------------------
-            "plugins/plugin-1/digital-date-format" : {"name":"digital-date-format", "type":"string", "value":"%y-%m-%d (%a)"},
-            # ------------------------------------------------------------------
-
-            # time : 12:00:AM --------------------------------------------------
-            "plugins/plugin-1/digital-time-format" : {"name":"digital-time-format", "type":"string", "value":"%I:%M %p"},
-            # ------------------------------------------------------------------
-        }
+        sel_plugin = "plugin-1"
     else:
-        prop_dict = \
-        {
-            # digital layout ---------------------------------------------------
-            "plugins/plugin-12/digital-layout" : {"name":"digital-layout", "type":"uint", "value":"1"},
-            # ------------------------------------------------------------------
+        sel_plugin = "plugin-12"
 
-            # date : 25-12-12 --------------------------------------------------
-            "plugins/plugin-12/digital-date-format" : {"name":"digital-date-format", "type":"string", "value":"%y-%m-%d (%a)"},
-            # ------------------------------------------------------------------
+    # digital layout -----------------------------------------------------------
+    prop_dict[f"plugins/{sel_plugin}/digital-layout"] = {"name":"digital-layout", "type":"uint", "value":"1"}
+    # --------------------------------------------------------------------------
 
-            # time : 12:00:AM --------------------------------------------------
-            "plugins/plugin-12/digital-time-format" : {"name":"digital-time-format", "type":"string", "value":"%I:%M %p"},
-            # ------------------------------------------------------------------
-        }
+    # date : 25-12-12 ----------------------------------------------------------
+    prop_dict[f"plugins/{sel_plugin}/digital-date-format"] = {"name":"digital-date-format", "type":"string", "value":"%y-%m-%d (%a)"}
+    # --------------------------------------------------------------------------
+
+    # time : 12:00:AM ----------------------------------------------------------
+    prop_dict[f"plugins/{sel_plugin}/digital-time-format"] = {"name":"digital-time-format", "type":"string", "value":"%I:%M %p"}
+    # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
 # ------------------------------------------------------------------------------
 
 def set_panel(): # not used
-    xfce4_panel_dir = "/core/linux/bin/de/xfce4/panel";
-    xfce4_panel_path = "/core/linux/bin/de/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml";
+    xfce4_panel_dir = "/core/linux/bin/de/xfce4/panel"
+    xfce4_panel_path = "/core/linux/bin/de/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 
     dst_dir = f"{HOME_DIR}/.config/xfce4/panel"
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
-    if not os.path.isfile(dst_path): return    
+    if not os.path.isfile(dst_path): return
 
     if os.path.isdir(xfce4_panel_dir) and os.path.isfile(xfce4_panel_path):
         # xfce4_panel_dir ------------------------------------------------------
@@ -403,12 +459,14 @@ def set_theme():
 
     check_xsettings(dst_path)
 
+    prop_dict = {}
+
     if os.path.isdir("/usr/share/icons/Papirus"):
-        prop_dict = {"Net/IconThemeName" : {"name":"IconThemeName", "type":"string", "value":"Papirus"}}
+        prop_dict["Net/IconThemeName"] = {"name":"IconThemeName", "type":"string", "value":"Papirus"}
     elif os.path.isdir("/usr/share/icons/Adwaita"):
-        prop_dict = {"Net/IconThemeName" : {"name":"IconThemeName", "type":"string", "value":"Adwaita"}}
+        prop_dict["Net/IconThemeName"] = {"name":"IconThemeName", "type":"string", "value":"Adwaita"}
     else:
-        prop_dict = {"Net/IconThemeName" : {"name":"IconThemeName", "type":"string", "value":"Tango"}}
+        prop_dict["Net/IconThemeName"] = {"name":"IconThemeName", "type":"string", "value":"Tango"}
 
     config_settings(prop_dict, dst_path)
 # ==============================================================================
@@ -417,7 +475,7 @@ def set_theme():
 # 5) default applications settings =============================================
 def set_default_app():
     dst_path = f"{HOME_DIR}/.config/xfce4/helpers.rc"
-    
+
     if not os.path.isfile(dst_path):
         data = "TerminalEmulator=xfce4-terminal"
         f = open(dst_path, "w")
@@ -431,32 +489,31 @@ def set_desktop():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml"
     if not os.path.isfile(dst_path): return
 
-    prop_dict = \
-    {
-        # desktop icon size:32 -------------------------------------------------
-        "desktop-icons/icon-size" : {"name":"icon-size", "type":"unit", "value":"32"},
-        # ----------------------------------------------------------------------
+    prop_dict = {}
 
-        # show home in desktop -------------------------------------------------
-        "desktop-icons/show-home" : {"name":"show-home", "type":"bool", "value":"true"},
-        # ----------------------------------------------------------------------
+    # desktop icon size:32 -----------------------------------------------------
+    prop_dict["desktop-icons/icon-size"] = {"name":"icon-size", "type":"unit", "value":"32"}
+    # --------------------------------------------------------------------------
 
-        # show filesystem in desktop -------------------------------------------
-        "desktop-icons/show-filesystem" : {"name":"show-filesystem", "type":"bool", "value":"true"},
-        # ----------------------------------------------------------------------
+    # show home in desktop:on --------------------------------------------------
+    prop_dict["desktop-icons/show-home"] = {"name":"show-home", "type":"bool", "value":"true"}
+    # --------------------------------------------------------------------------
 
-        # show trash in desktop ------------------------------------------------
-        "desktop-icons/show-trash" : {"name":"show-trash", "type":"bool", "value":"true"},
-        # ----------------------------------------------------------------------
+    # show filesystem in desktop:on --------------------------------------------
+    prop_dict["desktop-icons/show-filesystem"] = {"name":"show-filesystem", "type":"bool", "value":"true"}
+    # --------------------------------------------------------------------------
 
-        # show removable in desktop ------------------------------------------------
-        "desktop-icons/show-removable" : {"name":"show-removable", "type":"bool", "value":"true"},
-        # ----------------------------------------------------------------------
+    # show trash in desktop:on -------------------------------------------------
+    prop_dict["desktop-icons/show-trash"] = {"name":"show-trash", "type":"bool", "value":"true"}
+    # --------------------------------------------------------------------------
 
-        # single_click:off (double_click:on) -----------------------------------
-        "desktop-icons/single-click" : {"name":"single-click", "type":"bool", "value":"false"},
-        # ----------------------------------------------------------------------
-    }
+    # show removable in desktop:on ---------------------------------------------
+    prop_dict["desktop-icons/show-removable"] = {"name":"show-removable", "type":"bool", "value":"true"}
+    # --------------------------------------------------------------------------
+
+    # single_click:off (double_click:on) ---------------------------------------
+    prop_dict["desktop-icons/single-click"] = {"name":"single-click", "type":"bool", "value":"false"}
+    # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
 # ==============================================================================
@@ -465,14 +522,13 @@ def set_desktop():
 # ==============================================================================
 def set_thunar():
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml"
-    if not os.path.isfile(dst_path): return    
+    if not os.path.isfile(dst_path): return
 
-    prop_dict = \
-    {
-        # single_click:off (double_click:on) -----------------------------------
-        "misc-single-click" : {"name":"misc-single-click", "type":"bool", "value":"false"},
-        # ----------------------------------------------------------------------
-    }
+    prop_dict = {}
+
+    # single_click:off (double_click:on) ---------------------------------------
+    prop_dict["misc-single-click"] = {"name":"misc-single-click", "type":"bool", "value":"false"}
+    # --------------------------------------------------------------------------
 
     config_settings(prop_dict, dst_path)
 # ==============================================================================
@@ -486,6 +542,5 @@ if __name__ == "__main__":
         set_desktop()
         set_thunar()
     else:
-        #  set_panel()
         set_theme()
         set_default_app()

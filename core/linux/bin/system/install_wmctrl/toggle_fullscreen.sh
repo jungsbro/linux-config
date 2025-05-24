@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# toggle_tile_fullscreen.sh ====================================================
+# bash /core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh;
+# ==============================================================================
+
+WINDOW_ID=$(xdotool getactivewindow)
+STATE=$(xprop -id $WINDOW_ID | grep "_NET_WM_STATE_FULLSCREEN")
+
+# ..............................................................................
+# 키 입력 감지용 변수
+KEY_FILE="/tmp/xfce_key_toggle"
+CURRENT_TIME=$(date +%s)
+
+
+# 이전 입력 시간 확인
+if [ -f "$KEY_FILE" ]; then
+    LAST_TIME=$(cat "$KEY_FILE")
+else
+    LAST_TIME=0
+fi
+# ..............................................................................
+
+# ..............................................................................
+# 화면 크기 가져오기
+SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f1)
+SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f2)
+
+# 창 크기 설정 (화면 너비 유지, 높이는 절반)
+HALF_HEIGHT=$((SCREEN_HEIGHT / 2))
+# ..............................................................................
+
+# ..............................................................................
+# 시간 차이 계산 (0.5초 이내면 두 번 누름으로 간주)
+if [ $((CURRENT_TIME - LAST_TIME)) -lt 1 ]; then
+    # 전체화면 토글
+    # wmctrl -r :ACTIVE: -b toggle,fullscreen
+    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$SCREEN_HEIGHT
+else
+    # 윗쪽 타일링 적용
+    # wmctrl -r :ACTIVE: -b add,maximized_vert
+    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$HALF_HEIGHT
+fi
+# ..............................................................................
+
+# 현재 시간 저장
+echo "$CURRENT_TIME" > "$KEY_FILE"

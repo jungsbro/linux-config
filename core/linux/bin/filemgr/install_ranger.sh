@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_ranger.sh jungs;
+# bash /core/linux/bin/filemgr/install_ranger.sh ${CUR_USER};
 # ==============================================================================
 
 
