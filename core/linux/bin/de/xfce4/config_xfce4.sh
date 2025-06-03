@@ -1,0 +1,291 @@
+# /bin/bash
+
+# desktop environment ==========================================================
+# bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER};
+# ==============================================================================
+
+
+# ENV ==========================================================================
+CUR_USER=${1};
+
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+function set_prop_value()
+{
+    # env ----------------------------------------------------------------------
+    local ch=${1}
+    local prop=${2}
+    local typ=${3}
+    local val=${4}
+
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up"
+    # -c : --chanel
+    # -p : --property
+    local cmd="xfconf-query -c ${ch} -p ${prop}"
+    # --------------------------------------------------------------------------
+
+    # reset property (remove property) -----------------------------------------
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -r
+    # -r : --reset
+    `${cmd} -r`
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -z ${val} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # set property value (create and set) --------------------------------------
+    # -n : --create
+    # -t : type
+    # -s : --set
+    `${cmd} -n -t ${typ} -s "${val}"`
+    echo "${cmd} -n -t \"${typ}\" -s \"${val}\""
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+function set_shortcuts()
+{
+    local tog_fs_path="/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
+
+    # window tile --------------------------------------------------------------
+    # win+keypad_up >> win+up
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
+
+    if [[ -f ${tog_fs_path} ]]; then
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
+    else
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "tile_up_key"
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "tile_up_key";
+    fi
+    # --------------------------------------------------------------------------
+
+    # window tile --------------------------------------------------------------
+    # win+keypad_down >> win+down
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Down" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Down" -t "stringv -s "tile_down_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Down" "string" "tile_down_key";
+
+    # win+keypad_left >> win+left
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Left" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Left" -t "string" -s "tile_left_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Left" "string" "tile_left_key";
+
+    # win+keypad_right >> win+right
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Right" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Right" -t "string" -s "tile_right_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Right" "string" "tile_right_key";
+    # --------------------------------------------------------------------------
+
+    # fill window --------------------------------------------------------------
+    # shift+win+up
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
+    # --------------------------------------------------------------------------
+
+    # maximize window ----------------------------------------------------------
+    # alt+f10 (for mxlinux)
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Alt>F10 -t string" -s "maximize_window_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Alt>F10" "string" "maximize_window_key";
+    # --------------------------------------------------------------------------
+
+    # show desktop -------------------------------------------------------------
+    # ctrl+alt+d >> win+d
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary><Alt>d" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>d" -t "string" -s "show_desktop_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>d" "string" "show_desktop_key";
+    # --------------------------------------------------------------------------
+
+    # expose -------------------------------------------------------------------
+    # win+tab
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Tab" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/skippy-xd";
+    # --------------------------------------------------------------------------
+
+    # settings -----------------------------------------------------------------
+    # win+i
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>i" -t "string" -s "xfce4-settings-manager"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>i" "string" "xfce4-settings-manager";
+    # --------------------------------------------------------------------------
+
+    # spotlight ----------------------------------------------------------------
+    # alt+f2 >> ctrl+space
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>space" -t "string" -s "xfce4-appfinder"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder --collapsed";
+
+    # alt+f3 >> alt+f2
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F2" -t "string" -s "xfce4-appfinder"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "xfce4-appfinder";
+    # --------------------------------------------------------------------------
+
+    # appmenu ------------------------------------------------------------------
+    # alt+f1 >> ctrl+esc
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F1" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape" -t "string" -s "xfce4-popup-applicationsmenu"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "xfce4-popup-applicationsmenu";
+    # --------------------------------------------------------------------------
+
+    # taskmanager --------------------------------------------------------------
+    # ctrl+shift+esc (for mxlinux)
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary><Shift>Escape" -t "string" -s "xfce4-taskmanager"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Shift>Escape" "string" "xfce4-taskmanager";
+    # --------------------------------------------------------------------------
+
+    # screensaver --------------------------------------------------------------
+    # ctrl+alt+l >> win+l
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>l" "string" "";
+
+    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xfce4-screensaver-command --activate"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --activate";
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --lock";
+    else
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xscreensaver-command -lock"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xscreensaver-command -lock";
+    fi
+    # --------------------------------------------------------------------------
+
+    # terminal dropdown --------------------------------------------------------
+    # f4 >> removed
+    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+        #       <property name="F4" type="string" value="xfce4-terminal --drop-down"/>
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/F4" "string" "";
+    fi
+    # --------------------------------------------------------------------------
+}
+
+
+function set_workspace()
+{
+    # scroll workspace : off ---------------------------------------------------
+    # xfconf-query -c "xfwm4" -p "/general/scroll_workspaces" -t "bool" -s "false"
+    set_prop_value "xfwm4" "/general/scroll_workspaces" "bool" "false";
+    # --------------------------------------------------------------------------
+
+    # workspace count : 2 ------------------------------------------------------
+    # xfconf-query -c "xfwm4" -p "/general/workspace_count" -t "int" -s "2"
+    set_prop_value "xfwm4" "/general/workspace_count" "int" "2";
+    # --------------------------------------------------------------------------
+}
+
+
+function set_panel_clock()
+{
+    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+        sel_plugin="plugin-1"
+    else
+        sel_plugin="plugin-12"
+    fi
+
+    # digital layout -----------------------------------------------------------
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-layout" -t "uint" -s "1"
+    set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-layout" "uint" "1";
+    # --------------------------------------------------------------------------
+
+    # date : 25-12-12 ----------------------------------------------------------
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-date-format" -t "string" -s "%y-%m-%d (%a)"
+    set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-date-format" "string" "%y-%m-%d (%a)";
+    # --------------------------------------------------------------------------
+
+    # time : 12:00:AM ----------------------------------------------------------
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-time-format" -t "string" -s "%I:%M %p"
+    set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-time-format" "string" "%I:%M %p";
+    # --------------------------------------------------------------------------
+}
+
+
+function set_theme()
+{
+    if [[ -e "/usr/share/icons/Papirus" ]]; then
+        # xfconf-query -c "xsettings" -p "/Net/IconThemeName" -t "string" -s "Papirus"
+        set_prop_value "xsettings" "/Net/IconThemeName" "string" "Papirus";
+
+    elif [[ -e "/usr/share/icons/Adwaita" ]]; then
+        # xfconf-query -c "xsettings" -p "/Net/IconThemeName" -t "string" -s "Adwaita"
+        set_prop_value "xsettings" "/Net/IconThemeName" "string" "Adwaita";
+
+    else
+        # xfconf-query -c "xsettings" -p "/Net/IconThemeName" -t "string" -s "Tango"
+        set_prop_value "xsettings" "/Net/IconThemeName" "string" "Tango";
+    fi
+}
+
+
+function set_default_app()
+{
+    dst_path="~/.config/xfce4/helpers.rc"
+    cur_cmd="echo \"TerminalEmulator=xfce4-terminal\" > ${dst_path}"
+
+    su - ${CUR_USER} -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";
+}
+
+
+function set_desktop()
+{
+    # desktop icon size:32 -----------------------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/icon-size" -t "uint" -s "32"
+    set_prop_value "xfce4-desktop" "/desktop-icons/icon-size" "uint" "32";
+    # --------------------------------------------------------------------------
+
+    # show home in desktop:on --------------------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-home" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/show-home" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # show filesystem in desktop:on --------------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-filesystem" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/show-filesystem" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # show trash in desktop:on -------------------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-trash" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/show-trash" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # show removable in desktop:on ---------------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-removable" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/show-removable" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # single_click:off (double_click:on) ---------------------------------------
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/single-click" -t "bool" -s "false"
+    set_prop_value "xfce4-desktop" "/desktop-icons/single-click" "bool" "false";
+    # --------------------------------------------------------------------------
+}
+
+
+function set_thunar()
+{
+    # single_click:off (double_click:on) ---------------------------------------
+    # xfconf-query -c "thunar" -p "/misc-single-click" -t "bool" -s "false"
+    set_prop_value "thunar" "/misc-single-click" "bool" "false";
+    # --------------------------------------------------------------------------
+}
+
+
+# ==============================================================================
+function main()
+{
+    set_shortcuts;
+    set_workspace;
+    set_panel_clock;
+
+    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+        set_desktop;
+        set_thunar;
+    else
+        set_theme;
+        set_default_app;
+    fi
+}
+
+main;
+# ==============================================================================
