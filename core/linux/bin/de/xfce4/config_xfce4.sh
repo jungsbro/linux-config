@@ -114,10 +114,9 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 
     # spotlight ----------------------------------------------------------------
-    # alt+f2 >> ctrl+space
+    # alt+f2 >> ctrl+space (removed)
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "";
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>space" -t "string" -s "xfce4-appfinder"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder";
     # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder --collapsed";
 
     # alt+f3 >> alt+f2
@@ -162,9 +161,18 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 }
 
-
 function set_workspace()
 {
+    # Cycle through windows on all workspaces : on -----------------------------
+    # xfconf-query -c "xfwm4" -p "/general/cycle_workspaces" -s "true"
+    set_prop_value "xfwm4" "/general/cycle_workspaces" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # Use mouse wheel on title bar to roll up the window : off -----------------
+    # xfconf-query -c "xfwm4" -p "/general/mousewheel_rollup" -s "false"
+    set_prop_value "xfwm4" "/general/mousewheel_rollup" "bool" "false";
+    # --------------------------------------------------------------------------
+
     # scroll workspace : off ---------------------------------------------------
     # xfconf-query -c "xfwm4" -p "/general/scroll_workspaces" -t "bool" -s "false"
     set_prop_value "xfwm4" "/general/scroll_workspaces" "bool" "false";
@@ -175,7 +183,6 @@ function set_workspace()
     set_prop_value "xfwm4" "/general/workspace_count" "int" "2";
     # --------------------------------------------------------------------------
 }
-
 
 function set_panel_clock()
 {
@@ -201,7 +208,6 @@ function set_panel_clock()
     # --------------------------------------------------------------------------
 }
 
-
 function set_theme()
 {
     if [[ -e "/usr/share/icons/Papirus" ]]; then
@@ -218,18 +224,21 @@ function set_theme()
     fi
 }
 
-
 function set_default_app()
 {
-    dst_path="~/.config/xfce4/helpers.rc"
+    dst_path='${HOME}/.config/xfce4/helpers.rc'
     cur_cmd="echo \"TerminalEmulator=xfce4-terminal\" > ${dst_path}"
 
     su - ${CUR_USER} -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";
 }
 
-
 function set_desktop()
 {
+    # apply to all workspaces:off ----------------------------------------------
+    # xfconf-query -c xfce4-desktop -p /backdrop/single-workspace-mode -s false
+    set_prop_value "xfce4-desktop" "/backdrop/single-workspace-mode" "bool" "false";
+    # --------------------------------------------------------------------------
+
     # desktop icon size:32 -----------------------------------------------------
     # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/icon-size" -t "uint" -s "32"
     set_prop_value "xfce4-desktop" "/desktop-icons/icon-size" "uint" "32";
@@ -261,15 +270,64 @@ function set_desktop()
     # --------------------------------------------------------------------------
 }
 
-
 function set_thunar()
 {
+    # View new folder using:ListView -------------------------------------------
+    # View > ListView
+    # xfconf-query -c "thunar" -p "/last-view" -s "ThunarDetailsView"
+    set_prop_value "thunar" "/last-view" "string" "ThunarDetailsView";
+
+    # View new folder using:ListView
+    # xfconf-query -c "thunar" -p "/default-view" -s "ThunarDetailsView"
+    set_prop_value "thunar" "/default-view" "string" "ThunarDetailsView";
+    # --------------------------------------------------------------------------
+
+    # Remember view settings for each folder:on --------------------------------
+    # xfconf-query -c "thunar" -p "/misc-directory-specific-settings" -s "true"
+    set_prop_value "thunar" "/misc-directory-specific-settings" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # View > LocationSelector > ButtonsStyle -----------------------------------
+    # xfconf-query -c "thunar" -p "/last-location-bar" -s "ThunarLocationButtons"
+    set_prop_value "thunar" "/last-location-bar" "string" "ThunarLocationButtons";
+    # --------------------------------------------------------------------------
+
     # single_click:off (double_click:on) ---------------------------------------
     # xfconf-query -c "thunar" -p "/misc-single-click" -t "bool" -s "false"
     set_prop_value "thunar" "/misc-single-click" "bool" "false";
     # --------------------------------------------------------------------------
 }
 
+function set_terminal()
+{
+    # cursor shape : I-Beam ----------------------------------------------------
+    # xfconf-query -c xfce4-terminal -p /misc-cursor-shape -s TERMINAL_CURSOR_SHAPE_IBEAM
+    set_prop_value "xfce4-terminal" "/misc-cursor-shape" "string" "TERMINAL_CURSOR_SHAPE_IBEAM";
+    # --------------------------------------------------------------------------
+
+    # cursor blinks : on -------------------------------------------------------
+    # xfconf-query -c xfce4-terminal -p /misc-cursor-blinks -s true
+    set_prop_value "xfce4-terminal" "/misc-cursor-blinks" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # background : none (use solid color) --------------------------------------
+    # xfconf-query -c xfce4-terminal -p /background-mode -s TERMINAL_BACKGROUND_SOLID
+    set_prop_value "xfce4-terminal" "/background-mode" "string" "TERMINAL_BACKGROUND_SOLID";
+    # --------------------------------------------------------------------------
+}
+
+function set_noti()
+{
+    # --------------------------------------------------------------------------
+    # xfconf-query -c xfce4-notifyd -p /do-fadeout -s "true"
+    set_prop_value "xfce4-notifyd" "/do-fadeout" "bool" "true";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # xfconf-query -c xfce4-notifyd -p /notify-location -s "bottom-right"
+    set_prop_value "xfce4-notifyd" "/notify-location" "string" "bottom-right";
+    # --------------------------------------------------------------------------
+}
 
 # ==============================================================================
 function main()
@@ -277,6 +335,8 @@ function main()
     set_shortcuts;
     set_workspace;
     set_panel_clock;
+    set_terminal;
+    set_noti;
 
     if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
         set_desktop;

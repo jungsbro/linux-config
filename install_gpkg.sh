@@ -119,6 +119,7 @@ bash /core/linux/bin/de/config_de.sh ${CUR_USER};
 
 # korean =======================================================================
 bash /core/linux/bin/system/install_korean.sh;
+bash /core/linux/bin/system/install_font-manager.sh;
 # ==============================================================================
 
 # hotkey =======================================================================
@@ -129,8 +130,20 @@ bash /core/linux/bin/system/install_autokey.sh ${CUR_USER};
 bash /core/linux/bin/system/install_redshift.sh ${CUR_USER};
 # ==============================================================================
 
+# sandbox ======================================================================
+bash /core/linux/bin/system/install_firejail.sh;
+# snapshot =====================================================================
+
+# cleaner ======================================================================
+bash /core/linux/bin/system/install_stacer.sh;
+# ==============================================================================
+
 # snapshot =====================================================================
 bash /core/linux/bin/system/install_timeshift.sh;
+# ==============================================================================
+
+# disk mount  ==================================================================
+bash /core/linux/bin/system/gnome-disk-utility.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================
@@ -187,6 +200,7 @@ bash /core/linux/bin/office/install_libreoffice.sh;
 # paint ========================================================================
 bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
 bash /core/linux/bin/graphics/install_kolourpaint.sh;
+# bash /core/linux/bin/graphics/install_inkscape.sh;
 # bash /core/linux/bin/graphics/install_drawing.sh;
 # ==============================================================================
 

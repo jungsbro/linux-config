@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# redshift =====================================================================
-# bash /core/linux/bin/system/install_redshift.sh ${CUR_USER};
+# plank ========================================================================
+# bash /core/linux/bin/system/plank.sh ${CUR_USER};
 # ==============================================================================
 
 # ==============================================================================
@@ -10,9 +10,8 @@ CUR_USER=${1};
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
-
-# redshift : x86_64, i686, aarch64 =============================================
-function config_redshift()
+# plank ========================================================================
+function autostart_plank()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -21,49 +20,51 @@ function config_redshift()
     # --------------------------------------------------------------------------
     
     # --------------------------------------------------------------------------
-    local CONF_CMD="[redshift]
-temp-day=5500
-temp-night=3800
+    local START_DIR='${HOME}/.config/autostart'
+    local START_PATH="${START_DIR}/plank.desktop"    
 
-location-provider=manual
-adjustment-method=randr
-
-[manual]
-lat=37.6
-lon=127.0"
+    local START_CMD="[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=plank
+Comment=Dock
+Exec=plank
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # ~/.config/redshift.conf
-    su - ${CUR_USER} -c "[[ -f ~/.config/redshift.conf ]] || echo '${CONF_CMD}' > ~/.config/redshift.conf";
+    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
     # --------------------------------------------------------------------------
 }
 
-
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^redshift) ]] || apt install -y redshift-gtk;
-    [[ -n $(apt list --installed | grep -i ^geoclue) ]] || apt install -y geoclue-2.0;
-    # --------------------------------------------------------------------------
-    config_redshift;
+    [[ -n $(apt list --installed | grep -i ^plank) ]] || apt install -y plank;    
+    
+    # autostart_plank;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^redshift) ]] || yum install -y redshift-gtk;
-    [[ -n $(yum list installed | grep -i ^geoclue) ]] || yum install -y geoclue2;
-    # --------------------------------------------------------------------------
-    config_redshift;
+    echo "font-manager is not supported for centos"
+    # [[ -n $(yum list installed | grep -i ^plank) ]] || yum install -y plank;
+    
+    # autostart_plank;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
-    [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
-    # --------------------------------------------------------------------------
-    config_redshift;
+    echo "font-manager is not supported for rocky"
+    # [[ -n $(dnf list installed | grep -i ^plank) ]] || dnf install -y plank;
+    
+    # autostart_plank;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
+
 
 exit 0

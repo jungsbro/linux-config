@@ -25,6 +25,7 @@ function install_de_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
@@ -33,8 +34,14 @@ function install_de_pkg()
     elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
+            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
+            bash /core/linux/bin/system/plank.sh ${CUR_USER};
+            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
             bash /core/linux/bin/system/install_skippy-xd.sh;
             bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
+            # ------------------------------------------------------------------
         else
             # bash /core/linux/bin/utilities/install_galculator.sh;
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
@@ -43,6 +50,10 @@ function install_de_pkg()
             bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
             bash /core/linux/bin/system/install_xscreensaver.sh;
             # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
+            bash /core/linux/bin/system/plank.sh ${CUR_USER};
+            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
             bash /core/linux/bin/system/install_skippy-xd.sh;
             bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
             # ------------------------------------------------------------------
@@ -54,6 +65,7 @@ function install_de_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_gnome-system-monitor.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
