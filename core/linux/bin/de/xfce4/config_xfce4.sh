@@ -54,6 +54,7 @@ function set_shortcuts()
     # window tile --------------------------------------------------------------
     # win+keypad_up >> win+up
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
     if [[ -f ${tog_fs_path} ]]; then
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
@@ -245,23 +246,23 @@ function set_desktop()
     # --------------------------------------------------------------------------
 
     # show home in desktop:on --------------------------------------------------
-    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-home" -t "bool" -s "true"
-    set_prop_value "xfce4-desktop" "/desktop-icons/show-home" "bool" "true";
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/file-icons/show-home" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/file-icons/show-home" "bool" "true";
     # --------------------------------------------------------------------------
 
     # show filesystem in desktop:on --------------------------------------------
-    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-filesystem" -t "bool" -s "true"
-    set_prop_value "xfce4-desktop" "/desktop-icons/show-filesystem" "bool" "true";
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/file-icons/show-filesystem" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/file-icons/show-filesystem" "bool" "true";
     # --------------------------------------------------------------------------
 
     # show trash in desktop:on -------------------------------------------------
-    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-trash" -t "bool" -s "true"
-    set_prop_value "xfce4-desktop" "/desktop-icons/show-trash" "bool" "true";
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/file-icons/show-trash" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/file-icons/show-trash" "bool" "true";
     # --------------------------------------------------------------------------
 
     # show removable in desktop:on ---------------------------------------------
-    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/show-removable" -t "bool" -s "true"
-    set_prop_value "xfce4-desktop" "/desktop-icons/show-removable" "bool" "true";
+    # xfconf-query -c "xfce4-desktop" -p "/desktop-icons/file-icons/show-removable" -t "bool" -s "true"
+    set_prop_value "xfce4-desktop" "/desktop-icons/file-icons/show-removable" "bool" "true";
     # --------------------------------------------------------------------------
 
     # single_click:off (double_click:on) ---------------------------------------
@@ -301,17 +302,23 @@ function set_thunar()
 function set_terminal()
 {
     # cursor shape : I-Beam ----------------------------------------------------
-    # xfconf-query -c xfce4-terminal -p /misc-cursor-shape -s TERMINAL_CURSOR_SHAPE_IBEAM
+    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-shape" -s "TERMINAL_CURSOR_SHAPE_IBEAM"
     set_prop_value "xfce4-terminal" "/misc-cursor-shape" "string" "TERMINAL_CURSOR_SHAPE_IBEAM";
     # --------------------------------------------------------------------------
 
     # cursor blinks : on -------------------------------------------------------
-    # xfconf-query -c xfce4-terminal -p /misc-cursor-blinks -s true
+    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-blinks" -s "true"
     set_prop_value "xfce4-terminal" "/misc-cursor-blinks" "bool" "true";
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # Font : Liberation Mono 13
+    # xfconf-query -c "xfce4-terminal" -p "/font-name" -s "Liberation Mono 13"
+    set_prop_value "xfce4-terminal" "/font-name" "string" "Liberation Mono 13";
+    # --------------------------------------------------------------------------
+
     # background : none (use solid color) --------------------------------------
-    # xfconf-query -c xfce4-terminal -p /background-mode -s TERMINAL_BACKGROUND_SOLID
+    # xfconf-query -c "xfce4-terminal" -p "/background-mode" -s "TERMINAL_BACKGROUND_SOLID"
     set_prop_value "xfce4-terminal" "/background-mode" "string" "TERMINAL_BACKGROUND_SOLID";
     # --------------------------------------------------------------------------
 }

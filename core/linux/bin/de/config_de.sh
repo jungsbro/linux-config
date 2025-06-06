@@ -36,7 +36,7 @@ function install_de_pkg()
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
-            bash /core/linux/bin/system/plank.sh ${CUR_USER};
+            bash /core/linux/bin/system/install_plank.sh ${CUR_USER};
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
             bash /core/linux/bin/system/install_skippy-xd.sh;

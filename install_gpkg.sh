@@ -143,7 +143,7 @@ bash /core/linux/bin/system/install_timeshift.sh;
 # ==============================================================================
 
 # disk mount  ==================================================================
-bash /core/linux/bin/system/gnome-disk-utility.sh;
+bash /core/linux/bin/system/install_gnome-disk-utility.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================

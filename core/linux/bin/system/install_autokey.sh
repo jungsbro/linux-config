@@ -68,9 +68,43 @@ function config_autokey()
     # --------------------------------------------------------------------------
 }
 
+function autostart_autokey()
+{
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+    
+    # --------------------------------------------------------------------------
+    local START_DIR='${HOME}/.config/autostart'
+    local START_PATH="${START_DIR}/autokey.desktop"
+    
+    local START_CMD="[Desktop Entry]                                                                                                                               
+Name=AutoKey
+GenericName=Keyboard Automation
+Comment=Program keyboard shortcuts
+Keywords=macros keyboard auto key autokey ak automation shortcut bind
+Exec=autokey-gtk
+Terminal=false
+Type=Application
+Icon=autokey
+Categories=GNOME;GTK;Utility;"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -d ${START_DIR} ]]; then
+        return
+    fi
+    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
+    # --------------------------------------------------------------------------
+}
+
 # ------------------------------------------------------------------------------
 install_autokey;
 config_autokey;
+autostart_autokey;
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

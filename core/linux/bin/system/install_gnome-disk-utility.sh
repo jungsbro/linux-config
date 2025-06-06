@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # gnome-disk-utility(disks) ====================================================
-# bash /core/linux/bin/system/gnome-disk-utility.sh;
+# bash /core/linux/bin/system/install_gnome-disk-utility.sh;
 # ==============================================================================
 
 # ==============================================================================
