@@ -100,12 +100,12 @@ function config_de()
     # --------------------------------------------------------------------------    
     if [[ *"${CUR_DE}" == *"openbox"* ]]; then                                          # lmde
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-launch python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
         # ----------------------------------------------------------------------
         
     elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-launch bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
         
     elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
