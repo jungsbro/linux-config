@@ -11,36 +11,6 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
 # ulauncher ====================================================================
-function install_ulauncher_for_deb()
-{
-    local GPG_PATH="/usr/share/keyrings/ulauncher-archive-keyring.gpg"
-    
-    # --------------------------------------------------------------------------
-    if [[ -f ${GPG_PATH} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-    
-    # --------------------------------------------------------------------------
-    apt update;
-    [[ -n $(apt list --installed | grep -i ^gnupg) ]] || apt install -y gnupg;    
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    gpg --keyserver keyserver.ubuntu.com --recv 0xfaf1020699503176;
-    gpg --export 0xfaf1020699503176 | tee ${GPG_PATH} > /dev/null;
-
-    echo "deb [signed-by=${GPG_PATH}] \
-              http://ppa.launchpad.net/agornostal/ulauncher/ubuntu jammy main" \
-              | tee /etc/apt/sources.list.d/ulauncher-jammy.list;
-    # --------------------------------------------------------------------------
-    
-    # --------------------------------------------------------------------------
-    apt update;
-    [[ -n $(apt list --installed | grep -i ^ulauncher) ]] || apt install -y ulauncher;   
-    # --------------------------------------------------------------------------
-}
-
 function autostart_ulauncher()
 {
     # --------------------------------------------------------------------------
@@ -48,11 +18,11 @@ function autostart_ulauncher()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     local START_DIR='${HOME}/.config/autostart'
     local START_PATH="${START_DIR}/ulauncher.desktop"
-    
+
     local START_CMD="[Desktop Entry]
 Name=Ulauncher
 Comment=Application launcher for Linux
@@ -67,18 +37,50 @@ X-GNOME-Autostart-enabled=true"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -d ${START_DIR} ]]; then
-        return
-    fi
     su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
     su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
     # --------------------------------------------------------------------------
 }
 
+
+function install_ulauncher_for_deb()
+{
+    local GPG_PATH="/usr/share/keyrings/ulauncher-archive-keyring.gpg"
+
+    # --------------------------------------------------------------------------
+    if [[ -f ${GPG_PATH} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    apt update;
+    [[ -n $(apt list --installed | grep -i ^gnupg) ]] || apt install -y gnupg;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    gpg --keyserver keyserver.ubuntu.com --recv 0xfaf1020699503176;
+    gpg --export 0xfaf1020699503176 | tee ${GPG_PATH} > /dev/null;
+
+    echo "deb [signed-by=${GPG_PATH}] \
+              http://ppa.launchpad.net/agornostal/ulauncher/ubuntu jammy main" \
+              | tee /etc/apt/sources.list.d/ulauncher-jammy.list;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    apt update;
+    [[ -n $(apt list --installed | grep -i ^ulauncher) ]] || apt install -y ulauncher;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    autostart_ulauncher;
+    # --------------------------------------------------------------------------
+}
+
+
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     install_ulauncher_for_deb;
-    autostart_ulauncher;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
