@@ -28,6 +28,10 @@ SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f2)
 
 # 창 크기 설정 (화면 너비 유지, 높이는 절반)
 HALF_HEIGHT=$((SCREEN_HEIGHT / 2))
+
+# TASKBAR의 높이
+# TASKBAR_HEIGHT=60
+TASKBAR_HEIGHT=30
 # ..............................................................................
 
 # ..............................................................................
@@ -35,7 +39,7 @@ HALF_HEIGHT=$((SCREEN_HEIGHT / 2))
 if [ $((CURRENT_TIME - LAST_TIME)) -lt 1 ]; then
     # 전체화면 토글
     # wmctrl -r :ACTIVE: -b toggle,fullscreen
-    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$SCREEN_HEIGHT
+    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$(($SCREEN_HEIGHT-$TASKBAR_HEIGHT))
 else
     # 윗쪽 타일링 적용
     # wmctrl -r :ACTIVE: -b add,maximized_vert
