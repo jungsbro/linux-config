@@ -49,23 +49,34 @@ function set_prop_value()
 
 function set_shortcuts()
 {
-    local tog_fs_path="/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
-
-    # window tile --------------------------------------------------------------
+    # window tile (not used) ---------------------------------------------------
+    # local tog_fs_path="/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
+    
     # win+keypad_up >> win+up
-    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
-    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
-    if [[ -f ${tog_fs_path} ]]; then
+    # if [[ -f ${tog_fs_path} ]]; then
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
-    else
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "tile_up_key"
-        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "tile_up_key";
-    fi
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
+    # else
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
+        # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
+    # fi
     # --------------------------------------------------------------------------
 
-    # window tile --------------------------------------------------------------
+    # window tile (up) ---------------------------------------------------------
+    # win+keypad_up >> win+up
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "fill_window_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "fill_window_key";
+    
+    # shift+win+up
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "tile_up_key"
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "tile_up_key";
+    # --------------------------------------------------------------------------
+    
+    # window tile (down, left, right) ------------------------------------------
     # win+keypad_down >> win+down
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Down" "string" "";
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Down" -t "stringv -s "tile_down_key"
@@ -80,12 +91,6 @@ function set_shortcuts()
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Right" "string" "";
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Right" -t "string" -s "tile_right_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Right" "string" "tile_right_key";
-    # --------------------------------------------------------------------------
-
-    # fill window --------------------------------------------------------------
-    # shift+win+up
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
-    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
     # --------------------------------------------------------------------------
 
     # maximize window ----------------------------------------------------------
@@ -137,6 +142,13 @@ function set_shortcuts()
     # ctrl+shift+esc (for mxlinux)
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary><Shift>Escape" -t "string" -s "xfce4-taskmanager"
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Shift>Escape" "string" "xfce4-taskmanager";
+    # --------------------------------------------------------------------------
+
+    # xkill --------------------------------------------------------------------
+    # ctrl+alt+esc >> win+x
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>Escape" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>x" -t "string" -s "/bin/xkill"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>x" "string" "/bin/xkill";
     # --------------------------------------------------------------------------
 
     # screensaver --------------------------------------------------------------

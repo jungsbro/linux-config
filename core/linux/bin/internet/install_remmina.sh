@@ -14,6 +14,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina;
+    [[ -n $(apt list --installed | grep -i ^remmina-plugin-rdp) ]] || apt install -y remmina-plugin-rdp;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
