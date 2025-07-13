@@ -13,7 +13,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_DE=$(ls /usr/bin/*-session);
+CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -21,24 +21,26 @@ CUR_DE=$(ls /usr/bin/*-session);
 # desktop environment ==========================================================
 function install_de_pkg()
 {
-    if [[ *"${CUR_DE}" == *"openbox"* ]]; then                                          # lmde
+    if [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                          # lmde
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+        # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+        bash /core/linux/bin/system/install_synapse.sh;
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
+
+    elif [[ *"${CUR_WMDE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
             bash /core/linux/bin/system/install_plank.sh ${CUR_USER};
             # ------------------------------------------------------------------
-            bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+            # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+            # bash /core/linux/bin/system/install_synapse.sh;
             bash /core/linux/bin/system/install_skippy-xd.sh;
             bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
             # ------------------------------------------------------------------
@@ -53,34 +55,36 @@ function install_de_pkg()
             bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
             bash /core/linux/bin/system/plank.sh ${CUR_USER};
             # ------------------------------------------------------------------
-            bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+            # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+            # bash /core/linux/bin/system/install_synapse.sh;
             bash /core/linux/bin/system/install_skippy-xd.sh;
             bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_theme.sh;
-            # ------------------------------------------------------------------        
+            # ------------------------------------------------------------------
         fi
-        
-    elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
+
+    elif [[ *"${CUR_WMDE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_gnome-system-monitor.sh;
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+        # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+        bash /core/linux/bin/system/install_synapse.sh;
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
         bash /core/linux/bin/de/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" != *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then    # gnome
+
+    elif [[ *"${CUR_WMDE}" != *"cinnamon"* ]] && [[ *"${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
         bash /core/linux/bin/de/install_gnome-tweaks.sh;
         # bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
+
+    elif [[ *"${CUR_WMDE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         bash /core/linux/bin/de/install_dconf.sh;
         bash /core/linux/bin/de/install_gnome-tweaks.sh;
@@ -97,32 +101,32 @@ function config_de()
     fi
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------    
-    if [[ *"${CUR_DE}" == *"openbox"* ]]; then                                          # lmde
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                          # lmde
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-launch python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" == *"xfce4"* ]]; then                                          # xfce4
+
+    elif [[ *"${CUR_WMDE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-launch bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" == *"mate"* ]]; then                                           # mate
+
+    elif [[ *"${CUR_WMDE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/de/mate/mate-backup ]] && \
         dbus-launch dconf load /org/mate/ < /core/linux/bin/de/mate/mate-backup";
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" != *"cinnamon"* ]] && [[ *"${CUR_DE}" == *"gnome"* ]]; then    # gnome
+
+    elif [[ *"${CUR_WMDE}" != *"cinnamon"* ]] && [[ *"${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/de/gnome/gnome-backup ]] && \
         dbus-run-session dconf load /org/gnome/ < /core/linux/bin/de/gnome/gnome-backup";
         # ----------------------------------------------------------------------
-        
-    elif [[ *"${CUR_DE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
+
+    elif [[ *"${CUR_WMDE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/de/cinnamon/cinnamon-backup ]] && \

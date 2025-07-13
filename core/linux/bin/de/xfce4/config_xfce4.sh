@@ -177,12 +177,12 @@ function set_shortcuts()
 function set_workspace()
 {
     # Cycle through windows on all workspaces : on -----------------------------
-    # xfconf-query -c "xfwm4" -p "/general/cycle_workspaces" -s "true"
+    # xfconf-query -c "xfwm4" -p "/general/cycle_workspaces" -t "bool" -s "true"
     set_prop_value "xfwm4" "/general/cycle_workspaces" "bool" "true";
     # --------------------------------------------------------------------------
 
     # Use mouse wheel on title bar to roll up the window : off -----------------
-    # xfconf-query -c "xfwm4" -p "/general/mousewheel_rollup" -s "false"
+    # xfconf-query -c "xfwm4" -p "/general/mousewheel_rollup" -t "bool" -s "false"
     set_prop_value "xfwm4" "/general/mousewheel_rollup" "bool" "false";
     # --------------------------------------------------------------------------
 
@@ -248,7 +248,7 @@ function set_default_app()
 function set_desktop()
 {
     # apply to all workspaces:off ----------------------------------------------
-    # xfconf-query -c xfce4-desktop -p /backdrop/single-workspace-mode -s false
+    # xfconf-query -c xfce4-desktop -p /backdrop/single-workspace-mode -t "bool" -s "false"
     set_prop_value "xfce4-desktop" "/backdrop/single-workspace-mode" "bool" "false";
     # --------------------------------------------------------------------------
 
@@ -287,21 +287,21 @@ function set_thunar()
 {
     # View new folder using:ListView -------------------------------------------
     # View > ListView
-    # xfconf-query -c "thunar" -p "/last-view" -s "ThunarDetailsView"
+    # xfconf-query -c "thunar" -p "/last-view" -t "string" -s "ThunarDetailsView"
     set_prop_value "thunar" "/last-view" "string" "ThunarDetailsView";
 
     # View new folder using:ListView
-    # xfconf-query -c "thunar" -p "/default-view" -s "ThunarDetailsView"
+    # xfconf-query -c "thunar" -p "/default-view" -t "string" -s "ThunarDetailsView"
     set_prop_value "thunar" "/default-view" "string" "ThunarDetailsView";
     # --------------------------------------------------------------------------
 
     # Remember view settings for each folder:on --------------------------------
-    # xfconf-query -c "thunar" -p "/misc-directory-specific-settings" -s "true"
+    # xfconf-query -c "thunar" -p "/misc-directory-specific-settings" -t "bool" -s "true"
     set_prop_value "thunar" "/misc-directory-specific-settings" "bool" "true";
     # --------------------------------------------------------------------------
 
     # View > LocationSelector > ButtonsStyle -----------------------------------
-    # xfconf-query -c "thunar" -p "/last-location-bar" -s "ThunarLocationButtons"
+    # xfconf-query -c "thunar" -p "/last-location-bar" -t "string" -s "ThunarLocationButtons"
     set_prop_value "thunar" "/last-location-bar" "string" "ThunarLocationButtons";
     # --------------------------------------------------------------------------
 
@@ -314,23 +314,23 @@ function set_thunar()
 function set_terminal()
 {
     # cursor shape : I-Beam ----------------------------------------------------
-    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-shape" -s "TERMINAL_CURSOR_SHAPE_IBEAM"
+    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-shape" -t "string" -s "TERMINAL_CURSOR_SHAPE_IBEAM"
     set_prop_value "xfce4-terminal" "/misc-cursor-shape" "string" "TERMINAL_CURSOR_SHAPE_IBEAM";
     # --------------------------------------------------------------------------
 
     # cursor blinks : on -------------------------------------------------------
-    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-blinks" -s "true"
+    # xfconf-query -c "xfce4-terminal" -p "/misc-cursor-blinks" -t "bool" -s "true"
     set_prop_value "xfce4-terminal" "/misc-cursor-blinks" "bool" "true";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Font : Liberation Mono 13
-    # xfconf-query -c "xfce4-terminal" -p "/font-name" -s "Liberation Mono 13"
+    # xfconf-query -c "xfce4-terminal" -p "/font-name" -t "string" -s "Liberation Mono 13"
     set_prop_value "xfce4-terminal" "/font-name" "string" "Liberation Mono 13";
     # --------------------------------------------------------------------------
 
     # background : none (use solid color) --------------------------------------
-    # xfconf-query -c "xfce4-terminal" -p "/background-mode" -s "TERMINAL_BACKGROUND_SOLID"
+    # xfconf-query -c "xfce4-terminal" -p "/background-mode" -t "string" -s "TERMINAL_BACKGROUND_SOLID"
     set_prop_value "xfce4-terminal" "/background-mode" "string" "TERMINAL_BACKGROUND_SOLID";
     # --------------------------------------------------------------------------
 }
@@ -338,13 +338,21 @@ function set_terminal()
 function set_noti()
 {
     # --------------------------------------------------------------------------
-    # xfconf-query -c xfce4-notifyd -p /do-fadeout -s "true"
+    # xfconf-query -c xfce4-notifyd -p /do-fadeout -t "bool" -s "true"
     set_prop_value "xfce4-notifyd" "/do-fadeout" "bool" "true";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # xfconf-query -c xfce4-notifyd -p /notify-location -s "bottom-right"
+    # xfconf-query -c xfce4-notifyd -p /notify-location -t "string" -s "bottom-right"
     set_prop_value "xfce4-notifyd" "/notify-location" "string" "bottom-right";
+    # --------------------------------------------------------------------------
+}
+
+function set_screensaver_lock()
+{
+    # --------------------------------------------------------------------------
+    # xfconf-query -c xfce4-screensaver -p /lock/enabled -t "bool" -s "true"
+    set_prop_value "xfce4-screensaver" "/lock/enabled" "bool" "true";
     # --------------------------------------------------------------------------
 }
 
@@ -356,6 +364,7 @@ function main()
     set_panel_clock;
     set_terminal;
     set_noti;
+    set_screensaver_lock;
 
     if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
         set_desktop;

@@ -25,8 +25,8 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
-# CUR_DE -----------------------------------------------------------------------
-CUR_DE=$(ls /usr/bin/*-session);
+# CUR_WMDE ---------------------------------------------------------------------
+CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
 # /core/linux/bin/ -------------------------------------------------------------
@@ -87,7 +87,7 @@ function install_nvidia_deb()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     echo "";
     #install_nvidia_deb;
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     echo "";
     #yum update;
@@ -103,7 +103,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 
     #/sbin/init 5
     #alt + ctrl + F7
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     echo "";
 fi
@@ -201,7 +201,7 @@ bash /core/linux/bin/office/install_libreoffice.sh;
 bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
 bash /core/linux/bin/graphics/install_kolourpaint.sh;
 # bash /core/linux/bin/graphics/install_inkscape.sh;
-# bash /core/linux/bin/graphics/install_drawing.sh;
+bash /core/linux/bin/graphics/install_drawing.sh;
 # ==============================================================================
 
 # xnview =======================================================================

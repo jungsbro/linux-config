@@ -7,7 +7,7 @@
 # ==============================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
-CUR_DE=$(ls /usr/bin/*-session);
+CUR_WMDE=$(ls /usr/bin/*-session);
 # ==============================================================================
 
 # korean =======================================================================
@@ -16,13 +16,13 @@ function install_nanum_fonts()
     local NANUM_URL="http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip"
     local NANUM_ZIP_PATH="/tmp/nanumfont.zip";
     local NANUM_DST_DIR="/usr/share/fonts/nanum";
-    
+
     # --------------------------------------------------------------------------
     if [[ -d "${NANUM_DST_DIR}" ]]; then
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     curl ${NANUM_URL} -o ${NANUM_ZIP_PATH}
     sudo unzip ${NANUM_ZIP_PATH} -d ${NANUM_DST_DIR}
@@ -55,7 +55,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^ibus-hangul) ]] || yum install -y ibus-hangul;
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_DE}" == *"xfce4"* ]] || [[ *"${CUR_DE}" == *"mate"* ]]; then
+    if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
         [[ -n $(yum list installed | grep -i ^im-chooser) ]] || yum install -y im-chooser;
     fi
     # --------------------------------------------------------------------------
@@ -66,7 +66,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^ibus-hangul) ]] || dnf install -y ibus-hangul;
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_DE}" == *"xfce4"* ]] || [[ *"${CUR_DE}" == *"mate"* ]]; then
+    if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
         [[ -n $(dnf list installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
     fi
     # --------------------------------------------------------------------------
