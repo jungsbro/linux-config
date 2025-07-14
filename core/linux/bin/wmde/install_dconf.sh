@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# gnome-tweaks =================================================================
-# bash /core/linux/bin/de/install_gnome-tweaks.sh;
+# dconf ========================================================================
+# bash /core/linux/bin/wmde/install_dconf.sh;
 # ==============================================================================
 
 # ==============================================================================
@@ -12,15 +12,18 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # theme ========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^gnome-tweaks) ]] || apt install -y gnome-tweaks;
+    [[ -n $(apt list --installed | grep -i ^dconf-cli) ]] || apt install -y dconf-cli;
+    [[ -n $(apt list --installed | grep -i ^dconf-editor) ]] || apt install -y dconf-editor;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^gnome-tweak-tool) ]] || yum install -y gnome-tweak-tool;
+    [[ -n $(yum list installed | grep -i ^dconf) ]] || yum install -y dconf;
+    [[ -n $(yum list installed | grep -i ^dconf-editor) ]] || yum install -y dconf-editor;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
+    [[ -n $(dnf list installed | grep -i ^dconf) ]] || dnf install -y dconf;
+    [[ -n $(dnf list installed | grep -i ^dconf-editor) ]] || dnf install -y dconf-editor;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

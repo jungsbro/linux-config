@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 
 # config_xfce4 =================================================================
-# python3 /core/linux/bin/de/xfce4/config_xfce4.py ${CUR_USER}
+# python3 /core/linux/bin/wmde/xfce4/config_xfce4.py ${CUR_USER}
 # ==============================================================================
 
 # env ==========================================================================
@@ -422,8 +422,8 @@ def set_panel_clock():
 # ------------------------------------------------------------------------------
 
 def set_panel(): # not used
-    xfce4_panel_dir = "/core/linux/bin/de/xfce4/panel"
-    xfce4_panel_path = "/core/linux/bin/de/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    xfce4_panel_dir = "/core/linux/bin/wmde/xfce4/panel"
+    xfce4_panel_path = "/core/linux/bin/wmde/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 
     dst_dir = f"{HOME_DIR}/.config/xfce4/panel"
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"

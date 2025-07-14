@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# desktop environment ==========================================================
-# bash /core/linux/bin/de/config_de.sh ${CUR_USER};
+# Window Manager / Desktop Environment =========================================
+# bash /core/linux/bin/wmde/config_wmde.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -18,10 +18,15 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # ==============================================================================
 
 
-# desktop environment ==========================================================
-function install_de_pkg()
+# Window Manager / Desktop Environment =========================================
+function install_wmde_pkg()
 {
-    if [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                          # lmde
+    if [[ *"${CUR_WMDE}" == *"icewm"* ]]; then                                          # icewm (anitx)
+        # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_synapse.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                      # lmde
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
         # ----------------------------------------------------------------------
@@ -72,28 +77,28 @@ function install_de_pkg()
         bash /core/linux/bin/system/install_synapse.sh;
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/de/install_dconf.sh;
-        bash /core/linux/bin/de/install_gnome-tweaks.sh;
+        bash /core/linux/bin/wmde/install_dconf.sh;
+        bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}" != *"cinnamon"* ]] && [[ *"${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/de/install_dconf.sh;
-        bash /core/linux/bin/de/install_gnome-tweaks.sh;
+        bash /core/linux/bin/wmde/install_dconf.sh;
+        bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         # bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
+    elif [[ *"${CUR_WMDE}" == *"cinnamon"* ]]; then                                         # cinnamon(mint)
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/de/install_dconf.sh;
-        bash /core/linux/bin/de/install_gnome-tweaks.sh;
+        bash /core/linux/bin/wmde/install_dconf.sh;
+        bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
     fi
 }
 
-function config_de()
+function config_wmde()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -102,43 +107,48 @@ function config_de()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                          # lmde
+    if [[ *"${CUR_WMDE}" == *"icewm"* ]]; then                                              # icewm (anitx)
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-launch python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}";
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_WMDE}" == *"xfce4"* ]]; then                                          # xfce4
-        # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-launch bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER}";
+        echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}" == *"mate"* ]]; then                                           # mate
+    elif [[ *"${CUR_WMDE}" == *"openbox"* ]]; then                                          # lmde
+        # ----------------------------------------------------------------------
+        su - ${CUR_USER} -c "dbus-launch python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}" == *"xfce4"* ]]; then                                            # xfce4
+        # ----------------------------------------------------------------------
+        su - ${CUR_USER} -c "dbus-launch bash /core/linux/bin/wmde/xfce4/config_xfce4.sh ${CUR_USER}";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}" == *"mate"* ]]; then                                             # mate
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/de/mate/mate-backup ]] && \
-        dbus-launch dconf load /org/mate/ < /core/linux/bin/de/mate/mate-backup";
+        "[[ -f /core/linux/bin/wmde/mate/mate-backup ]] && \
+        dbus-launch dconf load /org/mate/ < /core/linux/bin/wmde/mate/mate-backup";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}" != *"cinnamon"* ]] && [[ *"${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/de/gnome/gnome-backup ]] && \
-        dbus-run-session dconf load /org/gnome/ < /core/linux/bin/de/gnome/gnome-backup";
+        "[[ -f /core/linux/bin/wmde/gnome/gnome-backup ]] && \
+        dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome-backup";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/de/cinnamon/cinnamon-backup ]] && \
-        dbus-run-session dconf load /org/cinnamon/ < /core/linux/bin/de/cinnamon/cinnamon-backup";
+        "[[ -f /core/linux/bin/wmde/cinnamon/cinnamon-backup ]] && \
+        dbus-run-session dconf load /org/cinnamon/ < /core/linux/bin/wmde/cinnamon/cinnamon-backup";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 }
 
 # ------------------------------------------------------------------------------
-install_de_pkg;
-config_de;
+install_wmde_pkg;
+config_wmde;
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

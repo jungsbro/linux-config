@@ -1,7 +1,7 @@
 # /bin/bash
 
 # desktop environment ==========================================================
-# bash /core/linux/bin/de/xfce4/config_xfce4.sh ${CUR_USER};
+# bash /core/linux/bin/wmde/xfce4/config_xfce4.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -51,7 +51,7 @@ function set_shortcuts()
 {
     # window tile (not used) ---------------------------------------------------
     # local tog_fs_path="/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
-    
+
     # win+keypad_up >> win+up
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
@@ -70,12 +70,12 @@ function set_shortcuts()
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "fill_window_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "fill_window_key";
-    
+
     # shift+win+up
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "tile_up_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "tile_up_key";
     # --------------------------------------------------------------------------
-    
+
     # window tile (down, left, right) ------------------------------------------
     # win+keypad_down >> win+down
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Down" "string" "";

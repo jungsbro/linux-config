@@ -134,6 +134,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
     [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
     [[ -n $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
+    [[ -n $(apt list --installed | grep -i ^speedtest-cli) ]] || apt install -y speedtest-cli;
+    [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
@@ -192,9 +194,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-        [[ -n $(apt list --installed | grep -i ^bpytop) ]] || apt install -y bpytop;
-    fi
+    [[ -n $(apt list --installed | grep -i ^btop) ]] || apt install -y btop;
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
     # --------------------------------------------------------------------------
@@ -222,7 +222,8 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^htop) ]] || dnf install -y htop;
     # --------------------------------------------------------------------------
-    # dnf install -y bpytop;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^btop) ]] || dnf install -y btop;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^nmon) ]] || dnf install -y nmon;
@@ -237,15 +238,19 @@ fi
 
 
 # etc ==========================================================================
-# if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-#     # --------------------------------------------------------------------------
-#     apt install -y nyancat cmatrix tty-clock;
-#     # --------------------------------------------------------------------------
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+    [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
+    # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
+    # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
+    # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
+    # --------------------------------------------------------------------------
 # elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 #     # --------------------------------------------------------------------------
 #     yum install -y nyancat cmatrix tty-clock;
 #     # --------------------------------------------------------------------------
-# fi
+fi
 # ==============================================================================
 
 # vim ==========================================================================

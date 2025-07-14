@@ -4,7 +4,7 @@ import shutil
 import xml.etree.ElementTree as ET
 
 # config_lxde ==================================================================
-# python3 /core/linux/bin/de/lxde/config_lxde.py ${CUR_USER}
+# python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}
 # ==============================================================================
 
 # env ==========================================================================
@@ -561,10 +561,10 @@ Plugin {
 
     # --------------------------------------------------------------------------
     if is_rpi():
-        panel_path = "/core/linux/bin/de/lxde/panel-pi";
+        panel_path = "/core/linux/bin/wmde/lxde/panel-pi";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE-pi/panels/panel"
     else:
-        panel_path = "/core/linux/bin/de/lxde/panel";
+        panel_path = "/core/linux/bin/wmde/lxde/panel";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE/panels/panel"
 
     if not os.path.isfile(dst_path):
@@ -702,7 +702,7 @@ def set_mouse_double_click():
 
 def set_shortcuts():
     # --------------------------------------------------------------------------
-    lxde_rc_path = "/core/linux/bin/de/lxde/lxde-rc.xml";
+    lxde_rc_path = "/core/linux/bin/wmde/lxde/lxde-rc.xml";
 
     if is_rpi():
         dst_path = f"{HOME_DIR}/.config/openbox/lxde-pi-rc.xml"
