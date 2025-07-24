@@ -43,8 +43,9 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
         # [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
         # [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n fcitx;
     else
-        [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
-        [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
+        echo ""
+        # [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
+        # [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
     fi
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^fonts-nanum) ]] || apt install -y \

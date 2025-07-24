@@ -273,7 +273,7 @@
   </keybind>
   <keybind key="A-F2">
       <action name="Execute">
-          <command>lxpanelctl run</command>
+          <command>/usr/bin/synapse</command>
       </action>
   </keybind>
 
