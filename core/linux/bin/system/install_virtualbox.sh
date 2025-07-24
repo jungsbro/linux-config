@@ -16,7 +16,8 @@ NAME="virtualbox-7.0";
 # /core/linux/src/virtualbox-7.0
 TMP_DIR= "/core/linux/src/${NAME}";
 
-VER="7.0.18"
+# https://download.virtualbox.org/virtualbox/7.1.12/virtualbox-7.1_7.1.12-169651~Debian~bookworm_amd64.deb
+VER="7.1.12"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

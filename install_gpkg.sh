@@ -4,6 +4,13 @@
 # sudo bash ./install_gpkg.sh jungs;
 # ==============================================================================
 
+# checking pkg-ver =============================================================
+# anydesk
+# doublecmd
+# freetube
+# virtualbox
+# freefilesync
+# ==============================================================================
 
 # ENV ==========================================================================
 # CUR_USER ---------------------------------------------------------------------
@@ -182,7 +189,7 @@ bash /core/linux/bin/internet/install_firefox.sh;
 # ==============================================================================
 
 # ftp ==========================================================================
-bash /core/linux/bin/internet/install_filezilla.sh;
+# bash /core/linux/bin/internet/install_filezilla.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
@@ -199,7 +206,7 @@ bash /core/linux/bin/office/install_libreoffice.sh;
 
 # paint ========================================================================
 bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
-bash /core/linux/bin/graphics/install_kolourpaint.sh;
+# bash /core/linux/bin/graphics/install_kolourpaint.sh;
 # bash /core/linux/bin/graphics/install_inkscape.sh;
 bash /core/linux/bin/graphics/install_drawing.sh;
 # ==============================================================================
