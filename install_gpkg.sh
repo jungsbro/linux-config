@@ -12,6 +12,13 @@
 # freefilesync
 # ==============================================================================
 
+# gtk-pkg ======================================================================
+# autokey-gtk
+# doublecmd-gtk
+# redshiflt-gtk
+# vim-gtk
+# ==============================================================================
+
 # ENV ==========================================================================
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
@@ -61,19 +68,19 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # snap =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    echo "";
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_snap.sh;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_snap.sh;
-    # --------------------------------------------------------------------------
-fi
+# if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+#     echo "";
+
+# elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+#     bash /core/linux/bin/pkgmgmt/install_snap.sh;
+
+# elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+#     bash /core/linux/bin/pkgmgmt/install_snap.sh;
+# fi
+# ==============================================================================
+
+# nix ==========================================================================
+# bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
 # ==============================================================================
 
 # bottles ======================================================================
@@ -126,7 +133,7 @@ bash /core/linux/bin/wmde/config_wmde.sh ${CUR_USER};
 
 # korean =======================================================================
 bash /core/linux/bin/system/install_korean.sh;
-bash /core/linux/bin/system/install_font-manager.sh;
+bash /core/linux/bin/system/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 
 # hotkey =======================================================================
@@ -139,10 +146,10 @@ bash /core/linux/bin/system/install_redshift.sh ${CUR_USER};
 
 # sandbox ======================================================================
 bash /core/linux/bin/system/install_firejail.sh;
-# snapshot =====================================================================
+# ==============================================================================
 
 # cleaner ======================================================================
-bash /core/linux/bin/system/install_stacer.sh;
+bash /core/linux/bin/system/install_stacer.sh ${CUR_USER};
 # ==============================================================================
 
 # snapshot =====================================================================
@@ -159,7 +166,7 @@ bash /core/linux/bin/system/install_gnome-disk-utility.sh;
 
 # ide ==========================================================================
 # bash /core/linux/bin/ide/install_geany.sh;
-bash /core/linux/bin/ide/install_vscode.sh;
+bash /core/linux/bin/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
@@ -208,7 +215,7 @@ bash /core/linux/bin/office/install_libreoffice.sh;
 bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
 # bash /core/linux/bin/graphics/install_kolourpaint.sh;
 # bash /core/linux/bin/graphics/install_inkscape.sh;
-bash /core/linux/bin/graphics/install_drawing.sh;
+bash /core/linux/bin/graphics/install_drawing.sh ${CUR_USER};
 # ==============================================================================
 
 # xnview =======================================================================
@@ -224,7 +231,7 @@ bash /core/linux/bin/utilities/install_freefilesync.sh;
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-# bash /core/linux/bin/utilities/install_simplescreenrecorder.sh;
+# bash /core/linux/bin/utilities/install_simplescreenrecorder.sh ${CUR_USER};
 # ==============================================================================
 
 

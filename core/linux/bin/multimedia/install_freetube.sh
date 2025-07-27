@@ -4,35 +4,41 @@
 # bash /core/linux/bin/multimedia/install_freetube.sh;
 # ==============================================================================
 
-# ==============================================================================
+
+# ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-FT_NAME="freetube";
+APP_NAME="freetube";
+
+# freetube
+APP_UNIQUE_NAME="${APP_NAME}"
 
 # /tmp/freetube
-TMP_DIR="/tmp/${FT_NAME}";
+TMP_DIR="/tmp/${APP_NAME}";
 
 # /opt/freetube
-FT_DIR="/opt/${FT_NAME}";
+APP_DIR="/opt/${APP_NAME}";
 
-FT_VER="0.23.5"
+APP_VER="0.23.5"
 
-FT_ROOT_URL="https://github.com/FreeTubeApp/FreeTube/releases/download"
+APP_ROOT_URL="https://github.com/FreeTubeApp/FreeTube/releases/download"
 
-FT_ICON_URL="https://freetubeapp.io/images/iconWhite.png";
+APP_ICON_URL="https://freetubeapp.io/images/iconWhite.png";
 
 # freetube-icon.png
-FT_ICON_NAME="${FT_NAME}-icon.png";
+APP_ICON_NAME="${APP_UNIQUE_NAME}-icon.png";
+
+APP_GRP="AudioVideo;Player"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 
-# freetube : x86_64, aarch64 (deb, rpm) ========================================
+# deb, rpm : x86_64, aarch64 ===================================================
 function install_freetube_for_deb()
 {
     # --------------------------------------------------------------------------
@@ -47,16 +53,16 @@ function install_freetube_for_deb()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
         # freetube_0.23.5_amd64.deb
-        local FNAME="${FT_NAME}_${FT_VER}_amd64.deb";
+        local FNAME="${APP_NAME}_${APP_VER}_amd64.deb";
 
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         # freetube_0.23.5_arm64.deb
-        local FNAME="${FT_NAME}_${FT_VER}_arm64.deb";
+        local FNAME="${APP_NAME}_${APP_VER}_arm64.deb";
     fi
 
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_amd64.deb
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_arm64.deb
-    local SRC_URL="${FT_ROOT_URL}/v${FT_VER}-beta/${FNAME}"
+    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -91,16 +97,16 @@ function install_freetube_for_rpm()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
         # freetube-0.23.5.amd64.rpm
-        local FNAME="${FT_NAME}_${FT_VER}_amd64.rpm";
+        local FNAME="${APP_NAME}_${APP_VER}_amd64.rpm";
 
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         # freetube_0.23.5_arm64.rpm
-        local FNAME="${FT_NAME}_${FT_VER}_arm64.rpm";
+        local FNAME="${APP_NAME}_${APP_VER}_arm64.rpm";
     fi
 
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_amd64.rpm
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_arm64.rpm
-    local SRC_URL="${FT_ROOT_URL}/v${FT_VER}-beta/${FNAME}"
+    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -123,7 +129,7 @@ function install_freetube_for_rpm()
 
 
 
-# freetube : x86_64, aarch64 (flatpak) =========================================
+# flatpak : x86_64, aarch64 ====================================================
 function install_freetube_for_flatpak()
 {
     # --------------------------------------------------------------------------
@@ -153,35 +159,20 @@ function install_freetube_for_flatpak()
 
 
 
-# freetube : x86_64, aarch64 (appimage, portable-zip) ==========================
+# appimage, portable-zip : x86_64, aarch64 =====================================
 function set_desktop()
 {
-    # --------------------------------------------------------------------------
-    local EXEC_PATH=${1}
-    local ICON_PATH=${2}
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # /opt/freetube/freetube-icon.png
-    wget ${FT_ICON_URL} -O ${ICON_PATH};
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------       
     local DESKTOP_CMD="[Desktop Entry]
 Encoding=UTF-8
-Name=${FT_NAME}
+Name=${APP_NAME}
 Comment=Watch YouTube videos without ads and tracking
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Terminal=false
 Type=Application
-Categories=AudioVideo;Player";
-
-    # /usr/share/applications/freetube.deskop
-    local DESKTOP_PATH="/usr/share/applications/${FT_NAME}.desktop";
+Categories=${APP_GRP}";
 
     echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-    # --------------------------------------------------------------------------
 }
 
 
@@ -193,7 +184,7 @@ function install_freetube_for_portable()
     fi
 
     # /opt/freetube
-    if [[ -e ${FT_DIR} ]]; then
+    if [[ -e ${APP_DIR} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
@@ -201,16 +192,16 @@ function install_freetube_for_portable()
     # 1) SRC_URL ---------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
         # freetube-0.23.5-linux-x64-portable.zip
-        local FNAME="${FT_NAME}-${FT_VER}-linux-x64-portable.zip";
+        local FNAME="${APP_NAME}-${APP_VER}-linux-x64-portable.zip";
 
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         # freetube-0.23.5-linux-arm64-portable.zip
-        local FNAME="${FT_NAME}-${FT_VER}-linux-arm64-portable.zip";
+        local FNAME="${APP_NAME}-${APP_VER}-linux-arm64-portable.zip";
     fi
 
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5-linux-x64-portable.zip
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5-linux-arm64-portable.zip
-    local SRC_URL="${FT_ROOT_URL}/v${FT_VER}-beta/${FNAME}";
+    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}";
     # --------------------------------------------------------------------------
 
     # 2) ZIP_PATH --------------------------------------------------------------
@@ -229,25 +220,40 @@ function install_freetube_for_portable()
     fi
     # --------------------------------------------------------------------------
 
-    # 3) FT_DIR ----------------------------------------------------------------   
+    # 3) APP_DIR ----------------------------------------------------------------   
     # unzip /core/linux/src/freetube/freetube-0.23.5-linux-x64-portable.zip -d /opt/freetube;
-    unzip "${ZIP_PATH}" -d ${FT_DIR};
+    unzip "${ZIP_PATH}" -d ${APP_DIR};
     rm -f "${ZIP_PATH}";
     
     # /opt/freetube
-    if [[ ! -d "${FT_DIR}" ]]; then
+    if [[ ! -d "${APP_DIR}" ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
-    # 4) DESKTOP_PATH ----------------------------------------------------------
+    # 4) EXEC_PATH -------------------------------------------------------------
     # /opt/freetube/freetube
-    local EXEC_PATH="${FT_DIR}/${FT_NAME}"
-
+    local EXEC_PATH="${APP_DIR}/${APP_NAME}"
+    # --------------------------------------------------------------------------
+    
+    # 5) ICON_PATH -------------------------------------------------------------
+    # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/freetube/freetube-icon.png
-    local ICON_PATH="${FT_DIR}/${FT_ICON_NAME}";
+    # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";   
+    # wget ${APP_ICON_URL} -O ${ICON_PATH};
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # /usr/share/icons/Papirus/48x48/apps/freetube.svg
+    local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # --------------------------------------------------------------------------
 
-    set_desktop ${EXEC_PATH} ${ICON_PATH};
+    # 6) DESKTOP_PATH ----------------------------------------------------------
+    # /usr/share/applications/freetube.deskop
+    local DESKTOP_PATH="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+
+    set_desktop;
     # --------------------------------------------------------------------------
 }
 
@@ -260,7 +266,7 @@ function install_freetube_for_appimg()
     fi
 
     # /opt/freetube
-    if [[ -e "${FT_DIR}" ]]; then
+    if [[ -e "${APP_DIR}" ]]; then
         return
     fi
     # --------------------------------------------------------------------------
@@ -268,42 +274,53 @@ function install_freetube_for_appimg()
     # 1) SRC_URL ---------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
         # FreeTube-0.23.5-amd64.AppImage
-        local FNAME="FreeTube-${FT_VER}-amd64.AppImage";
+        local FNAME="FreeTube-${APP_VER}-amd64.AppImage";
 
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         # FreeTube-0.23.5-arm64.AppImage
-        local FNAME="FreeTube-${FT_VER}-arm64.AppImage";
+        local FNAME="FreeTube-${APP_VER}-arm64.AppImage";
     fi
 
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/FreeTube-0.23.5-amd64.AppImage
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/FreeTube-0.23.5-arm64.AppImage
-    local SRC_URL="${FT_ROOT_URL}/v${FT_VER}-beta/${FNAME}";
+    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}";
 
     # 2) EXEC_PATH -------------------------------------------------------------
     # /opt/freetube/FreeTube-0.23.5-amd64.AppImage
     # /opt/freetube/FreeTube-0.23.5-arm64.AppImage
-    local EXEC_PATH="${FT_DIR}/${FNAME}";
+    local EXEC_PATH="${APP_DIR}/${FNAME}";
 
     # /opt/freetube
-    mkdir -p ${FT_DIR};
+    mkdir -p ${APP_DIR};
 
     wget ${SRC_URL} -O ${EXEC_PATH};
     chmod +x ${EXEC_PATH};
     # --------------------------------------------------------------------------
 
     # 3) ICON_PATH -------------------------------------------------------------
+    # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/freetube/freetube-icon.png
-    local ICON_PATH="${FT_DIR}/${FT_ICON_NAME}";
+    # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";
+    # wget ${APP_ICON_URL} -O ${ICON_PATH};
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+    # /usr/share/icons/Papirus/48x48/apps/freetube.svg
+    local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
     # 4) DESKTOP_PATH ----------------------------------------------------------    
-    set_desktop ${EXEC_PATH} ${ICON_PATH};
+    # /usr/share/applications/freetube.deskop
+    local DESKTOP_PATH="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+    
+    set_desktop;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
 
-# ==============================================================================
+# Main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     install_freetube_for_deb;
