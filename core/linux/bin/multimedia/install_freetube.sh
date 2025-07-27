@@ -97,21 +97,21 @@ function install_freetube_for_rpm()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
         # freetube-0.23.5.amd64.rpm
-        local FNAME="${APP_NAME}_${APP_VER}_amd64.rpm";
+        local FNAME="${APP_NAME}-${APP_VER}.amd64.rpm";
 
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        # freetube_0.23.5_arm64.rpm
-        local FNAME="${APP_NAME}_${APP_VER}_arm64.rpm";
+        # freetube-0.23.5_arm64.rpm
+        local FNAME="${APP_NAME}-${APP_VER}.arm64.rpm";
     fi
 
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_amd64.rpm
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_arm64.rpm
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5.amd64.rpm
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5.arm64.rpm
     local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/freetube/freetube_0.23.5_amd64.rpm
-    # /tmp/freetube/freetube_0.23.5_arm64.rpm
+    # /tmp/freetube/freetube-0.23.5.amd64.rpm
+    # /tmp/freetube/freetube-0.23.5.arm64.rpm
     local SRC_PATH="${TMP_DIR}/${FNAME}"
 
     if [[ ! -e ${SRC_PATH} ]]; then

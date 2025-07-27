@@ -24,7 +24,7 @@ function install_freefilesync()
     # --------------------------------------------------------------------------
     local NAME="FreeFileSync";
     
-    local VER="14.3"
+    local VER="14.4"
     
     # FreeFileSync_14.3_Linux.tar.gz
     local FNAME="${NAME}_${VER}_Linux.tar.gz";

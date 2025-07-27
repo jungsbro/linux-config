@@ -39,7 +39,7 @@ function install_wmde_pkg()
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then
+        if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then                                         # mxlinux xfce4
             # ------------------------------------------------------------------
             bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
             # bash /core/linux/bin/system/install_plank.sh ${CUR_USER};
@@ -119,7 +119,7 @@ function config_wmde()
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-launch bash /core/linux/bin/wmde/xfce4/config_xfce4.sh ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-run-session bash /core/linux/bin/wmde/xfce4/config_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate

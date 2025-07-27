@@ -210,8 +210,9 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         install_dc_for_portable;
     elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         install_dc_for_portable;
-    else
-        install_dc_for_appimg;
+    else                        # x86_64
+        install_dc_for_portable;
+        # install_dc_for_appimg;
     fi
     # --------------------------------------------------------------------------
 fi

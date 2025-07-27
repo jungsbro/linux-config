@@ -99,6 +99,12 @@ function install_font-manager_for_nix()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
     if [[ -f ${NIX_DESKTOP_PATH} ]]; then
+        # ----------------------------------------------------------------------
+        if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
+            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
+        fi
+        # ----------------------------------------------------------------------
+        
         su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
     else
         set_desktop;    

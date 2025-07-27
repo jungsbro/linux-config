@@ -77,6 +77,7 @@ function install_galculator_for_nix()
     
     # 4) ICON_PATH -------------------------------------------------------------    
     # ~/.nix-profile/share/icons/icons/hicolor/scalable/apps/galculator.svg
+    # ~/.nix-profile/share/icons/icons/hicolor/48x48/apps/galculator.png
     local NIX_ICON_PATH="${HOME_DIR}/.nix-profile/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg"
     
     if [[ -f ${NIX_ICON_PATH} ]]; then
@@ -100,6 +101,12 @@ function install_galculator_for_nix()
     local DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${APP_UNIQUE_NAME}.desktop";
     
     if [[ -f ${NIX_DESKTOP_PATH} ]]; then
+        # ----------------------------------------------------------------------
+        if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
+            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
+        fi
+        # ----------------------------------------------------------------------
+        
         su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
     else
         set_desktop;
