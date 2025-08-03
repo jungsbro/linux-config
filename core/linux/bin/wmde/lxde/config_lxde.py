@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import subprocess
 import xml.etree.ElementTree as ET
 
 # config_lxde ==================================================================
@@ -30,14 +31,14 @@ def set_home_dir():
 HOME_DIR = set_home_dir()
 # ------------------------------------------------------------------------------
 
-def is_rpi():
+def is_rpios():
     cmd = "uname -r"        # -r : kernel-release
     stream = os.popen(cmd)
-    output = stream.read()  # 6.6.31+rpt-rpi-v8
+    output = stream.read()  # 6.12.34+rpt-rpi-v8
 
-    if "rpi" in output:
+    if "rpi" in output:     # rpios
         return True
-    else:
+    else:                   # amd64, arm64
         return False
 # ------------------------------------------------------------------------------
 
@@ -183,12 +184,13 @@ def config_hotkey(ns, dst_path):
         keybind_elem = family_elem_list[-1]
         if keybind_elem: return
 
-        """ 1) keybind element """
+        # 1) keybind element ---------------------------------------------------
         keybind_elem = ET.Element(f"{ns}keybind")
         keybind_elem.attrib={"key": hotkey}
         keyboard_elem.append(keybind_elem)
+        # ----------------------------------------------------------------------
 
-        """ 2) action element """
+        # 2) action element ----------------------------------------------------
         axn_elem = ET.Element(f"{ns}action")
         if "/usr/bin" in cmd:
             axn_elem.attrib={"name": "Execute"}
@@ -196,73 +198,99 @@ def config_hotkey(ns, dst_path):
         else:
             axn_elem.attrib={"name": cmd}
         keybind_elem.append(axn_elem)
+        # ----------------------------------------------------------------------
     # --------------------------------------------------------------------------
 
     # W-d / C-A-d 추가 : show desktop ------------------------------------------
-    # add_hotkey("W-d", "ToggleShowDesktop")
-    # add_hotkey("C-A-d", "ToggleShowDesktop")
+    # remove_hotkey("W-d")
+    # add_hotkey("W-d", "ToggleShowDesktop")      # alreay exists in lxde-rc.xml
+
+    # remove_hotkey("C-A-d")
+    # add_hotkey("C-A-d", "ToggleShowDesktop")    # alreay exists in lxde-rc.xml
+    # --------------------------------------------------------------------------
+
+    # W-P : Display Settings ---------------------------------------------------
+    remove_hotkey("W-P")
+    add_hotkey("W-P", "/usr/bin/lxrandr")
     # --------------------------------------------------------------------------
 
     # C-A-t 추가 : terminal ----------------------------------------------------
+    remove_hotkey("C-A-t")
     add_hotkey("C-A-t", "/usr/bin/lxterminal")
     # --------------------------------------------------------------------------
 
     # W-Tab 추가 : expose ------------------------------------------------------
+    remove_hotkey("W-Tab")
     add_hotkey("W-Tab", "/usr/bin/skippy-xd")
     # --------------------------------------------------------------------------
 
     # A-Tab 추가 : next windows ------------------------------------------------
-    # add_hotkey("A-Tab", "NextWindow")
+    # remove_hotkey("A-Tab")
+    # add_hotkey("A-Tab", "NextWindow")   # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-f 추가 : find files ----------------------------------------------------
-    # add_hotkey("W-f", "/usr/bin/pcmanfm --find-files")
+    # remove_hotkey("W-f")
+    # add_hotkey("W-f", "/usr/bin/pcmanfm --find-files")    # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-r / A-F2 추가 : spotlight ----------------------------------------------
-    # add_hotkey("W-r", "/usr/bin/lxpanelctl run")
-    # add_hotkey("A-F2", "/usr/bin/lxpanelctl run")
+    # add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
+    remove_hotkey("A-F2")
+    add_hotkey("A-F2", "/usr/bin/synapse")
     # --------------------------------------------------------------------------
 
     # C-Escape / A-F1 추가 : lx menu -------------------------------------------
-    # add_hotkey("C-Escape", "/usr/bin/lxpanelctl menu")
-    # add_hotkey("A-F1", "/usr/bin/lxpanelctl menu")
+    # remove_hotkey("C-Escape")
+    # add_hotkey("C-Escape", "/usr/bin/lxpanelctl menu")  # alreay exists in lxde-rc.xml
+
+    # remove_hotkey("A-F1")
+    # add_hotkey("A-F1", "/usr/bin/lxpanelctl menu")      # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-i 추가 lx settings -----------------------------------------------------
-    add_hotkey("W-i", "/usr/bin/lxpanelctl menu")
+    lxcc_path = f"{HOME_DIR}/.local/bin/lxcc.py"
+    remove_hotkey("W-i")
+    add_hotkey("W-i", f"/usr/bin/python3 {lxcc_path}")
     # --------------------------------------------------------------------------
 
     # A-F11 추가 : toggle fullscreen -------------------------------------------
-    # add_hotkey("A-F11", "ToggleFullscreen")
+    # remove_hotkey("A-F11")
+    # add_hotkey("A-F11", "ToggleFullscreen")     # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # S-C-Escape 추가 : lx task (밑에 logout보다 먼저실행해야 한다.)
+    # A-C-Delete 추가 : logout -------------------------------------------------
     remove_hotkey("A-C-Delete")
-    add_hotkey("S-C-Escape", "/usr/bin/lxtask")
-
-    # A-C-Delete 추가 : logout
     add_hotkey("A-C-Delete", "/usr/bin/lxde-logout")
     # --------------------------------------------------------------------------
 
     # W-l 추가 : lock screen ---------------------------------------------------
+    remove_hotkey("W-l")
     add_hotkey("W-l", "/usr/bin/lxlock")
     # --------------------------------------------------------------------------
 
-    # W-x 추가 : xkill (추가 해야하는데 일단 보류) -----------------------------
-    # add_hotkey("W-x", "/usr/bin/xkill")
+    # S-C-Escape 추가 : lx task (A-C-Delete >> S-C-Escape) ---------------------
+    remove_hotkey("S-C-Escape")
+    add_hotkey("S-C-Escape", "/usr/bin/lxtask")
+    # --------------------------------------------------------------------------
+
+    # W-x 추가 : xkill (추가 해야하는데 일단 보류) ------------------------------
+    remove_hotkey("W-x")
+    add_hotkey("W-x", "/usr/bin/xkill")
     # --------------------------------------------------------------------------
 
     # W-Up 추가 ----------------------------------------------------------------
+    remove_hotkey("W-Up")
     add_hotkey("W-Up", "Maximize")
     # --------------------------------------------------------------------------
 
     # W-Down 추가 --------------------------------------------------------------
+    remove_hotkey("W-Down")
     add_hotkey("W-Down", "Unmaximize")
     # --------------------------------------------------------------------------
 
     # W-Left 추가 --------------------------------------------------------------
+    remove_hotkey("W-Left")
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
@@ -300,6 +328,7 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-Right 추가 -------------------------------------------------------------
+    remove_hotkey("W-Right")
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
@@ -337,6 +366,8 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # A-space 추가 : show menu -------------------------------------------------
+    # alreay exists in lxde-rc.xml
+
     # family_info_list = [
     #     (f"{ns}keyboard", {}),
     #     (f"{ns}keybind", {"key":"A-space"}),
@@ -359,6 +390,8 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-e 추가 : home folder ---------------------------------------------------
+    # alreay exists in lxde-rc.xml
+
     # family_info_list = [
     #     (f"{ns}keyboard", {}),
     #     (f"{ns}keybind", {"key":"W-e"}),
@@ -396,14 +429,14 @@ def config_hotkey(ns, dst_path):
     elem_tree.write(dst_path, encoding="utf-8", xml_declaration=True)
     # --------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
+
 # ==============================================================================
 
 
 
 # Func =========================================================================
-
-# 1) panel-height / panel-style / panel-clock settings ~~~~~~~~~~~~~~~~~~~~~~~~~
 def set_panel():
+    # 1) panel-height / panel-style / panel-clock settings
     # data ---------------------------------------------------------------------
     data='''# lxpanel <profile> config file. Manually editing is not recommended.
 # Use preference dialog in lxpanel to adjust config when you can.
@@ -553,11 +586,11 @@ Plugin {
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if is_rpi():
-        panel_path = "/core/linux/bin/wmde/lxde/panel-pi";
+    if is_rpios():
+        src_path = "/core/linux/bin/wmde/lxde/panel-pi";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE-pi/panels/panel"
     else:
-        panel_path = "/core/linux/bin/wmde/lxde/panel";
+        src_path = "/core/linux/bin/wmde/lxde/panel";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE/panels/panel"
 
     if not os.path.isfile(dst_path):
@@ -566,14 +599,14 @@ Plugin {
         f.close()
     # --------------------------------------------------------------------------
 
-    if os.path.isfile(panel_path):
+    if os.path.isfile(src_path):
         # backup dst-file ------------------------------------------------------
         if os.path.isfile(dst_path):
             bk_path = get_bk_path(dst_path)
             shutil.copy2(dst_path, bk_path)
         # ----------------------------------------------------------------------
 
-        shutil.copy2(panel_path, dst_path)
+        shutil.copy2(src_path, dst_path)
     else:
         # panel-height ---------------------------------------------------------
         old_str = "height=26"
@@ -596,17 +629,19 @@ Plugin {
         # ----------------------------------------------------------------------
 
         # panel-clock ----------------------------------------------------------
+        # PM 01:00
+        # 25-01-01 (Wed)
         old_str = "ClockFmt=%R"
         new_str = "ClockFmt=     %p %I:%M\\n%y-%m-%d (%a)"
         fix_settings(old_str, new_str, dst_path)
         # ----------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------------------------------------------------------
 
 
-# 2) desktop icon settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def set_desktop_icons():
+    # 2) desktop icon settings
     # --------------------------------------------------------------------------
-    if is_rpi():
+    if is_rpios():
         dst_path = f"{HOME_DIR}/.config/pcmanfm/LXDE-pi/desktop-items-0.conf"
     else:
         dst_path = f"{HOME_DIR}/.config/pcmanfm/LXDE/desktop-items-0.conf"
@@ -624,13 +659,13 @@ def set_desktop_icons():
     new_str = "show_mounts=1"
     fix_settings(old_str, new_str, dst_path)
     # --------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------------------------------------------------------
 
 
-# 3) icon theme settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def set_theme():
+    # 3) icon theme settings
     # --------------------------------------------------------------------------
-    if is_rpi():
+    if is_rpios():
         dst_path = f"{HOME_DIR}/.config/lxsession/LXDE-pi/desktop.conf"
     else:
         dst_path = f"{HOME_DIR}/.config/lxsession/LXDE/desktop.conf"
@@ -649,11 +684,11 @@ def set_theme():
     # --------------------------------------------------------------------------
 
     fix_settings(old_str, new_str, dst_path)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------------------------------------------------------
 
 
-# 4) defualt textEditor(mousepad) settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def set_text_editor():
+    # 4) defualt textEditor(mousepad) settings
     dst_path = f"{HOME_DIR}/.config/mimeapps.list"
 
     # --------------------------------------------------------------------------
@@ -671,18 +706,17 @@ text/plain=org.xfce.mousepad.desktop;
     #     bk_path = get_bk_path(dst_path)
     #     shutil.copy2(dst_path, bk_path
     # --------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------------------------------------------------------
 
 
-# 5) lxde-rc settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def set_mouse_double_click():
-    if is_rpi():
+    # 5) lxde-rc settings
+    if is_rpios():
         dst_path = f"{HOME_DIR}/.config/lxsession/LXDE-pi/desktop.conf"
         if not os.path.isfile(dst_path): return
 
         old_str = "iNet/DoubleClickTime=200"
         new_str = "iNet/DoubleClickTime=750"
-
     else:
         dst_path = f"{HOME_DIR}/.config/openbox/lxde-rc.xml"
         if not os.path.isfile(dst_path): return
@@ -691,20 +725,22 @@ def set_mouse_double_click():
         new_str = "<doubleClickTime>750</doubleClickTime>"
 
     fix_settings(old_str, new_str, dst_path)
+# ------------------------------------------------------------------------------
 
 
 def set_shortcuts():
+    # 5) lxde-rc settings
     # --------------------------------------------------------------------------
-    lxde_rc_path = "/core/linux/bin/wmde/lxde/lxde-rc.xml";
+    src_path = "/core/linux/bin/wmde/lxde/lxde-rc.xml";
 
-    if is_rpi():
+    if is_rpios():
         dst_path = f"{HOME_DIR}/.config/openbox/lxde-pi-rc.xml"
     else:
         dst_path = f"{HOME_DIR}/.config/openbox/lxde-rc.xml"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if os.path.isfile(lxde_rc_path):
+    if os.path.isfile(src_path):
         # backup dst-file ------------------------------------------------------
         if os.path.isfile(dst_path):
             bk_path = get_bk_path(dst_path)
@@ -716,14 +752,14 @@ def set_shortcuts():
         if not os.path.isdir(dst_dir):
             os.makedirs(dst_dir)
 
-        shutil.copy2(lxde_rc_path, dst_path)
+        shutil.copy2(src_path, dst_path)
         # ----------------------------------------------------------------------
     else:
         ns = "{http://openbox.org/3.4/rc}"
 
         config_hotkey(ns, dst_path)
     # --------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ------------------------------------------------------------------------------
 
 # ==============================================================================
 

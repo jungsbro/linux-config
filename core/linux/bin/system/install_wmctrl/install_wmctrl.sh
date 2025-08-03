@@ -24,18 +24,17 @@ function cp_toggle_fullscreen()     # not used
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # ~/my_scripts/ui/toggle_fullscreen.sh
-    local DST_SCRIPT_DIR='~/my_scripts/ui';
+    local SRC_DIR=$(dirname "$0");
+    local DST_DIR='~/.local/bin';
     local SCRIPT_NAME='toggle_fullscreen.sh';
+ 
+    # su - ${CUR_USER} -c "echo '${DST_DIR}'";
+    # su - ${CUR_USER} -c "echo ${SRC_DIR}/${SCRIPT_NAME}";
+    # su - ${CUR_USER} -c "echo ${DST_DIR}/${SCRIPT_NAME}";
     
-    # ~/my_scripts/ui/toggle_fullscreen.sh
-    # su - ${CUR_USER} -c "echo '${DST_SCRIPT_DIR}'";
-    # su - ${CUR_USER} -c "echo ${PWD}/${SCRIPT_NAME}";
-    # su - ${CUR_USER} -c "echo ${DST_SCRIPT_DIR}/${SCRIPT_NAME}";
-    
-    su - ${CUR_USER} -c "[[ -d ${DST_SCRIPT_DIR} ]] || mkdir -p ${DST_SCRIPT_DIR}";
-    su - ${CUR_USER} -c "[[ -f '${SCRIPT_PATH}' ]] || cp -f ${PWD}/${SCRIPT_NAME} ${DST_SCRIPT_DIR}/${SCRIPT_NAME}";
-    su - ${CUR_USER} -c "chmod 755 ${DST_SCRIPT_DIR}/${SCRIPT_NAME}";
+    su - ${CUR_USER} -c "[[ -d ${DST_DIR} ]] || mkdir -p ${DST_DIR}";
+    su - ${CUR_USER} -c "[[ -f '${DST_DIR}/${SCRIPT_NAME}' ]] || cp -f ${SRC_DIR}/${SCRIPT_NAME} ${DST_DIR}/${SCRIPT_NAME}";
+    su - ${CUR_USER} -c "chmod 755 ${DST_DIR}/${SCRIPT_NAME}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

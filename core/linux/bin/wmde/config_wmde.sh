@@ -26,7 +26,7 @@ function install_wmde_pkg()
         bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                      # lmde
+    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                      # lxde
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
         # ----------------------------------------------------------------------
@@ -36,6 +36,7 @@ function install_wmde_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/wmde/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
@@ -112,9 +113,9 @@ function config_wmde()
         echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                          # lmde
+    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                          # lxde
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-launch python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-run-session python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
@@ -126,7 +127,7 @@ function config_wmde()
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f /core/linux/bin/wmde/mate/mate-backup ]] && \
-        dbus-launch dconf load /org/mate/ < /core/linux/bin/wmde/mate/mate-backup";
+        dbus-run-session dconf load /org/mate/ < /core/linux/bin/wmde/mate/mate-backup";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
