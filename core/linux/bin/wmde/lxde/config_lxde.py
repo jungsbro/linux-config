@@ -150,8 +150,8 @@ def config_hotkey(ns, dst_path):
     # for sub_elem in root_elem:
     #     print(sub_elem.tag, sub_elem.attrib, sub_elem.text)
 
-    # --------------------------------------------------------------------------
     def remove_hotkey(hotkey):
+        # ----------------------------------------------------------------------
         family_info_list = [
             # tag             attrib
             (f"{ns}keyboard", {}),
@@ -163,14 +163,17 @@ def config_hotkey(ns, dst_path):
 
         keyboard_elem = family_elem_list[-2]
         keybind_elem = family_elem_list[-1]
+        # ----------------------------------------------------------------------
 
+        # 1) remove hotkey -----------------------------------------------------
         if not keybind_elem: return
         keyboard_elem.remove(keybind_elem)
+        # ----------------------------------------------------------------------
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
+
     def add_hotkey(hotkey, cmd):
-
+        # ----------------------------------------------------------------------
         family_info_list = [
             # tag             attrib
             (f"{ns}keyboard", {}),
@@ -182,15 +185,20 @@ def config_hotkey(ns, dst_path):
 
         keyboard_elem = family_elem_list[-2]
         keybind_elem = family_elem_list[-1]
-        if keybind_elem: return
+        # ----------------------------------------------------------------------
+        
+        # 1) remove hotkey -----------------------------------------------------
+        if keybind_elem: 
+            keyboard_elem.remove(keybind_elem)
+        # ----------------------------------------------------------------------
 
-        # 1) keybind element ---------------------------------------------------
+        # 2) keybind element ---------------------------------------------------
         keybind_elem = ET.Element(f"{ns}keybind")
         keybind_elem.attrib={"key": hotkey}
         keyboard_elem.append(keybind_elem)
         # ----------------------------------------------------------------------
 
-        # 2) action element ----------------------------------------------------
+        # 3) action element ----------------------------------------------------
         axn_elem = ET.Element(f"{ns}action")
         if "/usr/bin" in cmd:
             axn_elem.attrib={"name": "Execute"}
@@ -202,95 +210,79 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-d / C-A-d 추가 : show desktop ------------------------------------------
-    # remove_hotkey("W-d")
-    # add_hotkey("W-d", "ToggleShowDesktop")      # alreay exists in lxde-rc.xml
+    add_hotkey("W-d", "ToggleShowDesktop")      # alreay exists in lxde-rc.xml
 
-    # remove_hotkey("C-A-d")
-    # add_hotkey("C-A-d", "ToggleShowDesktop")    # alreay exists in lxde-rc.xml
+    add_hotkey("C-A-d", "ToggleShowDesktop")    # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-P : Display Settings ---------------------------------------------------
-    remove_hotkey("W-P")
     add_hotkey("W-P", "/usr/bin/lxrandr")
     # --------------------------------------------------------------------------
 
     # C-A-t 추가 : terminal ----------------------------------------------------
-    remove_hotkey("C-A-t")
     add_hotkey("C-A-t", "/usr/bin/lxterminal")
     # --------------------------------------------------------------------------
 
     # W-Tab 추가 : expose ------------------------------------------------------
-    remove_hotkey("W-Tab")
     add_hotkey("W-Tab", "/usr/bin/skippy-xd")
     # --------------------------------------------------------------------------
 
     # A-Tab 추가 : next windows ------------------------------------------------
-    # remove_hotkey("A-Tab")
-    # add_hotkey("A-Tab", "NextWindow")   # alreay exists in lxde-rc.xml
+    add_hotkey("A-Tab", "NextWindow")       # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-f 추가 : find files ----------------------------------------------------
-    # remove_hotkey("W-f")
-    # add_hotkey("W-f", "/usr/bin/pcmanfm --find-files")    # alreay exists in lxde-rc.xml
+    add_hotkey("W-f", "/usr/bin/pcmanfm --find-files")    # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-r / A-F2 추가 : spotlight ----------------------------------------------
-    # add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
-    remove_hotkey("A-F2")
+    add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
+    
     add_hotkey("A-F2", "/usr/bin/synapse")
     # --------------------------------------------------------------------------
 
     # C-Escape / A-F1 추가 : lx menu -------------------------------------------
-    # remove_hotkey("C-Escape")
-    # add_hotkey("C-Escape", "/usr/bin/lxpanelctl menu")  # alreay exists in lxde-rc.xml
+    add_hotkey("C-Escape", "/usr/bin/lxpanelctl menu")  # alreay exists in lxde-rc.xml
 
-    # remove_hotkey("A-F1")
-    # add_hotkey("A-F1", "/usr/bin/lxpanelctl menu")      # alreay exists in lxde-rc.xml
+    add_hotkey("A-F1", "/usr/bin/lxpanelctl menu")      # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # W-i 추가 lx settings -----------------------------------------------------
     lxcc_path = f"{HOME_DIR}/.local/bin/lxcc.py"
-    remove_hotkey("W-i")
     add_hotkey("W-i", f"/usr/bin/python3 {lxcc_path}")
     # --------------------------------------------------------------------------
 
     # A-F11 추가 : toggle fullscreen -------------------------------------------
-    # remove_hotkey("A-F11")
-    # add_hotkey("A-F11", "ToggleFullscreen")     # alreay exists in lxde-rc.xml
+    add_hotkey("A-F11", "ToggleFullscreen")     # alreay exists in lxde-rc.xml
     # --------------------------------------------------------------------------
 
     # A-C-Delete 추가 : logout -------------------------------------------------
-    remove_hotkey("A-C-Delete")
     add_hotkey("A-C-Delete", "/usr/bin/lxde-logout")
     # --------------------------------------------------------------------------
 
     # W-l 추가 : lock screen ---------------------------------------------------
-    remove_hotkey("W-l")
     add_hotkey("W-l", "/usr/bin/lxlock")
     # --------------------------------------------------------------------------
 
     # S-C-Escape 추가 : lx task (A-C-Delete >> S-C-Escape) ---------------------
-    remove_hotkey("S-C-Escape")
     add_hotkey("S-C-Escape", "/usr/bin/lxtask")
     # --------------------------------------------------------------------------
 
     # W-x 추가 : xkill (추가 해야하는데 일단 보류) ------------------------------
-    remove_hotkey("W-x")
     add_hotkey("W-x", "/usr/bin/xkill")
     # --------------------------------------------------------------------------
 
     # W-Up 추가 ----------------------------------------------------------------
-    remove_hotkey("W-Up")
     add_hotkey("W-Up", "Maximize")
     # --------------------------------------------------------------------------
 
     # W-Down 추가 --------------------------------------------------------------
-    remove_hotkey("W-Down")
     add_hotkey("W-Down", "Unmaximize")
     # --------------------------------------------------------------------------
 
     # W-Left 추가 --------------------------------------------------------------
     remove_hotkey("W-Left")
+    
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
@@ -329,6 +321,7 @@ def config_hotkey(ns, dst_path):
 
     # W-Right 추가 -------------------------------------------------------------
     remove_hotkey("W-Right")
+    
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
@@ -367,6 +360,7 @@ def config_hotkey(ns, dst_path):
 
     # A-space 추가 : show menu -------------------------------------------------
     # alreay exists in lxde-rc.xml
+    # remove_hotkey("A-space")
 
     # family_info_list = [
     #     (f"{ns}keyboard", {}),
@@ -391,6 +385,7 @@ def config_hotkey(ns, dst_path):
 
     # W-e 추가 : home folder ---------------------------------------------------
     # alreay exists in lxde-rc.xml
+    # remove_hotkey("W-e")
 
     # family_info_list = [
     #     (f"{ns}keyboard", {}),
