@@ -156,7 +156,12 @@ fi
 # info =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
+    if [[ -n $(apt list | grep -i ^neofetch) ]]; then
+        [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
+    fi
+    if [[ -n $(apt list | grep -i ^fastfetch) ]]; then
+        [[ -n $(apt list --installed | grep -i ^fastfetch) ]] || apt install -y fastfetch;
+    fi
     [[ -n $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
     [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
     [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
@@ -198,7 +203,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
+    # [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
     # --------------------------------------------------------------------------
@@ -241,15 +246,15 @@ fi
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
-    [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
+    # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
     # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
     # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
     # --------------------------------------------------------------------------
 # elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-#     # --------------------------------------------------------------------------
+#     # ------------------------------------------------------------------------
 #     yum install -y nyancat cmatrix tty-clock;
-#     # --------------------------------------------------------------------------
+#     # ------------------------------------------------------------------------
 fi
 # ==============================================================================
 

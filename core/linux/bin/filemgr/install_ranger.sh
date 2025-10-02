@@ -79,7 +79,12 @@ function install_ranger()
         [[ -n $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
+            if [[ -n $(apt list | grep -i ^mlocate) ]]; then
+                [[ -n $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
+            fi
+            if [[ -n $(apt list | grep -i ^plocate) ]]; then
+                [[ -n $(apt list --installed | grep -i ^plocate) ]] || apt install -y plocate;
+            fi
         fi
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
