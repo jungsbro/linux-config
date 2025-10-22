@@ -195,8 +195,8 @@ function set_workspace()
     # --------------------------------------------------------------------------
 
     # workspace count : 2 ------------------------------------------------------
-    # xfconf-query -c "xfwm4" -p "/general/workspace_count" -t "int" -s "2"
-    set_prop_value "xfwm4" "/general/workspace_count" "int" "2";
+    # xfconf-query -c "xfwm4" -p "/general/workspace_count" -t "int" -s "4"
+    set_prop_value "xfwm4" "/general/workspace_count" "int" "4";
     # --------------------------------------------------------------------------
 }
 

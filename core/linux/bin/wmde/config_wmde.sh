@@ -87,7 +87,7 @@ function install_wmde_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/wmde/install_dconf.sh;
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
-        # bash /core/linux/bin/system/install_theme.sh;
+        bbash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
