@@ -39,8 +39,8 @@ function install_autokey()
         [[ -n $(yum list installed | grep -i ^autokey) ]] || yum install -y autokey-gtk;
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
+		[[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+		[[ -n $(dnf list installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
         # ----------------------------------------------------------------------
     fi
 }
@@ -108,8 +108,11 @@ function config_autokey()
 
 
 # Main =========================================================================
-install_autokey;
-config_autokey;
+# autokey has conflict-error on rocky
+if [[ *"${CUR_VER}"* != *"rocky"* ]]; then
+	install_autokey;
+	config_autokey;
+fi
 # ==============================================================================
 
 exit 0

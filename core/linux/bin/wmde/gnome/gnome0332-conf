@@ -1,0 +1,201 @@
+[settings-daemon/plugins/power]
+sleep-inactive-battery-type='nothing'
+sleep-inactive-ac-timeout=3600
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-timeout=1800
+
+[settings-daemon/plugins/color]
+night-light-schedule-automatic=false
+night-light-schedule-from=7.0
+night-light-enabled=true
+
+[settings-daemon/plugins/media-keys]
+control-center='<Super>i'
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/']
+home='<Super>e'
+search='<Super>f'
+
+[settings-daemon/plugins/media-keys/custom-keybindings/custom2]
+binding='<Super>x'
+command='/usr/bin/xkill'
+name='xkill'
+
+[settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+binding='<Primary><Alt>t'
+command='/usr/bin/gnome-terminal'
+name='Terminal'
+
+[settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Primary><Shift>Escape'
+command='/usr/bin/gnome-system-monitor'
+name='System-monitor'
+
+[settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+binding='<Shift><Super>p'
+command='/usr/bin/gnome-control-center display'
+name='Display-settings'
+
+[settings-daemon/plugins/xsettings]
+antialiasing='grayscale'
+hinting='slight'
+
+[settings-daemon/peripherals/keyboard]
+numlock-state='on'
+
+[shell]
+app-picker-view=uint32 1
+command-history=['nautilus']
+enabled-extensions=['desktop-icons@gnome-shell-extensions.gcampax.github.com', 'horizontal-workspaces@gnome-shell-extensions.gcampax.github.com', 'window-list@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
+disable-user-extensions=false
+favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'yelp.desktop', 'org.gnome.Terminal.desktop']
+
+[shell/keybindings]
+toggle-overview=['<Super>Tab']
+toggle-application-view=['<Alt>F2']
+
+[gedit/preferences/editor]
+display-right-margin=true
+highlight-current-line=true
+display-overview-map=true
+bracket-matching=true
+auto-save=true
+scheme='cobalt'
+tabs-size=uint32 4
+display-line-numbers=true
+insert-spaces=true
+background-pattern='none'
+wrap-last-split-mode='word'
+auto-indent=true
+
+[gedit/preferences/ui]
+show-tabs-mode='auto'
+
+[gedit/plugins]
+active-plugins=['time', 'spell', 'modelines', 'filebrowser', 'docinfo']
+
+[gedit/state/window]
+size=(900, 690)
+state=87168
+bottom-panel-size=140
+side-panel-size=200
+side-panel-active-page='GeditWindowDocumentsPanel'
+
+[nautilus/preferences]
+search-view='list-view'
+default-folder-viewer='icon-view'
+search-filter-time-type='last_modified'
+
+[nautilus/window-state]
+sidebar-width=163
+maximized=false
+initial-size=(674, 687)
+
+[system/location]
+enabled=true
+
+[evolution-data-server]
+network-monitor-gio-name=''
+migrated=true
+
+[desktop/interface]
+clock-show-date=true
+show-battery-percentage=false
+clock-format='12h'
+clock-show-seconds=false
+icon-theme='Adwaita'
+gtk-im-module='ibus'
+gtk-theme='Adwaita-dark'
+
+[desktop/notifications]
+application-children=['org-gnome-software', 'org-gnome-tweaks', 'org-gnome-nautilus']
+
+[desktop/notifications/application/org-gnome-tweaks]
+application-id='org.gnome.tweaks.desktop'
+
+[desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[desktop/notifications/application/org-gnome-software]
+application-id='org.gnome.Software.desktop'
+
+[desktop/app-folders]
+folder-children=['Utilities', 'YaST']
+
+[desktop/app-folders/folders/Utilities]
+translate=true
+categories=['X-GNOME-Utilities']
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'gnome-system-monitor.desktop', 'gucharmap.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Calculator.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'eog.desktop', 'evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.Screenshot.desktop', 'seahorse.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'simple-scan.desktop', 'vinagre.desktop', 'yelp.desktop']
+name='X-GNOME-Utilities.directory'
+
+[desktop/app-folders/folders/YaST]
+translate=true
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+
+[desktop/screensaver]
+picture-uri='file:///usr/share/backgrounds/rocky8/icon-dark.xml'
+primary-color='#000000000000'
+picture-options='zoom'
+secondary-color='#000000000000'
+
+[desktop/search-providers]
+sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+
+[desktop/calendar]
+show-weekdate=false
+
+[desktop/privacy]
+report-technical-problems=true
+
+[desktop/wm/preferences]
+button-layout='appmenu:minimize,maximize,close'
+action-double-click-titlebar='toggle-maximize'
+action-middle-click-titlebar='none'
+
+[desktop/wm/keybindings]
+panel-run-dialog=['<Super>r']
+switch-applications=['<Alt>Tab']
+show-desktop=['<Super>d']
+switch-applications-backward=['<Shift><Alt>Tab']
+
+[desktop/sound]
+allow-volume-above-100-percent=false
+
+[desktop/background]
+picture-uri='file:///usr/share/backgrounds/rocky8/logo-dark.xml'
+primary-color='#000000000000'
+picture-options='zoom'
+secondary-color='#000000000000'
+
+[desktop/input-sources]
+show-all-sources=false
+xkb-options=@as []
+current=uint32 0
+mru-sources=[('ibus', 'hangul'), ('xkb', 'us')]
+sources=[('ibus', 'hangul')]
+
+[control-center]
+last-panel='background'
+
+[terminal/legacy]
+menu-accelerator-enabled=false
+schema-version=uint32 3
+
+[software]
+first-run=false
+online-updates-timestamp=int64 1761189528
+check-timestamp=int64 1761189225
+
+[Totem]
+subtitle-encoding='UTF-8'
+active-plugins=['vimeo', 'variable-rate', 'skipto', 'screenshot', 'screensaver', 'save-file', 'recent', 'movie-properties', 'media_player_keys', 'autoload-subtitles', 'apple-trailers']
+
+[gnome-system-monitor]
+show-dependencies=false
+maximized=false
+show-whose-processes='user'
+window-state=(700, 500, 50, 50)
+
+[gnome-system-monitor/disktreenew]
+col-6-visible=true
+col-6-width=0

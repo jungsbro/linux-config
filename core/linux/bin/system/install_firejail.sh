@@ -25,9 +25,11 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+	echo ""	
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^firejail) ]] || dnf install -y firejail;
+	# firejail not working
+    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list installed | grep -i ^firejail) ]] || dnf install -y firejail;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

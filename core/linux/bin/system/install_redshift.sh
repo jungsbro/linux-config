@@ -169,12 +169,14 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     config_redshift;
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+	echo ""
+	# gnome has night-light
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
-    [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
+    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
+    # [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
     # --------------------------------------------------------------------------
-    config_redshift;
+    # config_redshift;
 fi
 # ==============================================================================
 

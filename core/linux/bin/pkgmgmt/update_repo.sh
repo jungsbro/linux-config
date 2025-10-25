@@ -18,7 +18,7 @@ function add_epel_repo_for_cent()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     yum install -y epel-release;
     yum check-update;
@@ -32,7 +32,7 @@ function add_nux_dextop_repo_for_cent()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
     rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm;
@@ -47,7 +47,7 @@ function add_neofetch_repo_for_cent()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo \
     https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo;
@@ -65,7 +65,7 @@ function add_epel_repo_for_rocky()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     dnf install -y epel-release;
     dnf check-update;
@@ -79,7 +79,7 @@ function add_rpmfusion_free_repo_for_rocky()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     dnf install -y rpmfusion-free-release;
     dnf check-update;
@@ -93,9 +93,15 @@ function set_crb_enabled_for_rocky()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
-    dnf config-manager --set-enabled crb
+    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        # powertools
+        dnf config-manager --set-enabled powertools
+    else                                                    # rocky9
+        # CodeReady Builder
+        dnf config-manager --set-enabled crb
+    fi
     dnf check-update;
     # --------------------------------------------------------------------------
 }
@@ -108,7 +114,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     apt update;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     add_epel_repo_for_cent;
@@ -116,7 +122,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     add_neofetch_repo_for_cent;
     # yum check-update;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     add_epel_repo_for_rocky;

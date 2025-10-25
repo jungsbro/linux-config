@@ -177,6 +177,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     if [[ -n $(apt list | grep -i ^fastfetch) ]]; then
         [[ -n $(apt list --installed | grep -i ^fastfetch) ]] || apt install -y fastfetch;
     fi
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
     [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
     [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
@@ -197,6 +198,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
+    [[ -n $(dnf list installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
     # --------------------------------------------------------------------------

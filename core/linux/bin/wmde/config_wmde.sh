@@ -26,7 +26,7 @@ function install_wmde_pkg()
         bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                      # lxde
+    elif [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then	# lxde
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
         # ----------------------------------------------------------------------
@@ -85,9 +85,11 @@ function install_wmde_pkg()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
         bash /core/linux/bin/wmde/install_dconf.sh;
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
-        bbash /core/linux/bin/system/install_theme.sh;
+        bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
@@ -113,7 +115,7 @@ function config_wmde()
         echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then                                          # lxde
+    elif [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then	# lxde
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}";
         # ----------------------------------------------------------------------
@@ -126,22 +128,42 @@ function config_wmde()
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/wmde/mate/mate-backup ]] && \
-        dbus-run-session dconf load /org/mate/ < /core/linux/bin/wmde/mate/mate-backup";
+        "[[ -f /core/linux/bin/wmde/mate/mate-conf ]] && \
+        dbus-run-session dconf load /org/mate/ < /core/linux/bin/wmde/mate/mate-conf";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/wmde/gnome/gnome-backup ]] && \
-        dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome-backup";
+        if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+            # ------------------------------------------------------------------
+            # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
+            # fi
+            # ------------------------------------------------------------------
+            su - ${CUR_USER} -c \
+            "[[ -f /core/linux/bin/wmde/gnome/gnome4010-conf ]] && \
+            dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome4010-conf";
+            # ------------------------------------------------------------------
+
+        elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+            # ------------------------------------------------------------------
+            if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+                su - ${CUR_USER} -c \
+                "[[ -f /core/linux/bin/wmde/gnome/gnome0332-conf ]] && \
+                dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome0332-conf";
+            else                                                    # rocky9, ...
+                su - ${CUR_USER} -c \
+                "[[ -f /core/linux/bin/wmde/gnome/gnome4010-conf ]] && \
+                dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome4010-conf";
+            fi
+            # ------------------------------------------------------------------
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
-        "[[ -f /core/linux/bin/wmde/cinnamon/cinnamon-backup ]] && \
-        dbus-run-session dconf load /org/cinnamon/ < /core/linux/bin/wmde/cinnamon/cinnamon-backup";
+        "[[ -f /core/linux/bin/wmde/cinnamon/cinnamon-conf ]] && \
+        dbus-run-session dconf load /org/cinnamon/ < /core/linux/bin/wmde/cinnamon/cinnamon-conf";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
