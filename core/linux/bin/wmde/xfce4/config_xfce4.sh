@@ -242,6 +242,7 @@ function set_theme()
 
 function set_default_app()
 {
+    # rocky8 needs password
     dst_path='${HOME}/.config/xfce4/helpers.rc'
     cur_cmd="echo \"TerminalEmulator=xfce4-terminal\" > ${dst_path}"
 
@@ -376,7 +377,7 @@ function main()
         set_thunar;
     else
         set_theme;
-        set_default_app;
+        # set_default_app;
     fi
 }
 

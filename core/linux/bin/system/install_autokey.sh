@@ -108,8 +108,10 @@ function config_autokey()
 
 
 # Main =========================================================================
-# autokey has conflict-error on rocky
-if [[ *"${CUR_VER}"* != *"rocky"* ]]; then
+if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+    # autokey not working on rocky8
+    echo "";
+else
 	install_autokey;
 	config_autokey;
 fi

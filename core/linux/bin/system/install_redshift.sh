@@ -20,11 +20,11 @@ function autostart_redshift()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     local START_DIR='${HOME}/.config/autostart'
     local START_PATH="${START_DIR}/redshift-gtk.desktop"
-    
+
     local START_CMD="[Desktop Entry]
 Version=1.0
 Name=Redshift
@@ -126,7 +126,7 @@ function config_redshift()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     local CONF_CMD="[redshift]
 temp-day=5500
@@ -144,7 +144,7 @@ lon=127.0"
     # ~/.config/redshift.conf
     su - ${CUR_USER} -c "[[ -f ~/.config/redshift.conf ]] || echo '${CONF_CMD}' > ~/.config/redshift.conf";
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     autostart_redshift;
     # --------------------------------------------------------------------------
@@ -169,14 +169,18 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     config_redshift;
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-	echo ""
-	# gnome has night-light
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    # [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
-    # [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
-    # --------------------------------------------------------------------------
-    # config_redshift;
+    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        # gnome night-light not working on rocky8
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
+        [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
+        # ----------------------------------------------------------------------
+        config_redshift;
+    else                                                    # rocky9, ...
+        # gnome night-light working on rocky9
+        echo "";
+    fi
 fi
 # ==============================================================================
 

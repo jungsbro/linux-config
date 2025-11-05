@@ -34,8 +34,8 @@ function install_dep_for_rocky()
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
     # --------------------------------------------------------------------------
-    
-    # --------------------------------------------------------------------------    
+
+    # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^fontconfig-devel) ]] || dnf install -y fontconfig-devel;
     [[ -n $(dnf list installed | grep -i ^freetype-devel) ]] || dnf install -y freetype-devel;
     [[ -n $(dnf list installed | grep -i ^libX11-devel) ]] || dnf install -y libX11-devel;
@@ -50,7 +50,7 @@ function install_dep_for_rocky()
     [[ -n $(dnf list installed | grep -i ^libXmu-devel) ]] || dnf install -y libXmu-devel;
     [[ -n $(dnf list installed | grep -i ^libjpeg-turbo-devel) ]] || dnf install -y libjpeg-turbo-devel;
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     [[ -n $(dnf repolist | grep -i ^crb) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
@@ -69,7 +69,7 @@ function install_skippy-xd()
     if [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         local GRP_LIST=$(dnf grouplist --installed);
         local GRP_NAME="Development Tools";
-        
+
         [[ *"${GRP_LIST}"* == *"${GRP_NAME}"* ]] || dnf groupinstall -y "${GRP_NAME}";
     fi
     # --------------------------------------------------------------------------
@@ -78,10 +78,10 @@ function install_skippy-xd()
     local TMP_DIR="/core/linux/src";
     [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
     # --------------------------------------------------------------------------
-    
+
     # compile skippy-xd --------------------------------------------------------
     cd ${TMP_DIR}
-    git clone https://github.com/dreamcat4/skippy-xd.git
+    git clone https://github.com/felixfung/skippy-xd.git
     cd skippy-xd
 
     make

@@ -16,7 +16,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 APP_NAME="drawing"
 
 # com.github.maoschanz.drawing
-APP_UNIQUE_NAME="com.github.maoschanz.${APP_NAME}" 
+APP_UNIQUE_NAME="com.github.maoschanz.${APP_NAME}"
 
 APP_GRP="Graphics;GNOME;GTK;"
 # ------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ Categories=${APP_GRP}";
 function install_drawing_for_nix()
 {
     # 0) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};   
+    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 1) install_drawing -------------------------------------------------------
@@ -55,41 +55,41 @@ function install_drawing_for_nix()
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
     # --------------------------------------------------------------------------
-    
+
     # 2) HOME_DIR --------------------------------------------------------------
-    # /home/jungs    
+    # /home/jungs
     local HOME_DIR=$(eval echo ~${CUR_USER})
     # --------------------------------------------------------------------------
 
-    # 3) EXEC_PATH -------------------------------------------------------------  
+    # 3) EXEC_PATH -------------------------------------------------------------
     # ~/.nix-profile/bin/drawing
     local NIX_EXEC_PATH="${HOME_DIR}/.nix-profile/bin/${APP_NAME}"
-    
+
     # /usr/bin/drawing
     local EXEC_PATH="/usr/bin/${APP_NAME}"
-    
+
     if [[ -f ${NIX_EXEC_PATH} ]]; then
         if [[ ! -f ${EXEC_PATH} ]]; then
             ln -s ${NIX_EXEC_PATH} ${EXEC_PATH};
         fi
     fi
-    # --------------------------------------------------------------------------    
-    
-    # 4) ICON_PATH -------------------------------------------------------------    
+    # --------------------------------------------------------------------------
+
+    # 4) ICON_PATH -------------------------------------------------------------
     # ~/.nix-profile/share/icons/icons/hicolor/scalable/apps/com.github.maoschanz.drawing.svg
     local NIX_ICON_PATH="${HOME_DIR}/.nix-profile/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg"
-    
+
     if [[ -f ${NIX_ICON_PATH} ]]; then
         local ICON_PATH="${NIX_ICON_PATH}";
     else
         # ----------------------------------------------------------------------
         # /usr/share/icons/hicolor/scalable/apps/com.github.maoschanz.drawing.svg
         # local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg";
-        
+
         # /usr/share/icons/Papirus/48x48/apps/com.github.maoschanz.drawing.svg
         local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
         # ----------------------------------------------------------------------
-    fi  
+    fi
     # --------------------------------------------------------------------------
 
     # 5) DESKTOP_PATH ----------------------------------------------------------
@@ -98,18 +98,18 @@ function install_drawing_for_nix()
 
     # ~/.local/share/applications/com.github.maoschanz.drawing.desktop
     local DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${APP_UNIQUE_NAME}.desktop";
-    
+
     if [[ -f ${NIX_DESKTOP_PATH} ]]; then
         # ----------------------------------------------------------------------
         if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
             su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
         fi
         # ----------------------------------------------------------------------
-        
+
         su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
     else
-        set_desktop;    
-    fi       
+        set_desktop;
+    fi
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -120,16 +120,22 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]] || apt install -y ${APP_NAME};
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     echo "centos is not supported for drawing"
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    install_drawing_for_nix;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
+        # ----------------------------------------------------------------------
+    else                                                    # rocky9, ...
+        install_drawing_for_nix;
+        # [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        # [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
+    fi
 fi
 # ==============================================================================
 

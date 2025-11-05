@@ -35,7 +35,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list installed | grep -i ^gimp) ]] || dnf install -y gimp;
-    [[ -n $(yum list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+    [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
     [[ -n $(flatpak list --app | grep -i gimp) ]] || flatpak install -y flathub org.gimp.GIMP;
     # --------------------------------------------------------------------------
 fi
