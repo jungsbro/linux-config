@@ -7,7 +7,10 @@
 
 # ENV ==========================================================================
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
 CUR_ARCH=$(uname -m);
 # ==============================================================================
 
@@ -85,17 +88,17 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     install_vscode_for_deb;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     echo "CentOS not support vscode "
-    # bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};   
+    # bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
         #
     # su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     # nix-env -q | grep -iq ^vscode || \
     # nix-env -iA nixpkgs.vscode"
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_vscode_for_rocky;

@@ -23,6 +23,8 @@
 
 # ENV ==========================================================================
 CUR_USER=$1;
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
@@ -40,13 +42,13 @@ function install_nix()
     if [[ ! -d /nix ]]; then
         mkdir -m 0755 /nix
         chown ${CUR_USER} /nix;
-        
+
         # ----------------------------------------------------------------------
         # ~/.nix-profile/bin/nix
-        # su - ${CUR_USER} -c "[[ -n $(which nix | grep -i nix-profile) ]] || curl -L https://nixos.org/nix/install | sh"; 
+        # su - ${CUR_USER} -c "[[ -n $(which nix | grep -i nix-profile) ]] || curl -L https://nixos.org/nix/install | sh";
         # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || curl -L https://nixos.org/nix/install | sh";
         # ----------------------------------------------------------------------
-        
+
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "\
         echo $PATH | grep -iq nix-profile || \
@@ -64,10 +66,10 @@ function config_nix()
         return
     fi
     # --------------------------------------------------------------------------
-        
+
     # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "[[ -d ~/.config/nix ]] || mkdir -p ~/.config/nix";
-    
+
     su - ${CUR_USER} -c "\
     [[ -f ~/.config/nix/nix.conf ]] || \
     echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf\
@@ -82,12 +84,12 @@ function reload_shell()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "\
     echo $SHELL | grep -iq bash && \
     source ~/.bashrc";
-    
+
     su - ${CUR_USER} -c "\
     echo $SHELL | grep -iq zsh && \
     source ~/.zshrc";

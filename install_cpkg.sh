@@ -49,7 +49,7 @@ bash /core/linux/bin/pkgmgmt/update_repo.sh;
 # development ==================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential 
+    [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
@@ -106,6 +106,9 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # apt install -y exfat-utils;
     [[ -n $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
     [[ -n $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
+    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y nfs-kernel-server;
+    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y rpcbind;
+    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y nfs-common;
     [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y cifs-utils;
     [[ -n $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
     [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
@@ -113,12 +116,13 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^ntfs-3g) ]] || yum install -y ntfs-3g; 
+    [[ -n $(yum list installed | grep -i ^ntfs-3g) ]] || yum install -y ntfs-3g;
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^exfat) ]] || yum install -y fuse-exfat exfat-utils;
     # --------------------------------------------------------------------------
+    [[ -n $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y nfs-utils;
     [[ -n $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y cifs-utils;
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^autofs) ]] || yum install -y autofs;
@@ -129,10 +133,11 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g; 
+    [[ -n $(dnf list installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
     # --------------------------------------------------------------------------
     # rocky9 is support for exfat
     # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y nfs-utils;
     [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
     [[ -n $(dnf list installed | grep -i ^autofs) ]] || dnf install -y autofs;
     # --------------------------------------------------------------------------
@@ -250,7 +255,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^nmon) ]] || dnf install -y nmon;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;    
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^glances) ]] || dnf install -y glances;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^powertop) ]] || dnf install -y powertop;

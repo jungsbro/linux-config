@@ -7,6 +7,7 @@
 
 # ENV ==========================================================================
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
@@ -243,7 +244,7 @@ function set_theme()
 function set_default_app()
 {
     # rocky8 needs password
-    dst_path='${HOME}/.config/xfce4/helpers.rc'
+    dst_path='${HOME_DIR}/.config/xfce4/helpers.rc'
     cur_cmd="echo \"TerminalEmulator=xfce4-terminal\" > ${dst_path}"
 
     su - ${CUR_USER} -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";

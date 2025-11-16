@@ -7,6 +7,7 @@
 
 # ENV ==========================================================================
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
@@ -23,7 +24,7 @@ function cp_lxcc()
 
     # --------------------------------------------------------------------------
     local SRC_DIR=$(dirname "$0");
-    local DST_DIR='~/.local/bin';
+    local DST_DIR="${HOME_DIR}/.local/bin";
     local SCRIPT_NAME='lxcc.py';
 
     # su - ${CUR_USER} -c "echo '${DST_DIR}'";

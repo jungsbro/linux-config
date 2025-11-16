@@ -8,6 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
@@ -26,12 +27,19 @@ APP_GRP="Graphics;GNOME;GTK;"
 # Func : x86_64, i686, aarch64 (nix) ===========================================
 function set_desktop()
 {
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
     local DESKTOP_CMD="[Desktop Entry]
+Type=Application
 Name=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
-Type=Application
-Categories=${APP_GRP}";
+Categories=${APP_GRP}
+Terminal=false"
 
     if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
         # ~/.local/share/applications/com.github.maoschanz.drawing.desktop
@@ -40,25 +48,26 @@ Categories=${APP_GRP}";
         # /usr/share/applications/com.github.maoschanz.drawing.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
- }
+}
 
 
 function install_drawing_for_nix()
 {
-    # 0) install nix -----------------------------------------------------------
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # 1) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 1) install_drawing -------------------------------------------------------
+    # 2) install_drawing -------------------------------------------------------
     # https://search.nixos.org/packages
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
-    # --------------------------------------------------------------------------
-
-    # 2) HOME_DIR --------------------------------------------------------------
-    # /home/jungs
-    local HOME_DIR=$(eval echo ~${CUR_USER})
     # --------------------------------------------------------------------------
 
     # 3) EXEC_PATH -------------------------------------------------------------
@@ -127,15 +136,9 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
-        # ----------------------------------------------------------------------
-    else                                                    # rocky9, ...
-        install_drawing_for_nix;
-        # [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-        # [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
-    fi
+    install_drawing_for_nix;
+    # [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+    # [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
 fi
 # ==============================================================================
 

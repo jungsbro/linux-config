@@ -8,6 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
@@ -15,7 +16,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 APP_NAME="ulauncher"
 
-APP_UNIQUE_NAME="${APP_NAME}" 
+APP_UNIQUE_NAME="${APP_NAME}"
 
 APP_GRP="GNOME;GTK;Utility;"
 # ------------------------------------------------------------------------------
@@ -32,7 +33,7 @@ function autostart_ulauncher()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME}/.config/autostart'
+    local START_DIR='${HOME_DIR}/.config/autostart'
     local START_PATH="${START_DIR}/ulauncher.desktop"
 
     local START_CMD="[Desktop Entry]
@@ -95,11 +96,20 @@ function install_ulauncher_for_deb()
 # Func : x86_64, i686, aarch64 (nix) ===========================================
 function set_desktop()
 {
+    # args ---------------------------------------------------------------------
+    # ${CUR_USER}
+    # ${APP_NAME}
+    # ${EXEC_PATH}
+    # ${ICON_PATH}
+    # ${APP_GRP}
+    # ${DESKTOP_PATH}
+    # --------------------------------------------------------------------------
+
     local DESKTOP_CMD="[Desktop Entry]
+Type=Application
 Name=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
-Type=Application
 Categories=${APP_GRP}";
 
     if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
@@ -109,56 +119,57 @@ Categories=${APP_GRP}";
         # /usr/share/applications/ulauncher.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
- }
+}
 
 
 function install_ulauncher_for_nix()
 {
-    # 0) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};   
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
-    # 1) install_ulauncher -----------------------------------------------------
+    # 1) install nix -----------------------------------------------------------
+    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    # --------------------------------------------------------------------------
+
+    # 2) install_ulauncher -----------------------------------------------------
     # https://search.nixos.org/packages
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
     # --------------------------------------------------------------------------
-    
-    # 2) HOME_DIR --------------------------------------------------------------
-    # /home/jungs    
-    local HOME_DIR=$(eval echo ~${CUR_USER})
-    # --------------------------------------------------------------------------
 
-    # 3) EXEC_PATH -------------------------------------------------------------  
+    # 3) EXEC_PATH -------------------------------------------------------------
     # ~/.nix-profile/bin/ulauncher
     local NIX_EXEC_PATH="${HOME_DIR}/.nix-profile/bin/${APP_NAME}"
-    
+
     # /usr/bin/ulauncher
     local EXEC_PATH="/usr/bin/${APP_NAME}"
-    
+
     if [[ -f ${NIX_EXEC_PATH} ]]; then
         if [[ ! -f ${EXEC_PATH} ]]; then
             ln -s ${NIX_EXEC_PATH} ${EXEC_PATH};
         fi
     fi
-    # --------------------------------------------------------------------------    
-    
-    # 4) ICON_PATH -------------------------------------------------------------    
+    # --------------------------------------------------------------------------
+
+    # 4) ICON_PATH -------------------------------------------------------------
     # ~/.nix-profile/share/icons/icons/hicolor/scalable/apps/ulauncher.svg
     local NIX_ICON_PATH="${HOME_DIR}/.nix-profile/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg"
-    
+
     if [[ -f ${NIX_ICON_PATH} ]]; then
         local ICON_PATH="${NIX_ICON_PATH}";
     else
         # ----------------------------------------------------------------------
         # /usr/share/icons/hicolor/scalable/apps/ulauncher.svg
         # local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg";
-        
+
         # /usr/share/icons/Papirus/48x48/apps/ulauncher.svg
         local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
         # ----------------------------------------------------------------------
-    fi  
+    fi
     # --------------------------------------------------------------------------
 
     # 5) DESKTOP_PATH ----------------------------------------------------------
@@ -167,18 +178,18 @@ function install_ulauncher_for_nix()
 
     # ~/.local/share/applications/ulauncher.desktop
     local DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${APP_UNIQUE_NAME}.desktop";
-    
+
     if [[ -f ${NIX_DESKTOP_PATH} ]]; then
         # ----------------------------------------------------------------------
         if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
             su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
         fi
         # ----------------------------------------------------------------------
-        
+
         su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
     else
-        set_desktop;    
-    fi       
+        set_desktop;
+    fi
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -190,18 +201,18 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     install_ulauncher_for_deb;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     echo "ulauncher is not supported for centos"
     # [[ -n $(yum list installed | grep -i ^ulauncher) ]] || yum install -y ulauncher;
     # autostart_ulauncher;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_ulauncher_for_nix;
-    
+
     #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
     # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:
     # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by /nix/store/pahwl2rq51dmwrn8czks27yy3sa3byg9-libX11-1.8.12/lib/libX11.so.6)

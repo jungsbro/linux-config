@@ -9,6 +9,7 @@
 
 # ENV ==========================================================================
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
@@ -25,13 +26,13 @@ function cp_toggle_fullscreen()     # not used
 
     # --------------------------------------------------------------------------
     local SRC_DIR=$(dirname "$0");
-    local DST_DIR='~/.local/bin';
+    local DST_DIR="${HOME_DIR}/.local/bin";
     local SCRIPT_NAME='toggle_fullscreen.sh';
- 
+
     # su - ${CUR_USER} -c "echo '${DST_DIR}'";
     # su - ${CUR_USER} -c "echo ${SRC_DIR}/${SCRIPT_NAME}";
     # su - ${CUR_USER} -c "echo ${DST_DIR}/${SCRIPT_NAME}";
-    
+
     su - ${CUR_USER} -c "[[ -d ${DST_DIR} ]] || mkdir -p ${DST_DIR}";
     su - ${CUR_USER} -c "[[ -f '${DST_DIR}/${SCRIPT_NAME}' ]] || cp -f ${SRC_DIR}/${SCRIPT_NAME} ${DST_DIR}/${SCRIPT_NAME}";
     su - ${CUR_USER} -c "chmod 755 ${DST_DIR}/${SCRIPT_NAME}";
@@ -47,7 +48,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^xdotool) ]] || apt install -y xdotool;
     # --------------------------------------------------------------------------
     # cp_toggle_fullscreen;
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -55,7 +56,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     [[ -n $(yum list installed | grep -i ^xdotool) ]] || yum install -y xdotool;
     # --------------------------------------------------------------------------
     # cp_toggle_fullscreen;
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;

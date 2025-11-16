@@ -8,6 +8,8 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_USER=$1;
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
@@ -55,7 +57,7 @@ function autostart_autokey()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME}/.config/autostart'
+    local START_DIR='${HOME_DIR}/.config/autostart'
     local START_PATH="${START_DIR}/autokey.desktop"
 
     local START_CMD="[Desktop Entry]

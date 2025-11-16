@@ -7,6 +7,7 @@
 
 # ENV ==========================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
 CUR_ARCH=$(uname -m);
 # ==============================================================================
 
@@ -23,24 +24,24 @@ function install_freefilesync()
 
     # --------------------------------------------------------------------------
     local NAME="FreeFileSync";
-    
+
     local VER="14.4"
-    
+
     # FreeFileSync_14.3_Linux.tar.gz
     local FNAME="${NAME}_${VER}_Linux.tar.gz";
-    
+
     # https://freefilesync.org/download/FreeFileSync_14.3_Linux.tar.gz
     local URL="https://freefilesync.org/download/${FNAME}";
-    
+
     # /core/linux/src/FreeFileSync
     local TMP_DIR="/core/linux/src/${NAME}";
-    
+
     # /opt/FreeFileSync
     local FFS_DIR="/opt/${NAME}";
-    
+
     # /core/linux/src/FreeFileSync/FreeFileSync_14.3_Linux.tar.gz
     local TGZ_PATH="${TMP_DIR}/${FNAME}";
-    
+
     # /core/linux/src/FreeFileSync/FreeFileSync_13.7_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
     local EXEC_CMD="${TMP_DIR}/${NAME}_${VER}_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview";
     # --------------------------------------------------------------------------

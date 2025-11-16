@@ -8,6 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
@@ -26,11 +27,20 @@ APP_GRP="GNOME;Utility"
 # Func : x86_64, i686, aarch64 (nix) ===========================================
 function set_desktop()
 {
+    # args ---------------------------------------------------------------------
+    # ${CUR_USER}
+    # ${APP_NAME}
+    # ${EXEC_PATH}
+    # ${ICON_PATH}
+    # ${APP_GRP}
+    # ${DESKTOP_PATH}
+    # --------------------------------------------------------------------------
+
     local DESKTOP_CMD="[Desktop Entry]
+Type=Application
 Name=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
-Type=Application
 Categories=${APP_GRP}";
 
     if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
@@ -40,24 +50,25 @@ Categories=${APP_GRP}";
         # /usr/share/applications/synapse.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
- }
+}
 
 function install_synapse_for_nix()
 {
-    # 0) install_nix -----------------------------------------------------------
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # 1) install_nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 1) install_synapse -------------------------------------------------------
+    # 2) install_synapse -------------------------------------------------------
     # https://search.nixos.org/packages
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
-    # --------------------------------------------------------------------------
-
-    # 2) HOME_DIR --------------------------------------------------------------
-    # /home/jungs
-    local HOME_DIR=$(eval echo ~${CUR_USER})
     # --------------------------------------------------------------------------
 
     # 3) EXEC_PATH -------------------------------------------------------------
@@ -104,7 +115,7 @@ function install_synapse_for_nix()
             su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
         fi
         # ----------------------------------------------------------------------
-        
+
         su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
     else
         set_desktop;

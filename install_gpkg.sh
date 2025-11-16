@@ -132,7 +132,7 @@ bash /core/linux/bin/wmde/config_wmde.sh ${CUR_USER};
 # ==============================================================================
 
 # korean =======================================================================
-bash /core/linux/bin/system/install_korean.sh;
+bash /core/linux/bin/system/install_korean/install_korean.sh ${CUR_USER};
 bash /core/linux/bin/system/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 

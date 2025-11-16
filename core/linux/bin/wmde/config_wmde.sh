@@ -8,6 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -146,15 +147,18 @@ function config_wmde()
 
         elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
             # ------------------------------------------------------------------
-            if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
-                su - ${CUR_USER} -c \
-                "[[ -f /core/linux/bin/wmde/gnome/gnome0332-conf ]] && \
-                dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome0332-conf";
-            else                                                    # rocky9, ...
-                su - ${CUR_USER} -c \
-                "[[ -f /core/linux/bin/wmde/gnome/gnome4010-conf ]] && \
-                dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome4010-conf";
-            fi
+            # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+            #     su - ${CUR_USER} -c \
+            #     "[[ -f /core/linux/bin/wmde/gnome/gnome0332-conf ]] && \
+            #     dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome0332-conf";
+            # else                                                    # rocky9, ...
+            #     su - ${CUR_USER} -c \
+            #     "[[ -f /core/linux/bin/wmde/gnome/gnome4010-conf ]] && \
+            #     dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome4010-conf";
+            # fi
+            su - ${CUR_USER} -c \
+            "[[ -f /core/linux/bin/wmde/gnome/gnome0332-conf ]] && \
+            dbus-run-session dconf load /org/gnome/ < /core/linux/bin/wmde/gnome/gnome0332-conf";
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------

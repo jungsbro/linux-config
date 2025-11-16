@@ -7,6 +7,7 @@
 
 # ENV ==========================================================================
 CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
@@ -17,15 +18,15 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^firejail) ]] || apt install -y firejail firejail-profiles firetools;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^firejail) ]] || yum install -y firejail;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-	echo ""	
+	echo ""
     # --------------------------------------------------------------------------
 	# firejail not working
     # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;

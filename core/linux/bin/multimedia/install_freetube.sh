@@ -8,6 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
@@ -162,15 +163,23 @@ function install_freetube_for_flatpak()
 # appimage, portable-zip : x86_64, aarch64 =====================================
 function set_desktop()
 {
+    # args ---------------------------------------------------------------------
+    # ${APP_NAME}
+    # ${EXEC_PATH}
+    # ${ICON_PATH}
+    # ${APP_GRP}
+    # ${DESKTOP_PATH}
+    # --------------------------------------------------------------------------
+
     local DESKTOP_CMD="[Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=${APP_NAME}
-Comment=Watch YouTube videos without ads and tracking
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
+Categories=${APP_GRP}
 Terminal=false
-Type=Application
-Categories=${APP_GRP}";
+Encoding=UTF-8
+Comment=Watch YouTube videos without ads and tracking";
 
     echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
 }
@@ -210,21 +219,21 @@ function install_freetube_for_portable()
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
     fi
-      
+
     # /tmp/freetube/freetube-0.23.5-linux-x64-portable.zip
     # /tmp/freetube/freetube-0.23.5-linux-arm64-portable.zip
     local ZIP_PATH="${TMP_DIR}/${FNAME}";
-    
+
     if [[ ! -e "${ZIP_PATH}" ]]; then
         wget "${SRC_URL}" -O "${ZIP_PATH}";
     fi
     # --------------------------------------------------------------------------
 
-    # 3) APP_DIR ----------------------------------------------------------------   
+    # 3) APP_DIR ----------------------------------------------------------------
     # unzip /core/linux/src/freetube/freetube-0.23.5-linux-x64-portable.zip -d /opt/freetube;
     unzip "${ZIP_PATH}" -d ${APP_DIR};
     rm -f "${ZIP_PATH}";
-    
+
     # /opt/freetube
     if [[ ! -d "${APP_DIR}" ]]; then
         return
@@ -235,14 +244,14 @@ function install_freetube_for_portable()
     # /opt/freetube/freetube
     local EXEC_PATH="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------
-    
+
     # 5) ICON_PATH -------------------------------------------------------------
     # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/freetube/freetube-icon.png
-    # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";   
+    # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";
     # wget ${APP_ICON_URL} -O ${ICON_PATH};
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/freetube.svg
     local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
@@ -303,17 +312,17 @@ function install_freetube_for_appimg()
     # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";
     # wget ${APP_ICON_URL} -O ${ICON_PATH};
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+    # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/freetube.svg
     local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
-    # 4) DESKTOP_PATH ----------------------------------------------------------    
+    # 4) DESKTOP_PATH ----------------------------------------------------------
     # /usr/share/applications/freetube.deskop
     local DESKTOP_PATH="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
-    
+
     set_desktop;
     # --------------------------------------------------------------------------
 }

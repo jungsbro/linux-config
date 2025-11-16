@@ -41,19 +41,25 @@ APP_GRP="System;FileTools;Utility;Core;GTK;FileManager;Development"
 # file-manager : x86_64, aarch64, i686 (portable, appimage) ====================
 function set_desktop()
 {
+    # args ---------------------------------------------------------------------
+    # ${APP_NAME}
+    # ${EXEC_PATH}
+    # ${ICON_PATH}
+    # ${APP_GRP}
+    # ${DESKTOP_PATH}
+    # --------------------------------------------------------------------------
     local DESKTOP_CMD="[Desktop Entry]
-Encoding=UTF-8
+Type=Application
 Name=${APP_NAME}
-Comment=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
+Categories=${APP_GRP}
 Terminal=false
-Type=Application
-Categories=${APP_GRP}";
+Encoding=UTF-8
+Comment=${APP_NAME}";
 
     echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
- }
-
+}
 
 function install_dc_for_portable()
 {
@@ -74,7 +80,7 @@ function install_dc_for_portable()
     elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         # ----------------------------------------------------------------------
         local FNAME="doublecmd-${APP_VER}.gtk2.i386.tar.xz";
-        local SRC_URL="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2032%20bit/Double%20Commander%20${APP_VER}/${FNAME}"        
+        local SRC_URL="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2032%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
@@ -90,17 +96,17 @@ function install_dc_for_portable()
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
     fi
-    
+
     # /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz
     ZIP_PATH="${TMP_DIR}/${FNAME}"
-    
+
     if [[ ! -e "${ZIP_PATH}" ]]; then
         wget "${SRC_URL}" -O "${ZIP_PATH}";
     fi
     # --------------------------------------------------------------------------
 
     # 3) APP_DIR ----------------------------------------------------------------
-    # tar -Jxvf /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz -C /opt;   
+    # tar -Jxvf /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz -C /opt;
     tar -Jxvf "${ZIP_PATH}" -C ${OPT_DIR};
     rm -f "${ZIP_PATH}";
 
@@ -114,14 +120,14 @@ function install_dc_for_portable()
     # /opt/doublecmd/doublecmd
     local EXEC_PATH="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------
-    
+
     # 5) ICON_PATH -------------------------------------------------------------
     # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/doublecmd/doublecmd.png
     # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";
     # wget ${APP_ICON_URL} -O ${ICON_PATH};
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
     local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
@@ -170,23 +176,23 @@ function install_dc_for_appimg()
     chmod +x ${EXEC_PATH};
     # --------------------------------------------------------------------------
 
-    # 3) ICON_PATH -------------------------------------------------------------    
+    # 3) ICON_PATH -------------------------------------------------------------
     # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/doublecmd/doublecmd.png
     # local ICON_PATH="${APP_DIR}/${APP_ICON_NAME}";
     # wget ${APP_ICON_URL} -O ${ICON_PATH};
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
     local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
-    
-    # 4) DESKTOP_PATH ----------------------------------------------------------    
+
+    # 4) DESKTOP_PATH ----------------------------------------------------------
     # /usr/share/applications/doublecmd.deskop
     local DESKTOP_PATH="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
-    
+
     set_desktop;
     # --------------------------------------------------------------------------
 }
@@ -198,12 +204,12 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^doublecmd) ]] || apt install -y doublecmd-gtk;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     echo "";
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
