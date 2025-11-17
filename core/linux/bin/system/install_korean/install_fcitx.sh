@@ -150,7 +150,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 	echo "CentOS is not supported for fcitx"
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "rocky is not supported for fcitx"
+    echo "Rocky is not supported for fcitx"
 
 fi
 # ==============================================================================

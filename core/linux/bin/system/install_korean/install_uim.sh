@@ -151,7 +151,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 	echo "CentOS is not supported for uim"
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "rocky is not supported for uim"
+    echo "Rocky is not supported for uim"
 
 fi
 # ==============================================================================

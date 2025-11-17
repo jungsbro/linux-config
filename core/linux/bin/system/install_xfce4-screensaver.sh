@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# drawing ======================================================================
-# bash /core/linux/bin/graphics/install_pinta.sh;
+# xfce4-screensaver ============================================================
+# bash /core/linux/bin/system/install_xfce4-screensaver.sh;
 # ==============================================================================
 
 
@@ -10,22 +10,23 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ==============================================================================
 
 
-# Main : x86_64, i686, aarch64 =================================================
+# Func : x86_64, aarch64 =======================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
+    echo "Debian is not supported for xfce4-screensaver.";
+    # [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y xfce4-screensaver;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "CentOS is not supported for drawing"
+    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(yum list installed | grep -i ^xfce4-screensaver) ]] || yum install -y xfce4-screensaver;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^xfce4-screensaver) ]] || dnf install -y xfce4-screensaver;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

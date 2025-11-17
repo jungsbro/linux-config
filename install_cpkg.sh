@@ -135,7 +135,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
     # --------------------------------------------------------------------------
-    # rocky9 is support for exfat
+    # Rocky is supported for exfat
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y nfs-utils;
     [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;

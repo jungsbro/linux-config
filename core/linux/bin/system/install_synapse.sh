@@ -131,7 +131,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "synapse is not supported for centos"
+    echo "CentOS is not supported for synapse"
     # [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     # [[ -n $(yum list installed | grep -i ^${APP_NAME}) ]] || yum install -y ${APP_NAME};
     # --------------------------------------------------------------------------

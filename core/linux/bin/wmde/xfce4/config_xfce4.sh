@@ -97,6 +97,22 @@ function set_shortcuts()
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Right" "string" "tile_right_key";
     # --------------------------------------------------------------------------
 
+    # window to left/right screen ----------------------------------------------
+    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # mxlinux
+        # shift+win+left
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "";
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh";
+
+        # shift+win+right
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Right" "string" "";
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash /core/linux/bin/system/install_wmctrl/move_r_screen.sh"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash /core/linux/bin/system/install_wmctrl/move_r_screen.sh";
+    fi
+    # --------------------------------------------------------------------------
+
     # maximize window ----------------------------------------------------------
     # alt+f10 (for mxlinux)
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Alt>F10 -t string" -s "maximize_window_key"

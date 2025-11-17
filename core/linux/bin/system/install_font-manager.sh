@@ -139,7 +139,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "font-manager is not supported for centos"
+    echo "CentOS is not supported for font-manager"
     # [[ -n $(yum list installed | grep -i ^font-manager) ]] || yum install -y font-manager;
     # --------------------------------------------------------------------------
 

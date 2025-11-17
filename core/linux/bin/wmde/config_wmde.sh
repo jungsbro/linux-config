@@ -42,34 +42,29 @@ function install_wmde_pkg()
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then                                         # mxlinux xfce4
-            # ------------------------------------------------------------------
-            bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
-            # bash /core/linux/bin/system/install_plank.sh ${CUR_USER};
-            # ------------------------------------------------------------------
-            # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
-            # bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
-            bash /core/linux/bin/system/install_skippy-xd.sh;
-            bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
-            # ------------------------------------------------------------------
+            bash /core/linux/bin/system/install_xfce4-screensaver.sh;
         else
             # bash /core/linux/bin/utilities/install_galculator.sh ${CUR_USER};
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
             bash /core/linux/bin/utilities/install_mate-calc.sh;
             bash /core/linux/bin/ide/install_mousepad.sh;
-            bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
             bash /core/linux/bin/system/install_xscreensaver.sh;
-            # ------------------------------------------------------------------
-            bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
-            # bash /core/linux/bin/system/plank.sh ${CUR_USER};
-            # ------------------------------------------------------------------
-            # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
-            # bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
-            bash /core/linux/bin/system/install_skippy-xd.sh;
-            bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
-            # ------------------------------------------------------------------
-            bash /core/linux/bin/system/install_theme.sh;
-            # ------------------------------------------------------------------
         fi
+        # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_xfce4-appmenu-plugin.sh;
+        bash /core/linux/bin/system/install_xfce4-fsguard-plugin.sh;
+        bash /core/linux/bin/system/install_xfce4-pulseaudio-plugin.sh;
+        bash /core/linux/bin/system/install_xfce4-sensors-plugin.sh;
+        bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
+        # ----------------------------------------------------------------------
+        # bash /core/linux/bin/system/plank.sh ${CUR_USER};
+        # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
+        # bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
+        bash /core/linux/bin/system/install_skippy-xd.sh;
+        bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
+        # ----------------------------------------------------------------------
+        bash /core/linux/bin/system/install_theme.sh;
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------

@@ -134,14 +134,14 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "stacer is not supported for centos"
+    echo "CentOS is not supported for stacer"
     # [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     # [[ -n $(yum list installed | grep -i ^stacer) ]] || yum install -y stacer;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    echo "stacer is not supported for rocky"
+    echo "Rocky is not supported for stacer"
 	# because of error
     # install_stacer_for_nix;
     # --------------------------------------------------------------------------

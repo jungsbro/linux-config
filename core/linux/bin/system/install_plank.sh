@@ -171,7 +171,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "plank is not supported for centos"
+    echo "CentOS is not supported for plank"
     # [[ -n $(yum list installed | grep -i ^plank) ]] || yum install -y plank;
 
     # autostart_plank;

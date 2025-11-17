@@ -132,7 +132,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "centos is not supported for drawing"
+    echo "CentOS is not supported for drawing"
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
