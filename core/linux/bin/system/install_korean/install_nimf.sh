@@ -117,7 +117,8 @@ function set_nimf_autostart()
 
     # --------------------------------------------------------------------------
     local EXEC_PATH="${APP_NAME}"
-    local ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
+    # local ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
+    # local ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
 
     local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
     su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
@@ -127,6 +128,26 @@ function set_nimf_autostart()
 
     # --------------------------------------------------------------------------
     set_desktop;
+    # --------------------------------------------------------------------------
+}
+
+function intall_nimf_for_build()
+{
+    chmod -R +x /core/linux/bin/system/install_korean/install_nimf_for_build;
+
+    # using source : because of "PKG_CONFIG_PATH"
+    # --------------------------------------------------------------------------
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_libhangul.sh;
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-lib.sh;
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-db.sh;
+    # anthy : japanese engine --------------------------------------------------
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_anthy_9100h.sh;
+    # rime : chiness engine ----------------------------------------------------
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_marisa-trie.sh;
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_opencc.sh;
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_rime.sh;
+    # --------------------------------------------------------------------------
+    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_nimf_for_build.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -142,6 +163,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
         ENV_CONF_PATH="${HOME_DIR}/.xsession"
         set_nimf_env;
         # ----------------------------------------------------------------------
+        # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
         # set_nimf_autostart;
         # ----------------------------------------------------------------------
     fi
@@ -150,9 +172,17 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 	echo "CentOS is not supported for nimf"
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "Rocky is not supported for nimf"
-
+    # --------------------------------------------------------------------------
+    intall_nimf_for_build;
+    # --------------------------------------------------------------------------
+    ENV_CONF_PATH="${HOME_DIR}/.xsession";
+    set_nimf_env;
+    # --------------------------------------------------------------------------
+    ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
+    set_nimf_autostart;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 exit 0
+
