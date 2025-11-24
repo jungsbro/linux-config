@@ -65,7 +65,7 @@ export XMODIFIERS="@im=ibus"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo '${CONF_CMD}' > ${ENV_CONF_PATH}";
+    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo \"${CONF_CMD}\" > ${ENV_CONF_PATH}";
 
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
         su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
@@ -92,9 +92,9 @@ Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true"
 
-    if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
         # ~/.local/share/applications/ibus.desktop
-        su - ${CUR_USER} -c "echo '${DESKTOP_CMD}' > ${DESKTOP_PATH}";
+        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
         # /usr/share/applications/ibus.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};

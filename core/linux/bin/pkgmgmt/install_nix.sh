@@ -72,7 +72,7 @@ function config_nix()
 
     su - ${CUR_USER} -c "\
     [[ -f ~/.config/nix/nix.conf ]] || \
-    echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf\
+    echo \"experimental-features = nix-command flakes\" > ~/.config/nix/nix.conf\
     ";
     # --------------------------------------------------------------------------
 }

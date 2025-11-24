@@ -65,7 +65,7 @@ export XMODIFIERS="@im=nimf"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo '${CONF_CMD}' > ${ENV_CONF_PATH}";
+    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo \"${CONF_CMD}\" > ${ENV_CONF_PATH}";
 
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
         su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
@@ -98,9 +98,9 @@ Icon=${ICON_PATH}
 Categories=${APP_GRP}
 Terminal=false"
 
-    if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
         # ~/.local/share/applications/nimf.desktop
-        su - ${CUR_USER} -c "echo '${DESKTOP_CMD}' > ${DESKTOP_PATH}";
+        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
         # /usr/share/applications/nimf.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};

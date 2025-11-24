@@ -75,7 +75,7 @@ SELECTED_EDITOR="/usr/bin/vim"";
 
     # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "git clone https://github.com/jungsbro/vim-config.git ${CONFIG_DIR}";
-    su - ${CUR_USER} -c "echo '${SEL_EDIT_CMD}' > ${SEL_EDIT_PATH}";
+    su - ${CUR_USER} -c "echo \"${SEL_EDIT_CMD}\" > ${SEL_EDIT_PATH}";
     # --------------------------------------------------------------------------
 
     # for user -----------------------------------------------------------------

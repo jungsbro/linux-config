@@ -33,10 +33,10 @@ function autostart_ulauncher()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME_DIR}/.config/autostart'
-    local START_PATH="${START_DIR}/ulauncher.desktop"
+    local AUTOSTART_DIR="${HOME_DIR}/.config/autostart"
+    local AUTOSTART_PATH="${AUTOSTART_DIR}/ulauncher.desktop"
 
-    local START_CMD="[Desktop Entry]
+    local AUTOSTART_CMD="[Desktop Entry]
 Name=Ulauncher
 Comment=Application launcher for Linux
 GenericName=Launcher
@@ -50,8 +50,8 @@ X-GNOME-Autostart-enabled=true"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
+    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -112,9 +112,9 @@ Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Categories=${APP_GRP}";
 
-    if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
         # ~/.local/share/applications/ulauncher.desktop
-        su - ${CUR_USER} -c "echo '${DESKTOP_CMD}' > ${DESKTOP_PATH}";
+        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
         # /usr/share/applications/ulauncher.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
@@ -186,7 +186,9 @@ function install_ulauncher_for_nix()
         fi
         # ----------------------------------------------------------------------
 
-        su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
+        if [[ ! -f ${DESKTOP_PATH} ]]; then
+            su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
+        fi
     else
         set_desktop;
     fi

@@ -14,9 +14,9 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-TMP_DIR="/core/linux/src";
+TMP_DIR="/tmp";
 
-# /core/linux/src/autohotkey-config
+# /tmp/autohotkey-config
 CONFIG_DIR="${TMP_DIR}/autohotkey-config";
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -57,10 +57,10 @@ function autostart_autokey()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME_DIR}/.config/autostart'
-    local START_PATH="${START_DIR}/autokey.desktop"
+    local AUTOSTART_DIR="${HOME_DIR}/.config/autostart"
+    local AUTOSTART_PATH="${AUTOSTART_DIR}/autokey.desktop"
 
-    local START_CMD="[Desktop Entry]
+    local AUTOSTART_CMD="[Desktop Entry]
 Name=AutoKey
 GenericName=Keyboard Automation
 Comment=Program keyboard shortcuts
@@ -73,8 +73,8 @@ Categories=GNOME;GTK;Utility;"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
+    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -101,10 +101,6 @@ function config_autokey()
     # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/autokey ~/.config/";
     # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    autostart_autokey;
-    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
@@ -116,6 +112,7 @@ if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
 else
 	install_autokey;
 	config_autokey;
+    autostart_autokey;
 fi
 # ==============================================================================
 

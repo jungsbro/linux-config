@@ -29,7 +29,7 @@ function cp_toggle_fullscreen()     # not used
     local DST_DIR="${HOME_DIR}/.local/bin";
     local SCRIPT_NAME='toggle_fullscreen.sh';
 
-    # su - ${CUR_USER} -c "echo '${DST_DIR}'";
+    # su - ${CUR_USER} -c "echo \"${DST_DIR}\"";
     # su - ${CUR_USER} -c "echo ${SRC_DIR}/${SCRIPT_NAME}";
     # su - ${CUR_USER} -c "echo ${DST_DIR}/${SCRIPT_NAME}";
 

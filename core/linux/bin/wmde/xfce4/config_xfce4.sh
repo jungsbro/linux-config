@@ -53,6 +53,13 @@ function set_prop_value()
 
 function set_shortcuts()
 {
+    # whiskermenu --------------------------------------------------------------
+    # ctrl+esc
+    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
+    # --------------------------------------------------------------------------
+
     # window tile (not used) ---------------------------------------------------
     # local tog_fs_path="/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
 
@@ -98,7 +105,7 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 
     # window to left/right screen ----------------------------------------------
-    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # mxlinux
+    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
         # shift+win+left
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "";
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "";
@@ -152,10 +159,10 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 
     # appmenu ------------------------------------------------------------------
-    # alt+f1 >> ctrl+esc
+    # alt+f1 >> win+esc
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F1" "string" "";
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape" -t "string" -s "xfce4-popup-applicationsmenu"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "xfce4-popup-applicationsmenu";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Escape" -t "string" -s "xfce4-popup-applicationsmenu"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Escape" "string" "xfce4-popup-applicationsmenu";
     # --------------------------------------------------------------------------
 
     # taskmanager --------------------------------------------------------------
@@ -376,6 +383,35 @@ function set_screensaver_lock()
     set_prop_value "xfce4-screensaver" "/lock/enabled" "bool" "true";
     # --------------------------------------------------------------------------
 }
+
+function fix_sound_disabled()
+{
+    # --------------------------------------------------------------------------
+    local AUDIO_PATH="/etc/modprobe.d/audio.conf";
+    local AUDIO_CMD="options snd_hda_intel power_save=0";
+
+    if [[ ! -f "${AUDIO_PATH}" ]]; then
+        echo "${AUDIO_CMD}" > ${AUDIO_PATH}
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # systemctl --user enable pipewire;
+    # systemctl --user enable pipewire-pulse;
+    # systemctl --user enable wireplumber;
+    # systemctl --user restart pipewire;
+    # systemctl --user restart pipewire-pulse;
+    # systemctl --user restart wireplumber;
+
+    # su - ${CUR_USER} -c "systemctl --user enable pipewire";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire-pulse";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user enable wireplumber";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire-pulse";
+    # sudo -u ${CUR_USER} bash -c "systemctl --user restart wireplumber";
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
@@ -395,6 +431,10 @@ function main()
     else
         set_theme;
         # set_default_app;
+    fi
+
+    if [[ *"${CUR_VER}"* == *"Rocky"* ]]; then  # rocky
+        fix_sound_disabled;
     fi
 }
 

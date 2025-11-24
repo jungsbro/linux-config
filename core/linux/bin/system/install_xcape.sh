@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# galculator ===================================================================
-# bash /core/linux/bin/utilities/install_galculator.sh ${CUR_USER}
+# xcape ========================================================================
+# bash /core/linux/bin/system/install_xcape.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -14,46 +14,79 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="galculator"
+APP_NAME="xcape"
+DESKTOP_NAME="Super_Key_Mod"
 
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_GRP="Settings;System;"
 
-APP_GRP="Utility;"
+# xfce4 : xfce4-popup-whiskermenu
+# lxde  : lxpanelctl menu
+EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 
-# Func : x86_64, i686, aarch64 (nix) ===========================================
+# Func : x86_64, i686, aarch64 =================================================
 function set_desktop()
 {
     # args ---------------------------------------------------------------------
     # ${CUR_USER}
-    # ${APP_NAME}
+    # ${DESKTOP_NAME}
     # ${EXEC_PATH}
     # ${ICON_PATH}
     # ${APP_GRP}
     # ${DESKTOP_PATH}
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
     local DESKTOP_CMD="[Desktop Entry]
 Type=Application
-Name=${APP_NAME}
+Name=${DESKTOP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
-Categories=${APP_GRP}";
+Categories=${APP_GRP}
+Terminal=false"
 
     if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
-        # ~/.local/share/applications/galculator.desktop
+        # ~/.local/share/applications/xcape.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
-        # /usr/share/applications/galculator.desktop
+        # /usr/share/applications/xcape.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
 }
 
 
-function install_galculator_for_nix()
+function set_xcape_autostart()
+{
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # local EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'";
+    local ICON_PATH="${APP_NAME}";
+    local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
+    su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
+
+    local DESKTOP_PATH="${DESKTOP_DIR}/${DESKTOP_NAME}.desktop"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    set_desktop;
+    # --------------------------------------------------------------------------
+}
+
+
+function install_xcape_for_nix()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -65,85 +98,64 @@ function install_galculator_for_nix()
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 2) install_galculator ----------------------------------------------------
+    # 2) install_xcape ----------------------------------------------------------
     # https://search.nixos.org/packages
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
     # --------------------------------------------------------------------------
 
-    # 3) EXEC_PATH -------------------------------------------------------------
-    # ~/.nix-profile/bin/galculator
-    local NIX_EXEC_PATH="${HOME_DIR}/.nix-profile/bin/${APP_NAME}"
+    # 3) Symlink ---------------------------------------------------------------
+    local FNAME_LIST=(\
+    "xcape" \
+    )
 
-    # /usr/bin/galculator
-    local EXEC_PATH="/usr/bin/${APP_NAME}"
-
-    if [[ -f ${NIX_EXEC_PATH} ]]; then
-        if [[ ! -f ${EXEC_PATH} ]]; then
-            ln -s ${NIX_EXEC_PATH} ${EXEC_PATH};
-        fi
-    fi
-    # --------------------------------------------------------------------------
-
-    # 4) ICON_PATH -------------------------------------------------------------
-    # ~/.nix-profile/share/icons/icons/hicolor/scalable/apps/galculator.svg
-    # ~/.nix-profile/share/icons/icons/hicolor/48x48/apps/galculator.png
-    local NIX_ICON_PATH="${HOME_DIR}/.nix-profile/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg"
-
-    if [[ -f ${NIX_ICON_PATH} ]]; then
-        local ICON_PATH="${NIX_ICON_PATH}";
-    else
+    for cur_fname in "${FNAME_LIST[@]}";
+    do
         # ----------------------------------------------------------------------
-        # /usr/share/icons/hicolor/scalable/apps/galculator.svg
-        # local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg";
-
-        # /usr/share/icons/Papirus/48x48/apps/galculator.svg
-        local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # 5) DESKTOP_PATH ----------------------------------------------------------
-    # ~/.nix-profile/share/applications/galculator.desktop
-    local NIX_DESKTOP_PATH="${HOME_DIR}/.nix-profile/share/applications/${APP_UNIQUE_NAME}.desktop";
-
-    # ~/.local/share/applications/galculator.desktop
-    local DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${APP_UNIQUE_NAME}.desktop";
-
-    if [[ -f ${NIX_DESKTOP_PATH} ]]; then
-        # ----------------------------------------------------------------------
-        if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
-            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
+        src_path="${HOME_DIR}/.nix-profile/bin/${cur_fname}";
+        if [[ ! -f ${src_path} ]]; then
+            continue
         fi
         # ----------------------------------------------------------------------
 
-        su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
-    else
-        set_desktop;
-    fi
+        # ----------------------------------------------------------------------
+        dst_path="/usr/local/bin/${cur_fname}";
+        if [[ -f ${dst_path} ]]; then
+            continue
+        fi
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        ln -s ${src_path} ${dst_path};
+        # ----------------------------------------------------------------------
+    done
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
 
-
-# Main : x86_64, i686, aarch64 =================================================
+# Main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^galculator) ]] || apt install -y galculator;
+    [[ -n $(apt list --installed | grep -i ^xcape) ]] || apt install -y xcape;
     # --------------------------------------------------------------------------
+    set_xcape_autostart;
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^galculator) ]] || yum install -y galculator;
+    install_xcape_for_nix;
     # --------------------------------------------------------------------------
+    set_xcape_autostart;
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    install_galculator_for_nix;
+    install_xcape_for_nix;
     # --------------------------------------------------------------------------
+    set_xcape_autostart;
 fi
 # ==============================================================================
 
 exit 0
+
+

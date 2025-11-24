@@ -98,9 +98,9 @@ Icon=${ICON_PATH}
 Categories=${APP_GRP}
 Terminal=false"
 
-    if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
         # ~/.local/share/applications/kime.desktop
-        su - ${CUR_USER} -c "echo '${DESKTOP_CMD}' > ${DESKTOP_PATH}";
+        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
         # /usr/share/applications/kime.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};

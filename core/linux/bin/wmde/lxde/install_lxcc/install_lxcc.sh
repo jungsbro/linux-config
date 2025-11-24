@@ -27,7 +27,7 @@ function cp_lxcc()
     local DST_DIR="${HOME_DIR}/.local/bin";
     local SCRIPT_NAME='lxcc.py';
 
-    # su - ${CUR_USER} -c "echo '${DST_DIR}'";
+    # su - ${CUR_USER} -c "echo \"${DST_DIR}\"";
     # su - ${CUR_USER} -c "echo ${SRC_DIR}/${SCRIPT_NAME}";
     # su - ${CUR_USER} -c "echo ${DST_DIR}/${SCRIPT_NAME}";
 

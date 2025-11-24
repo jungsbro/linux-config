@@ -23,8 +23,8 @@ function autostart_redshift()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME_DIR}/.config/autostart'
-    local START_PATH="${START_DIR}/redshift-gtk.desktop"
+    local AUTOSTART_DIR="${HOME_DIR}/.config/autostart"
+    local AUTOSTART_PATH="${AUTOSTART_DIR}/redshift-gtk.desktop"
 
     local START_CMD="[Desktop Entry]
 Version=1.0
@@ -42,8 +42,8 @@ X-GNOME-Autostart-enabled=true"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
+    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${START_CMD}\" > ${AUTOSTART_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -70,11 +70,7 @@ lon=127.0"
 
     # --------------------------------------------------------------------------
     # ~/.config/redshift.conf
-    su - ${CUR_USER} -c "[[ -f ~/.config/redshift.conf ]] || echo '${CONF_CMD}' > ~/.config/redshift.conf";
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    autostart_redshift;
+    su - ${CUR_USER} -c "[[ -f ~/.config/redshift.conf ]] || echo \"${CONF_CMD}\" > ~/.config/redshift.conf";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -87,6 +83,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^geoclue) ]] || apt install -y geoclue-2.0;
     # --------------------------------------------------------------------------
     config_redshift;
+    autostart_redshift;
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
@@ -95,14 +92,16 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     [[ -n $(yum list installed | grep -i ^geoclue) ]] || yum install -y geoclue2;
     # --------------------------------------------------------------------------
     config_redshift;
+    autostart_redshift;
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # ----------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^redshift) ]] || dnf install -y redshift-gtk;
     [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
-    # ----------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     config_redshift;
+    autostart_redshift;
 fi
 # ==============================================================================
 

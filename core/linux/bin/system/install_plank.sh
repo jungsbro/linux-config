@@ -33,10 +33,10 @@ function autostart_plank()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local START_DIR='${HOME}/.config/autostart'
-    local START_PATH="${START_DIR}/plank.desktop"
+    local AUTOSTART_DIR="${HOME}/.config/autostart"
+    local AUTOSTART_PATH="${AUTOSTART_DIR}/plank.desktop"
 
-    local START_CMD="[Desktop Entry]
+    local AUTOSTART_CMD="[Desktop Entry]
 Encoding=UTF-8
 Version=0.9.4
 Type=Application
@@ -51,8 +51,8 @@ Hidden=false"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${START_DIR} ]] || mkdir -p ${START_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${START_PATH} ]] || echo '${START_CMD}' > ${START_PATH}";
+    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
+    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -77,9 +77,9 @@ Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Categories=${APP_GRP}";
 
-    if [[ *"${DESKTOP_PATH}"* == *".local"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
         # ~/.local/share/applications/plank.desktop
-        su - ${CUR_USER} -c "echo '${DESKTOP_CMD}' > ${DESKTOP_PATH}";
+        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
         # /usr/share/applications/plank.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
@@ -151,7 +151,9 @@ function install_plank_for_nix()
         fi
         # ----------------------------------------------------------------------
 
-        su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
+        if [[ ! -f ${DESKTOP_PATH} ]]; then
+            su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
+        fi
     else
         set_desktop;
     fi

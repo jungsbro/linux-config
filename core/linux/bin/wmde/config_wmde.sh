@@ -44,6 +44,7 @@ function install_wmde_pkg()
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then                                         # mxlinux xfce4
             bash /core/linux/bin/system/install_xfce4-screensaver.sh;
         else
+            bash /core/linux/bin/system/install_xcape.sh ${CUR_USER};
             # bash /core/linux/bin/utilities/install_galculator.sh ${CUR_USER};
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
             bash /core/linux/bin/utilities/install_mate-calc.sh;
@@ -74,6 +75,7 @@ function install_wmde_pkg()
         bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
         bash /core/linux/bin/system/install_skippy-xd.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/wmde/install_mate-menu.sh;
         bash /core/linux/bin/wmde/install_dconf.sh;
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
