@@ -65,19 +65,7 @@ function install_pinta_for_nix()
     done
     # --------------------------------------------------------------------------
 
-    # 5) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="/usr/local/share/applications"
-
-    mkdir -p "${dst_dir}"
-    # -u : update
-    # -L : dereference
-    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-
-    update-desktop-database "${dst_dir}"
-    # --------------------------------------------------------------------------
-
-    # 6) icon settngs1 ---------------------------------------------------------
+    # 5) icon settngs1 ---------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
     local dst_dir="/usr/share/icons"
 
@@ -89,7 +77,7 @@ function install_pinta_for_nix()
     gtk-update-icon-cache "${dst_dir}" 2>/dev/null
     # --------------------------------------------------------------------------
 
-    # 6) icon settngs2 ---------------------------------------------------------
+    # 5) icon settngs2 ---------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/pixmaps"
     local dst_dir="/usr/share/pixmaps"
 
@@ -99,6 +87,18 @@ function install_pinta_for_nix()
     cp -ru ${src_dir}/* "${dst_dir}/"
 
     gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
+
+    # 6) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
+
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+
+    update-desktop-database "${dst_dir}"
     # --------------------------------------------------------------------------
 }
 

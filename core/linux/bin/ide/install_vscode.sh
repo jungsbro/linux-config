@@ -150,19 +150,7 @@ function install_vscode_for_nix()   # it has error / not working
     done
     # --------------------------------------------------------------------------
 
-    # 5) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="/usr/local/share/applications"
-
-    mkdir -p "${dst_dir}"
-    # -u : update
-    # -L : dereference
-    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-
-    update-desktop-database "${dst_dir}"
-    # --------------------------------------------------------------------------
-
-    # 6) icon settngs ----------------------------------------------------------
+    # 5) icon settngs ----------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
     local dst_dir="/usr/share/icons"
 
@@ -172,6 +160,18 @@ function install_vscode_for_nix()   # it has error / not working
     cp -ru ${src_dir}/* "${dst_dir}/"
 
     gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
+
+    # 6) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
+
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+
+    update-desktop-database "${dst_dir}"
     # --------------------------------------------------------------------------
 }
 
