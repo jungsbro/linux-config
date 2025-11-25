@@ -12,6 +12,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
+CUR_ARCH=$(uname -m);
+
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 

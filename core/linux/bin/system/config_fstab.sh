@@ -7,6 +7,8 @@
 
 # ENV ==========================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
@@ -20,7 +22,7 @@ function config_fstab()
 
     # --------------------------------------------------------------------------
     local FSTAB_PATH="/etc/fstab";
-    
+
     local MOUNT_CMD="# samba
 # //192.168.0.0/hdd1  /mnt/a3004ns-m/hdd1    cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,x-systemd.automount,_netdev 0   0
 # //192.168.0.0/_share  /mnt/j4105/_share   cifs    username=id,password=1234,uid=1000,gid=1000,dir_mode=0755,file_mode=0755,sec=ntlmssp,iocharset=utf8,vers=2.0,x-systemd.automount,_netdev 0   0

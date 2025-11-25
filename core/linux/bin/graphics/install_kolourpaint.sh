@@ -7,10 +7,47 @@
 
 # ENV ==========================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# Main : x86_64, aarch64 =======================================================
+# func =========================================================================
+function install_kolourpaint_for_flatpak()
+{
+    # --------------------------------------------------------------------------
+    # for x86_64 / aarch64
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(yum list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub org.kde.kolourpaint;
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+# Main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^kolurpaint4) ]] || apt install -y kolourpaint;
@@ -23,16 +60,17 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^kolourpaint) ]] || yum install -y kolourpaint;
+    # [[ -n $(yum list installed | grep -i ^kolourpaint) ]] || yum install -y kolourpaint;
+
+    install_kolourpaint_for_flatpak;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
-    
-    # [[ -n $(dnf list installed  | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-    # [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub org.kde.kolourpaint;
+    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
+
+    install_kolourpaint_for_flatpak;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

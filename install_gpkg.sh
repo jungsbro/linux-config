@@ -84,7 +84,7 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # bottles ======================================================================
-# bash /core/linux/bin/pkgmgmt/install_bottles.sh;
+# bash /core/linux/bin/pkgmgmt/install_bottles.sh ${CUR_USER};
 # ==============================================================================
 
 # graphic driver ===============================================================
@@ -170,7 +170,7 @@ bash /core/linux/bin/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-bash /core/linux/bin/filemgr/install_doublecmd.sh;
+bash /core/linux/bin/filemgr/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 # web browser ==================================================================
@@ -200,7 +200,7 @@ bash /core/linux/bin/internet/install_firefox.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
-bash /core/linux/bin/internet/install_remmina.sh;
+bash /core/linux/bin/internet/install_remmina.sh ${CUR_USER};
 # ==============================================================================
 
 # anydesk ======================================================================
@@ -216,18 +216,20 @@ bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
 # bash /core/linux/bin/graphics/install_kolourpaint.sh;
 # bash /core/linux/bin/graphics/install_inkscape.sh;
 bash /core/linux/bin/graphics/install_drawing.sh ${CUR_USER};
+# bash /core/linux/bin/graphics/install_pinta.sh ${CUR_USER};
 # ==============================================================================
 
 # xnview =======================================================================
-# bash /core/linux/bin/graphics/install_xnview.sh;
+# bash /core/linux/bin/graphics/install_xnviewmp.sh ${CUR_USER};
 # ==============================================================================
 
-# vlc ==========================================================================
-bash /core/linux/bin/multimedia/install_vlc.sh;
+# multimedia ===================================================================
+# bash /core/linux/bin/multimedia/install_freetube.sh ${CUR_USER};
+bash /core/linux/bin/multimedia/install_vlc.sh ${CUR_USER};
 # ==============================================================================
 
 # filesync =====================================================================
-bash /core/linux/bin/utilities/install_freefilesync.sh;
+bash /core/linux/bin/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 # simplescreenrecorder =========================================================

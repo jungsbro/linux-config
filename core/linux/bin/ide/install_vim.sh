@@ -11,12 +11,14 @@ CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-TMP_DIR="/core/linux/src";
+TMP_DIR="/tmp";
 
-# /core/linux/src/vim-config
+# /tmp/vim-config
 CONFIG_DIR="/${TMP_DIR}/vim-config";
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -27,6 +29,8 @@ function install_vim()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
+        # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^vim-gtk3) ]] || apt install -y vim-gtk3;
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
@@ -35,6 +39,8 @@ function install_vim()
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
+        # ----------------------------------------------------------------------
         [[ -n $(yum list installed | grep -i ^vim-X11) ]] || yum install -y vim-X11;
         # ----------------------------------------------------------------------
         [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -42,6 +48,8 @@ function install_vim()
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         # ----------------------------------------------------------------------

@@ -10,11 +10,13 @@ CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function autostart_redshift()
+function set_redshift_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -83,7 +85,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^geoclue) ]] || apt install -y geoclue-2.0;
     # --------------------------------------------------------------------------
     config_redshift;
-    autostart_redshift;
+    set_redshift_autostart;
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
@@ -92,7 +94,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     [[ -n $(yum list installed | grep -i ^geoclue) ]] || yum install -y geoclue2;
     # --------------------------------------------------------------------------
     config_redshift;
-    autostart_redshift;
+    set_redshift_autostart;
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
@@ -101,7 +103,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^geoclue) ]] || dnf install -y geoclue2;
     # --------------------------------------------------------------------------
     config_redshift;
-    autostart_redshift;
+    set_redshift_autostart;
 fi
 # ==============================================================================
 

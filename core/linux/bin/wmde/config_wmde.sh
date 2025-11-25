@@ -30,10 +30,11 @@ function install_wmde_pkg()
     elif [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then	# lxde
         # ----------------------------------------------------------------------
         bash /core/linux/bin/utilities/install_gnome-screenshot.sh;
+        bash /core/linux/bin/system/install_xcape.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
         bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
-        bash /core/linux/bin/system/install_skippy-xd.sh;
+        bash /core/linux/bin/system/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
@@ -61,7 +62,7 @@ function install_wmde_pkg()
         # bash /core/linux/bin/system/plank.sh ${CUR_USER};
         # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
         # bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
-        bash /core/linux/bin/system/install_skippy-xd.sh;
+        bash /core/linux/bin/system/install_skippy-xd.sh ${CUR_USER};
         bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
@@ -73,7 +74,7 @@ function install_wmde_pkg()
         # ----------------------------------------------------------------------
         # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};
         bash /core/linux/bin/system/install_synapse.sh ${CUR_USER};
-        bash /core/linux/bin/system/install_skippy-xd.sh;
+        bash /core/linux/bin/system/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         bash /core/linux/bin/wmde/install_mate-menu.sh;
         bash /core/linux/bin/wmde/install_dconf.sh;

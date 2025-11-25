@@ -10,6 +10,8 @@ CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
@@ -387,6 +389,7 @@ function set_screensaver_lock()
 function fix_sound_disabled()
 {
     # --------------------------------------------------------------------------
+    # root permission
     local AUDIO_PATH="/etc/modprobe.d/audio.conf";
     local AUDIO_CMD="options snd_hda_intel power_save=0";
 
@@ -396,12 +399,13 @@ function fix_sound_disabled()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # systemctl --user enable pipewire;
-    # systemctl --user enable pipewire-pulse;
-    # systemctl --user enable wireplumber;
-    # systemctl --user restart pipewire;
-    # systemctl --user restart pipewire-pulse;
-    # systemctl --user restart wireplumber;
+    # user permission
+    systemctl --user enable pipewire;
+    systemctl --user enable pipewire-pulse;
+    systemctl --user enable wireplumber;
+    systemctl --user restart pipewire;
+    systemctl --user restart pipewire-pulse;
+    systemctl --user restart wireplumber;
 
     # su - ${CUR_USER} -c "systemctl --user enable pipewire";
     # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire";
@@ -434,9 +438,11 @@ function main()
     fi
 
     if [[ *"${CUR_VER}"* == *"Rocky"* ]]; then  # rocky
-        fix_sound_disabled;
+        # fix_sound_disabled;
+        echo ""
     fi
 }
 
 main;
 # ==============================================================================
+

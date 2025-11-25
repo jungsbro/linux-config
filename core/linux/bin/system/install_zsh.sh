@@ -11,12 +11,14 @@ CUR_USER=$1;
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-TMP_DIR="/core/linux/src";
+TMP_DIR="/tmp";
 
-# /core/linux/src/zsh-config
+# /tmp/zsh-config
 CONFIG_DIR="${TMP_DIR}/zsh-config";
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -32,6 +34,8 @@ function install_zsh()
     # --------------------------------------------------------------------------
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^zsh) ]] || apt install -y zsh;
         [[ -n $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
@@ -52,6 +56,8 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
         # ----------------------------------------------------------------------
         [[ -n $(yum list installed | grep -i ^zsh) ]] || yum install -y zsh;
         [[ -n $(yum list installed | grep -i ^curl) ]] || yum install -y curl;
@@ -79,6 +85,8 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^zsh) ]] || dnf install -y zsh;
         [[ -n $(dnf list installed | grep -i ^curl) ]] || dnf install -y curl;

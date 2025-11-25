@@ -11,6 +11,8 @@ CUR_USER=$1;
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -22,33 +24,8 @@ CONFIG_DIR="${TMP_DIR}/autohotkey-config";
 # ==============================================================================
 
 
-# Func : x86_64, aarch64, i686 =================================================
-function install_autokey()
-{
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^autokey) ]] || apt install -y autokey-gtk;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^autokey) ]] || yum install -y autokey-gtk;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-		[[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-		[[ -n $(dnf list installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
-        # ----------------------------------------------------------------------
-    fi
-}
-
-
-function autostart_autokey()
+# Func =========================================================================
+function set_autokey_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -96,9 +73,6 @@ function config_autokey()
 
     # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "git clone https://github.com/jungsbro/autohotkey-config.git ${CONFIG_DIR}";
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/autokey ~/.config/";
     # --------------------------------------------------------------------------
 }
@@ -106,13 +80,37 @@ function config_autokey()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
-    # autokey not working on rocky8
-    echo "";
-else
-	install_autokey;
-	config_autokey;
-    autostart_autokey;
+# for x86_64, aarch64, i686
+
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^autokey) ]] || apt install -y autokey-gtk;
+    # --------------------------------------------------------------------------
+    config_autokey;
+    set_autokey_autostart;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(yum list installed | grep -i ^autokey) ]] || yum install -y autokey-gtk;
+    # --------------------------------------------------------------------------
+    config_autokey;
+    set_autokey_autostart;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        echo "autokey not working on rocky8";
+    else
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
+        # ----------------------------------------------------------------------
+        config_autokey;
+        set_autokey_autostart;
+        # ----------------------------------------------------------------------
+    fi
 fi
 # ==============================================================================
 

@@ -1,16 +1,22 @@
 #!/bin/bash
 
 # skippy-xd ====================================================================
-# bash /core/linux/bin/system/install_skippy-xd.sh;
+# bash /core/linux/bin/system/install_skippy-xd.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# Func : x86_64, aarch64 =======================================================
+# Func for build ===============================================================
+# for x86_64, aarch64
 function install_dep_for_deb()
 {
     [[ -n $(apt list --installed | grep -i ^libimlib2-dev) ]] || apt install -y libimlib2-dev;
@@ -57,7 +63,7 @@ function install_dep_for_rocky()
     # --------------------------------------------------------------------------
 }
 
-function install_skippy-xd()
+function install_skippy-xd_for_build()
 {
     # --------------------------------------------------------------------------
     if [[ -e "/usr/bin/skippy-xd" ]]; then
@@ -75,7 +81,7 @@ function install_skippy-xd()
     # --------------------------------------------------------------------------
 
     # checking TMP_DIR ---------------------------------------------------------
-    local TMP_DIR="/core/linux/src";
+    local TMP_DIR="/tmp";
     [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
     # --------------------------------------------------------------------------
 
@@ -91,19 +97,106 @@ function install_skippy-xd()
 # ==============================================================================
 
 
+# func =========================================================================
+function install_skippy-xd_for_nix()
+{
+    # for x86_64 / i686 / aarch64
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # 1) env-vars settings -----------------------------------------------------
+    local APP_NAME="skippy-xd"
+    # --------------------------------------------------------------------------
+
+    # 2) install nix -----------------------------------------------------------
+    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    # --------------------------------------------------------------------------
+
+    # 3) install_skippy-xd --------------------------------------------------
+    # https://search.nixos.org/packages
+    # nix-env -iA nixpkgs.skippy-xd
+    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    nix-env -q | grep -iq ^${APP_NAME} || \
+    nix-env -iA nixpkgs.${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # 4) bins settings ---------------------------------------------------------
+    local FNAME_LIST=(\
+    "skippy-xd" \
+    )
+
+    local src_dir="${HOME_DIR}/.nix-profile/bin"
+    local dst_dir="/usr/local/bin"
+
+    for cur_fname in "${FNAME_LIST[@]}";
+    do
+        src_path="${src_dir}/${cur_fname}";
+        if [[ ! -f ${src_path} ]]; then
+            continue
+        fi
+
+        dst_path="${dst_dir}/${cur_fname}";
+        if [[ -f ${dst_path} ]]; then
+            continue
+        fi
+
+        ln -s ${src_path} ${dst_path};
+    done
+    # --------------------------------------------------------------------------
+
+    # 5) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
+
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+
+    update-desktop-database "${dst_dir}"
+    # --------------------------------------------------------------------------
+
+    # 6) icon settngs ----------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+    local dst_dir="/usr/share/icons"
+
+    mkdir -p "${dst_dir}"
+    # -r : recursive
+    # -u : update
+    cp -ru ${src_dir}/* "${dst_dir}/"
+
+    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+
 # Main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    install_dep_for_deb;
-    install_skippy-xd;
+    # --------------------------------------------------------------------------
+    install_skippy-xd_for_nix;
+    # --------------------------------------------------------------------------
+    # install_dep_for_deb;
+    # install_skippy-xd_for_build;
+    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^skippy-xd) ]] || yum install -y skippy-xd;
+    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    install_dep_for_rocky;
-    install_skippy-xd;
+    # --------------------------------------------------------------------------
+    install_skippy-xd_for_nix;
+    # --------------------------------------------------------------------------
+    # install_dep_for_rocky;
+    # install_skippy-xd_for_build;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 

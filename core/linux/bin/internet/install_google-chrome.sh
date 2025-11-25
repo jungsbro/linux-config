@@ -15,8 +15,8 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 NAME="google-chrome";
 
-# /core/linux/src/google-chrome
-TMP_DIR="/core/linux/src/${NAME}";
+# /tmp/google-chrome
+TMP_DIR="/tmp/${NAME}";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -106,14 +106,14 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /core/linux/src/google-chrome
+    # /tmp/google-chrome
     if [[ ! -d ${TMP_DIR} ]]; then
         # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_amd64.deb
-        # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
+        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         wget ${URL} -O ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     fi
@@ -122,17 +122,17 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_amd64.deb
+        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         apt install -y ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         yum install -y ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         dnf install -y ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     fi
@@ -164,18 +164,18 @@ function install_google-chrome_for_deb()    # not used
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /core/linux/src/google-chrome
+    # /tmp/google-chrome
     if [[ ! -d ${TMP_DIR} ]]; then
         # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_amd64.deb
+        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         wget ${URL} -O ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     fi
 
-    # /core/linux/src/google-chrome/google-chrome-stable_current_amd64.deb
+    # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
     apt install -y ${TMP_DIR}/${FNAME};
     # --------------------------------------------------------------------------
 }
@@ -202,18 +202,18 @@ function install_google-chrome_for_cent()    # not used
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /core/linux/src/google-chrome
+    # /tmp/google-chrome
     if [[ ! -d ${TMP_DIR} ]]; then
         # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         wget ${URL} -O ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     fi
 
-    # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+    # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
     yum install -y ${TMP_DIR}/${FNAME};
     # --------------------------------------------------------------------------
 }
@@ -240,18 +240,18 @@ function install_google-chrome_for_rocky()    # not used
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /core/linux/src/google-chrome
+    # /tmp/google-chrome
     if [[ ! -d ${TMP_DIR} ]]; then
         # ----------------------------------------------------------------------
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
         # ----------------------------------------------------------------------
-        # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         wget ${URL} -O ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
     fi
 
-    # /core/linux/src/google-chrome/google-chrome-stable_current_x86_64.rpm
+    # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
     dnf install -y ${TMP_DIR}/${FNAME};
     # --------------------------------------------------------------------------
 }

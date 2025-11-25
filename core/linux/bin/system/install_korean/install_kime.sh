@@ -12,6 +12,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
+CUR_ARCH=$(uname -m);
+
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
@@ -172,24 +174,30 @@ function set_kime_hotkey()
 
 function install_kime_for_nix()
 {
+    # for x86_64 / i686 / aarch64
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
-    # 1) install nix -----------------------------------------------------------
+    # 1) env-vars settings -----------------------------------------------------
+    local APP_NAME="kime"
+    # --------------------------------------------------------------------------
+
+    # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 2) install_kime ----------------------------------------------------------
+    # 3) install_kime ----------------------------------------------------------
     # https://search.nixos.org/packages
+    # nix-env -iA nixpkgs.kime
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
     # --------------------------------------------------------------------------
 
-    # 3) Symlink ---------------------------------------------------------------
+    # 4) bins settings ---------------------------------------------------------
     local FNAME_LIST=(\
     "kime" \
     "kime-check" \
@@ -199,26 +207,47 @@ function install_kime_for_nix()
     "kime-xim" \
     )
 
+    local src_dir="${HOME_DIR}/.nix-profile/bin"
+    local dst_dir="/usr/local/bin"
+
     for cur_fname in "${FNAME_LIST[@]}";
     do
-        # ----------------------------------------------------------------------
-        src_path="${HOME_DIR}/.nix-profile/bin/${cur_fname}";
+        src_path="${src_dir}/${cur_fname}";
         if [[ ! -f ${src_path} ]]; then
             continue
         fi
-        # ----------------------------------------------------------------------
 
-        # ----------------------------------------------------------------------
-        dst_path="/usr/local/bin/${cur_fname}";
+        dst_path="${dst_dir}/${cur_fname}";
         if [[ -f ${dst_path} ]]; then
             continue
         fi
-        # ----------------------------------------------------------------------
 
-        # ----------------------------------------------------------------------
         ln -s ${src_path} ${dst_path};
-        # ----------------------------------------------------------------------
     done
+    # --------------------------------------------------------------------------
+
+    # 5) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
+
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+
+    update-desktop-database "${dst_dir}"
+    # --------------------------------------------------------------------------
+
+    # 6) icon settngs ----------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+    local dst_dir="/usr/share/icons"
+
+    mkdir -p "${dst_dir}"
+    # -r : recursive
+    # -u : update
+    cp -ru ${src_dir}/* "${dst_dir}/"
+
+    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

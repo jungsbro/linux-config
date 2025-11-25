@@ -11,6 +11,8 @@ CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -24,7 +26,7 @@ APP_GRP="GNOME;GTK;Utility;"
 
 
 # Func =========================================================================
-function autostart_ulauncher()
+function set_ulauncher_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -86,15 +88,12 @@ function install_ulauncher_for_deb()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    autostart_ulauncher;
+    set_ulauncher_autostart;
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
 
-
-# Func : x86_64, i686, aarch64 (nix) ===========================================
-function set_desktop()
+function set_desktop()  # not used
 {
     # args ---------------------------------------------------------------------
     # ${CUR_USER}
@@ -124,74 +123,80 @@ Categories=${APP_GRP}";
 
 function install_ulauncher_for_nix()
 {
+    # for x86_64 / i686 / aarch64
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
-    # 1) install nix -----------------------------------------------------------
+    # 1) env-vars settings -----------------------------------------------------
+    local APP_NAME="ulauncher"
+    # --------------------------------------------------------------------------
+
+    # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 2) install_ulauncher -----------------------------------------------------
+    # 3) install_ulauncher --------------------------------------------------
     # https://search.nixos.org/packages
+    # nix-env -iA nixpkgs.ulauncher
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix-env -q | grep -iq ^${APP_NAME} || \
     nix-env -iA nixpkgs.${APP_NAME}"
     # --------------------------------------------------------------------------
 
-    # 3) EXEC_PATH -------------------------------------------------------------
-    # ~/.nix-profile/bin/ulauncher
-    local NIX_EXEC_PATH="${HOME_DIR}/.nix-profile/bin/${APP_NAME}"
+    # 4) bins settings ---------------------------------------------------------
+    local FNAME_LIST=(\
+    "ulauncher" \
+    "ulauncher-toggle" \
+    )
 
-    # /usr/bin/ulauncher
-    local EXEC_PATH="/usr/bin/${APP_NAME}"
+    local src_dir="${HOME_DIR}/.nix-profile/bin"
+    local dst_dir="/usr/local/bin"
 
-    if [[ -f ${NIX_EXEC_PATH} ]]; then
-        if [[ ! -f ${EXEC_PATH} ]]; then
-            ln -s ${NIX_EXEC_PATH} ${EXEC_PATH};
+    for cur_fname in "${FNAME_LIST[@]}";
+    do
+        src_path="${src_dir}/${cur_fname}";
+        if [[ ! -f ${src_path} ]]; then
+            continue
         fi
-    fi
+
+        dst_path="${dst_dir}/${cur_fname}";
+        if [[ -f ${dst_path} ]]; then
+            continue
+        fi
+
+        ln -s ${src_path} ${dst_path};
+    done
     # --------------------------------------------------------------------------
 
-    # 4) ICON_PATH -------------------------------------------------------------
-    # ~/.nix-profile/share/icons/icons/hicolor/scalable/apps/ulauncher.svg
-    local NIX_ICON_PATH="${HOME_DIR}/.nix-profile/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg"
+    # 5) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
 
-    if [[ -f ${NIX_ICON_PATH} ]]; then
-        local ICON_PATH="${NIX_ICON_PATH}";
-    else
-        # ----------------------------------------------------------------------
-        # /usr/share/icons/hicolor/scalable/apps/ulauncher.svg
-        # local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_UNIQUE_NAME}.svg";
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
 
-        # /usr/share/icons/Papirus/48x48/apps/ulauncher.svg
-        local ICON_PATH="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
-        # ----------------------------------------------------------------------
-    fi
+    update-desktop-database "${dst_dir}"
     # --------------------------------------------------------------------------
 
-    # 5) DESKTOP_PATH ----------------------------------------------------------
-    # ~/.nix-profile/share/applications/ulauncher.desktop
-    local NIX_DESKTOP_PATH="${HOME_DIR}/.nix-profile/share/applications/${APP_UNIQUE_NAME}.desktop";
+    # 6) icon settngs ----------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+    local dst_dir="/usr/share/icons"
 
-    # ~/.local/share/applications/ulauncher.desktop
-    local DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${APP_UNIQUE_NAME}.desktop";
+    mkdir -p "${dst_dir}"
+    # -r : recursive
+    # -u : update
+    cp -ru ${src_dir}/* "${dst_dir}/"
 
-    if [[ -f ${NIX_DESKTOP_PATH} ]]; then
-        # ----------------------------------------------------------------------
-        if [[ ! -d "${HOME_DIR}/.local/share/applications" ]]; then
-            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/share/applications";
-        fi
-        # ----------------------------------------------------------------------
+    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
 
-        if [[ ! -f ${DESKTOP_PATH} ]]; then
-            su - ${CUR_USER} -c "ln -s ${NIX_DESKTOP_PATH} ${DESKTOP_PATH}";
-        fi
-    else
-        set_desktop;
-    fi
+    # 7) etc -------------------------------------------------------------------
+    # ~/.nix-profile/share/ulauncher
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -206,15 +211,16 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "CentOS is not supported for ulauncher"
+    install_ulauncher_for_nix;
+    # --------------------------------------------------------------------------
     # [[ -n $(yum list installed | grep -i ^ulauncher) ]] || yum install -y ulauncher;
-    # autostart_ulauncher;
+    # set_ulauncher_autostart;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_ulauncher_for_nix;
-
+    # --------------------------------------------------------------------------
     #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
     # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:
     # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by /nix/store/pahwl2rq51dmwrn8czks27yy3sa3byg9-libX11-1.8.12/lib/libX11.so.6)

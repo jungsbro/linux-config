@@ -1,13 +1,17 @@
 #!/bin/bash
 
 # doublecmd ====================================================================
-# bash /core/linux/bin/filemgr/install_doublecmd.sh;
+# bash /core/linux/bin/filemgr/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
+CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
@@ -196,6 +200,97 @@ function install_dc_for_appimg()
     set_desktop;
     # --------------------------------------------------------------------------
 }
+
+
+function install_doublecmd_for_nix()
+{
+    # for x86_64 / i686 / aarch64
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # 1) env-vars settings -----------------------------------------------------
+    local APP_NAME="doublecmd"
+    # --------------------------------------------------------------------------
+
+    # 2) install nix -----------------------------------------------------------
+    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    # --------------------------------------------------------------------------
+
+    # 3) install_doublecmd --------------------------------------------------
+    # https://search.nixos.org/packages
+    # nix-env -iA nixpkgs.doublecmd
+    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    nix-env -q | grep -iq ^${APP_NAME} || \
+    nix-env -iA nixpkgs.${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # 4) bins settings ---------------------------------------------------------
+    local FNAME_LIST=(\
+    "doublecmd" \
+    )
+
+    local src_dir="${HOME_DIR}/.nix-profile/bin"
+    local dst_dir="/usr/local/bin"
+
+    for cur_fname in "${FNAME_LIST[@]}";
+    do
+        src_path="${src_dir}/${cur_fname}";
+        if [[ ! -f ${src_path} ]]; then
+            continue
+        fi
+
+        dst_path="${dst_dir}/${cur_fname}";
+        if [[ -f ${dst_path} ]]; then
+            continue
+        fi
+
+        ln -s ${src_path} ${dst_path};
+    done
+    # --------------------------------------------------------------------------
+
+    # 5) desktop settings ------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+    local dst_dir="/usr/local/share/applications"
+
+    mkdir -p "${dst_dir}"
+    # -u : update
+    # -L : dereference
+    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+
+    update-desktop-database "${dst_dir}"
+    # --------------------------------------------------------------------------
+
+    # 6) icon settngs1 ---------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+    local dst_dir="/usr/share/icons"
+
+    mkdir -p "${dst_dir}"
+    # -r : recursive
+    # -u : update
+    cp -ru ${src_dir}/* "${dst_dir}/"
+
+    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
+
+    # 6) icon settngs2 ---------------------------------------------------------
+    local src_dir="${HOME_DIR}/.nix-profile/share/pixmaps"
+    local dst_dir="/usr/share/pixmaps"
+
+    mkdir -p "${dst_dir}"
+    # -r : recursive
+    # -u : update
+    cp -ru ${src_dir}/* "${dst_dir}/"
+
+    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    # --------------------------------------------------------------------------
+
+    # 7) etc -------------------------------------------------------------------
+    # ~/.nix-profile/share/doublecmd
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
@@ -204,22 +299,26 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^doublecmd) ]] || apt install -y doublecmd-gtk;
     # --------------------------------------------------------------------------
+    # install_doublecmd_for_nix;
+    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
-    echo "";
+    install_doublecmd_for_nix;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        install_dc_for_portable;
-    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        install_dc_for_portable;
-    else                        # x86_64
-        install_dc_for_portable;
-        # install_dc_for_appimg;
-    fi
+    install_doublecmd_for_nix;
+    # --------------------------------------------------------------------------
+    # if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    #     install_dc_for_portable;
+    # elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    #     install_dc_for_portable;
+    # else                        # x86_64
+    #     install_dc_for_portable;
+    #     # install_dc_for_appimg;
+    # fi
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

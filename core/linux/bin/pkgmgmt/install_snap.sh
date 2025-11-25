@@ -7,6 +7,8 @@
 
 # ENV ==========================================================================
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
@@ -21,18 +23,18 @@ function install_snapd_for_deb()
 
     # for linuxmint ------------------------------------------------------------
     local SRC_PATH="/etc/apt/preferences.d/nosnap.pref"
-    
+
     local DST_DIR="~/Documents"
-    
+
     # ~/Documents/nosnap.backup
     local DST_PATH="${DST_DIR}/nosnap.backup"
 
     # /etc/apt/preferences.d/nosnap.pref
     if [[ -e ${SRC_PATH} ]]; then
-        
+
         # ~/Documents/nosnap.backup
         [[ -e ${DST_DIR} ]] || mkdir -p ${DST_DIR};
-        
+
         mv ${SRC_PATH} ${DST_DIR};
         apt update;
     fi
@@ -73,13 +75,13 @@ function install_snapd_for_rocky()
         return
     fi
     # --------------------------------------------------------------------------
-    
+
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     dnf install -y snapd;
 
     systemctl enable --now snapd.socket;
-    
+
     ln -s /var/lib/snapd/snap /snap;
 
     init 6;
@@ -93,12 +95,12 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     install_snapd_for_deb;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     install_snapd_for_cent;
     # --------------------------------------------------------------------------
-    
+
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_snapd_for_rocky;

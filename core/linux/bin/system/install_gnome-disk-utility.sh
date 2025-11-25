@@ -10,10 +10,14 @@ CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# Main : x86_64, i686, aarch64 ==================================================
+# Main =========================================================================
+# for x86_64, i686, aarch64
+
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^gnome-disk-utility) ]] || apt install -y gnome-disk-utility;

@@ -14,12 +14,12 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-TMP_DIR="/core/linux/src";
+TMP_DIR="/tmp";
 
-# /core/linux/src/ranger-config
+# /tmp/ranger-config
 CONFIG_DIR="${TMP_DIR}/ranger-config";
 
-# /core/linux/src/ranger-archives
+# /tmp/ranger-archives
 ARCHIVE_DIR="${TMP_DIR}/ranger-archives";
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -59,6 +59,8 @@ function install_ranger()
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
+        # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
         [[ -n $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
         [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
@@ -95,6 +97,8 @@ function install_ranger()
         [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
         # ----------------------------------------------------------------------
         install_ranger_pip;
         # ----------------------------------------------------------------------
@@ -141,6 +145,9 @@ function install_ranger()
         # yum install -y catimg;
         # ----------------------------------------------------------------------
     elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
+        # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^ranger) ]] || dnf install -y ranger;
         # ----------------------------------------------------------------------

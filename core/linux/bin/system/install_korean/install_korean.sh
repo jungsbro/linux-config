@@ -11,6 +11,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
+CUR_ARCH=$(uname -m);
+
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ==============================================================================
 
@@ -113,7 +115,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # bash /core/linux/bin/system/install_korean/install_fcitx5.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_ibus.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_kime.sh ${CUR_USER};
-    bash /core/linux/bin/system/install_korean/install_nimf.sh ${CUR_USER};
+    # bash /core/linux/bin/system/install_korean/install_nimf.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_uim.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
