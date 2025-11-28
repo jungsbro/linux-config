@@ -105,24 +105,28 @@ function install_bottles_for_nix()
     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
     local dst_dir="/usr/share/icons"
 
-    mkdir -p "${dst_dir}"
-    # -r : recursive
-    # -u : update
-    cp -ru ${src_dir}/* "${dst_dir}/"
+    if [[ -d ${src_dir} ]]; then
+        mkdir -p "${dst_dir}"
+        # -r : recursive
+        # -u : update
+        cp -ru ${src_dir}/* "${dst_dir}/"
 
-    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    fi
     # --------------------------------------------------------------------------
 
     # 6) desktop settings ------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
     local dst_dir="/usr/local/share/applications"
 
-    mkdir -p "${dst_dir}"
-    # -u : update
-    # -L : dereference
-    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+    if [[ -d ${src_dir} ]]; then
+        mkdir -p "${dst_dir}"
+        # -u : update
+        # -L : dereference
+        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
 
-    update-desktop-database "${dst_dir}"
+        update-desktop-database "${dst_dir}"
+    fi
     # --------------------------------------------------------------------------
 
     # 7) etc -------------------------------------------------------------------
@@ -136,29 +140,37 @@ function install_bottles_for_nix()
 if [[ *"${CUR_VER}"* == *"debian"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
-    else                                            # aarch64, i686
+    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
         install_bottles_for_nix;
+    else                                            # i868
+        echo "Debian is not supported for bottles-i686"
     fi
 
 elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
-    else                                            # aarch64, i686
+    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
         install_bottles_for_nix;
+    else                                            # i868
+        echo "Ubuntu is not supported for bottles-i686"
     fi
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
-    else                                            # aarch64, i686
+    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
         install_bottles_for_nix;
+    else                                            # i868
+        echo "CentOS is not supported for bottles-i686"
     fi
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
-    else                                            # aarch64, i686
+    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
         install_bottles_for_nix;
+    else                                            # i868
+        echo "Rocky is not supported for bottles-i686"
     fi
 
 fi

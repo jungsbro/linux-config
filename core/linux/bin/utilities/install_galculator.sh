@@ -108,36 +108,42 @@ function install_galculator_for_nix()
     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
     local dst_dir="/usr/share/icons"
 
-    mkdir -p "${dst_dir}"
-    # -r : recursive
-    # -u : update
-    cp -ru ${src_dir}/* "${dst_dir}/"
+    if [[ -d ${src_dir} ]]; then
+        mkdir -p "${dst_dir}"
+        # -r : recursive
+        # -u : update
+        cp -ru ${src_dir}/* "${dst_dir}/"
 
-    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    fi
     # --------------------------------------------------------------------------
 
     # 5) icon settngs2 ---------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/pixmaps"
     local dst_dir="/usr/share/pixmaps"
 
-    mkdir -p "${dst_dir}"
-    # -r : recursive
-    # -u : update
-    cp -ru ${src_dir}/* "${dst_dir}/"
+    if [[ -d ${src_dir} ]]; then
+        mkdir -p "${dst_dir}"
+        # -r : recursive
+        # -u : update
+        cp -ru ${src_dir}/* "${dst_dir}/"
 
-    gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    fi
     # --------------------------------------------------------------------------
 
     # 6) desktop settings ------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
     local dst_dir="/usr/local/share/applications"
 
-    mkdir -p "${dst_dir}"
-    # -u : update
-    # -L : dereference
-    cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+    if [[ -d ${src_dir} ]]; then
+        mkdir -p "${dst_dir}"
+        # -u : update
+        # -L : dereference
+        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
 
-    update-desktop-database "${dst_dir}"
+        update-desktop-database "${dst_dir}"
+    fi
     # --------------------------------------------------------------------------
 
     # 7) etc -------------------------------------------------------------------
