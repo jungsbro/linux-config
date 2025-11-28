@@ -58,6 +58,7 @@ function install_wmde_pkg()
         bash /core/linux/bin/system/install_xfce4-pulseaudio-plugin.sh;
         bash /core/linux/bin/system/install_xfce4-sensors-plugin.sh;
         bash /core/linux/bin/system/install_xfce4-taskmanager.sh;
+        bash /core/linux/bin/system/install_xfce4-whiskermenu-plugin.sh;
         # ----------------------------------------------------------------------
         # bash /core/linux/bin/system/plank.sh ${CUR_USER};
         # bash /core/linux/bin/system/install_ulauncher.sh ${CUR_USER};

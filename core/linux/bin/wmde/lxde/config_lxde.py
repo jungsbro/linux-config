@@ -186,9 +186,9 @@ def config_hotkey(ns, dst_path):
         keyboard_elem = family_elem_list[-2]
         keybind_elem = family_elem_list[-1]
         # ----------------------------------------------------------------------
-        
+
         # 1) remove hotkey -----------------------------------------------------
-        if keybind_elem: 
+        if keybind_elem:
             keyboard_elem.remove(keybind_elem)
         # ----------------------------------------------------------------------
 
@@ -223,8 +223,12 @@ def config_hotkey(ns, dst_path):
     add_hotkey("C-A-t", "/usr/bin/lxterminal")
     # --------------------------------------------------------------------------
 
-    # W-Tab 추가 : expose ------------------------------------------------------
-    add_hotkey("W-Tab", "/usr/bin/skippy-xd")
+    # W-Tab 추가 : expose -------------------------------------------------------
+    if os.path.isfile("/usr/bin/skippy-xd"):
+      add_hotkey("W-Tab", "/usr/bin/skippy-xd")
+
+    elif os.path.isfile("/usr/local/bin/skippy-xd"):
+      add_hotkey("W-Tab", "/usr/local/bin/skippy-xd")
     # --------------------------------------------------------------------------
 
     # A-Tab 추가 : next windows ------------------------------------------------
@@ -237,7 +241,7 @@ def config_hotkey(ns, dst_path):
 
     # W-r / A-F2 추가 : spotlight ----------------------------------------------
     add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
-    
+
     add_hotkey("A-F2", "/usr/bin/synapse")
     # --------------------------------------------------------------------------
 
@@ -282,7 +286,7 @@ def config_hotkey(ns, dst_path):
 
     # W-Left 추가 --------------------------------------------------------------
     remove_hotkey("W-Left")
-    
+
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
@@ -321,7 +325,7 @@ def config_hotkey(ns, dst_path):
 
     # W-Right 추가 -------------------------------------------------------------
     remove_hotkey("W-Right")
-    
+
     family_info_list = [
         # tag             attrib
         (f"{ns}keyboard", {}),
