@@ -164,6 +164,10 @@ bash /core/linux/bin/system/install_gnome-disk-utility.sh;
 # bash /core/linux/bin/system/install_virtualbox.sh;
 # ==============================================================================
 
+# security =====================================================================
+bash /core/linux/bin/security/install_gnome-keyring.sh;
+# ==============================================================================
+
 # ide ==========================================================================
 # bash /core/linux/bin/ide/install_geany.sh;
 bash /core/linux/bin/ide/install_vscode.sh ${CUR_USER};
