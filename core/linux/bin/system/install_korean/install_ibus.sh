@@ -94,7 +94,7 @@ Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true"
 
-    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
         # ~/.local/share/applications/ibus.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else

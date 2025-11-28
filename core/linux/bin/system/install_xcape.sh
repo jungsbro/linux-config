@@ -55,7 +55,7 @@ Icon=${ICON_PATH}
 Categories=${APP_GRP}
 Terminal=false"
 
-    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
         # ~/.local/share/applications/xcape.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else

@@ -64,7 +64,7 @@ Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Categories=${APP_GRP}";
 
-    if [[ *"${DESKTOP_PATH}"* == *"\/home"* ]]; then
+    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
         # ~/.local/share/applications/simplescreenrecorder.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
