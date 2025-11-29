@@ -121,9 +121,10 @@ function install_vscode_for_nix()   # it has error / not working
     # 3) install_vscode --------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.vscode
+    # nix profile add nixpkgs#vscode
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
-    nix-env -q | grep -iq ^${APP_NAME} || \
-    nix-env -iA nixpkgs.${APP_NAME}"
+    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile add nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

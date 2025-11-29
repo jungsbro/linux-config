@@ -71,10 +71,10 @@ function install_bottles_for_nix()
     # 3) install_bottles --------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.bottles
-    # nix profile install nixpkgs#bottles
+    # nix profile add nixpkgs#bottles
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
-    nix profile install nixpkgs#${APP_NAME}"
+    nix profile add nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

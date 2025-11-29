@@ -7,7 +7,7 @@
 # nix usage ====================================================================
 # nix-env -q                            nix profile list
 # nix-channel --update                  nix flake update
-# nix-env -iA nixpkgs.synapse           nix profile install nixpkgs#synapse
+# nix-env -iA nixpkgs.synapse           nix profile add nixpkgs#synapse
 # nix-env -e synapse                    nix profile remove synapse
 # nix-env -u                            nix profile upgrade
 # nix search nixpkgs synapse            nix search nixpkgs synapse

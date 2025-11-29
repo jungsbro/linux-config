@@ -75,10 +75,10 @@ function install_stacer_for_nix()   # it has error / not working
     # 3) install_stacer --------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.stacer
-    # nix profile install nixpkgs#stacer
+    # nix profile add nixpkgs#stacer
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
-    nix profile install nixpkgs#${APP_NAME}"
+    nix profile add nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
