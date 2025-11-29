@@ -36,9 +36,10 @@ function install_remmina_for_nix()
     # 3) install_remmina --------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.remmina
+    # nix profile install nixpkgs#remmina
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
-    nix-env -q | grep -iq ^${APP_NAME} || \
-    nix-env -iA nixpkgs.${APP_NAME}"
+    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile install nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -137,6 +138,8 @@ function install_remmina_for_flatpak()
 
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
+    # remmina needs gnome-keyring
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina;
     [[ -n $(apt list --installed | grep -i ^remmina-plugin-rdp) ]] || apt install -y remmina-plugin-rdp;
     # --------------------------------------------------------------------------
@@ -147,6 +150,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
+    # remmina needs gnome-keyring
+    # --------------------------------------------------------------------------
     [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(yum list installed | grep -i ^remmina) ]] || yum install -y remmina;
     # --------------------------------------------------------------------------
@@ -156,6 +161,8 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    # remmina needs gnome-keyring
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^remmina) ]] || dnf install -y remmina;

@@ -142,8 +142,7 @@ function set_shortcuts()
     if [[ -f "/usr/bin/skippy-xd" ]]; then
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/skippy-xd";
-
-    elif [[ -f "/usr/local/bin/skippy-xd" ]]; then
+    else
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/local/bin/skippy-xd"
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/local/bin/skippy-xd";
     fi

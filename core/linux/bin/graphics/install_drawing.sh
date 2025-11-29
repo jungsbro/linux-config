@@ -73,9 +73,10 @@ function install_drawing_for_nix()
     # 3) install_drawing -------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.drawing
+    # nix profile install nixpkgs#drawing
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
-    nix-env -q | grep -iq ^${APP_NAME} || \
-    nix-env -iA nixpkgs.${APP_NAME}"
+    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile install nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

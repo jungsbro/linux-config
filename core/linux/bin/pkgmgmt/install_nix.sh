@@ -5,19 +5,20 @@
 # ==============================================================================
 
 # nix usage ====================================================================
-# nix-env -q
-# nix-channel --update
-# nix-env -iA nixpkgs.synapse
-# nix-env -e synapse
-# nix-env -u
-# nix search nixpkgs synapse
-# nix-collect-garbage
-# nix-collect-garbage -d
-# nix-env --list-generations
-# nix-env --rollback
-# nix-env --delete-generations old
-# nix-env --delete-generations 30d
-# nix-env --delete-generations 5
+# nix-env -q                            nix profile list
+# nix-channel --update                  nix flake update
+# nix-env -iA nixpkgs.synapse           nix profile install nixpkgs#synapse
+# nix-env -e synapse                    nix profile remove synapse
+# nix-env -u                            nix profile upgrade
+# nix search nixpkgs synapse            nix search nixpkgs synapse
+# nix-collect-garbage                   nix store gc
+# nix-collect-garbage -d                nix store pc --delete-older-than 30d
+# nix-env --list-generations            nix profile list
+# nix-env --rollback                    nix profile rollback
+# nix-env --switch-generation 6         nix profile rollback --to 6
+# nix-env --delete-generations old      nix profile wipe-history
+# nix-env --delete-generations 30d      nix profile wipe-history --older-then 30d
+# nix-env --delete-generations 5        nix profile wipe-history --to 5
 # ==============================================================================
 
 

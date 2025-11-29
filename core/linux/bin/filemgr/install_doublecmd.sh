@@ -222,9 +222,10 @@ function install_doublecmd_for_nix()
     # 3) install_doublecmd --------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.doublecmd
+    # nix profile install nixpkgs#doublecmd
     su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
-    nix-env -q | grep -iq ^${APP_NAME} || \
-    nix-env -iA nixpkgs.${APP_NAME}"
+    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile install nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

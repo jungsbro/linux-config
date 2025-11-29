@@ -226,8 +226,7 @@ def config_hotkey(ns, dst_path):
     # W-Tab 추가 : expose -------------------------------------------------------
     if os.path.isfile("/usr/bin/skippy-xd"):
       add_hotkey("W-Tab", "/usr/bin/skippy-xd")
-
-    elif os.path.isfile("/usr/local/bin/skippy-xd"):
+    else:
       add_hotkey("W-Tab", "/usr/local/bin/skippy-xd")
     # --------------------------------------------------------------------------
 
