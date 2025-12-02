@@ -39,6 +39,10 @@ function install_wmde_pkg()
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
         bash /core/linux/bin/wmde/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        bash /core/linux/bin/filemgr/install_finder.sh;
+        bash /core/linux/bin/system/install_gvfs.sh;
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
@@ -68,6 +72,10 @@ function install_wmde_pkg()
         # ----------------------------------------------------------------------
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/filemgr/install_finder.sh;
+        bash /core/linux/bin/system/install_gvfs.sh;
+        # ----------------------------------------------------------------------
+
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
@@ -82,6 +90,10 @@ function install_wmde_pkg()
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/filemgr/install_finder.sh;
+        bash /core/linux/bin/system/install_gvfs.sh;
+        # ----------------------------------------------------------------------
+
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
@@ -91,12 +103,19 @@ function install_wmde_pkg()
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
         # ----------------------------------------------------------------------
+        bash /core/linux/bin/filemgr/install_finder.sh;
+        bash /core/linux/bin/system/install_gvfs.sh;
+        # ----------------------------------------------------------------------
+
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
         # ----------------------------------------------------------------------
         bash /core/linux/bin/wmde/install_dconf.sh;
         bash /core/linux/bin/wmde/install_gnome-tweaks.sh;
         bash /core/linux/bin/system/install_theme.sh;
+        # ----------------------------------------------------------------------
+        bash /core/linux/bin/filemgr/install_finder.sh;
+        bash /core/linux/bin/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
     fi
 }

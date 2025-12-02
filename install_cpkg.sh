@@ -52,11 +52,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
-    yum install -y python3 python3-libs python3-pip python3-setuptools;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
     # --------------------------------------------------------------------------
@@ -75,10 +72,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
         [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
     fi
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    [[ -n $(yum list installed | grep -i ^rsync) ]] || yum install -y rsync;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^rsync) ]] || dnf install -y rsync;
     # --------------------------------------------------------------------------
 fi
@@ -91,7 +86,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^clamav) ]] || apt install -y clamav;
     [[ -n $(apt list --installed | grep -i ^clamav-daemon) ]] || apt install -y clamav-daemon;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^clamav) ]] || dnf install -y clamav;
     [[ -n $(dnf list installed | grep -i ^clamd) ]] || dnf install -y clamd;
@@ -103,42 +99,38 @@ fi
 # storage ======================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    # apt install -y exfat-utils;
+    [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
+    [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
+    [[ -n $(apt list --installed | grep -i ^cifs-utils) ]] || apt install -y cifs-utils;
+    [[ -n $(apt list --installed | grep -i ^smbclient) ]] || apt install -y smbclient;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
-    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y nfs-kernel-server;
-    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y rpcbind;
-    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y nfs-common;
-    [[ -n $(apt list --installed | grep -i ^cifs) ]] || apt install -y cifs-utils;
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^nfs-kernel-server) ]] || apt install -y nfs-kernel-server;
+    [[ -n $(apt list --installed | grep -i ^rpcbind) ]] || apt install -y rpcbind;
+    [[ -n $(apt list --installed | grep -i ^nfs-commo) ]] || apt install -y nfs-common;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^ntfs-3g) ]] || yum install -y ntfs-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^exfat) ]] || yum install -y fuse-exfat exfat-utils;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y nfs-utils;
-    [[ -n $(yum list installed | grep -i ^cifs-utils) ]] || yum install -y cifs-utils;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^autofs) ]] || yum install -y autofs;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^rclone) ]] ||  yum install -y rclone;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    [[ -n $(dnf list installed | grep -i ^samba$) ]] || dnf install -y samba;
+    [[ -n $(dnf list installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
+    [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
+    [[ -n $(dnf list installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
     # --------------------------------------------------------------------------
-    # Rocky is supported for exfat
+    [[ -n $(dnf list installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y nfs-utils;
-    [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
+    [[ -n $(dnf list installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
+    # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^autofs) ]] || dnf install -y autofs;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -157,13 +149,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^speedtest-cli) ]] || apt install -y speedtest-cli;
     [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^net-tools) ]] || yum install -y net-tools;
-    [[ -n $(yum list installed | grep -i ^whois) ]] || yum install -y whois;
-    [[ -n $(yum list installed | grep -i ^iputils) ]] || yum install -y iputils;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
     [[ -n $(dnf list installed | grep -i ^whois) ]] || dnf install -y whois;
@@ -187,19 +174,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
     [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^neofetch) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^neofetch) ]] || yum install -y neofetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^hdparm) ]] || yum install -y hdparm;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^ncdu) ]] || yum install -y ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^procps-ng) ]] || yum install -y procps-ng;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
@@ -225,26 +201,12 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
     # --------------------------------------------------------------------------
-    # [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
+    [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^htop) ]] || yum install -y htop;
-    # --------------------------------------------------------------------------
-    # yum install -y bpytop;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^nmon) ]] || yum install -y nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^glances) ]] || yum install -y glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^powertop) ]] || yum install -y powertop;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^htop) ]] || dnf install -y htop;
@@ -267,16 +229,22 @@ fi
 # etc ==========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
     # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
     # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
     # --------------------------------------------------------------------------
-# elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-#     # ------------------------------------------------------------------------
-#     yum install -y nyancat cmatrix tty-clock;
-#     # ------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+    [[ -n $(dnf list installed | grep -i ^p7zip-plugins) ]] || dnf install -y p7zip-plugins;
+    # --------------------------------------------------------------------------
+    # dnf install -y nyancat cmatrix tty-clock;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
