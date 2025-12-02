@@ -34,7 +34,7 @@ function install_dep_for_deb()
     [[ -n $(apt list --installed | grep -i ^libxmu-dev) ]] || apt install -y libxmu-dev;
 }
 
-function install_dep_for_rocky()
+function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
@@ -189,17 +189,11 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # install_skippy-xd_for_build;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^skippy-xd) ]] || yum install -y skippy-xd;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_skippy-xd_for_nix;
     # --------------------------------------------------------------------------
-    # install_dep_for_rocky;
+    # install_dep_for_dnf;
     # install_skippy-xd_for_build;
     # --------------------------------------------------------------------------
 fi

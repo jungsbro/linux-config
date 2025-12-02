@@ -18,13 +18,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || apt install -y xfce4-whiskermenu-plugin;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^xfce4-whiskermenu-plugin) ]] || yum install -y xfce4-whiskermenu-plugin;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^xfce4-whiskermenu-plugin) ]] || dnf install -y xfce4-whiskermenu-plugin;

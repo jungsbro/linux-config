@@ -39,11 +39,8 @@ function install_gimp_for_flatpak()
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -139,12 +136,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     install_photogimp;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    #[[ -n $(yum list installed | grep -i ^gimp) ]] || yum install -y gimp;
-    install_gimp_for_flatpak;
-    install_photogimp;
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # [[ -n $(dnf list installed | grep -i ^gimp) ]] || dnf install -y gimp;
     install_gimp_for_flatpak;
     install_photogimp;

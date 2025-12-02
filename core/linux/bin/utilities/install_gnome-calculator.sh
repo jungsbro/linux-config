@@ -18,12 +18,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^gnome-calculator) ]] || apt install -y gnome-calculator;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^gnome-calculator) ]] || yum install -y gnome-calculator;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^gnome-calculator) ]] || dnf install -y gnome-calculator;
     # --------------------------------------------------------------------------

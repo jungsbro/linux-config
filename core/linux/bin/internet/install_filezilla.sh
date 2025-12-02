@@ -18,13 +18,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^filezilla) ]] || apt install -y filezilla;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^filezilla) ]] || yum install -y filezilla;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^filezilla) ]] || dnf install -y filezilla;

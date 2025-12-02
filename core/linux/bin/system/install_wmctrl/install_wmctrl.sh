@@ -51,15 +51,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     # cp_toggle_fullscreen;
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^wmctrl) ]] || yum install -y wmctrl;
-    [[ -n $(yum list installed | grep -i ^xdotool) ]] || yum install -y xdotool;
-    # --------------------------------------------------------------------------
-    # cp_toggle_fullscreen;
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^wmctrl) ]] || dnf install -y wmctrl;

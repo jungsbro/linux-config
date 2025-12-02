@@ -71,10 +71,7 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 # if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 #     echo "";
 
-# elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-#     bash /core/linux/bin/pkgmgmt/install_snap.sh;
-
-# elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+# elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
 #     bash /core/linux/bin/pkgmgmt/install_snap.sh;
 # fi
 # ==============================================================================
@@ -102,10 +99,10 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     echo "";
     #install_nvidia_deb;
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     echo "";
-    #yum update;
-    #yum install kernel-devel kernel-headers gcc make;
+    #dnf update;
+    #dnf install kernel-devel kernel-headers gcc make;
     #echo 'blacklist nouveau' >> /etc/modprobe.d/blacklist.conf
     #dracut /boot/initramfs-$(uname -r).img $(uname -r) --force
     #reboot
@@ -117,9 +114,6 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
 
     #/sbin/init 5
     #alt + ctrl + F7
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "";
 fi
 # ==============================================================================
 
@@ -183,10 +177,6 @@ if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
     bash /core/linux/bin/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-    # --------------------------------------------------------------------------
-    bash /core/linux/bin/internet/install_chromium.sh;
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
     # --------------------------------------------------------------------------
     bash /core/linux/bin/internet/install_chromium.sh;
     # --------------------------------------------------------------------------

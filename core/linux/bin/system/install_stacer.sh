@@ -142,16 +142,9 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    echo "CentOS is not supported for stacer"
-    # [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    # [[ -n $(yum list installed | grep -i ^stacer) ]] || yum install -y stacer;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    echo "Rocky is not supported for stacer"
+    echo "rhel is not supported for stacer"
 	# because of error
     # install_stacer_for_nix;
     # --------------------------------------------------------------------------

@@ -73,32 +73,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     fonts-nanum fonts-nanum-coding fonts-nanum-extra;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # fontconfig ---------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^fontconfig) ]] || yum install -y fontconfig;
-    # --------------------------------------------------------------------------
-
-    # korean input -------------------------------------------------------------
-    # ibus-hangul has a problem at google-docs
-
-    # [[ -n $(yum list installed | grep -i ^ibus-hangul) ]] || yum install -y ibus-hangul;
-    # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-    #     [[ -n $(yum list installed | grep -i ^im-chooser) ]] || yum install -y im-chooser;
-    # fi
-
-    # bash /core/linux/bin/system/install_korean/install_fcitx.sh ${CUR_USER};
-    # bash /core/linux/bin/system/install_korean/install_fcitx5.sh ${CUR_USER};
-    # bash /core/linux/bin/system/install_korean/install_ibus.sh ${CUR_USER};
-    bash /core/linux/bin/system/install_korean/install_kime.sh ${CUR_USER};
-    # bash /core/linux/bin/system/install_korean/install_nimf.sh ${CUR_USER};
-    # bash /core/linux/bin/system/install_korean/install_uim.sh ${CUR_USER};
-    # --------------------------------------------------------------------------
-
-    # korean fonts -------------------------------------------------------------
-    install_nanum_fonts;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # fontconfig ---------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
     # --------------------------------------------------------------------------

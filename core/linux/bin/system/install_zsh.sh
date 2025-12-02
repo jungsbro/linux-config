@@ -55,36 +55,7 @@ function install_zsh()
         chsh -s /usr/bin/zsh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^zsh) ]] || yum install -y zsh;
-        [[ -n $(yum list installed | grep -i ^curl) ]] || yum install -y curl;
-        # yum install -y fonts-powerline;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^autojump) ]] || yum install -y autojump;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        bash /core/linux/bin/utilities/install_fzf.sh ${CUR_USER};
-        # yum install -y fd-find;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # /etc/passwd
-        chsh -s /bin/zsh ${CUR_USER};
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
@@ -93,7 +64,7 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         # ----------------------------------------------------------------------
 
@@ -160,7 +131,7 @@ function config_zsh()
         cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts;
         # ----------------------------------------------------------------------

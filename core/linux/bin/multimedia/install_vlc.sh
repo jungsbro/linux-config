@@ -16,23 +16,6 @@ CUR_ARCH=$(uname -m);
 
 
 # Func =========================================================================
-function install_vlc_for_rpm()
-{
-    # for x86_64, i686, aarch64
-    # --------------------------------------------------------------------------
-    if [[ -n $(yum list installed | grep -i ^vlc) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    yum install -y vlc;
-    # --------------------------------------------------------------------------
-}
-
-
 function install_vlc_for_nix()
 {
     # for x86_64 / i686 / aarch64
@@ -133,14 +116,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # install_vlc_for_nix;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    install_vlc_for_rpm;
-    # --------------------------------------------------------------------------
-    # install_vlc_for_nix;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^vlc) ]] || dnf install -y vlc;

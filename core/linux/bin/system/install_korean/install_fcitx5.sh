@@ -148,11 +148,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     set_fcitx5_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-	echo "CentOS is not supported for fcitx5"
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "Rocky is not supported for fcitx5"
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    echo "rhel is not supported for fcitx5"
 
 fi
 # ==============================================================================

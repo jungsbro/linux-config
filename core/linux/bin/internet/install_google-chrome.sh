@@ -63,22 +63,18 @@ function install_google-chrome()
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
+
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
+
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
             return
         fi
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        if [[ -n $(yum list installed | grep -i ^google-chrome) ]]; then
-            return
-        fi
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(dnf list installed | grep -i ^google-chrome) ]]; then
             return
@@ -95,6 +91,7 @@ function install_google-chrome()
         # "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
         local URL="https://dl.google.com/linux/direct/${FNAME}";
         # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         local FNAME="google-chrome-stable_current_x86_64.rpm";
@@ -125,12 +122,8 @@ function install_google-chrome()
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         apt install -y ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        yum install -y ${TMP_DIR}/${FNAME};
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         dnf install -y ${TMP_DIR}/${FNAME};
@@ -180,45 +173,8 @@ function install_google-chrome_for_deb()    # not used
     # --------------------------------------------------------------------------
 }
 
-function install_google-chrome_for_cent()    # not used
-{
-    # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
-    fi
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
-    fi
-    if [[ -n $(yum list installed | grep -i ^google-chrome) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    local FNAME="google-chrome-stable_current_x86_64.rpm";
-
-    # "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
-    local URL="https://dl.google.com/linux/direct/${FNAME}";
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # /tmp/google-chrome
-    if [[ ! -d ${TMP_DIR} ]]; then
-        # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        wget ${URL} -O ${TMP_DIR}/${FNAME};
-        # ----------------------------------------------------------------------
-    fi
-
-    # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-    yum install -y ${TMP_DIR}/${FNAME};
-    # --------------------------------------------------------------------------
-}
-
-function install_google-chrome_for_rocky()    # not used
+function install_google-chrome_for_dnf()    # not used
 {
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
@@ -263,12 +219,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     install_google-chrome;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    # install_google-chrome;
-    echo "";
-    # --------------------------------------------------------------------------
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_google-chrome;
     # --------------------------------------------------------------------------

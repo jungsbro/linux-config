@@ -49,7 +49,7 @@ function install_vscode_for_deb()
 }
 
 
-function install_vscode_for_rocky()
+function install_vscode_for_dnf()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
@@ -84,11 +84,8 @@ function install_vscode_for_flatpak()
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -202,16 +199,10 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     install_vscode_for_deb;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     # vscode needs gnome-keyring
-    install_vscode_for_flatpak;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    # vscode needs gnome-keyring
-    install_vscode_for_rocky;
+    install_vscode_for_dnf;
     # --------------------------------------------------------------------------
 fi
 

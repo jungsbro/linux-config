@@ -24,6 +24,11 @@ APP_NAME="nimf"
 APP_UNIQUE_NAME="com.github.hamonikr.${APP_NAME}"
 
 APP_GRP="Settings;System;"
+
+LOCAL_LIB_DIR="/usr/local/lib"
+
+# /usr/local/lib/pkgconfig/nimf.pc
+PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/nimf.pc"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -142,12 +147,18 @@ function intall_nimf_for_build()
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_libhangul.sh;
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-lib.sh;
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-db.sh;
+    # --------------------------------------------------------------------------
+
     # anthy : japanese engine --------------------------------------------------
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_anthy_9100h.sh;
+    # --------------------------------------------------------------------------
+
     # rime : chiness engine ----------------------------------------------------
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_marisa-trie.sh;
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_opencc.sh;
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_rime.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     source /core/linux/bin/system/install_korean/install_nimf_for_build/install_nimf_for_build.sh;
     # --------------------------------------------------------------------------
@@ -170,19 +181,19 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
         # ----------------------------------------------------------------------
     fi
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-	echo "CentOS is not supported for nimf"
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    intall_nimf_for_build;
-    # --------------------------------------------------------------------------
-    ENV_CONF_PATH="${HOME_DIR}/.xsession";
-    set_nimf_env;
-    # --------------------------------------------------------------------------
-    ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
-    set_nimf_autostart;
-    # --------------------------------------------------------------------------
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
+    if [[ ! -f "${PC_PATH}" ]]; then
+        # ----------------------------------------------------------------------
+        intall_nimf_for_build;
+        # ----------------------------------------------------------------------
+        ENV_CONF_PATH="${HOME_DIR}/.xsession";
+        set_nimf_env;
+        # ----------------------------------------------------------------------
+        ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
+        set_nimf_autostart;
+        # ----------------------------------------------------------------------
+    fi
 fi
 # ==============================================================================
 

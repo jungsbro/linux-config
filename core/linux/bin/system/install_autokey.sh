@@ -90,16 +90,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     set_autokey_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    [[ -n $(yum list installed | grep -i ^autokey) ]] || yum install -y autokey-gtk;
-    # --------------------------------------------------------------------------
-    config_autokey;
-    set_autokey_autostart;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
         echo "autokey not working on rocky8";
     else

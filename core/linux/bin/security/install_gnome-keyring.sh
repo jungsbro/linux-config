@@ -19,13 +19,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^libsecret) ]] || apt install -y libsecret-1-0 libsecret-1-dev;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^gnome-keyring) ]] || yum install -y gnome-keyring;
-    [[ -n $(yum list installed | grep -i ^libsecret) ]] || yum install -y libsecret;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^gnome-keyring) ]] || dnf install -y gnome-keyring;
     [[ -n $(dnf list installed | grep -i ^libsecret) ]] || dnf install -y libsecret;

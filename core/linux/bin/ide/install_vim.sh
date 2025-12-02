@@ -37,17 +37,7 @@ function install_vim()
         # apt install -y ctags;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^vim-X11) ]] || yum install -y vim-X11;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------

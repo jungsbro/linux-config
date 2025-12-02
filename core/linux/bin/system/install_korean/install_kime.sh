@@ -299,10 +299,8 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
     fi
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-	echo "CentOS is not supported for kime"
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
         # ----------------------------------------------------------------------
         install_kime_for_nix;
         # ----------------------------------------------------------------------
@@ -315,6 +313,7 @@ elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         SRC_HOTKEY_PATH="${HOME_DIR}/.nix-profile/share/doc/kime/default_config.yaml";
         set_kime_hotkey;
         # ----------------------------------------------------------------------
+    fi
 fi
 # ==============================================================================
 

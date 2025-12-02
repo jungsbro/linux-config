@@ -18,15 +18,9 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^xfce4-appmenu-plugin) ]] || apt install -y xfce4-appmenu-plugin;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    echo "CentOS is not supported for xfce4-appmenu-plugin"
-    # [[ -n $(yum list installed | grep -i ^xfce4-appmenu-plugin) ]] || yum install -y xfce4-appmenu-plugin;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    echo "Rocky is not supported for xfce4-appmenu-plugin"
+    echo "rhel is not supported for xfce4-appmenu-plugin"
     # [[ -n $(dnf list installed | grep -i ^xfce4-appmenu-plugin) ]] || dnf install -y xfce4-appmenu-plugin;
     # --------------------------------------------------------------------------
 fi

@@ -96,55 +96,8 @@ function install_ranger()
         [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
         [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
-        # ----------------------------------------------------------------------
-        install_ranger_pip;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^caca-utils) ]] || yum install -y caca-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^highlight) ]] || yum install -y highlight;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^atool) ]] || yum install -y atool;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^w3m) ]] || yum install -y w3m;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^poppler-utils) ]] || yum install -y poppler-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^mediainfo) ]] || yum install -y mediainfo;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^python3) ]] || yum install -y python3;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^tar) ]] || yum install -y tar;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^p7zip) ]] || yum install -y p7zip;
-        # ----------------------------------------------------------------------
-        # yum install -y trash-cli;
-        # ----------------------------------------------------------------------
-        bash /core/linux/bin/utilities/install_fzf.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^fasd) ]] || yum install -y fasd;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^findutils) ]] || yum install -y findutils;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^mlocate) ]] || yum install -y mlocate;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^nux-dextop) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^mpv) ]] || yum install -y ffmpeg mpv;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^ImageMagick) ]] || yum install -y ImageMagick;
-        # ----------------------------------------------------------------------
-        # yum install -y catimg;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------

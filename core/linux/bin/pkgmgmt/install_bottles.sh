@@ -33,11 +33,8 @@ function install_bottles_for_flatpak()
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -138,7 +135,7 @@ function install_bottles_for_nix()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
@@ -147,25 +144,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]]; then
         echo "Debian is not supported for bottles-i686"
     fi
 
-elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-        install_bottles_for_flatpak;
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix;
-    else                                            # i868
-        echo "Ubuntu is not supported for bottles-i686"
-    fi
-
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-        install_bottles_for_flatpak;
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix;
-    else                                            # i868
-        echo "CentOS is not supported for bottles-i686"
-    fi
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64

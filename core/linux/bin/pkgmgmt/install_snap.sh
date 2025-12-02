@@ -46,29 +46,7 @@ function install_snapd_for_deb()
 }
 
 
-function install_snapd_for_cent()
-{
-    # --------------------------------------------------------------------------
-    if [[ -n $(yum list installed | grep -i ^snapd) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-    yum install -y snapd;
-
-    systemctl enable --now snapd.socket;
-    #systemctl enable snapd;
-
-    ln -s /var/lib/snapd/snap /snap;
-
-    init 6;
-    # --------------------------------------------------------------------------
-}
-
-
-function install_snapd_for_rocky()
+function install_snapd_for_dnf()
 {
     # --------------------------------------------------------------------------
     if [[ -n $(dnf list installed | grep -i ^snapd) ]]; then
@@ -96,14 +74,9 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     install_snapd_for_deb;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    install_snapd_for_cent;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    install_snapd_for_rocky;
+    install_snapd_for_dnf;
     # --------------------------------------------------------------------------
 fi
 

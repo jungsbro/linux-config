@@ -142,22 +142,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     set_ibus_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # ibus-hangul has a problem at google-docs
-    # --------------------------------------------------------------------------
-    [[ -n $(yum list installed | grep -i ^ibus) ]] || yum install -y ibus;
-    [[ -n $(yum list installed | grep -i ^ibus-hangul) ]] || yum install -y ibus-hangul;
-    # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-    #     [[ -n $(yum list installed | grep -i ^im-chooser) ]] || yum install -y im-chooser;
-    # fi
-    # --------------------------------------------------------------------------
-    ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_ibus_env;
-    # --------------------------------------------------------------------------
-    set_ibus_autostart;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # ibus-hangul has a problem at google-docs
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^ibus) ]] || dnf install -y ibus;

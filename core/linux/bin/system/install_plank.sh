@@ -180,16 +180,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # set_plank_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-    # --------------------------------------------------------------------------
-    # echo "CentOS is not supported for plank"
-    # [[ -n $(yum list installed | grep -i ^plank) ]] || yum install -y plank;
-    # --------------------------------------------------------------------------
-    install_plank_for_nix;
-    set_plank_autostart;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_plank_for_nix;
     set_plank_autostart;

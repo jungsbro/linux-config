@@ -36,19 +36,7 @@ function install_tmux()
         [[ -n $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^git) ]] || yum install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^tmux) ]] || yum install -y tmux;
-        # ----------------------------------------------------------------------
-        [[ -n $(yum list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(yum list installed | grep -i ^xclip) ]] || yum install -y xclip xsel;
-        # ----------------------------------------------------------------------
-        # yum install -y powerline fonts-powerline python3-powerline;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
@@ -103,10 +91,7 @@ function config_tmux()
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
-        su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux_ct7.conf ~/.tmux.conf";
-
-    elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
     fi
     # --------------------------------------------------------------------------

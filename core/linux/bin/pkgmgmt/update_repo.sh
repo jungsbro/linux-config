@@ -12,55 +12,8 @@ CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# for centos ===================================================================
-function add_epel_repo_for_cent()
-{
-    # --------------------------------------------------------------------------
-    if [[ -n $(yum list installed | grep -i ^epel-release) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    yum install -y epel-release;
-    yum check-update;
-    # --------------------------------------------------------------------------
-}
-
-function add_nux_dextop_repo_for_cent()
-{
-    # --------------------------------------------------------------------------
-    if [[ -n $(yum list installed | grep -i ^nux-dextop) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
-    rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm;
-    yum check-update;
-    # --------------------------------------------------------------------------
-}
-
-function add_neofetch_repo_for_cent()
-{
-    # --------------------------------------------------------------------------
-    if [[ -n $(yum list installed | grep -i ^neofetch) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    curl -o /etc/yum.repos.d/konimex-neofetch-epel-7.repo \
-    https://copr.fedorainfracloud.org/coprs/konimex/neofetch/repo/epel-7/konimex-neofetch-epel-7.repo;
-    yum check-update;
-    # --------------------------------------------------------------------------
-}
-# ==============================================================================
-
-
-# for rocky ====================================================================
-function add_epel_repo_for_rocky()
+# Func =========================================================================
+function add_epel_repo_for_dnf()
 {
     # --------------------------------------------------------------------------
     if [[ -n $(dnf list installed | grep -i ^epel-release) ]]; then
@@ -74,7 +27,7 @@ function add_epel_repo_for_rocky()
     # --------------------------------------------------------------------------
 }
 
-function add_rpmfusion_free_repo_for_rocky()
+function add_rpmfusion_free_repo_for_dnf()
 {
     # --------------------------------------------------------------------------
     if [[ -n $(dnf list installed | grep -i ^rpmfusion-free-release) ]]; then
@@ -88,7 +41,7 @@ function add_rpmfusion_free_repo_for_rocky()
     # --------------------------------------------------------------------------
 }
 
-function set_crb_enabled_for_rocky()
+function set_crb_enabled_for_dnf()
 {
     # --------------------------------------------------------------------------
     if [[ -n $(dnf repolist | grep -i ^crb) ]]; then
@@ -117,19 +70,11 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     apt update;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    add_epel_repo_for_cent;
-    add_nux_dextop_repo_for_cent;
-    add_neofetch_repo_for_cent;
-    # yum check-update;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    add_epel_repo_for_rocky;
-    add_rpmfusion_free_repo_for_rocky;
-    set_crb_enabled_for_rocky;
+    add_epel_repo_for_dnf;
+    add_rpmfusion_free_repo_for_dnf;
+    set_crb_enabled_for_dnf;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
