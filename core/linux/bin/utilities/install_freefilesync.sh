@@ -21,8 +21,11 @@ CUR_ARCH=$(uname -m);
 # func =========================================================================
 function install_freefilesync()
 {
-    # for x86_64 / i686
+    # for x86_64
     # --------------------------------------------------------------------------
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
         return
     fi
@@ -87,8 +90,12 @@ function install_freefilesync()
 
 function install_freefilesync_for_nix()
 {
-    # for x86_64 / i686 / aarch64
     # --------------------------------------------------------------------------
+    # for x86_64 / aarch64
+    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        return
+    fi
+
     if [[ -z ${CUR_USER} ]]; then
         return
     fi

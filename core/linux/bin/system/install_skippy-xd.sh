@@ -16,7 +16,7 @@ CUR_ARCH=$(uname -m);
 
 
 # Func for build ===============================================================
-# for x86_64, aarch64
+# for x86_64 / i686 / aarch64
 function install_dep_for_deb()
 {
     [[ -n $(apt list --installed | grep -i ^libimlib2-dev) ]] || apt install -y libimlib2-dev;
@@ -69,6 +69,9 @@ function install_skippy-xd_for_build()
     if [[ -e "/usr/bin/skippy-xd" ]]; then
         return
     fi
+    if [[ -e "/usr/local/bin/skippy-xd" ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # checking "Development Tools" ---------------------------------------------
@@ -105,6 +108,16 @@ function install_skippy-xd_for_nix()
     if [[ -z ${CUR_USER} ]]; then
         return
     fi
+
+    if [[ -e "/usr/bin/skippy-xd" ]]; then
+        return
+    fi
+    if [[ -e "/usr/local/bin/skippy-xd" ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+
     # --------------------------------------------------------------------------
 
     # 1) env-vars settings -----------------------------------------------------
