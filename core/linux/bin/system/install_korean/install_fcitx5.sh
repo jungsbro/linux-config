@@ -141,6 +141,10 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5;
     [[ -n $(apt list --installed | grep -i ^fcitx5-hangul) ]] || apt install -y fcitx5-hangul;
+    [[ -n $(apt list --installed | grep -i ^fcitx5-config-qt) ]] || apt install -y fcitx5-config-qt;
+    [[ -n $(apt list --installed | grep -i ^fcitx5-frontend-gtk) ]] || apt install -y fcitx5-frontend-gtk*;
+    [[ -n $(apt list --installed | grep -i ^fcitx5-frontend-qt) ]] || apt install -y fcitx5-frontend-qt*;
+    [[ -n $(apt list --installed | grep -i ^fcitx5-module-dbus) ]] || apt install -y fcitx5-module-dbus;
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
     set_fcitx5_env;

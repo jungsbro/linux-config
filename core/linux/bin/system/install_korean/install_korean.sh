@@ -60,8 +60,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     #     [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
     # fi
 
-    bash /core/linux/bin/system/install_korean/install_fcitx.sh ${CUR_USER};
-    # bash /core/linux/bin/system/install_korean/install_fcitx5.sh ${CUR_USER};
+    # bash /core/linux/bin/system/install_korean/install_fcitx.sh ${CUR_USER};
+    bash /core/linux/bin/system/install_korean/install_fcitx5.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_ibus.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_kime.sh ${CUR_USER};
     # bash /core/linux/bin/system/install_korean/install_nimf.sh ${CUR_USER};

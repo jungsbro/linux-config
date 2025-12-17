@@ -139,6 +139,7 @@ function install_stacer_for_nix()   # it has error / not working
 # Main : x86_64, i686, aarch64 =================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
+    # debian13에서 stacer 패키지가 없음
     [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
     # --------------------------------------------------------------------------
 

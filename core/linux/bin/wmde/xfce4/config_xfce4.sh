@@ -56,10 +56,12 @@ function set_prop_value()
 function set_shortcuts()
 {
     # whiskermenu --------------------------------------------------------------
-    # ctrl+esc
-    set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
+    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+        # ctrl+esc
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
+    fi
     # --------------------------------------------------------------------------
 
     # window tile (not used) ---------------------------------------------------

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# gnome-keyring ================================================================
-# bash /core/linux/bin/security/install_gnome-keyring.sh;
+# tlp ==========================================================================
+# bash /core/linux/bin/utilities/install_tlp.sh;
 # ==============================================================================
 
 
@@ -12,17 +12,18 @@ CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# Main =========================================================================
+# Main : x86_64, i686, aarch64 =================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^gnome-keyring) ]] || apt install -y gnome-keyring;
-    [[ -n $(apt list --installed | grep -i ^libsecret) ]] || apt install -y libsecret-1-0 libsecret-1-dev;
+    [[ -n $(apt list --installed | grep -i ^tlp) ]] || apt install -y tlp;
+    [[ -n $(apt list --installed | grep -i ^tlp-rdw) ]] || apt install -y tlp;
+    [[ -n $(apt list --installed | grep -i ^tlpui) ]] || apt install -y tlpui;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^gnome-keyring) ]] || dnf install -y gnome-keyring;
-    [[ -n $(dnf list installed | grep -i ^libsecret) ]] || dnf install -y libsecret;
+    [[ -n $(dnf list installed | grep -i ^tlp) ]] || dnf install -y tlp;
+    [[ -n $(dnf list installed | grep -i ^tlp-rdw) ]] || dnf install -y tlp-rdw;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

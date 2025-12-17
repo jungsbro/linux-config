@@ -50,12 +50,13 @@ function install_nix()
         # ~/.nix-profile/bin/nix
         # su - ${CUR_USER} -c "[[ -n $(which nix | grep -i nix-profile) ]] || curl -L https://nixos.org/nix/install | sh";
         # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || curl -L https://nixos.org/nix/install | sh";
+        # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon";
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "\
         echo $PATH | grep -iq nix-profile || \
-        curl -L https://nixos.org/nix/install | sh\
+        sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon\
         ";
         # ----------------------------------------------------------------------
     fi
