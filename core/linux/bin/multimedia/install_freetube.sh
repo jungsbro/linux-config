@@ -144,19 +144,35 @@ function install_freetube_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="freetube"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_freetube --------------------------------------------------
+    # 3) install_freetube ------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.freetube
     # nix profile add nixpkgs#freetube
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -419,7 +435,7 @@ function install_freetube_for_appimg()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
         echo "Debian/Ubuntu is not supported for freetube-i686"
-        # install_freetube_for_nix
+        # install_freetube_for_nix "multi"
     else                                        # x86_64, aarch64
         install_freetube_for_deb;
     fi
@@ -434,7 +450,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
         echo "Rocky/Centos is not supported for freetube-i686"
-        # install_freetube_for_nix
+        # install_freetube_for_nix "single"
     else                                        # x86_64, aarch64
         install_freetube_for_rpm;
     fi

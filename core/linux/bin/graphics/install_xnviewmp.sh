@@ -28,19 +28,35 @@ function install_xnviewmp_for_nix()     # it has error / not working
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="xnviewmp"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_xnviewmp --------------------------------------------------
+    # 3) install_xnviewmp ------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.xnviewmp
     # nix profile add nixpkgs#xnviewmp
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

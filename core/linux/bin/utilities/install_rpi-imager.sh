@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # rpi-imager ===================================================================
-# bash /core/linux/bin/utilities/install_rpi-imager.sh
+# bash /core/linux/bin/utilities/install_rpi-imager.sh ${CUR_USER}
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER=${1};
+HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -43,6 +43,16 @@ function install_rpi-imager_for_nix()   # not working
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="rpi-imager"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
@@ -53,9 +63,15 @@ function install_rpi-imager_for_nix()   # not working
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.rpi-imager
     # nix profile add nixpkgs#rpi-imager
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

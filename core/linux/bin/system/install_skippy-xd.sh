@@ -72,6 +72,9 @@ function install_skippy-xd_for_build()
     if [[ -e "/usr/local/bin/skippy-xd" ]]; then
         return
     fi
+    if [[ -e "${HOME_DIR}/.nix-profile/bin/skippy-xd" ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # checking "Development Tools" ---------------------------------------------
@@ -115,26 +118,42 @@ function install_skippy-xd_for_nix()
     if [[ -e "/usr/local/bin/skippy-xd" ]]; then
         return
     fi
-    # --------------------------------------------------------------------------
-
-
+    if [[ -e "${HOME_DIR}/.nix-profile/bin/skippy-xd" ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="skippy-xd"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_skippy-xd --------------------------------------------------
+    # 3) install_skippy-xd -----------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.skippy-xd
     # nix profile add nixpkgs#skippy-xd
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -196,7 +215,7 @@ function install_skippy-xd_for_nix()
 # Main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    install_skippy-xd_for_nix;
+    install_skippy-xd_for_nix "multi";
     # --------------------------------------------------------------------------
     # install_dep_for_deb;
     # install_skippy-xd_for_build;
@@ -204,7 +223,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    install_skippy-xd_for_nix;
+    install_skippy-xd_for_nix "single";
     # --------------------------------------------------------------------------
     # install_dep_for_dnf;
     # install_skippy-xd_for_build;

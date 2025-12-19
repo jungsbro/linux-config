@@ -317,7 +317,7 @@ def set_shortcuts():
     # expose -------------------------------------------------------------------
     # win+tab
     prop_dict["xfwm4/custom/<Super>Tab"] = {"name":"", "type":"string", "value":"switch_window_key"}
-    prop_dict["commands/custom/<Super>Tab"] = {"name":"<Super>Tab", "type":"string", "value":"/usr/bin/skippy-xd"}
+    prop_dict["commands/custom/<Super>Tab"] = {"name":"<Super>Tab", "type":"string", "value":"skippy-xd"}
     # --------------------------------------------------------------------------
 
     # settings -----------------------------------------------------------------

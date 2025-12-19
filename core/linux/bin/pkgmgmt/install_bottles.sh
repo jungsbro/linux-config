@@ -59,19 +59,35 @@ function install_bottles_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="bottles"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_bottles --------------------------------------------------
+    # 3) install_bottles -------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.bottles
     # nix profile add nixpkgs#bottles
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -139,7 +155,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix;
+        install_bottles_for_nix "multi";
     else                                            # i868
         echo "Debian is not supported for bottles-i686"
     fi
@@ -148,7 +164,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
         install_bottles_for_flatpak;
     elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix;
+        install_bottles_for_nix "single";
     else                                            # i868
         echo "Rocky is not supported for bottles-i686"
     fi

@@ -132,19 +132,35 @@ function install_ulauncher_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="ulauncher"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_ulauncher --------------------------------------------------
+    # 3) install_ulauncher -----------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.ulauncher
     # nix profile add nixpkgs#ulauncher
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -216,7 +232,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    install_ulauncher_for_nix;
+    install_ulauncher_for_nix "single";
     # --------------------------------------------------------------------------
     #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
     # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:

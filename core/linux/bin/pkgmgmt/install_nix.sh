@@ -42,25 +42,55 @@ function install_nix()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -d /nix ]]; then
-        mkdir -m 0755 /nix
-        chown ${CUR_USER} /nix;
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # ----------------------------------------------------------------------
+        # nix-daemon.socket 존재 여부 확인
+        if systemctl list-unit-files | grep -iq nix-daemon.socket; then
+            return
+        fi
+        # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # ~/.nix-profile/bin/nix
-        # su - ${CUR_USER} -c "[[ -n $(which nix | grep -i nix-profile) ]] || curl -L https://nixos.org/nix/install | sh";
-        # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || curl -L https://nixos.org/nix/install | sh";
-        # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon";
+        if [[ -d /nix ]]; then
+            # 기존 싱글유저 설치 제거
+            rm -rf ${HOME_DIR}/.nix-profile ${HOME_DIR}/.nix-defexpr ${HOME_DIR}/.nix-channels
+            sudo rm -rf /nix
+        fi
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "\
-        echo $PATH | grep -iq nix-profile || \
-        sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon\
-        ";
+        # 멀티유저 설치 실행 (비대화형)
+        sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon --yes
         # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # if systemctl list-unit-files | grep -iq nix-daemon.socket; then
+        #     sudo systemctl enable nix-daemon.socket
+        #     sudo systemctl start nix-daemon.socket
+        # fi
+        # ----------------------------------------------------------------------
+    else
+        if [[ ! -d /nix ]]; then
+            # ------------------------------------------------------------------
+            mkdir -m 0755 /nix
+            chown ${CUR_USER} /nix;
+            # ------------------------------------------------------------------
+
+            # ------------------------------------------------------------------
+            # ~/.nix-profile/bin/nix
+            # su - ${CUR_USER} -c "[[ -n $(which nix | grep -i nix-profile) ]] || curl -L https://nixos.org/nix/install | sh";
+            # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || curl -L https://nixos.org/nix/install | sh";
+            # su - ${CUR_USER} -c "echo $PATH | grep -iq nix-profile || sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon";
+
+            su - ${CUR_USER} -c "\
+            echo ${PATH} | grep -iq nix-profile || \
+            sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon\
+            ";
+            # ------------------------------------------------------------------
+        fi
     fi
-    # --------------------------------------------------------------------------
 }
 
 function config_nix()
@@ -72,12 +102,32 @@ function config_nix()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ~/.config/nix ]] || mkdir -p ~/.config/nix";
+    local mod=${1}  # multi / single
 
-    su - ${CUR_USER} -c "\
-    [[ -f ~/.config/nix/nix.conf ]] || \
-    echo \"experimental-features = nix-command flakes\" > ~/.config/nix/nix.conf\
-    ";
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user -----------------------------------------------------------
+        local CONF_PATH="/etc/nix/nix.conf";
+
+        local FEATURE_CMD="experimental-features = nix-command flakes"
+
+        if [[ ! -e ${CONF_PATH} ]]; then
+            return
+        fi
+
+        if [[ *"$(cat ${CONF_PATH})"* != *"${FEATURE_CMD}"* ]]; then
+            echo "${FEATURE_CMD}" >> ${CONF_PATH};
+        fi
+        # ----------------------------------------------------------------------
+    else
+        # single-user ----------------------------------------------------------
+        su - ${CUR_USER} -c "[[ -d ~/.config/nix ]] || mkdir -p ~/.config/nix";
+
+        su - ${CUR_USER} -c "\
+        [[ -f ~/.config/nix/nix.conf ]] || \
+        echo \"experimental-features = nix-command flakes\" > ~/.config/nix/nix.conf\
+        ";
+        # ----------------------------------------------------------------------
+    fi
     # --------------------------------------------------------------------------
 }
 
@@ -90,22 +140,54 @@ function reload_shell()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "\
-    echo $SHELL | grep -iq bash && \
-    source ~/.bashrc";
+    # su - ${CUR_USER} -c "\
+    # echo $SHELL | grep -iq bash && \
+    # source ~/.bashrc";
 
-    su - ${CUR_USER} -c "\
-    echo $SHELL | grep -iq zsh && \
-    source ~/.zshrc";
+    # su - ${CUR_USER} -c "\
+    # echo $SHELL | grep -iq zsh && \
+    # source ~/.zshrc";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user -----------------------------------------------------------
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+        # ----------------------------------------------------------------------
+    else
+        # single-user ----------------------------------------------------------
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+        # ----------------------------------------------------------------------
+    fi
+
+    if [[ ! -e ${DST_PATH} ]]; then
+        return
+    fi
+
+    source ${DST_PATH};
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
 
 # Main =========================================================================
-install_nix;
-config_nix;
-# reload_shell;
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    install_nix "multi";
+    config_nix "multi";
+    # reload_shell "multi";
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    install_nix "single";
+    config_nix "single";
+    # reload_shell "single";
+    # --------------------------------------------------------------------------
+fi
+
 # ==============================================================================
 
 exit 0

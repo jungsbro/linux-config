@@ -48,7 +48,7 @@ icon-theme='menta'
 menus-have-icons=true
 
 [desktop/keybindings/custom0]
-action='/usr/bin/skippy-xd'
+action='skippy-xd'
 binding='<Mod4>Tab'
 name='Expose'
 

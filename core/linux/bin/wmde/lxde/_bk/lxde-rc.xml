@@ -273,7 +273,7 @@
   </keybind>
   <keybind key="A-F2">
       <action name="Execute">
-          <command>/usr/bin/synapse</command>
+          <command>synapse</command>
       </action>
   </keybind>
 
@@ -290,7 +290,7 @@
   </keybind>
 
   <keybind key="A-F11">
-     <action name="ToggleFullscreen"/>
+    <action name="ToggleFullscreen"/>
   </keybind>
 
   <!-- Launch gnome-screenshot when PrintScreen is pressed -->
@@ -314,7 +314,7 @@
   <!-- Keybindings for window switching -->
   <keybind key="W-Tab">
     <action name="Execute">
-      <command>/usr/bin/skippy-xd</command>
+      <command>skippy-xd</command>
     </action>
   </keybind>
 

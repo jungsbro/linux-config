@@ -55,7 +55,7 @@ Categories=${APP_GRP}";
 }
 
 
-function install_stacer_for_nix()   # it has error / not working
+function install_stacer_for_nix()   # it has error / not working / it's gnone on debian13
 {
     # for x86_64 / i686 / aarch64
     # --------------------------------------------------------------------------
@@ -66,6 +66,16 @@ function install_stacer_for_nix()   # it has error / not working
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="stacer"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
@@ -76,9 +86,15 @@ function install_stacer_for_nix()   # it has error / not working
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.stacer
     # nix profile add nixpkgs#stacer
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -139,15 +155,15 @@ function install_stacer_for_nix()   # it has error / not working
 # Main : x86_64, i686, aarch64 =================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    # debian13에서 stacer 패키지가 없음
-    [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+    echo "debian13+ is not supported for stacer"
+    # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     echo "rhel is not supported for stacer"
 	# because of error
-    # install_stacer_for_nix;
+    # install_stacer_for_nix "single";
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

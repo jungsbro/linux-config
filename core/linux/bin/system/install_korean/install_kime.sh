@@ -183,6 +183,16 @@ function install_kime_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="kime"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
@@ -193,9 +203,15 @@ function install_kime_for_nix()
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.kime
     # nix profile add nixpkgs#kime
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -272,7 +288,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]]; then
         ENV_CONF_PATH="${HOME_DIR}/.xprofile"
         set_kime_env;
         # ----------------------------------------------------------------------
-        ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        ICON_PATH="kime-hangul-black.png";
         set_kime_autostart;
         # ----------------------------------------------------------------------
         SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
@@ -291,7 +308,8 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         ENV_CONF_PATH="${HOME_DIR}/.xprofile"
         set_kime_env;
         # ----------------------------------------------------------------------
-        ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        ICON_PATH="kime-hangul-black.png";
         set_kime_autostart;
         # ----------------------------------------------------------------------
         SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
@@ -302,12 +320,13 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
         # ----------------------------------------------------------------------
-        install_kime_for_nix;
+        install_kime_for_nix "single";
         # ----------------------------------------------------------------------
         ENV_CONF_PATH="${HOME_DIR}/.xsession"
         set_kime_env;
         # ----------------------------------------------------------------------
-        ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        # ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+        ICON_PATH="kime-hangul-black.png";
         set_kime_autostart;
         # ----------------------------------------------------------------------
         SRC_HOTKEY_PATH="${HOME_DIR}/.nix-profile/share/doc/kime/default_config.yaml";

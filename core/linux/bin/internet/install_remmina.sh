@@ -27,19 +27,35 @@ function install_remmina_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="remmina"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
     bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_remmina --------------------------------------------------
+    # 3) install_remmina -------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.remmina
     # nix profile add nixpkgs#remmina
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -140,7 +156,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina;
     [[ -n $(apt list --installed | grep -i ^remmina-plugin-rdp) ]] || apt install -y remmina-plugin-rdp;
     # --------------------------------------------------------------------------
-    # install_remmina_for_nix
+    # install_remmina_for_nix "multi"
     # --------------------------------------------------------------------------
     # install_remmina_for_flatpak
     # --------------------------------------------------------------------------
@@ -152,7 +168,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^remmina) ]] || dnf install -y remmina;
     # --------------------------------------------------------------------------
-    # install_remmina_for_nix
+    # install_remmina_for_nix "single"
     # --------------------------------------------------------------------------
     # install_remmina_for_flatpak
     # --------------------------------------------------------------------------

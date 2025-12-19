@@ -103,6 +103,16 @@ function install_freefilesync_for_nix()
 
     # 1) env-vars settings -----------------------------------------------------
     local APP_NAME="freefilesync"
+
+    local mod=${1}  # multi / single
+
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        # multi-user
+        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+    else
+        # single-user
+        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+    fi
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
@@ -113,9 +123,15 @@ function install_freefilesync_for_nix()
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.freefilesync
     # nix profile add nixpkgs#freefilesync
-    su - ${CUR_USER} -c "source ~/.nix-profile/etc/profile.d/nix.sh && \
+    su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ *"${mod}"* == *"multi"* ]]; then
+        return
+    fi
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -205,12 +221,12 @@ function install_freefilesync_for_flatpak()
 # main =========================================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    install_freefilesync_for_nix;
+    install_freefilesync_for_nix "multi";
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    install_freefilesync_for_nix;
+    install_freefilesync_for_nix "single";
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

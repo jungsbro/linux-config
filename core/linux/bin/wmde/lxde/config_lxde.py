@@ -224,10 +224,7 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-Tab 추가 : expose -------------------------------------------------------
-    if os.path.isfile("/usr/bin/skippy-xd"):
-      add_hotkey("W-Tab", "/usr/bin/skippy-xd")
-    else:
-      add_hotkey("W-Tab", "/usr/local/bin/skippy-xd")
+    add_hotkey("W-Tab", "skippy-xd")
     # --------------------------------------------------------------------------
 
     # A-Tab 추가 : next windows ------------------------------------------------
@@ -241,7 +238,7 @@ def config_hotkey(ns, dst_path):
     # W-r / A-F2 추가 : spotlight ----------------------------------------------
     add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
 
-    add_hotkey("A-F2", "/usr/bin/synapse")
+    add_hotkey("A-F2", "synapse")
     # --------------------------------------------------------------------------
 
     # C-Escape / A-F1 추가 : lx menu -------------------------------------------
