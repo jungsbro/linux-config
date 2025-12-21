@@ -140,8 +140,17 @@ function set_shortcuts()
     # expose -------------------------------------------------------------------
     # win+tab
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Tab" "string" "";
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "skippy-xd"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd";
+
+    if [[ -f "/usr/bin/skippy-xd" ]]; then
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/skippy-xd";
+    elif [[ -f "/usr/local/bin/skippy-xd" ]]; then
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/local/bin/skippy-xd"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/local/bin/skippy-xd";
+    else
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/home/jungs/.nix-profile/bin/skippy-xd"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "${HOME}/.nix-profile/bin/skippy-xd";
+    fi
     # --------------------------------------------------------------------------
 
     # settings -----------------------------------------------------------------
@@ -156,10 +165,13 @@ function set_shortcuts()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>space" -t "string" -s "xfce4-appfinder"
     # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder --collapsed";
 
-    # alt+f3 >> alt+f2
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "";
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F2" -t "string" -s "xfce4-appfinder"
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "xfce4-appfinder";
+
+    # alt+f3
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F3" -t "string" -s "xfce4-appfinder"
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "xfce4-appfinder";
     # --------------------------------------------------------------------------
 
     # appmenu ------------------------------------------------------------------

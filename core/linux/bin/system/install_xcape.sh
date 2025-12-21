@@ -23,7 +23,7 @@ APP_GRP="Settings;System;"
 
 # xfce4 : xfce4-popup-whiskermenu
 # lxde  : lxpanelctl menu
-EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
+# EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -120,14 +120,15 @@ function install_xcape_for_nix()
     # nix-env -iA nixpkgs.xcape
     # nix profile add nixpkgs#xcape
     su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
+    # if [[ *"${mod}"* == *"multi"* ]]; then
+    #     return
+    # fi
+    return
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -136,7 +137,7 @@ function install_xcape_for_nix()
     )
 
     local src_dir="${HOME_DIR}/.nix-profile/bin"
-    local dst_dir="/usr/local/bin"
+    local dst_dir="${HOME_DIR}/.local/bin"
 
     for cur_fname in "${FNAME_LIST[@]}";
     do
@@ -170,7 +171,7 @@ function install_xcape_for_nix()
 
     # 6) desktop settings ------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="/usr/local/share/applications"
+    local dst_dir="${HOME_DIR}/.local/share/applications"
 
     if [[ -d ${src_dir} ]]; then
         mkdir -p "${dst_dir}"
@@ -189,12 +190,16 @@ function install_xcape_for_nix()
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^xcape) ]] || apt install -y xcape;
+    # --------------------------------------------------------------------------
+    EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
     set_xcape_autostart;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     install_xcape_for_nix "single";
+    # --------------------------------------------------------------------------
+    EXEC_PATH="${HOME_DIR}/.nix-profile/bin/xcape -e 'Super_L=Control_L|Escape'"
     set_xcape_autostart;
     # --------------------------------------------------------------------------
 fi

@@ -85,14 +85,15 @@ function install_drawing_for_nix()
     # nix-env -iA nixpkgs.drawing
     # nix profile add nixpkgs#drawing
     su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ^${APP_NAME} || \
+    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
+    # if [[ *"${mod}"* == *"multi"* ]]; then
+    #     return
+    # fi
+    return
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -101,7 +102,7 @@ function install_drawing_for_nix()
     )
 
     local src_dir="${HOME_DIR}/.nix-profile/bin"
-    local dst_dir="/usr/local/bin"
+    local dst_dir="${HOME_DIR}/.local/bin"
 
     for cur_fname in "${FNAME_LIST[@]}";
     do
@@ -135,7 +136,7 @@ function install_drawing_for_nix()
 
     # 6) desktop settings ------------------------------------------------------
     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="/usr/local/share/applications"
+    local dst_dir="${HOME_DIR}/.local/share/applications"
 
     if [[ -d ${src_dir} ]]; then
         mkdir -p "${dst_dir}"
