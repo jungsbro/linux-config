@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# cups =========================================================================
+# bash /core/linux/bin/office/install_cups.sh;
+# ==============================================================================
+
+
+# ENV ==========================================================================
+# ------------------------------------------------------------------------------
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="cups";
+
+# /tmp/cups
+TMP_DIR="/tmp/${APP_NAME}";
+
+# samsung printer driver ML-2160 series
+SRC_URL="https://printersetup.ext.hp.com/TS/Files/RDS_XML/web_install_agent/linux/ULD_v1.00.29.tar.gz";
+
+FNAME="ULD.tar.gz";
+
+# /tmp/cups/ULD.tar.gz
+ZIP_PATH="${TMP_DIR}/${FNAME}"
+# ------------------------------------------------------------------------------
+# ==============================================================================
+
+
+# Functions ====================================================================
+function install_printer_driver()
+{
+    if [[ ! -d "${TMP_DIR}" ]]; then
+        # /tmp/cups
+        mkdir -p ${TMP_DIR};
+        chmod 777 ${TMP_DIR};
+    fi
+
+    # --------------------------------------------------------------------------
+    if [[ ! -f "${ZIP_PATH}" ]]; then
+        # wget "https://printersetup.ext.hp.com/TS/Files/RDS_XML/web_install_agent/linux/ULD_v1.00.29.tar.gz" -O "/tmp/cups/ULD.tar.gz";
+        wget "${SRC_URL}" -O "${ZIP_PATH}";
+    fi
+
+    # tar -xvf "/tmp/cups/ULD.tar.gz" -C "/tmp/cups";
+    tar -xvf "${ZIP_PATH}" -C "${TMP_DIR}";
+
+    yes | bash "${TMP_DIR}/uld/install.sh";
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+# Main : x86_64, i686, aarch64 =================================================
+if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^cups) ]] || apt install -y cups;
+    [[ -n $(apt list --installed | grep -i ^system-config-printer) ]] || apt install -y system-config-printer;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list installed | grep -i ^cups) ]] || dnf install -y cups;
+    [[ -n $(dnf list installed | grep -i ^system-config-printer) ]] || dnf install -y system-config-printer;
+    # --------------------------------------------------------------------------
+fi
+
+# ------------------------------------------------------------------------------
+systemctl enable cups
+systemctl restart cups
+
+# samsung printer driver ML-2160 series
+install_printer_driver;
+# ------------------------------------------------------------------------------
+# ==============================================================================
+
+exit 0

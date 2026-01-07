@@ -201,8 +201,9 @@ bash /core/linux/bin/internet/install_remmina.sh ${CUR_USER};
 # bash /core/linux/bin/internet/install_anydesk.sh;
 # ==============================================================================
 
-# libreoffice ==================================================================
+# office =======================================================================
 bash /core/linux/bin/office/install_libreoffice.sh;
+bash /core/linux/bin/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
