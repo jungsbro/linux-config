@@ -46,7 +46,7 @@ function install_nix()
 
     if [[ *"${mod}"* == *"multi"* ]]; then
         # ----------------------------------------------------------------------
-        # nix-daemon.socket 존재 여부 확인
+        # checking nix-daemon.socket
         if systemctl list-unit-files | grep -iq nix-daemon.socket; then
             return
         fi
@@ -54,14 +54,14 @@ function install_nix()
 
         # ----------------------------------------------------------------------
         if [[ -d /nix ]]; then
-            # 기존 싱글유저 설치 제거
+            # remove existing nix installation for single-user
             rm -rf ${HOME_DIR}/.nix-profile ${HOME_DIR}/.nix-defexpr ${HOME_DIR}/.nix-channels
             sudo rm -rf /nix
         fi
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # 멀티유저 설치 실행 (비대화형)
+        # install nix multi-user (without interactive prompt)
         sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon --yes
         # ----------------------------------------------------------------------
 

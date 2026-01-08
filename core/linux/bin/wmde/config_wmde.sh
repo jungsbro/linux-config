@@ -54,6 +54,7 @@ function install_wmde_pkg()
             # bash /core/linux/bin/utilities/install_gnome-calculator.sh;
             bash /core/linux/bin/utilities/install_mate-calc.sh;
             bash /core/linux/bin/system/install_xscreensaver.sh;
+            bash /core/linux/bin/system/install_xfce4-docklike.sh ${CUR_USER};
         fi
         # ----------------------------------------------------------------------
         bash /core/linux/bin/ide/install_mousepad.sh;
