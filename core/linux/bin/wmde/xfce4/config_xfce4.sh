@@ -110,17 +110,29 @@ function set_shortcuts()
 
     # window to left/right screen ----------------------------------------------
     if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+        # ----------------------------------------------------------------------
         # shift+win+left
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "";
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "";
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh";
 
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Left" -t "string" -s "move_window_to_monitor_left_key"
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "move_window_to_monitor_left_key";
+
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh"
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash /core/linux/bin/system/install_wmctrl/move_l_screen.sh";
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
         # shift+win+right
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Right" "string" "";
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "";
+
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Right" -t "string" -s "move_window_to_monitor_right_key"
+        set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Right" "string" "move_window_to_monitor_right_key";
+
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash /core/linux/bin/system/install_wmctrl/move_r_screen.sh"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash /core/linux/bin/system/install_wmctrl/move_r_screen.sh";
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash /core/linux/bin/system/install_wmctrl/move_r_screen.sh";
+        # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 
