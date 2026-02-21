@@ -191,7 +191,8 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    install_drawing_for_nix "single";
+    # install_drawing_for_nix "single";
+    install_drawing_for_flatpak;
 fi
 # ==============================================================================
 

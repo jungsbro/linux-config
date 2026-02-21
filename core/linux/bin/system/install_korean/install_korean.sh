@@ -20,9 +20,14 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # Func =========================================================================
 function install_nanum_fonts()
 {
-    local NANUM_URL="http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip"
+    # --------------------------------------------------------------------------
+    # local NANUM_URL="https://hangeul.naver.com/hangeul_static/webfont/zips/nanum-all_new.zip"
+
+    # NanumGothicCoding
+    local NANUM_URL="https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip"
     local NANUM_ZIP_PATH="/tmp/nanumfont.zip";
     local NANUM_DST_DIR="/usr/share/fonts/nanum";
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -d "${NANUM_DST_DIR}" ]]; then
@@ -31,7 +36,10 @@ function install_nanum_fonts()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    curl ${NANUM_URL} -o ${NANUM_ZIP_PATH}
+    # wget "https://hangeul.naver.com/hangeul_static/webfont/zips/nanum-all_new.zip" -O "/tmp/nanumfont.zip"
+    wget ${NANUM_URL} -O ${NANUM_ZIP_PATH}
+
+    # sudo unzip /tmp/nanumfont.zip -d /usr/share/fonts/nanum
     sudo unzip ${NANUM_ZIP_PATH} -d ${NANUM_DST_DIR}
     rm -f ${NANUM_ZIP_PATH}
     # --------------------------------------------------------------------------
