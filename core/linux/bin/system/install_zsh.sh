@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # zsh ==========================================================================
-# bash /core/linux/bin/system/install_zsh.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/install_zsh.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=$1;
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -64,31 +72,31 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^autojump) ]] || dnf install -y autojump;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/utilities/install_fzf.sh ${CUR_USER};
+        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list installed | grep -i ^fasd) ]] || dnf install -y fasd;
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
 

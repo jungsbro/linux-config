@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # vim ==========================================================================
-# bash /core/linux/bin/ide/install_vim.sh ${CUR_USER};
+# bash ${BIN_DIR}/ide/install_vim.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/ide
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -43,7 +51,7 @@ function install_vim()
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
     fi

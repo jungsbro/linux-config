@@ -1,14 +1,24 @@
 #!/bin/bash
 
 # clamav =======================================================================
-# bash /core/linux/bin/security/install_clamav.sh;
+# bash ${BIN_DIR}/security/install_clamav.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/security
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -32,7 +42,7 @@ function install_clamav()
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^clamav) ]] || dnf install -y clamav;
         [[ -n $(dnf list installed | grep -i ^clamd) ]] || dnf install -y clamd;
         # ----------------------------------------------------------------------

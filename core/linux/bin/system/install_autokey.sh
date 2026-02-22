@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # autokey ======================================================================
-# bash /core/linux/bin/system/install_autokey.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=$1;
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -95,7 +103,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
         echo "autokey not working on rocky8";
     else
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
         # ----------------------------------------------------------------------
         config_autokey;

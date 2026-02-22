@@ -1,14 +1,24 @@
 #!/bin/bash
 
 # xfce4-screensaver ============================================================
-# bash /core/linux/bin/system/install_xfce4-screensaver.sh;
+# bash ${BIN_DIR}/system/install_xfce4-screensaver.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -21,7 +31,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^xfce4-screensaver) ]] || dnf install -y xfce4-screensaver;
     # --------------------------------------------------------------------------
 fi

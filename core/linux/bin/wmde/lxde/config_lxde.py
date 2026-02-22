@@ -5,13 +5,30 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 # config_lxde ==================================================================
-# python3 /core/linux/bin/wmde/lxde/config_lxde.py ${CUR_USER}
+# python3 f"{BIN_DIR}/wmde/lxde/config_lxde.py" ${CUR_USER}
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/wmde/lxde/config_lxde.py
+SCRIPT_PATH = os.path.abspath(__file__)
+
+# os.getcwd()
+# core/linux/bin/wmde/lxde
+SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
+
+# core/linux/bin/wmde
+WMDE_DIR = os.path.dirname(SCRIPT_DIR)
+
+# core/linux/bin
+BIN_DIR = os.path.dirname(WMDE_DIR)
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 # CUR_USER = "{}".format(sys.argv[1])
 CUR_USER = f"{sys.argv[1]}"
+# ------------------------------------------------------------------------------
 
 # HOME_DIR ---------------------------------------------------------------------
 def set_home_dir():
@@ -582,10 +599,10 @@ Plugin {
 
     # --------------------------------------------------------------------------
     if is_rpios():
-        src_path = "/core/linux/bin/wmde/lxde/panel-pi";
+        src_path = f"{BIN_DIR}/wmde/lxde/panel-pi";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE-pi/panels/panel"
     else:
-        src_path = "/core/linux/bin/wmde/lxde/panel";
+        src_path = f"{BIN_DIR}/wmde/lxde/panel";
         dst_path = f"{HOME_DIR}/.config/lxpanel/LXDE/panels/panel"
 
     if not os.path.isfile(dst_path):
@@ -726,7 +743,7 @@ def set_mouse_double_click():
 def set_shortcuts():
     # 5) lxde-rc settings
     # --------------------------------------------------------------------------
-    src_path = "/core/linux/bin/wmde/lxde/lxde-rc.xml";
+    src_path = f"{BIN_DIR}/wmde/lxde/lxde-rc.xml";
 
     if is_rpios():
         dst_path = f"{HOME_DIR}/.config/openbox/lxde-pi-rc.xml"

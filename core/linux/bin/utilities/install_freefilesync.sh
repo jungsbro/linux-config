@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # filesync =====================================================================
-# bash /core/linux/bin/utilities/install_freefilesync.sh ${CUR_USER};
+# bash ${BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/utilities
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -116,7 +124,7 @@ function install_freefilesync_for_nix()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_freefilesync --------------------------------------------------
@@ -202,12 +210,12 @@ function install_freefilesync_for_flatpak()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

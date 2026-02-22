@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # vlc ==========================================================================
-# bash /core/linux/bin/multimedia/install_vlc.sh ${CUR_USER};
+# bash ${BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/multimedia
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -40,7 +50,7 @@ function install_vlc_for_nix()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_vlc -----------------------------------------------------------
@@ -135,7 +145,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^vlc) ]] || dnf install -y vlc;
     # --------------------------------------------------------------------------
     # install_vlc_for_nix "single";

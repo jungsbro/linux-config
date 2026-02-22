@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # vscode =======================================================================
-# bash /core/linux/bin/ide/install_vscode.sh ${CUR_USER};
+# bash ${BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/ide
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -29,7 +39,7 @@ function install_vscode_for_deb()
     # --------------------------------------------------------------------------
 
     # method 1) ----------------------------------------------------------------
-    apt install wget gpg
+    apt install -y wget gpg
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
     echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |tee /etc/apt/sources.list.d/vscode.list > /dev/null
@@ -82,12 +92,12 @@ function install_vscode_for_flatpak()
     # --------------------------------------------------------------------------
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -122,7 +132,7 @@ function install_vscode_for_nix()   # it has error / not working
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_vscode --------------------------------------------------------

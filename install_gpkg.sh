@@ -20,6 +20,13 @@
 # ==============================================================================
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
+
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=$1;
@@ -43,28 +50,28 @@ CUR_ARCH=$(uname -m);
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
-# /core/linux/bin/ -------------------------------------------------------------
-CORE_DIR="./core";
-BIN_DIR="/core/linux/bin/";
-SRC_DIR="/core/linux/src/";
+# ${BIN_DIR}/ -------------------------------------------------------------
+# CORE_DIR="./core";
+# BIN_DIR="/core/linux/bin";
+# SRC_DIR="/core/linux/src/";
 
-# if [[ ! -d ${BIN_DIR} ]]; then
-cp -rf ${CORE_DIR} /;
-chmod -R 755 ${BIN_DIR};
-# fi
+# # if [[ ! -d ${BIN_DIR} ]]; then
+# cp -rf ${CORE_DIR} /;
+# chmod -R 755 ${BIN_DIR};
+# # fi
 
-[[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
-chmod 777 ${SRC_DIR};
+# [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
+# chmod 777 ${SRC_DIR};
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # update =======================================================================
-bash /core/linux/bin/pkgmgmt/update_repo.sh;
+bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
 # flatpak ======================================================================
-bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
+bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # snap =========================================================================
@@ -72,16 +79,16 @@ bash /core/linux/bin/pkgmgmt/install_flatpak.sh;
 #     echo "";
 
 # elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-#     bash /core/linux/bin/pkgmgmt/install_snap.sh;
+#     bash ${BIN_DIR}/pkgmgmt/install_snap.sh;
 # fi
 # ==============================================================================
 
 # nix ==========================================================================
-# bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+# bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
 # ==============================================================================
 
 # bottles ======================================================================
-# bash /core/linux/bin/pkgmgmt/install_bottles.sh ${CUR_USER};
+# bash ${BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
 # ==============================================================================
 
 # graphic driver ===============================================================
@@ -118,117 +125,117 @@ fi
 # ==============================================================================
 
 # desktop environment ==========================================================
-bash /core/linux/bin/wmde/config_wmde.sh ${CUR_USER};
+bash ${BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
 # ==============================================================================
 
 # monitoring ===================================================================
-# bash /core/linux/bin/system/install_conky.sh;
+# bash ${BIN_DIR}/system/install_conky.sh;
 # ==============================================================================
 
 # korean =======================================================================
-bash /core/linux/bin/system/install_korean/install_korean.sh ${CUR_USER};
-bash /core/linux/bin/system/install_font-manager.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_korean/install_korean.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 
 # hotkey =======================================================================
-bash /core/linux/bin/system/install_autokey.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 # bluelight ====================================================================
-bash /core/linux/bin/system/install_redshift.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_redshift.sh ${CUR_USER};
 # ==============================================================================
 
 # sandbox ======================================================================
-bash /core/linux/bin/system/install_firejail.sh;
+bash ${BIN_DIR}/system/install_firejail.sh;
 # ==============================================================================
 
 # cleaner ======================================================================
-# bash /core/linux/bin/system/install_stacer.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/install_stacer.sh ${CUR_USER};
 # ==============================================================================
 
 # snapshot =====================================================================
-bash /core/linux/bin/system/install_timeshift.sh;
+bash ${BIN_DIR}/system/install_timeshift.sh;
 # ==============================================================================
 
 # disk mount  ==================================================================
-bash /core/linux/bin/system/install_gnome-disk-utility.sh;
+bash ${BIN_DIR}/system/install_gnome-disk-utility.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================
-# bash /core/linux/bin/system/install_virtualbox.sh;
+# bash ${BIN_DIR}/system/install_virtualbox.sh;
 # ==============================================================================
 
 # security =====================================================================
-bash /core/linux/bin/security/install_gnome-keyring.sh;
+bash ${BIN_DIR}/security/install_gnome-keyring.sh;
 # ==============================================================================
 
 # ide ==========================================================================
-# bash /core/linux/bin/ide/install_geany.sh;
-bash /core/linux/bin/ide/install_vscode.sh ${CUR_USER};
+# bash ${BIN_DIR}/ide/install_geany.sh;
+bash ${BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-bash /core/linux/bin/filemgr/install_doublecmd.sh ${CUR_USER};
+bash ${BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 # web browser ==================================================================
 if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
     # --------------------------------------------------------------------------
-    bash /core/linux/bin/internet/install_chromium.sh;
+    bash ${BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
     # --------------------------------------------------------------------------
-    bash /core/linux/bin/internet/install_chromium.sh;
+    bash ${BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 else
     # --------------------------------------------------------------------------
-    bash /core/linux/bin/internet/install_google-chrome.sh;
+    bash ${BIN_DIR}/internet/install_google-chrome.sh;
     # --------------------------------------------------------------------------
 fi
 
-bash /core/linux/bin/internet/install_firefox.sh;
+bash ${BIN_DIR}/internet/install_firefox.sh;
 # ==============================================================================
 
 # ftp ==========================================================================
-# bash /core/linux/bin/internet/install_filezilla.sh;
+# bash ${BIN_DIR}/internet/install_filezilla.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
-bash /core/linux/bin/internet/install_remmina.sh ${CUR_USER};
+bash ${BIN_DIR}/internet/install_remmina.sh ${CUR_USER};
 # ==============================================================================
 
 # anydesk ======================================================================
-# bash /core/linux/bin/internet/install_anydesk.sh;
+# bash ${BIN_DIR}/internet/install_anydesk.sh;
 # ==============================================================================
 
 # office =======================================================================
-bash /core/linux/bin/office/install_libreoffice.sh;
-bash /core/linux/bin/office/install_qpdfview.sh;
+bash ${BIN_DIR}/office/install_libreoffice.sh;
+bash ${BIN_DIR}/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
-bash /core/linux/bin/graphics/install_gimp.sh ${CUR_USER};
-# bash /core/linux/bin/graphics/install_kolourpaint.sh;
-# bash /core/linux/bin/graphics/install_inkscape.sh;
-bash /core/linux/bin/graphics/install_drawing.sh ${CUR_USER};
-# bash /core/linux/bin/graphics/install_pinta.sh ${CUR_USER};
+bash ${BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
+# bash ${BIN_DIR}/graphics/install_kolourpaint.sh;
+# bash ${BIN_DIR}/graphics/install_inkscape.sh;
+bash ${BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
+# bash ${BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
 # ==============================================================================
 
 # xnview =======================================================================
-# bash /core/linux/bin/graphics/install_xnviewmp.sh ${CUR_USER};
+# bash ${BIN_DIR}/graphics/install_xnviewmp.sh ${CUR_USER};
 # ==============================================================================
 
 # multimedia ===================================================================
-# bash /core/linux/bin/multimedia/install_freetube.sh ${CUR_USER};
-bash /core/linux/bin/multimedia/install_vlc.sh ${CUR_USER};
+# bash ${BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
+bash ${BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
 # ==============================================================================
 
 # filesync =====================================================================
-bash /core/linux/bin/utilities/install_freefilesync.sh ${CUR_USER};
+bash ${BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-# bash /core/linux/bin/utilities/install_simplescreenrecorder.sh ${CUR_USER};
+# bash ${BIN_DIR}/utilities/install_simplescreenrecorder.sh ${CUR_USER};
 # ==============================================================================
 
 

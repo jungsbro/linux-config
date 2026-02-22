@@ -1,19 +1,29 @@
 #!/bin/bash
 
 # install_wmctrl ================================================================
-# bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh ${CUR_USER}; # not used
+# bash ${BIN_DIR}/system/install_wmctrl/install_wmctrl.sh ${CUR_USER}; # not used
 
-# bash /core/linux/bin/system/install_wmctrl/install_wmctrl.sh;
+# bash ${BIN_DIR}/system/install_wmctrl/install_wmctrl.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system/install_wmctrl
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/../.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -53,7 +63,7 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^wmctrl) ]] || dnf install -y wmctrl;
     [[ -n $(dnf list installed | grep -i ^xdotool) ]] || dnf install -y xdotool;
     # --------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-root_dir="$(pwd)"
+ROOT_DIR="$(dirname "$(realpath "$0")")"
 # ------------------------------------------------------------------------------
 
 # 1) for container -------------------------------------------------------------
@@ -121,7 +121,7 @@ distrobox create --name "$ctr" --image "$image" --pre-init-hooks "$pre_init_hook
 # ------------------------------------------------------------------------------
 # 2) installing apps (pacaman)
 # 2) installing apps (yay)
-source "$root_dir/../share_funcs.sh" && \
+source "${ROOT_DIR}/../share_funcs.sh" && \
 install_apps $ctr $pkg_type "$gui_apps" "$gui_bins" "$cli_apps" "$cli_bins" && \
 install_apps $ctr $pkg_type2 "$gui_apps2" "$gui_bins2" "$cli_apps2" "$cli_bins2"
 # ------------------------------------------------------------------------------

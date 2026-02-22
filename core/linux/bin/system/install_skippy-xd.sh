@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # skippy-xd ====================================================================
-# bash /core/linux/bin/system/install_skippy-xd.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -37,7 +47,7 @@ function install_dep_for_deb()
 function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
     # --------------------------------------------------------------------------
 
@@ -58,7 +68,7 @@ function install_dep_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(dnf repolist | grep -i ^crb) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
     # --------------------------------------------------------------------------
 }
@@ -138,7 +148,7 @@ function install_skippy-xd_for_nix()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash /core/linux/bin/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_skippy-xd -----------------------------------------------------

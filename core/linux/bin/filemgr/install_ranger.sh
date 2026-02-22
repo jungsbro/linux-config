@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash /core/linux/bin/filemgr/install_ranger.sh ${CUR_USER};
+# bash ${BIN_DIR}/filemgr/install_ranger.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/filemgr
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=$1;
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -101,56 +109,56 @@ function install_ranger()
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^ranger) ]] || dnf install -y ranger;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^highlight) ]] || dnf install -y highlight;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^atool) ]] || dnf install -y atool;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^w3m) ]] || dnf install -y w3m;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^python3) ]] || dnf install -y python3;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^tar) ]] || dnf install -y tar;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
-        bash /core/linux/bin/utilities/install_fzf.sh ${CUR_USER};
+        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list installed | grep -i ^fasd) ]] || dnf install -y fasd;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^findutils) ]] || dnf install -y findutils;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list installed | grep -i ^mlocate) ]] || dnf install -y mlocate;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^rpmfusion-free-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf repolist | grep -i ^crb) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^rpmfusion-free-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list installed | grep -i ^catimg) ]] || dnf install -y catimg;
         # ----------------------------------------------------------------------
     fi

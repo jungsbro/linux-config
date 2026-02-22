@@ -5,10 +5,25 @@ import xml.etree.ElementTree as ET
 
 
 # config_xfce4 =================================================================
-# python3 /core/linux/bin/wmde/xfce4/config_xfce4.py ${CUR_USER}
+# python3 f"{BIN_DIR}/wmde/xfce4/config_xfce4.py" ${CUR_USER}
 # ==============================================================================
 
 # env ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/wmde/xfce4/config_xfce4.py
+SCRIPT_PATH = os.path.abspath(__file__)
+
+# os.getcwd()
+# core/linux/bin/wmde/xfce4
+SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
+
+# core/linux/bin/wmde
+WMDE_DIR = os.path.dirname(SCRIPT_DIR)
+
+# core/linux/bin
+BIN_DIR = os.path.dirname(WMDE_DIR)
+# ------------------------------------------------------------------------------
+
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER = "{}".format(sys.argv[1])
 CUR_USER = f"{sys.argv[1]}"
@@ -266,7 +281,7 @@ def set_shortcuts():
     prop_dict = {}
 
     # window tile --------------------------------------------------------------
-    tog_fs_path = "/core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh"
+    tog_fs_path = f"{BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh"
 
     # win+keypad_up >> win+up
     prop_dict["xfwm4/custom/<Super>KP_Up"] = {"name":"", "type":"string", "value":"tile_up_key"}
@@ -422,8 +437,8 @@ def set_panel_clock():
 # ------------------------------------------------------------------------------
 
 def set_panel(): # not used
-    xfce4_panel_dir = "/core/linux/bin/wmde/xfce4/panel"
-    xfce4_panel_path = "/core/linux/bin/wmde/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    xfce4_panel_dir = f"{BIN_DIR}/wmde/xfce4/panel"
+    xfce4_panel_path = f"{BIN_DIR}/wmde/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
 
     dst_dir = f"{HOME_DIR}/.config/xfce4/panel"
     dst_path = f"{HOME_DIR}/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"

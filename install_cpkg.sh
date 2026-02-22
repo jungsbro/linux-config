@@ -6,6 +6,13 @@
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
+
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=$1;
@@ -25,24 +32,24 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
-# /core/linux/bin/ -------------------------------------------------------------
-CORE_DIR="./core";
-BIN_DIR="/core/linux/bin/";
-SRC_DIR="/core/linux/src/";
+# ${BIN_DIR}/ -------------------------------------------------------------
+# CORE_DIR="./core";
+# BIN_DIR="/core/linux/bin/";
+# SRC_DIR="/core/linux/src/";
 
-# if [[ ! -d ${BIN_DIR} ]]; then
-cp -rf ${CORE_DIR} /;
-chmod -R 755 ${BIN_DIR};
-# fi
+# # if [[ ! -d ${BIN_DIR} ]]; then
+# cp -rf ${CORE_DIR} /;
+# chmod -R 755 ${BIN_DIR};
+# # fi
 
-[[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
-chmod 777 ${SRC_DIR};
+# [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
+# chmod 777 ${SRC_DIR};
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # update =======================================================================
-bash /core/linux/bin/pkgmgmt/update_repo.sh;
+bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
 
@@ -81,7 +88,7 @@ fi
 
 
 # security =====================================================================
-bash /core/linux/bin/security/install_clamav.sh;
+bash ${BIN_DIR}/security/install_clamav.sh;
 # ==============================================================================
 
 
@@ -113,7 +120,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     [[ -n $(dnf list installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
     [[ -n $(dnf list installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
@@ -122,7 +129,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^autofs) ]] || dnf install -y autofs;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^rclone) ]] || dnf install -y rclone;
     # --------------------------------------------------------------------------
 fi
@@ -166,13 +173,13 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
     [[ -n $(dnf list installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
@@ -197,16 +204,16 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^htop) ]] || dnf install -y htop;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^btop) ]] || dnf install -y btop;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^nmon) ]] || dnf install -y nmon;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list installed | grep -i ^glances) ]] || dnf install -y glances;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list installed | grep -i ^powertop) ]] || dnf install -y powertop;
@@ -238,28 +245,28 @@ fi
 # ==============================================================================
 
 # vim ==========================================================================
-bash /core/linux/bin/ide/install_vim.sh ${CUR_USER};
+bash ${BIN_DIR}/ide/install_vim.sh ${CUR_USER};
 # ==============================================================================
 
 # tmux =========================================================================
-bash /core/linux/bin/system/install_tmux.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_tmux.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-bash /core/linux/bin/filemgr/install_mc.sh;
-bash /core/linux/bin/filemgr/install_ranger.sh ${CUR_USER};
+bash ${BIN_DIR}/filemgr/install_mc.sh;
+bash ${BIN_DIR}/filemgr/install_ranger.sh ${CUR_USER};
 # ==============================================================================
 
 # zsh ==========================================================================
-bash /core/linux/bin/system/install_zsh.sh ${CUR_USER};
+bash ${BIN_DIR}/system/install_zsh.sh ${CUR_USER};
 # ==============================================================================
 
 # swap =========================================================================
-bash /core/linux/bin/system/config_swap.sh;
+bash ${BIN_DIR}/system/config_swap.sh;
 # ==============================================================================
 
 # fstab ========================================================================
-bash /core/linux/bin/system/config_fstab.sh;
+bash ${BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
 
 

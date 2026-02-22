@@ -1,10 +1,18 @@
 #!/bin/bash
 
 # toggle_tile_fullscreen.sh ====================================================
-# bash /core/linux/bin/system/install_wmctrl/toggle_fullscreen.sh;
+# bash ${BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh;
 # ==============================================================================
 
 # Main =========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system/install_wmctrl
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/../.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 WINDOW_ID=$(xdotool getactivewindow)
 

@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # m17n-db ======================================================================
-# source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-db.sh
+# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-db.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system/install_korean/install_nimf_for_build
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/../../.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 # CUR_USER=${1};
 # HOME_DIR=$(eval echo ~${CUR_USER});

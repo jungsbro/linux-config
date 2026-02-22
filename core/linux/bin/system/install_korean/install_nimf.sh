@@ -1,11 +1,19 @@
 #!/bin/bash
 
 # nimf =========================================================================
-# bash /core/linux/bin/system/install_korean/install_nimf.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/install_korean/install_nimf.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system/install_korean
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/../.."
+# ------------------------------------------------------------------------------
+
 # ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
@@ -140,27 +148,27 @@ function set_nimf_autostart()
 
 function intall_nimf_for_build()
 {
-    chmod -R +x /core/linux/bin/system/install_korean/install_nimf_for_build;
+    chmod -R +x ${BIN_DIR}/system/install_korean/install_nimf_for_build;
 
     # using source : because of "PKG_CONFIG_PATH"
     # --------------------------------------------------------------------------
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_libhangul.sh;
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-lib.sh;
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_m17n-db.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_libhangul.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-lib.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-db.sh;
     # --------------------------------------------------------------------------
 
     # anthy : japanese engine --------------------------------------------------
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_anthy_9100h.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_anthy_9100h.sh;
     # --------------------------------------------------------------------------
 
     # rime : chiness engine ----------------------------------------------------
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_marisa-trie.sh;
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_opencc.sh;
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_rime.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_marisa-trie.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_opencc.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_rime.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source /core/linux/bin/system/install_korean/install_nimf_for_build/install_nimf_for_build.sh;
+    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_nimf_for_build.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

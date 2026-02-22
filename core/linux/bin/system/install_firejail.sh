@@ -1,17 +1,27 @@
 #!/bin/bash
 
 # firejail =====================================================================
-# bash /core/linux/bin/system/install_firejail.sh;
+# bash ${BIN_DIR}/system/install_firejail.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# core/linux/bin/system
+ROOT_DIR="$(dirname "$(realpath "$0")")"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/.."
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
 CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -25,7 +35,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
 	echo ""
     # --------------------------------------------------------------------------
 	# firejail not working
-    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash /core/linux/bin/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     # [[ -n $(dnf list installed | grep -i ^firejail) ]] || dnf install -y firejail;
     # --------------------------------------------------------------------------
 fi
