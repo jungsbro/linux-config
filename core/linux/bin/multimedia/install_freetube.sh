@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/multimedia
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/multimedia
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -51,7 +53,7 @@ APP_GRP="AudioVideo;Player"
 
 
 # func =========================================================================
-function install_freetube_for_deb()
+function install_freetube_for_apt()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
@@ -253,9 +255,9 @@ function install_freetube_for_flatpak()
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -441,29 +443,40 @@ function install_freetube_for_appimg()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
-        echo "Debian/Ubuntu is not supported for freetube-i686"
-        # install_freetube_for_nix "multi"
-    else                                        # x86_64, aarch64
-        install_freetube_for_deb;
-    fi
-    # --------------------------------------------------------------------------
-    # install_freetube_for_flatpak;
-    # --------------------------------------------------------------------------
-    # install_freetube_for_portable;
-    # --------------------------------------------------------------------------
-    # install_freetube_for_appimg;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
-        echo "Rocky/Centos is not supported for freetube-i686"
-        # install_freetube_for_nix "single"
-    else                                        # x86_64, aarch64
-        install_freetube_for_rpm;
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
+            echo "Debian/Ubuntu is not supported for freetube-i686"
+            # install_freetube_for_nix "multi"
+        else                                        # x86_64, aarch64
+            install_freetube_for_apt;
+        fi
+        # ----------------------------------------------------------------------
+        # install_freetube_for_flatpak;
+        # ----------------------------------------------------------------------
+        # install_freetube_for_portable;
+        # ----------------------------------------------------------------------
+        # install_freetube_for_appimg;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
+            echo "Rocky/Centos is not supported for freetube-i686"
+            # install_freetube_for_nix "single"
+        else                                        # x86_64, aarch64
+            install_freetube_for_rpm;
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        # [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --noconfirm freetube";
+        [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --noconfirm freetube-bin";
+        # [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --noconfirm freetube-git";
+        # ----------------------------------------------------------------------
     fi
+
 fi
 # ==============================================================================
-
-exit 0

@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -33,11 +35,9 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # samba-client : CLI에서 smbclient로 테스트 가능
 # ------------------------------------------------------------------------------
 
-function install_gvfs_for_deb()
+function install_gvfs_for_apt()
 {
-    [[ -n $(apt list --installed | grep -i ^gvfs$) ]] || apt install -y gvfs;
-    [[ -n $(apt list --installed | grep -i ^gvfs-backends) ]] || apt install -y gvfs-backends;
-    [[ -n $(apt list --installed | grep -i ^gvfs-fuse) ]] || apt install -y gvfs-fuse;
+    [[ -n $(apt list --installed | grep -i ^gvfs$) ]] || apt install -y gvfs gvfs-backends gvfs-fuse;
 
     if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
         [[ -n $(apt list --installed | grep -i ^thunar-volman) ]] || apt install -y thunar-volman;
@@ -48,32 +48,54 @@ function install_gvfs_for_deb()
 
 function install_gvfs_for_dnf()
 {
-    [[ -n $(dnf list installed | grep -i ^gvfs$) ]] || dnf install -y gvfs;
-    [[ -n $(dnf list installed | grep -i ^gvfs-smb) ]] || dnf install -y gvfs-smb;
-    [[ -n $(dnf list installed | grep -i ^gvfs-fuse) ]] || dnf install -y gvfs-fuse;
+    [[ -n $(dnf list --installed | grep -i ^gvfs$) ]] || dnf install -y gvfs gvfs-smb gvfs-fuse;
 
     if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
-        [[ -n $(dnf list installed | grep -i ^thunar-volman) ]] || dnf install -y thunar-volman;
+        [[ -n $(dnf list --installed | grep -i ^thunar-volman) ]] || dnf install -y thunar-volman;
     fi
 
-    [[ -n $(dnf list installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
+    [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
+}
+
+function install_gvfs_for_pacman()
+{
+    [[ -n $(pacman -Q | grep -i ^gvfs) ]] || pacman -S --noconfirm gvfs gvfs-smb;
+
+    if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+        [[ -n $(pacman -Q | grep -i ^thunar-volman) ]] || pacman -S --noconfirm thunar-volman;
+    fi
+
+    [[ -n $(pacman -Q | grep -i ^smbclient) ]] || pacman -S --noconfirm smbclient;
+    [[ -n $(pacman -Q | grep -i ^gvfs-dnssd) ]] || pacman -S --noconfirm gvfs-dnssd;
 }
 # ==============================================================================
 
 
 # main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    install_gvfs_for_deb;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    # --------------------------------------------------------------------------
-    install_gvfs_for_dnf;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        install_gvfs_for_apt;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # ----------------------------------------------------------------------
+        install_gvfs_for_dnf;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        install_gvfs_for_dnf;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        install_gvfs_for_pacman;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

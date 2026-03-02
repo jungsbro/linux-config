@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean/install_nimf_for_build
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean/install_nimf_for_build
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -76,11 +78,11 @@ function build_m17n-db_for_dnf()
 
     # --------------------------------------------------------------------------
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
-    [[ -n $(dnf list installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
-    [[ -n $(dnf list installed | grep -i ^autoconf) ]] || dnf install -y autoconf;
-    [[ -n $(dnf list installed | grep -i ^automake) ]] || dnf install -y automake;
-    [[ -n $(dnf list installed | grep -i ^libtool) ]] || dnf install -y libtool;
-    [[ -n $(dnf list installed | grep -i ^gettext-devel) ]] || dnf install -y gettext-devel;
+    [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
+    [[ -n $(dnf list --installed | grep -i ^autoconf) ]] || dnf install -y autoconf;
+    [[ -n $(dnf list --installed | grep -i ^automake) ]] || dnf install -y automake;
+    [[ -n $(dnf list --installed | grep -i ^libtool) ]] || dnf install -y libtool;
+    [[ -n $(dnf list --installed | grep -i ^gettext-devel) ]] || dnf install -y gettext-devel;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -120,16 +122,18 @@ function build_m17n-db_for_dnf()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    echo ""
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    build_m17n-db_for_dnf;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        echo ""
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        build_m17n-db_for_dnf;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-# exit 0

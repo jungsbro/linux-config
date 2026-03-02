@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -66,7 +68,7 @@ X-GNOME-Autostart-enabled=true"
 }
 
 
-function install_ulauncher_for_deb()
+function install_ulauncher_for_apt()
 {
     local GPG_PATH="/usr/share/keyrings/ulauncher-archive-keyring.gpg"
 
@@ -234,24 +236,34 @@ function install_ulauncher_for_nix()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    install_ulauncher_for_deb;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    install_ulauncher_for_nix "single";
-    # --------------------------------------------------------------------------
-    #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
-    # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:
-    # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by /nix/store/pahwl2rq51dmwrn8czks27yy3sa3byg9-libX11-1.8.12/lib/libX11.so.6)
-    # Couldn't load XPCOM.
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        install_ulauncher_for_apt;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        install_ulauncher_for_nix "single";
+        # ----------------------------------------------------------------------
+        #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
+        # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:
+        # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by /nix/store/pahwl2rq51dmwrn8czks27yy3sa3byg9-libX11-1.8.12/lib/libX11.so.6)
+        # Couldn't load XPCOM.
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^ulauncher) ]] || dnf install -y ulauncher;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^ulauncher) ]] || su - ${CUR_USER} -c "yay -S --noconfirm ulauncher";
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-
-
-
-exit 0

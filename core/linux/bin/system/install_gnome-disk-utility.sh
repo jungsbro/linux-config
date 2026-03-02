@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -26,19 +28,25 @@ CUR_ARCH=$(uname -m);
 
 
 # Main =========================================================================
-# for x86_64, i686, aarch64
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^gnome-disk-utility) ]] || apt install -y gnome-disk-utility;
-    # --------------------------------------------------------------------------
+    # for x86_64, i686, aarch64
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^gnome-disk-utility) ]] || apt install -y gnome-disk-utility;
+        # ----------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^gnome-disk-utility) ]] || dnf install -y gnome-disk-utility;
-    # --------------------------------------------------------------------------
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^gnome-disk-utility) ]] || dnf install -y gnome-disk-utility;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-disk-utility) ]] || pacman -S --noconfirm gnome-disk-utility;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

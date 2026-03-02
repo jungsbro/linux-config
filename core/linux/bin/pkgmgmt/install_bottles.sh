@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/pkgmgmt
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/pkgmgmt
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -44,9 +46,9 @@ function install_bottles_for_flatpak()
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -162,25 +164,37 @@ function install_bottles_for_nix()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-        install_bottles_for_flatpak;
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix "multi";
-    else                                            # i868
-        echo "Debian is not supported for bottles-i686"
-    fi
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-        install_bottles_for_flatpak;
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-        install_bottles_for_nix "single";
-    else                                            # i868
-        echo "Rocky is not supported for bottles-i686"
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
+            install_bottles_for_flatpak;
+        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
+            install_bottles_for_nix "multi";
+        else                                            # i868
+            echo "Debian is not supported for bottles-i686"
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
+            install_bottles_for_flatpak;
+        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
+            install_bottles_for_nix "single";
+        else                                            # i868
+            echo "Rocky is not supported for bottles-i686"
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        [[ -n $(dnf list --installed | grep -i ^bottles) ]] || dnf install -y bottles;
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --noconfirm bottles";
+        # [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --noconfirm bottles-git";
+        # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
-
-exit 0

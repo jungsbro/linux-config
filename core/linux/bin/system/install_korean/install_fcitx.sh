@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -143,12 +145,38 @@ function set_fcitx_autostart()
 
 
 # Main =========================================================================
-# for cinnamon, mate, xfce, lxde
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx;
-    [[ -n $(apt list --installed | grep -i ^fcitx-hangul) ]] || apt install -y fcitx-hangul;
+    # for cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # rhel8은 fcitx를 지원한다.
+        # rhel9에서 fcitx가 사라졌다.
+        echo "rhel is not supported for fcitx"
+        return 0
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^fcitx) ]] || dnf install -y fcitx fcitx-hangul;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1)
+        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
+
+        # 방법2)
+        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5-gtk;
+        # ----------------------------------------------------------------------
+    fi
+
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
     set_fcitx_env;
@@ -156,10 +184,5 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     set_fcitx_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "rhel is not supported for fcitx"
-
 fi
 # ==============================================================================
-
-exit 0

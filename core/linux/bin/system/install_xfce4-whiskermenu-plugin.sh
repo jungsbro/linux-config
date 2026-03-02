@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -23,18 +25,29 @@ CUR_ARCH=$(uname -m);
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || apt install -y xfce4-whiskermenu-plugin;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^xfce4-whiskermenu-plugin) ]] || dnf install -y xfce4-whiskermenu-plugin;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || apt install -y xfce4-whiskermenu-plugin;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || dnf install -y xfce4-whiskermenu-plugin;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || dnf install -y xfce4-whiskermenu-plugin;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^xfce4-whiskermenu-plugin) ]] || pacman -S --noconfirm xfce4-whiskermenu-plugin;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-
-exit 0

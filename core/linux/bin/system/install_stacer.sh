@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -162,19 +164,31 @@ function install_stacer_for_nix()   # it has error / not working / it's gnone on
 
 
 # Main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"debian"* ]]; then
     # --------------------------------------------------------------------------
     echo "debian13+ is not supported for stacer"
     # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     echo "rhel is not supported for stacer"
 	# because of error
     # install_stacer_for_nix "single";
     # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+    # [[ -n $(yay -Q | grep -i ^stacer-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer-git";
+    [[ -n $(yay -Q | grep -i ^stacer-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer-bin";
+    # [[ -n $(yay -Q | grep -i ^stacer) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer";
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
-
-exit 0

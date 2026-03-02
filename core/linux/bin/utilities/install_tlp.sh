@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/utilities
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/utilities
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -23,19 +25,24 @@ CUR_ARCH=$(uname -m);
 
 
 # Main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^tlp) ]] || apt install -y tlp;
-    [[ -n $(apt list --installed | grep -i ^tlp-rdw) ]] || apt install -y tlp;
-    [[ -n $(apt list --installed | grep -i ^tlpui) ]] || apt install -y tlpui;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^tlp) ]] || dnf install -y tlp;
-    [[ -n $(dnf list installed | grep -i ^tlp-rdw) ]] || dnf install -y tlp-rdw;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^tlp) ]] || apt install -y tlp tlp-rdw;
+        # [[ -n $(apt list --installed | grep -i ^tlpui) ]] || apt install -y tlpui;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^tlp) ]] || dnf install -y tlp tlp-rdw;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^tlp) ]] || pacman -S --noconfirm tlp tlp-rdw tlpui;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

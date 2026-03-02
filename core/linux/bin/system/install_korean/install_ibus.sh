@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -137,12 +139,29 @@ function set_ibus_autostart()
 
 
 # Main =========================================================================
-# for gnome, cinnamon, mate, xfce, lxde
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^ibus) ]] || apt install -y ibus;
-    [[ -n $(apt list --installed | grep -i ^ibus-hangul) ]] || apt install -y ibus-hangul;
+    # for gnome, cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^ibus) ]] || apt install -y ibus ibus-hangul;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ibus-hangul has a problem when using google-docs
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^ibus) ]] || dnf install -y ibus ibus-hangul;
+        # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
+        #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
+        # fi
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^ibus) ]] || pacman -S --noconfirm ibus ibus-hangul;
+        # ----------------------------------------------------------------------
+    fi
+
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
     set_ibus_env;
@@ -150,21 +169,5 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
     set_ibus_autostart;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # ibus-hangul has a problem at google-docs
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^ibus) ]] || dnf install -y ibus;
-    [[ -n $(dnf list installed | grep -i ^ibus-hangul) ]] || dnf install -y ibus-hangul;
-    # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-    #     [[ -n $(dnf list installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
-    # fi
-    # --------------------------------------------------------------------------
-    ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_ibus_env;
-    # --------------------------------------------------------------------------
-    set_ibus_autostart;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
-
-exit 0

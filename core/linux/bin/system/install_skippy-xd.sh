@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ CUR_ARCH=$(uname -m);
 
 # Func for build ===============================================================
 # for x86_64 / i686 / aarch64
-function install_dep_for_deb()
+function install_dep_for_apt()
 {
     [[ -n $(apt list --installed | grep -i ^libimlib2-dev) ]] || apt install -y libimlib2-dev;
     [[ -n $(apt list --installed | grep -i ^libfontconfig1-dev) ]] || apt install -y libfontconfig1-dev;
@@ -47,29 +49,29 @@ function install_dep_for_deb()
 function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
+    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list --installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^fontconfig-devel) ]] || dnf install -y fontconfig-devel;
-    [[ -n $(dnf list installed | grep -i ^freetype-devel) ]] || dnf install -y freetype-devel;
-    [[ -n $(dnf list installed | grep -i ^libX11-devel) ]] || dnf install -y libX11-devel;
-    [[ -n $(dnf list installed | grep -i ^libXext-devel) ]] || dnf install -y libXext-devel;
-    [[ -n $(dnf list installed | grep -i ^libXft-devel) ]] || dnf install -y libXft-devel;
-    [[ -n $(dnf list installed | grep -i ^libXrender-devel) ]] || dnf install -y libXrender-devel;
-    [[ -n $(dnf list installed | grep -i ^zlib-devel) ]] || dnf install -y zlib-devel;
-    [[ -n $(dnf list installed | grep -i ^libXinerama-devel) ]] || dnf install -y libXinerama-devel;
-    [[ -n $(dnf list installed | grep -i ^libXcomposite-devel) ]] || dnf install -y libXcomposite-devel;
-    [[ -n $(dnf list installed | grep -i ^libXdamage-devel) ]] || dnf install -y libXdamage-devel;
-    [[ -n $(dnf list installed | grep -i ^libXfixes-devel) ]] || dnf install -y libXfixes-devel;
-    [[ -n $(dnf list installed | grep -i ^libXmu-devel) ]] || dnf install -y libXmu-devel;
-    [[ -n $(dnf list installed | grep -i ^libjpeg-turbo-devel) ]] || dnf install -y libjpeg-turbo-devel;
+    [[ -n $(dnf list --installed | grep -i ^fontconfig-devel) ]] || dnf install -y fontconfig-devel;
+    [[ -n $(dnf list --installed | grep -i ^freetype-devel) ]] || dnf install -y freetype-devel;
+    [[ -n $(dnf list --installed | grep -i ^libX11-devel) ]] || dnf install -y libX11-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXext-devel) ]] || dnf install -y libXext-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXft-devel) ]] || dnf install -y libXft-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXrender-devel) ]] || dnf install -y libXrender-devel;
+    [[ -n $(dnf list --installed | grep -i ^zlib-devel) ]] || dnf install -y zlib-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXinerama-devel) ]] || dnf install -y libXinerama-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXcomposite-devel) ]] || dnf install -y libXcomposite-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXdamage-devel) ]] || dnf install -y libXdamage-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXfixes-devel) ]] || dnf install -y libXfixes-devel;
+    [[ -n $(dnf list --installed | grep -i ^libXmu-devel) ]] || dnf install -y libXmu-devel;
+    [[ -n $(dnf list --installed | grep -i ^libjpeg-turbo-devel) ]] || dnf install -y libjpeg-turbo-devel;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
+    [[ -n $(dnf list --installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
     # --------------------------------------------------------------------------
 }
 
@@ -224,22 +226,30 @@ function install_skippy-xd_for_nix()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    install_skippy-xd_for_nix "multi";
-    # --------------------------------------------------------------------------
-    # install_dep_for_deb;
-    # install_skippy-xd_for_build;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    install_skippy-xd_for_nix "single";
-    # --------------------------------------------------------------------------
-    # install_dep_for_dnf;
-    # install_skippy-xd_for_build;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        install_skippy-xd_for_nix "multi";
+        # ----------------------------------------------------------------------
+        # install_dep_for_apt;
+        # install_skippy-xd_for_build;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        install_skippy-xd_for_nix "single";
+        # ----------------------------------------------------------------------
+        # install_dep_for_dnf;
+        # install_skippy-xd_for_build;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^skippy-xd) ]] || su - ${CUR_USER} -c "yay -S --noconfirm skippy-xd-git";
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

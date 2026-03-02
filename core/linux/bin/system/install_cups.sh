@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/office
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/office
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -62,26 +64,39 @@ function install_printer_driver()
 
 
 # Main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^cups) ]] || apt install -y cups;
+        [[ -n $(apt list --installed | grep -i ^system-config-printer) ]] || apt install -y system-config-printer;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^cups) ]] || dnf install -y cups;
+        [[ -n $(dnf list --installed | grep -i ^system-config-printer) ]] || dnf install -y system-config-printer;
+        # ----------------------------------------------------------------------
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^cups) ]] || pacman -S --noconfirm cups;
+        [[ -n $(pacman -Q | grep -i ^system-config-printer) ]] || pacman -S --noconfirm system-config-printer;
+        # ----------------------------------------------------------------------
+    fi
+
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^cups) ]] || apt install -y cups;
-    [[ -n $(apt list --installed | grep -i ^system-config-printer) ]] || apt install -y system-config-printer;
+    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+        if systemctl list-unit-files | grep -iq cups; then
+            systemctl enable cups
+            systemctl restart cups
+
+            # samsung printer driver ML-2160 series
+            install_printer_driver;
+        fi
+    else    # sysVinit
+        return
+    fi
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^cups) ]] || dnf install -y cups;
-    [[ -n $(dnf list installed | grep -i ^system-config-printer) ]] || dnf install -y system-config-printer;
-    # --------------------------------------------------------------------------
 fi
-
-# ------------------------------------------------------------------------------
-systemctl enable cups
-systemctl restart cups
-
-# samsung printer driver ML-2160 series
-install_printer_driver;
-# ------------------------------------------------------------------------------
 # ==============================================================================
-
-exit 0

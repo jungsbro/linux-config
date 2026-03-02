@@ -1,0 +1,276 @@
+#!/bin/bash
+
+# usage ========================================================================
+# bash ./install_debbox.sh;
+# ==============================================================================
+
+
+
+# ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# /.config/distrobox/distro/install_debbox.sh
+# /.config/distrobox/distro
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../.."
+
+DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+ctr="debbox"
+
+image="docker.io/library/debian:latest"
+
+# distrobox create --name "debbox" --image "docker.io/library/debian:latest"
+ctr_args=""
+
+# container 이름
+ctr_args+="--name ${ctr} "
+
+# container image주소
+ctr_args+="--image ${image} "
+
+# nvidia gpu를 사용할때, --nvidia 가 필요하다.
+# ctr_args+="--nvidia "
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+pre_init_hooks=""
+
+# update
+pre_init_hooks+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
+pre_init_hooks+=" && \
+    sudo apt update && sudo apt upgrade -y"
+
+# container에서 사용하는 git wget curl
+pre_init_hooks+=" && \
+    sudo apt install -y git wget curl"
+
+# container에서 사용하는 vim
+pre_init_hooks+=" && \
+    sudo apt install -y vim-gtk3 xclip xsel"
+
+# container에서 사용하는 ranger
+pre_init_hooks+=" && \
+    sudo apt install -y ranger"
+
+# host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
+pre_init_hooks+=" && \
+    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt"
+# pre_init_hooks+=" && \
+#     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
+# pre_init_hooks+=" && \
+#     sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
+
+# bash 사용
+pre_init_hooks+=" && \
+    sudo chsh -s /bin/bash $(whoami)"
+# ------------------------------------------------------------------------------
+# ==============================================================================
+
+
+
+# Main =========================================================================
+# container --------------------------------------------------------------------
+# checking container
+if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+    return 0;
+fi
+
+# creating container
+distrobox create ${ctr_args};
+
+# pre_init_hooks
+if [[ -n "${pre_init_hooks}" ]]; then
+    distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+fi
+# ------------------------------------------------------------------------------
+
+# xcape ------------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y xcape
+
+# bin
+distrobox enter ${ctr} -- distrobox-export --bin /usr/bin/xcape
+# ------------------------------------------------------------------------------
+
+# skippy-xd --------------------------------------------------------------------
+# 존재하지 않는다.
+# ------------------------------------------------------------------------------
+
+# autokey ----------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y autokey-gtk
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app autokey
+
+# config
+distrobox enter ${ctr} -- sudo bash -c "\
+    source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
+    config_autokey && \
+    set_autokey_autostart"
+# ------------------------------------------------------------------------------
+
+# redshift ---------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y redshift-gtk geoclue-2.0
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app redshift
+
+# config
+distrobox enter ${ctr} -- sudo bash -c "\
+    source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
+    config_redshift && \
+    set_redshift_autostart"
+# ------------------------------------------------------------------------------
+
+# firejail ---------------------------------------------------------------------
+# # sandbox안에서 권한문제가 있다.
+
+# # installation
+# distrobox enter ${ctr} -- sudo apt install -y firejail firejail-profiles firetools
+
+# # desktop
+# distrobox enter ${ctr} -- distrobox-export --app firetools
+# ------------------------------------------------------------------------------
+
+# timeshift --------------------------------------------------------------------
+# # distrobox에서 작동을 안한다.
+
+# # installation
+# distrobox enter ${ctr} -- sudo apt install -y timeshift
+
+# # desktop
+# distrobox enter ${ctr} -- distrobox-export --app timeshift
+# ------------------------------------------------------------------------------
+
+# gnome-disk-utility -----------------------------------------------------------
+# # distrobox에서 작동을 안한다.
+# # 배포판에 이미 설치되어 있다.
+
+# # installation
+# distrobox enter ${ctr} -- sudo apt install -y gnome-disk-utility
+
+# # desktop
+# distrobox enter ${ctr} -- distrobox-export --app gnome-disks
+# ------------------------------------------------------------------------------
+
+# gnome-keyring ----------------------------------------------------------------
+# vscode, remmina에서 사용된다.
+
+# installation
+distrobox enter ${ctr} -- sudo apt install -y gnome-keyring
+# ------------------------------------------------------------------------------
+
+# vscode -----------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- bash -c "\
+    sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app code
+# ------------------------------------------------------------------------------
+
+# doublecmd --------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y doublecmd-gtk
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app doublecmd
+# ------------------------------------------------------------------------------
+
+# google-chrome ----------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- bash -c "\
+    sudo bash ${BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app google-chrome
+# ------------------------------------------------------------------------------
+
+# firefox ----------------------------------------------------------------------
+# # 배포판에 이미 설치되어 있다.
+
+# # installation
+# distrobox enter ${ctr} -- sudo apt install -y firefox-esr
+
+# # desktop
+# distrobox enter ${ctr} -- distrobox-export --app firefox
+# ------------------------------------------------------------------------------
+
+# remmina ----------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y remmina remmina-plugin-rdp
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app remmina
+# ------------------------------------------------------------------------------
+
+# libreoffice ------------------------------------------------------------------
+# # 배포판에 이미 설치되어 있다.
+
+# # installation
+# distrobox enter ${ctr} -- sudo apt install -y libreoffice
+
+# # desktop
+# distrobox enter ${ctr} -- distrobox-export --app libreoffice
+# ------------------------------------------------------------------------------
+
+# qpdf -------------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y qpdfview qpdfview-djvu-plugin qpdfview-pdf-poppler-plugin qpdfview-ps-plugin qpdfview-translations
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app qpdfview
+# ------------------------------------------------------------------------------
+
+# gimp -------------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y gimp
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app gimp
+
+# config : photogimp
+distrobox enter ${ctr} -- sudo bash -c "\
+    source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    install_photogimp"
+# ------------------------------------------------------------------------------
+
+# drawing ----------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y drawing
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app drawing
+# ------------------------------------------------------------------------------
+
+# vlc --------------------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y vlc
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app vlc
+# ------------------------------------------------------------------------------
+
+# freefilesync -----------------------------------------------------------------
+# installation
+distrobox enter ${ctr} -- sudo apt install -y freefilesync
+
+# desktop
+distrobox enter ${ctr} -- distrobox-export --app FreeFileSync
+
+# fix desktop
+# host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
+distrobox enter ${ctr} -- sudo bash -c "\
+    source ${BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
+    fix_freefilesync_desktop ${ctr}"
+# ------------------------------------------------------------------------------
+# ==============================================================================
+

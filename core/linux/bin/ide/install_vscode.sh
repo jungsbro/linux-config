@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/ide
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/ide
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -26,7 +28,7 @@ CUR_ARCH=$(uname -m);
 
 
 # func =========================================================================
-function install_vscode_for_deb()
+function install_vscode_for_apt()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
@@ -44,7 +46,7 @@ function install_vscode_for_deb()
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
     echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |tee /etc/apt/sources.list.d/vscode.list > /dev/null
     rm -f packages.microsoft.gpg
-    apt install apt-transport-https
+    apt install -y apt-transport-https
     apt update
     apt install -y code
     # --------------------------------------------------------------------------
@@ -66,7 +68,7 @@ function install_vscode_for_dnf()
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
-    if [[ -n $(dnf list installed | grep -i ^code) ]]; then
+    if [[ -n $(dnf list --installed | grep -i ^code.x86) ]]; then   # because of codec2
         return
     fi
     # --------------------------------------------------------------------------
@@ -95,9 +97,9 @@ function install_vscode_for_flatpak()
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -220,20 +222,36 @@ function fix_vscode()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    # vscode needs gnome-keyring
-    install_vscode_for_deb;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    # vscode needs gnome-keyring
-    install_vscode_for_dnf;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # vscode needs gnome-keyring
+        install_vscode_for_apt;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # vscode needs gnome-keyring
+        install_vscode_for_dnf;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1) opensource (without telemetry)
+        # [[ -n $(pacman -Q | grep -i ^code) ]] || pacman -S --noconfirm code;
+
+        # 방법2) official microsoft
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^visual-studio-code-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm visual-studio-code-bin";
+
+        # 방법3) opensource (disable telemetry)
+        # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(yay -Q | grep -i ^vscodium-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm vscodium-bin";
+        # [[ -n $(yay -Q | grep -i ^vscodium-bin-marketplace) ]] || su - ${CUR_USER} -c "yay -S --noconfirm vscodium-bin-marketplace";
+        # ----------------------------------------------------------------------
+    fi
+
+    # fix_vscode;
 fi
-
-# fix_vscode;
 # ==============================================================================
-
-exit 0

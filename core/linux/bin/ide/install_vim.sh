@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/ide
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/ide
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -47,12 +49,28 @@ function install_vim()
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
+        [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^vim) ]] || pacman -S --noconfirm vim;
+        [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --noconfirm xclip xsel;
         # ----------------------------------------------------------------------
     fi
 }
@@ -106,12 +124,15 @@ SELECTED_EDITOR="/usr/bin/vim"";
 
 
 # Main =========================================================================
-install_vim;
-config_vim;
-# ------------------------------------------------------------------------------
-# :PlugInstall
-# plugin error on centos7 : nathanaelkane/vim-indent-guides
-# ------------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+
+    install_vim;
+    config_vim;
+    # --------------------------------------------------------------------------
+    # :PlugInstall
+    # plugin error on centos7 : nathanaelkane/vim-indent-guides
+    # --------------------------------------------------------------------------
+
+fi
 # ==============================================================================
 
-exit 0

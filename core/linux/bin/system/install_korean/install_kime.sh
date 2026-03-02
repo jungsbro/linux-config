@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -326,7 +328,7 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
     fi
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
         # ----------------------------------------------------------------------
         install_kime_for_nix "single";
@@ -342,7 +344,14 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
         set_kime_hotkey;
         # ----------------------------------------------------------------------
     fi
+
+elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+    [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime-bin";
+    # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime-git";
+    # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime";
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
-
-exit 0

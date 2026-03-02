@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -175,35 +177,59 @@ function intall_nimf_for_build()
 
 
 # Main =========================================================================
-# for gnome, cinnamon, mate, xfce, lxde
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+
+    # for gnome, cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
+            # ------------------------------------------------------------------
+            wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xsession"
+            set_nimf_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
+            # set_nimf_autostart;
+            # ------------------------------------------------------------------
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
+        if [[ ! -f "${PC_PATH}" ]]; then
+            # ------------------------------------------------------------------
+            intall_nimf_for_build;
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xsession";
+            set_nimf_env;
+            # ------------------------------------------------------------------
+            ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
+            set_nimf_autostart;
+            # ------------------------------------------------------------------
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
+            # ------------------------------------------------------------------
+            wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xsession"
+            set_nimf_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
+            # set_nimf_autostart;
+            # ------------------------------------------------------------------
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
-        # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xsession"
-        set_nimf_env;
-        # ----------------------------------------------------------------------
-        # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
-        # set_nimf_autostart;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        [[ -n $(yay -Q | grep -i ^nimf-libhangul) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf-libhangul";
+
+        # [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf-git";
+        [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf";
         # ----------------------------------------------------------------------
     fi
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
-    if [[ ! -f "${PC_PATH}" ]]; then
-        # ----------------------------------------------------------------------
-        intall_nimf_for_build;
-        # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xsession";
-        set_nimf_env;
-        # ----------------------------------------------------------------------
-        ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
-        set_nimf_autostart;
-        # ----------------------------------------------------------------------
-    fi
 fi
 # ==============================================================================
-
-exit 0
-

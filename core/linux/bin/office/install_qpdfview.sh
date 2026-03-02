@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/office
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/office
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -23,21 +25,32 @@ CUR_ARCH=$(uname -m);
 
 
 # Main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^qpdfview) ]] || apt install -y qpdfview;
-    [[ -n $(apt list --installed | grep -i ^qpdfview-djvu-plugin) ]] || apt install -y qpdfview-djvu-plugin;
-    [[ -n $(apt list --installed | grep -i ^qpdfview-pdf-poppler-plugin) ]] || apt install -y qpdfview-pdf-poppler-plugin;
-    [[ -n $(apt list --installed | grep -i ^qpdfview-ps-plugin) ]] || apt install -y qpdfview-ps-plugin;
-    [[ -n $(apt list --installed | grep -i ^qpdfview-translations) ]] || apt install -y qpdfview-translations;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^qpdfview-qt5) ]] || dnf install -y qpdfview-qt5;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^qpdfview) ]] || apt install -y qpdfview \
+        qpdfview-djvu-plugin qpdfview-pdf-poppler-plugin qpdfview-ps-plugin qpdfview-translations;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^qpdfview-qt5) ]] || dnf install -y qpdfview-qt5;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^qpdfview-qt5) ]] || dnf install -y \
+        qpdfview qpdfview-common qpdfview-qt5 qpdfview-qt6;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^qpdfview) ]] || su - ${CUR_USER} -c "yay -S --noconfirm qpdfview";
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

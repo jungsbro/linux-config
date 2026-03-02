@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/internet
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/internet
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -143,9 +145,9 @@ function install_remmina_for_flatpak()
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -158,33 +160,46 @@ function install_remmina_for_flatpak()
 
 
 # Main =========================================================================
-# for x86_64, i686, aarch64
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    # remmina needs gnome-keyring
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina;
-    [[ -n $(apt list --installed | grep -i ^remmina-plugin-rdp) ]] || apt install -y remmina-plugin-rdp;
-    # --------------------------------------------------------------------------
-    # install_remmina_for_nix "multi"
-    # --------------------------------------------------------------------------
-    # install_remmina_for_flatpak
-    # --------------------------------------------------------------------------
+    # for x86_64, i686, aarch64
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # remmina needs gnome-keyring
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina remmina-plugin-rdp;
+        # ----------------------------------------------------------------------
+        # install_remmina_for_nix "multi"
+        # ----------------------------------------------------------------------
+        # install_remmina_for_flatpak
+        # ----------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    # remmina needs gnome-keyring
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list installed | grep -i ^remmina) ]] || dnf install -y remmina;
-    # --------------------------------------------------------------------------
-    # install_remmina_for_nix "single"
-    # --------------------------------------------------------------------------
-    # install_remmina_for_flatpak
-    # --------------------------------------------------------------------------
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # remmina needs gnome-keyring
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
+        # ----------------------------------------------------------------------
+        # install_remmina_for_nix "single"
+        # ----------------------------------------------------------------------
+        # install_remmina_for_flatpak
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # remmina needs gnome-keyring
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # remmina needs gnome-keyring
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^remmina) ]] || pacman -S --noconfirm remmina freerdp;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-
-exit 0

@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/security
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/security
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -42,17 +44,32 @@ function install_clamav()
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^clamav) ]] || dnf install -y clamav;
-        [[ -n $(dnf list installed | grep -i ^clamd) ]] || dnf install -y clamd;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^clamav) ]] || dnf install -y clamav;
+        [[ -n $(dnf list --installed | grep -i ^clamd) ]] || dnf install -y clamd;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^clamav) ]] || dnf install -y clamav;
+        [[ -n $(dnf list --installed | grep -i ^clamd) ]] || dnf install -y clamd;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^clamav) ]] || pacman -S --noconfirm clamav;
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
-    if systemctl list-unit-files | grep -iq clamav-daemon; then
-        # To stop and disable clamav-daemon service:
-        systemctl stop clamav-daemon
-        systemctl disable clamav-daemon
+    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+        if systemctl list-unit-files | grep -iq clamav-daemon; then
+            # To stop and disable clamav-daemon service:
+            systemctl stop clamav-daemon
+            systemctl disable clamav-daemon
+        fi
+    else    # sysVinit
+        return
     fi
     # --------------------------------------------------------------------------
 }
@@ -60,12 +77,19 @@ function install_clamav()
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    install_clamav;
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    install_clamav;
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        install_clamav;
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        install_clamav;
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        install_clamav;
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
-
-exit 0

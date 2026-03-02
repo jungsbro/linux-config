@@ -50,7 +50,7 @@ CUR_ARCH=$(uname -m);
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
-# ${BIN_DIR}/ -------------------------------------------------------------
+# ${BIN_DIR}/ ------------------------------------------------------------------
 # CORE_DIR="./core";
 # BIN_DIR="/core/linux/bin";
 # SRC_DIR="/core/linux/src/";
@@ -78,7 +78,7 @@ bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 #     echo "";
 
-# elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+# elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
 #     bash ${BIN_DIR}/pkgmgmt/install_snap.sh;
 # fi
 # ==============================================================================
@@ -91,53 +91,11 @@ bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # bash ${BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
 # ==============================================================================
 
-# graphic driver ===============================================================
-function install_nvidia_deb()
-{
-    if [[ -n $(apt list --installed | grep -i ^nvidia-detect) ]]; then
-        return
-    fi
-    apt install -y nvidia-detect;
-    nvidia-detect;
-    apt install -y nvidia-driver;
-}
-
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    echo "";
-    #install_nvidia_deb;
-
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "";
-    #dnf update;
-    #dnf install kernel-devel kernel-headers gcc make;
-    #echo 'blacklist nouveau' >> /etc/modprobe.d/blacklist.conf
-    #dracut /boot/initramfs-$(uname -r).img $(uname -r) --force
-    #reboot
-
-    #/sbin/init 3
-    #alt + ctrl + F1
-    #cd /core/utils/drivers/NVIDIA-Linux/
-    #sh NVIDIA-Linux-x86_64-440.59.run
-
-    #/sbin/init 5
-    #alt + ctrl + F7
-fi
-# ==============================================================================
-
-# desktop environment ==========================================================
-bash ${BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
-# ==============================================================================
-
 # monitoring ===================================================================
 # bash ${BIN_DIR}/system/install_conky.sh;
 # ==============================================================================
 
-# korean =======================================================================
-bash ${BIN_DIR}/system/install_korean/install_korean.sh ${CUR_USER};
-bash ${BIN_DIR}/system/install_font-manager.sh ${CUR_USER};
-# ==============================================================================
-
-# hotkey =======================================================================
+# autohotkey ===================================================================
 bash ${BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 

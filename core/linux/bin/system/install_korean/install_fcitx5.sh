@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -143,27 +145,53 @@ function set_fcitx5_autostart()
 
 
 # Main =========================================================================
-# for cinnamon, mate, xfce, lxde
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5;
-    [[ -n $(apt list --installed | grep -i ^fcitx5-hangul) ]] || apt install -y fcitx5-hangul;
-    [[ -n $(apt list --installed | grep -i ^fcitx5-config-qt) ]] || apt install -y fcitx5-config-qt;
-    [[ -n $(apt list --installed | grep -i ^fcitx5-frontend-gtk) ]] || apt install -y fcitx5-frontend-gtk*;
-    [[ -n $(apt list --installed | grep -i ^fcitx5-frontend-qt) ]] || apt install -y fcitx5-frontend-qt*;
-    [[ -n $(apt list --installed | grep -i ^fcitx5-module-dbus) ]] || apt install -y fcitx5-module-dbus;
+    # for cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1)
+        # [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y --install-recommends \
+        # fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt ;
+
+        # 방법2)
+        # [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y \
+        # fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2;
+
+        # 방법3)
+        [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5 \
+        fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        echo "rhel is not supported for fcitx5"
+        return 0
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^fcitx5) ]] || dnf install -y fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-autostart ;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1)
+        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
+
+        # 방법2)
+        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5-gtk;
+        # ----------------------------------------------------------------------
+    fi
+
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_fcitx5_env;
+    set_fcitx_env;
     # --------------------------------------------------------------------------
-    set_fcitx5_autostart;
+    set_fcitx_autostart;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "rhel is not supported for fcitx5"
 
 fi
 # ==============================================================================
-
-exit 0

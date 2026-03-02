@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -38,7 +40,6 @@ function install_tmux()
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
-        # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
         [[ -n $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
         [[ -n $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
@@ -46,18 +47,31 @@ function install_tmux()
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^tmux) ]] || dnf install -y tmux;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list installed | grep -i ^powerline) ]] || dnf install -y powerline;
-        [[ -n $(dnf list installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
-        [[ -n $(dnf list installed | grep -i ^tmux-powerline) ]] || dnf install -y tmux-powerline;
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
+        # ----------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
+    [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --noconfirm tmux;
+    [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --noconfirm xclip xsel;
+    [[ -n $(pacman -Q | grep -i ^powerline) ]] || pacman -S --noconfirm powerline powerline-fonts;
+    # --------------------------------------------------------------------------
     fi
 }
 
@@ -99,7 +113,7 @@ function config_tmux()
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
     fi
     # --------------------------------------------------------------------------
@@ -108,8 +122,8 @@ function config_tmux()
 
 
 # Main =========================================================================
-install_tmux;
-config_tmux;
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    install_tmux;
+    config_tmux;
+fi
 # ==============================================================================
-
-exit 0

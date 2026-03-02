@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/system/install_korean
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/system/install_korean
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/../.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -144,23 +146,35 @@ function set_uim_autostart()
 
 
 # Main =========================================================================
-# for cinnamon, mate, xfce, lxde
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim;
-    [[ -n $(apt list --installed | grep -i ^uim-byeoru) ]] || apt install -y uim-byeoru;
-    # --------------------------------------------------------------------------
-    ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_uim_env;
-    # --------------------------------------------------------------------------
-    set_uim_autostart;
-    # --------------------------------------------------------------------------
+    # for cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
+        # ----------------------------------------------------------------------
+        ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+        set_uim_env;
+        # ----------------------------------------------------------------------
+        set_uim_autostart;
+        # ----------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    echo "Rocky is not supported for uim"
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        echo "Rocky is not supported for uim"
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-gtk3 uim-m17n;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        # [[ -n $(yay -Q | grep -i ^uim-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim-git";
+        [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim";
+        # ----------------------------------------------------------------------
+    fi
 
 fi
 # ==============================================================================
-
-exit 0

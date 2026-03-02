@@ -7,11 +7,13 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# core/linux/bin/internet
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+# /core/linux/bin/internet
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/.."
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -82,9 +84,9 @@ function install_google-chrome()
             return
         fi
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ -n $(dnf list installed | grep -i ^google-chrome) ]]; then
+        if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
             return
         fi
         # ----------------------------------------------------------------------
@@ -100,7 +102,7 @@ function install_google-chrome()
         local URL="https://dl.google.com/linux/direct/${FNAME}";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         local FNAME="google-chrome-stable_current_x86_64.rpm";
         # ----------------------------------------------------------------------
@@ -111,12 +113,12 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/google-chrome
     if [[ ! -d ${TMP_DIR} ]]; then
-        # ----------------------------------------------------------------------
+        # /tmp/google-chrome
         mkdir -p ${TMP_DIR};
         chmod 777 ${TMP_DIR};
-        # ----------------------------------------------------------------------
+    fi
+    if [[ ! -f ${TMP_DIR}/${FNAME} ]]; then
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         wget ${URL} -O ${TMP_DIR}/${FNAME};
@@ -124,14 +126,13 @@ function install_google-chrome()
     fi
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         apt install -y ${TMP_DIR}/${FNAME};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
         dnf install -y ${TMP_DIR}/${FNAME};
@@ -143,7 +144,7 @@ function install_google-chrome()
 }
 
 
-function install_google-chrome_for_deb()    # not used
+function install_google-chrome_for_apt()    # not used
 {
     # --------------------------------------------------------------------------
     if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
@@ -191,7 +192,7 @@ function install_google-chrome_for_dnf()    # not used
     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
         return
     fi
-    if [[ -n $(dnf list installed | grep -i ^google-chrome) ]]; then
+    if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
         return
     fi
     # --------------------------------------------------------------------------
@@ -223,16 +224,25 @@ function install_google-chrome_for_dnf()    # not used
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    install_google-chrome;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    install_google-chrome;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        install_google-chrome;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        install_google-chrome;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^google-chrome) ]] || su - ${CUR_USER} -c "yay -S --noconfirm google-chrome";
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================
 
-exit 0
