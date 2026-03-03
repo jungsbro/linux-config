@@ -1,50 +1,33 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ./install_ma2025box.sh;
+# bash ./install_rkl8-test.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /.config/distrobox/dcc/install_ma2025box.sh
-# /.config/distrobox/dcc
+# /.config/distrobox/rkl/install_rkl8-test.sh
+# /.config/distrobox/rkl
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../.."
 
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
+
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
-MA_DIR="/mnt/j4105-omv/core/linux/bin/cg/maya/maya2025"
-MA_PATH="${MA_DIR}/install_maya2025.sh"
-MA_BIN="/usr/autodesk/maya2025/bin/maya"
-MA_APP="maya"
-
-HOU_DIR="/mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303"
-HOU_PATH="${HOU_DIR}/sync1_j4105-omv_to_opt_for_hou1905303.sh"
-HOU_BIN="/opt/hfs19.5/bin/houdinifx"
-HOU_APP="houdinifx"
-
-NK_DIR="/mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6"
-NK_PATH="${NK_DIR}/sync1_j4105-omv_to_opt_for_nk1606.sh"
-NK_BIN="/opt/Nuke16.0v6/Nuke16.0"
-NK_APP="Nuke16.0v6"
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-ctr="ma2025box"
+ctr="rkl8-test"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
-image="docker.io/library/rockylinux:9.3"
+image="docker.io/library/rockylinux:8"
 
-# distrobox create --name "ma2025box" --image "docker.io/library/rockylinux:9.3"
+# distrobox create --name "rkl8-test" --image "docker.io/library/rockylinux:8"
 ctr_args=""
 
 # container 이름
@@ -54,13 +37,7 @@ ctr_args+="--name ${ctr} "
 ctr_args+="--image ${image} "
 
 # nvidia gpu를 사용할때, --nvidia 가 필요하다.
-ctr_args+="--nvidia "
-
-# vfx-dcc를 사용할때, --init 이 필요없다.
-# ctr_args+="--init --additional-packages systemd "
-
-# ctr_args+="--volume /lib64/libOpenGL.so.0:/lib64/libOpenGL.so.0:ro "
-# ctr_args+="--volume /lib64/libOpenGL.so:/lib64/libOpenGL.so:ro "
+# ctr_args+="--nvidia "
 # ------------------------------------------------------------------------------
 
 
@@ -69,9 +46,6 @@ pre_init_hooks=""
 
 # 0) 패키지 업그레이드 .............................................................
 pre_init_hooks+="sudo dnf upgrade -y"
-
-# "--init --additional-packages systemd" 사용할때는 아래처럼 해야 한다.
-# pre_init_hooks+="sudo dnf upgrade -y --exclude=filesystem,setup"
 # ..............................................................................
 
 # 1) 저장소 및 패키지 관리 도구 (Infrastructure) ....................................
@@ -79,17 +53,17 @@ pre_init_hooks+="sudo dnf upgrade -y"
 pre_init_hooks+=" && \
     sudo dnf install -y epel-release"
 
-# crb는 powertools의 새로운 이름(CodeReady Builder)
+# powertools
 pre_init_hooks+=" && \
     sudo dnf install -y dnf-plugins-core && \
-    sudo dnf config-manager --set-enabled crb"
+    sudo dnf config-manager --set-enabled powertools"
 
 # rpmfusion은 powertools/crb에 의존성이 있는 패키지들이 있어서 powertools/crb 활성화 필요
 # 특허나 라이선스 문제로 기본 배포판에 포함되지 못한 멀티미디어 코덱 및 드라이버 관련 패키지를 제공
 pre_init_hooks+=" && \
     sudo dnf install -y \
-    https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm"
+    https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm"
 # ..............................................................................
 
 # 2) 그래픽 및 렌더링 라이브러리 (Graphics Stack) ....................................
@@ -164,7 +138,7 @@ pre_init_hooks+=" && \
 # Rocky Linux 9은 보안상의 이유로 구형 암호화 방식(libcrypt.so.1)을 기본적으로 지원하지 않는데
 # 이 구형 라이브러리가 없으면 실행 직후 튕기는 경우가 매우 많습니다.
 pre_init_hooks+=" && \
-    sudo dnf install -y libxcrypt-compat"
+    sudo dnf install -y libxcrypt"
 # ..............................................................................
 
 # 8) 기타 .......................................................................
@@ -192,81 +166,30 @@ pre_init_hooks+=" && \
 
 
 # Main =========================================================================
-# container --------------------------------------------------------------------
-# checking container
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    return 0;
-fi
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-# creating container
-distrobox create ${ctr_args};
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+        return 0;
+    fi
 
-# pre_init_hooks
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    # creating container
+    distrobox create ${ctr_args};
+
+    # pre_init_hooks
+    if [[ -n "${pre_init_hooks}" ]]; then
+        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+
 fi
-# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 
-# installing vfx-dcc ===========================================================
-# ------------------------------------------------------------------------------
-# OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
-# glxinfo | grep "OpenGL renderer"
-# nvidi-smi
-# ------------------------------------------------------------------------------
-
-# maya 2025 --------------------------------------------------------------------
-if [[ -e ${MA_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
-    # sudo bash ./install_maya2025.sh
-    distrobox enter "${ctr}" -- bash -c "sudo bash ${MA_PATH}"
-
-    # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${MA_BIN}"
-
-    # distrobox-export --app maya
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${MA_APP}"
-fi
-
-# ~/.local/bin/maya
-# echo 'xhost +local:' >> ~/.xprofile
-# echo 'xhost +local:' >> ~/.xinitrc
-# echo 'export DISPLAY=:0' >> ~/.bashrc
-# ------------------------------------------------------------------------------
-
-# houdini 19.5 -----------------------------------------------------------------
-# if [[ -e ${HOU_PATH} ]]; then
-#     # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
-#     # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
-#     distrobox enter "${ctr}" -- bash -c "sudo bash ${HOU_PATH}"
-
-#     # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
-
-#     # distrobox-export --app houdinifx
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${HOU_APP}"
-# fi
-
-# export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
-# ------------------------------------------------------------------------------
-
-# nuke 16.0 --------------------------------------------------------------------
-# if [[ -e ${NK_PATH} ]]; then
-#     # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
-#     # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
-#     distrobox enter "${ctr}" -- bash -c "sudo bash ${NK_PATH}"
-
-#     # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${NK_BIN}"
-
-#     # distrobox-export --app Nuke16.0v6
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${NK_APP}"
-# fi
-
-# export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
-# ------------------------------------------------------------------------------
-# ==============================================================================
 
 

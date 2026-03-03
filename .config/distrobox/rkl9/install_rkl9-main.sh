@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ./install_alldccbox.sh;
+# bash ./install_rkl9-main.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /.config/distrobox/dcc/install_alldccbox.sh
-# /.config/distrobox/dcc
+# /.config/distrobox/rkl/install_rkl9-main.sh
+# /.config/distrobox/rkl
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../.."
@@ -21,31 +21,13 @@ BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 
 # ------------------------------------------------------------------------------
-MA_DIR="/mnt/j4105-omv/core/linux/bin/cg/maya/maya2025"
-MA_PATH="${MA_DIR}/install_maya2025.sh"
-MA_BIN="/usr/autodesk/maya2025/bin/maya"
-MA_APP="maya"
-
-HOU_DIR="/mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303"
-HOU_PATH="${HOU_DIR}/sync1_j4105-omv_to_opt_for_hou1905303.sh"
-HOU_BIN="/opt/hfs19.5/bin/houdinifx"
-HOU_APP="houdinifx"
-
-NK_DIR="/mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6"
-NK_PATH="${NK_DIR}/sync1_j4105-omv_to_opt_for_nk1606.sh"
-NK_BIN="/opt/Nuke16.0v6/Nuke16.0"
-NK_APP="Nuke16.0v6"
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-ctr="alldccbox"
+ctr="rkl9-main"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
 image="docker.io/library/rockylinux:9.3"
 
-# distrobox create --name "alldccbox" --image "docker.io/library/rockylinux:9.3"
+# distrobox create --name "rkl9-main" --image "docker.io/library/rockylinux:9.3"
 ctr_args=""
 
 # container 이름
@@ -193,79 +175,184 @@ pre_init_hooks+=" && \
 
 
 # Main =========================================================================
-# container --------------------------------------------------------------------
-# checking container
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    return 0;
-fi
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-# creating container
-distrobox create ${ctr_args};
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+        return 0;
+    fi
 
-# pre_init_hooks
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    # creating container
+    distrobox create ${ctr_args};
+
+    # pre_init_hooks
+    if [[ -n "${pre_init_hooks}" ]]; then
+        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # autokey ------------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y autokey-gtk
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app autokey-gtk
+
+    # config
+    distrobox enter ${ctr} -- sudo bash -c "\
+        source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
+        config_autokey && \
+        set_autokey_autostart"
+    # --------------------------------------------------------------------------
+
+    # redshift -----------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y redshift geoclue2
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app redshift
+
+    # config
+    distrobox enter ${ctr} -- sudo bash -c "\
+        source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
+        config_redshift && \
+        set_redshift_autostart"
+    # --------------------------------------------------------------------------
+
+    # firejail -----------------------------------------------------------------
+    # rhel9에서 작동을 안한다.
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y firejail
+
+    # bin
+    distrobox enter ${ctr} -- distrobox-export --bin /usr/bin/firejail
+    # --------------------------------------------------------------------------
+
+    # timeshift ----------------------------------------------------------------
+    # distrobox에서 작동을 안한다.
+
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y timeshift
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app timeshift
+    # --------------------------------------------------------------------------
+
+    # gnome-disk-utility -------------------------------------------------------
+    # # distrobox에서 작동을 안한다.
+    # # 배포판에 이미 설치되어 있다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y gnome-disk-utility
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app gnome-disks
+    # --------------------------------------------------------------------------
+
+    # gnome-keyring ------------------------------------------------------------
+    # vscode, remmina에서 사용된다.
+
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y gnome-keyring libsecret
+    # --------------------------------------------------------------------------
+
+    # vscode -------------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- bash -c "\
+        sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app code
+    # --------------------------------------------------------------------------
+
+    # doublecmd ----------------------------------------------------------------
+    # # rhel9에서 존재하지 않는다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y doublecmd-gtk
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app doublecmd
+    # --------------------------------------------------------------------------
+
+    # google-chrome ------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- bash -c "\
+        sudo bash ${BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app google-chrome-stable
+    # --------------------------------------------------------------------------
+
+    # firefox ------------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y firefox
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app firefox
+    # --------------------------------------------------------------------------
+
+    # remmina ------------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y remmina
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app remmina
+    # --------------------------------------------------------------------------
+
+    # libreoffice --------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y libreoffice
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app libreoffice
+    # --------------------------------------------------------------------------
+
+    # qpdf ---------------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y qpdfview-qt5
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app qpdfview-qt5
+    # --------------------------------------------------------------------------
+
+    # gimp ---------------------------------------------------------------------
+    # # gimp 버전이 너무 오래됐다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y gimp
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app gimp
+
+    # # config : photogimp
+    # distrobox enter ${ctr} -- sudo bash -c "\
+    #     source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    #     install_photogimp"
+    # --------------------------------------------------------------------------
+
+    # drawing ------------------------------------------------------------------
+    # # rhel9에는 존재하지 않는다.
+
+    # # installation
+    # distrobox enter ${ctr} -- sudo dnf install -y drawing
+
+    # # desktop
+    # distrobox enter ${ctr} -- distrobox-export --app drawing
+    # --------------------------------------------------------------------------
+
+    # vlc ----------------------------------------------------------------------
+    # installation
+    distrobox enter ${ctr} -- sudo dnf install -y vlc
+
+    # desktop
+    distrobox enter ${ctr} -- distrobox-export --app vlc
+    # --------------------------------------------------------------------------
+
 fi
-# ------------------------------------------------------------------------------
 # ==============================================================================
-
-
-# installing vfx-dcc ===========================================================
-# ------------------------------------------------------------------------------
-# OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
-# glxinfo | grep "OpenGL renderer"
-# nvidi-smi
-# ------------------------------------------------------------------------------
-
-# maya 2025 --------------------------------------------------------------------
-if [[ -e ${MA_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
-    # sudo bash ./install_maya2025.sh
-    distrobox enter "${ctr}" -- bash -c "sudo bash ${MA_PATH}"
-
-    # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${MA_BIN}"
-
-    # distrobox-export --app maya
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${MA_APP}"
-fi
-
-# ~/.local/bin/maya
-# echo 'xhost +local:' >> ~/.xprofile
-# echo 'xhost +local:' >> ~/.xinitrc
-# echo 'export DISPLAY=:0' >> ~/.bashrc
-# ------------------------------------------------------------------------------
-
-# houdini 19.5 -----------------------------------------------------------------
-if [[ -e ${HOU_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
-    # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
-    distrobox enter "${ctr}" -- bash -c "sudo bash ${HOU_PATH}"
-
-    # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
-
-    # distrobox-export --app houdinifx
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${HOU_APP}"
-fi
-
-# export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
-# ------------------------------------------------------------------------------
-
-# nuke 16.0 --------------------------------------------------------------------
-if [[ -e ${NK_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
-    # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
-    distrobox enter "${ctr}" -- bash -c "sudo bash ${NK_PATH}"
-
-    # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${NK_BIN}"
-
-    # distrobox-export --app Nuke16.0v6
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${NK_APP}"
-fi
-
-# export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
-# ------------------------------------------------------------------------------
-# ==============================================================================
-

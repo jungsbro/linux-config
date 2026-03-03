@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ./install_hou1905box.sh;
+# bash ./install_rkl9-nk1600.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /.config/distrobox/dcc/install_hou1905box.sh
-# /.config/distrobox/dcc
+# /.config/distrobox/rkl/install_rkl9-nk1600.sh
+# /.config/distrobox/rkl
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../.."
@@ -39,22 +39,18 @@ NK_APP="Nuke16.0v6"
 
 
 # ------------------------------------------------------------------------------
-ctr="hou1905box"
+ctr="rkl9-nk1600"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
 image="docker.io/library/rockylinux:9.3"
 
-# distrobox create --name "hou1905box" --image "docker.io/library/rockylinux:9.3"
+# distrobox create --name "rkl9-nk1600" --image "docker.io/library/rockylinux:9.3"
 ctr_args=""
-
-# container 이름
 ctr_args+="--name ${ctr} "
-
-# container image주소
 ctr_args+="--image ${image} "
 
-# nvidia gpu를 사용할때, --nvidia 가 필요하다.
+# vfx-dcc를 사용할때, --nvidia 가 필요하다.
 ctr_args+="--nvidia "
 
 # vfx-dcc를 사용할때, --init 이 필요없다.
@@ -191,80 +187,81 @@ pre_init_hooks+=" && \
 # ==============================================================================
 
 
+
 # Main =========================================================================
-# container --------------------------------------------------------------------
-# checking container
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    return 0;
-fi
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-# creating container
-distrobox create ${ctr_args};
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+        return 0;
+    fi
 
-# pre_init_hooks
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    # creating container
+    distrobox create ${ctr_args};
+
+    # pre_init_hooks
+    if [[ -n "${pre_init_hooks}" ]]; then
+        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+    # glxinfo | grep "OpenGL renderer"
+    # nvidi-smi
+    # --------------------------------------------------------------------------
+
+    # maya 2025 ----------------------------------------------------------------
+    # if [[ -e ${MA_PATH} ]]; then
+    #     # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
+    #     # sudo bash ./install_maya2025.sh
+    #     distrobox enter "${ctr}" -- bash -c "sudo bash ${MA_PATH}"
+
+    #     # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
+    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${MA_BIN}"
+
+    #     # distrobox-export --app maya
+    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${MA_APP}"
+    # fi
+
+    # # ~/.local/bin/maya
+    # # echo 'xhost +local:' >> ~/.xprofile
+    # # echo 'xhost +local:' >> ~/.xinitrc
+    # # echo 'export DISPLAY=:0' >> ~/.bashrc
+    # --------------------------------------------------------------------------
+
+    # houdini 19.5 -------------------------------------------------------------
+    # if [[ -e ${HOU_PATH} ]]; then
+    #     # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
+    #     # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
+    #     distrobox enter "${ctr}" -- bash -c "sudo bash ${HOU_PATH}"
+
+    #     # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
+    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
+
+    #     # distrobox-export --app houdinifx
+    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${HOU_APP}"
+    # fi
+
+    # # export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
+    # --------------------------------------------------------------------------
+
+    # nuke 16.0 ----------------------------------------------------------------
+    if [[ -e ${NK_PATH} ]]; then
+        # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
+        # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
+        distrobox enter "${ctr}" -- bash -c "sudo bash ${NK_PATH}"
+
+        # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
+        distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${NK_BIN}"
+
+        # distrobox-export --app Nuke16.0v6
+        distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${NK_APP}"
+    fi
+
+    # export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
+    # --------------------------------------------------------------------------
+
 fi
-# ------------------------------------------------------------------------------
 # ==============================================================================
-
-
-# installing vfx-dcc ===========================================================
-# ------------------------------------------------------------------------------
-# OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
-# glxinfo | grep "OpenGL renderer"
-# nvidi-smi
-# ------------------------------------------------------------------------------
-
-# maya 2025 --------------------------------------------------------------------
-# if [[ -e ${MA_PATH} ]]; then
-#     # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
-#     # sudo bash ./install_maya2025.sh
-#     distrobox enter "${ctr}" -- bash -c "sudo bash ${MA_PATH}"
-
-#     # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${MA_BIN}"
-
-#     # distrobox-export --app maya
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${MA_APP}"
-# fi
-
-# ~/.local/bin/maya
-# echo 'xhost +local:' >> ~/.xprofile
-# echo 'xhost +local:' >> ~/.xinitrc
-# echo 'export DISPLAY=:0' >> ~/.bashrc
-# ------------------------------------------------------------------------------
-
-# houdini 19.5 -----------------------------------------------------------------
-if [[ -e ${HOU_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
-    # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
-    distrobox enter "${ctr}" -- bash -c "sudo bash ${HOU_PATH}"
-
-    # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
-
-    # distrobox-export --app houdinifx
-    distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${HOU_APP}"
-fi
-
-# export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
-# ------------------------------------------------------------------------------
-
-# nuke 16.0 --------------------------------------------------------------------
-# if [[ -e ${NK_PATH} ]]; then
-#     # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
-#     # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
-#     distrobox enter "${ctr}" -- bash -c "sudo bash ${NK_PATH}"
-
-#     # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${NK_BIN}"
-
-#     # distrobox-export --app Nuke16.0v6
-#     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${NK_APP}"
-# fi
-
-# export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
