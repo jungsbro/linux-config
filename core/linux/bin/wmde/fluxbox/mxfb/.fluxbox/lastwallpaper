@@ -1,0 +1,3 @@
+#this function is being governed directly by nitrogen
+
+#It can be switched to a traditional Fluxbox config by uncommenting ~/.fehbg in the startup file, and commenting out nitrogen --restore

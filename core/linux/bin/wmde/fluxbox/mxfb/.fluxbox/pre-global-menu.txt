@@ -1,0 +1,4 @@
+[exec] (Exit options ) { exit-options } Categories=Accessories; 
+[exec] (KakaoTalk ) { flatpak run --command=bottles-cli com.usebottles.bottles run -p KakaoTalk -b 'kakaoTalk' -- %u } Categories=Application;
+[exec] (Rofi ) { rofi -show } 
+[exec] (Rofi Theme Selector ) { rofi-theme-selector } 

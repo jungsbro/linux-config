@@ -1,0 +1,8 @@
+to reset MX defaults, remove all files in these directories 
+ ~/.fluxbox 
+ ~/.idesktop directory 
+ ~/.ideskrc 
+ ~/.config/nitrogen 
+ ~/.config/gtk-3.0 
+ ~/.gtkrc* files
+to use flubox/debian defaults instead of MX defaults, remove all files in ~/.fluxbox directory except fluxbox-mx-defaults

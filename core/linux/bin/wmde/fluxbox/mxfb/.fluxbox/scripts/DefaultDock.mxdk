@@ -1,0 +1,20 @@
+#!/bin/bash
+
+pkill -x wmalauncher
+
+#set up slit location
+sed -i 's/^session.screen0.slit.placement:.*/session.screen0.slit.placement: LeftCenter/' $HOME/.fluxbox/init
+
+fluxbox-remote restart; sleep 1
+
+#commands for dock launchers
+wmalauncher --desktop-file 'mx-tools.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'google-chrome.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'firefox.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'doublecmd.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'xfce4-terminal.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'org.xfce.mousepad.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'code.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'com.github.maoschanz.drawing.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'mxfb-help.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1
+wmalauncher --desktop-file 'custom-toolbox-mxfb.desktop' --background-color "#000000" --hover-background-color "#000000" --border-color "#000000" --hover-border-color "#ffffff" --window-size 48& sleep 0.1

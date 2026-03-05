@@ -1,0 +1,25 @@
+! The following line will prevent styles from setting the background.
+background: none
+
+#Toolbar font settings
+
+toolbar.button.font: FontAwesome-14:Regular
+toolbar.clock.font: Liberation Sans-12:Bold
+toolbar.workspace.font: Liberation Sans-11:Regular
+toolbar.iconbar.focused.font: Liberation Sans-11:Regular
+toolbar.iconbar.unfocused.font: Liberation Sans-11:Regular
+
+#Example settings for font name, size, etc., for menu
+
+#window.font: Liberation Sans-11:Bold
+#menu.title.font: Liberation Sans-11:Bold
+#menu.frame.font: Liberation Sans-11:Regular
+
+# double menu width
+menu.bevelWidth: 2
+
+# force elements to un-autohide correctly 
+slit.borderWidth: 0
+slit.bevelWidth: 2
+toolbar.borderWidth: 0
+

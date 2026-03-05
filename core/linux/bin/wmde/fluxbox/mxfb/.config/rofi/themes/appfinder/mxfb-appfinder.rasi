@@ -1,0 +1,9 @@
+configuration {
+modi: "drun,:/usr/bin/app-categories,help:/usr/share/rofi/rofi-help_appfinder,:/usr/bin/appfinder-exit";
+    me-select-entry:	"MouseSecondary";
+    me-accept-entry:	"MousePrimary";
+    //hover-select: 	true;
+}
+
+@import "/mxrm-settings/display0.rasi"
+@theme "~/.config/rofi/themes/appfinder/mxfb-appfinder-config.rasi"

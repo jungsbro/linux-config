@@ -1,0 +1,14 @@
+configuration {
+	
+modi: "drun,filebrowser,window,help:/usr/share/rofi/rofi-help";
+	show-icons: true;
+	icon-theme: "papirus";
+	//fake-transparency: true; << rofi 1.7 may require a compositor
+	//sidebar-mode: true;
+}
+
+@import "/mxrm-settings/display0.rasi"
+
+@theme "MX-ease-dark.rasi"
+
+//@import "/mxrm-settings/mxrm-settings.rasi"

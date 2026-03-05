@@ -1,0 +1,28 @@
+
+* {
+	background-color: transparent;
+	
+    // Title background
+    color01: #CACDD0;
+    // Title text
+    color02: #1D2324;
+    // Searchbar background
+    color03: #ffffff;
+    // Searchbar text
+    color04: #29353B;
+    // Inctive tab background
+    color05: #CACDD0;
+    // Inctive tab text
+    color06: #29353B;
+    // Active tab background
+    color07: #CACDD0;
+    // Active tab text
+    color08: #1D2324;
+    // Active tab highlight
+    // color09: #0f56d9;
+    // Selection background
+    color10: #ffffff;
+    // Selection text 
+    color11: #1D2324;
+}
+
