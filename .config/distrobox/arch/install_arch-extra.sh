@@ -21,61 +21,66 @@ BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-ctr="arch-extra"
+CTR_NAME="arch-extra"
 
-image="docker.io/library/archlinux:latest"
+IMAGE="docker.io/library/archlinux:latest"
 
 # distrobox create --name "arch-extra" --image "docker.io/library/archlinux:latest"
-ctr_args=""
+CTR_ARGS=""
 
 # container 이름
-ctr_args+="--name ${ctr} "
+CTR_ARGS+="--name ${CTR_NAME} "
 
 # container image주소
-ctr_args+="--image ${image} "
+CTR_ARGS+="--image ${IMAGE} "
 
 # nvidia gpu를 사용할때, --nvidia 가 필요하다.
-# ctr_args+="--nvidia "
+# CTR_ARGS+="--nvidia "
+
+# container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
+# if [[ -d "/opt/ayon" ]]; then
+#     CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
+# fi
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
+PRE_INIT_HOOKS=""
 
 # update
-pre_init_hooks+="sudo pacman -Syu --noconfirm"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm base-devel"
 
 # container에서 사용하는 git wget curl
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm git wget curl"
 
 # container에서 사용하는 vim
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm vim xclip xsel"
 
 # container에서 사용하는 ranger
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm ranger"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
-# pre_init_hooks+=" && \
+# PRE_INIT_HOOKS+=" && \
 #     sudo pacman -S --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm fcitx5-gtk"
 
 # aur 설치
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     git clone https://aur.archlinux.org/yay.git /tmp/yay"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     bash -c 'cd /tmp/yay && makepkg -si --noconfirm'"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     rm -rf /tmp/yay"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
 # sudo를 사용하면 애러가 나지 않는다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo chsh -s /bin/bash $(whoami)"
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -87,41 +92,41 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # container ----------------------------------------------------------------
     # checking container
-    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+    if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
         return 0;
     fi
 
     # creating container
-    distrobox create ${ctr_args};
+    distrobox create ${CTR_ARGS};
 
     # pre_init_hooks
-    if [[ -n "${pre_init_hooks}" ]]; then
-        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
     # xcape --------------------------------------------------------------------
     # # installation
-    # distrobox enter ${ctr} -- sudo pacman -S --noconfirm xcape
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm xcape
 
     # # bin
-    # distrobox enter ${ctr} -- distrobox-export --bin /usr/bin/xcape
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
     # --------------------------------------------------------------------------
 
     # synapse ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${ctr} -- sudo pacman -S --noconfirm synapse
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm synapse
 
     # # bin
-    # distrobox enter ${ctr} -- distrobox-export --bin /usr/bin/synapse
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/synapse
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------
     # installation (aur)
-    distrobox enter ${ctr} -- yay -S --noconfirm skippy-xd-git
+    distrobox enter ${CTR_NAME} -- yay -S --noconfirm skippy-xd-git
 
     # bin
-    distrobox enter ${ctr} -- distrobox-export --bin /usr/bin/skippy-xd
+    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------
@@ -129,12 +134,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # installation (aur)
     # # 방법1)
-    # # distrobox enter ${ctr} -- yay -S --noconfirm freefilesync-bin
+    # # distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync-bin
     # # 방법2)
-    # distrobox enter ${ctr} -- yay -S --noconfirm freefilesync
+    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync
 
     # # desktop
-    # distrobox enter ${ctr} -- distrobox-export --app FreeFileSync
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
     # --------------------------------------------------------------------------
 
 fi

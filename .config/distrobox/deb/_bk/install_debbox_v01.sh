@@ -24,38 +24,38 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 # 1) for container ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ------------------------------------------------------------------------------
-ctr="debbox"
+CTR_NAME="debbox"
 
-image="docker.io/library/debian:latest"
+IMAGE="docker.io/library/debian:latest"
 
 # distrobox create --name "dccbox" --image "docker.io/library/debian:latest"
-ctr_args=""
-ctr_args+="--name ${ctr} "
-ctr_args+="--image ${image} "
+CTR_ARGS=""
+CTR_ARGS+="--name ${CTR_NAME} "
+CTR_ARGS+="--image ${IMAGE} "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
+PRE_INIT_HOOKS=""
 
 # update
-pre_init_hooks+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
+PRE_INIT_HOOKS+=" && \
     sudo apt update && sudo apt upgrade -y"
 
 # bash 사용
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     chsh -s /usr/bin/bash ${whoami}"
 
 # container에서 사용하는 git
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo apt install -y git"
 
 # container에서 사용하는 ranger
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo apt install -y ranger"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,7 +153,7 @@ cli_bins=""
 
 # Main =========================================================================
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
     return 0;
 fi
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,12 +163,12 @@ fi
 # 1) creaeting container
 
 # ------------------------------------------------------------------------------
-distrobox create ${ctr_args};
+distrobox create ${CTR_ARGS};
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter "${ctr}" -- bash -c "${pre_init_hooks}";
+if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
 fi
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,14 +180,14 @@ fi
 # ------------------------------------------------------------------------------
 # vscode
 
-distrobox enter "${ctr}" -- bash -c "\
+distrobox enter "${CTR_NAME}" -- bash -c "\
     sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # google-chrome
 
-distrobox enter "${ctr}" -- bash -c "\
+distrobox enter "${CTR_NAME}" -- bash -c "\
     sudo bash ${BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
 # ------------------------------------------------------------------------------
 
@@ -195,7 +195,7 @@ distrobox enter "${ctr}" -- bash -c "\
 # apt-pkgs
 
 source "${DISTOBOX_DIR}/share_funcs.sh" && \
-install_apps "${ctr}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -206,7 +206,7 @@ install_apps "${ctr}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "$
 # ------------------------------------------------------------------------------
 # autokey
 
-distrobox enter "${ctr}" -- bash -c "\
+distrobox enter "${CTR_NAME}" -- bash -c "\
     source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
     config_autokey && \
     set_autokey_autostart"
@@ -215,7 +215,7 @@ distrobox enter "${ctr}" -- bash -c "\
 # ------------------------------------------------------------------------------
 # redshift
 
-distrobox enter "${ctr}" -- bash -c "\
+distrobox enter "${CTR_NAME}" -- bash -c "\
     source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
     config_redshift && \
     set_redshift_autostart"
@@ -224,7 +224,7 @@ distrobox enter "${ctr}" -- bash -c "\
 # ------------------------------------------------------------------------------
 # gimp
 
-distrobox enter "${ctr}" -- bash -c "\
+distrobox enter "${CTR_NAME}" -- bash -c "\
     source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
     install_photogimp"
 # ------------------------------------------------------------------------------

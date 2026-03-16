@@ -4,7 +4,7 @@
 function install_apps()
 {
     # --------------------------------------------------------------------------
-    local ctr="${1}"
+    local ctr_name="${1}"
     local pkg_type="${2}"
     local gui_apps="${3}"
     local gui_bins="${4}"
@@ -25,13 +25,13 @@ function install_apps()
     elif [[ "${pkg_type}" == "yay" ]]; then
         pkg_install="yay -S --noconfirm"
 
-        if ! distrobox enter ${ctr} -- yay --version &>/dev/null; then
-            if ! distrobox enter ${ctr} -- git --version &>/dev/null; then
-                distrobox enter ${ctr} -- sudo pacman -S --noconfirm base-devel git
+        if ! distrobox enter ${ctr_name} -- yay --version &>/dev/null; then
+            if ! distrobox enter ${ctr_name} -- git --version &>/dev/null; then
+                distrobox enter ${ctr_name} -- sudo pacman -S --noconfirm base-devel git
             fi
-            distrobox enter ${ctr} -- git clone https://aur.archlinux.org/yay.git /tmp/yay
-            distrobox enter ${ctr} -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"
-            distrobox enter ${ctr} -- rm -rf /tmp/yay
+            distrobox enter ${ctr_name} -- git clone https://aur.archlinux.org/yay.git /tmp/yay
+            distrobox enter ${ctr_name} -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"
+            distrobox enter ${ctr_name} -- rm -rf /tmp/yay
         fi
 
     else
@@ -42,7 +42,7 @@ function install_apps()
 
     # --------------------------------------------------------------------------
     # 1) distrobox enter debbox -- sudo apt install -y firefox-esr btop
-    distrobox enter ${ctr} -- ${pkg_install} ${gui_apps} ${cli_apps}
+    distrobox enter ${ctr_name} -- ${pkg_install} ${gui_apps} ${cli_apps}
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -50,7 +50,7 @@ function install_apps()
     for gui_bin in ${gui_bins};
     do
         # echo ${gui_bin}
-        distrobox enter ${ctr} -- distrobox-export --app ${gui_bin}
+        distrobox enter ${ctr_name} -- distrobox-export --app ${gui_bin}
     done
     # --------------------------------------------------------------------------
 
@@ -58,9 +58,9 @@ function install_apps()
     # 3) export cli_bins (심볼릭 링크 생성)
     for cli_bin in ${cli_bins};
     do
-        cli_cmd=$(distrobox enter ${ctr} -- bash -lc "command -v ${cli_bin}" 2>/dev/null)
+        cli_cmd=$(distrobox enter ${ctr_name} -- bash -lc "command -v ${cli_bin}" 2>/dev/null)
         # echo ${cli_cmd}
-        distrobox enter ${ctr} -- distrobox-export --bin ${cli_cmd}
+        distrobox enter ${ctr_name} -- distrobox-export --bin ${cli_cmd}
     done
     # --------------------------------------------------------------------------
 }
@@ -99,7 +99,7 @@ distrobox create --name archbox --image docker.io/library/archlinux:latest \
 # ==============================================================================
 # 2) Install apps in debbox
 # ------------------------------------------------------------------------------
-ctr="debbox"
+ctr_name="debbox"
 pkg_type="apt"
 # ------------------------------------------------------------------------------
 
@@ -161,8 +161,8 @@ cli_bins+="fastfetch "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    install_apps ${ctr} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+if [[ *"$(distrobox list)"* == *"${ctr_name}"* ]]; then
+    install_apps ${ctr_name} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 fi
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -171,7 +171,7 @@ fi
 # ==============================================================================
 # 3) Install apps in fedobox
 # ------------------------------------------------------------------------------
-ctr="fedobox"
+ctr_name="fedobox"
 pkg_type="dnf"
 # ------------------------------------------------------------------------------
 
@@ -234,8 +234,8 @@ cli_bins+="fastfetch "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    install_apps ${ctr} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+if [[ *"$(distrobox list)"* == *"${ctr_name}"* ]]; then
+    install_apps ${ctr_name} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 fi
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -244,7 +244,7 @@ fi
 # ==============================================================================
 # 4) Install apps in archbox
 # ------------------------------------------------------------------------------
-ctr="archbox"
+ctr_name="archbox"
 pkg_type="pacman"
 # ------------------------------------------------------------------------------
 
@@ -305,14 +305,14 @@ cli_bins+="fastfetch "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    install_apps ${ctr} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+if [[ *"$(distrobox list)"* == *"${ctr_name}"* ]]; then
+    install_apps ${ctr_name} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 fi
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
-ctr="archbox"
+ctr_name="archbox"
 pkg_type="yay"
 # ------------------------------------------------------------------------------
 
@@ -333,8 +333,8 @@ cli_bins=""
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
-    install_apps ${ctr} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+if [[ *"$(distrobox list)"* == *"${ctr_name}"* ]]; then
+    install_apps ${ctr_name} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 fi
 # ------------------------------------------------------------------------------
 # ==============================================================================

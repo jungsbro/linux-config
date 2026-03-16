@@ -20,49 +20,54 @@ BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-ctr="fedo-extra"
+CTR_NAME="fedo-extra"
 
-image="docker.io/library/fedora:latest"
+IMAGE="docker.io/library/fedora:latest"
 
 # distrobox create --name "fedo-extra" --image "docker.io/library/fedora:latest"
-ctr_args=""
+CTR_ARGS=""
 
 # container 이름
-ctr_args+="--name ${ctr} "
+CTR_ARGS+="--name ${CTR_NAME} "
 
 # container image주소
-ctr_args+="--image ${image} "
+CTR_ARGS+="--image ${IMAGE} "
 
 # nvidia gpu를 사용할때, --nvidia 가 필요하다.
-# ctr_args+="--nvidia "
+# CTR_ARGS+="--nvidia "
+
+# container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
+# if [[ -d "/opt/ayon" ]]; then
+#     CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
+# fi
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
+PRE_INIT_HOOKS=""
 
 # update
-pre_init_hooks+="sudo dnf upgrade -y"
+PRE_INIT_HOOKS+="sudo dnf upgrade -y"
 
 # container에서 사용하는 git wget curl
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y git wget curl"
 
 # container에서 사용하는 vim
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y vim-X11 xclip xsel"
 
 # container에서 사용하는 ranger
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y ranger"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-autostart"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
 # sudo를 사용하면 애러가 나지 않는다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo chsh -s /bin/bash $(whoami)"
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -74,16 +79,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # container ----------------------------------------------------------------
     # checking container
-    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+    if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
         return 0;
     fi
 
     # creating container
-    distrobox create ${ctr_args};
+    distrobox create ${CTR_ARGS};
 
     # pre_init_hooks
-    if [[ -n "${pre_init_hooks}" ]]; then
-        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
@@ -93,10 +98,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # synapse ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${ctr} -- sudo dnf install -y synapse
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y synapse
 
     # # desktop
-    # distrobox enter ${ctr} -- distrobox-export --app synapse
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app synapse
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------

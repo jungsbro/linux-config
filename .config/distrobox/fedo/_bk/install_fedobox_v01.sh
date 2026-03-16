@@ -20,20 +20,20 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 
 # 1) for container ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-ctr="fedobox"
+CTR_NAME="fedobox"
 
-image="docker.io/library/fedora:latest"
+IMAGE="docker.io/library/fedora:latest"
 
 # distrobox create --name "dccbox" --image "docker.io/library/fedora:latest"
-ctr_args=""
-ctr_args+="--name ${ctr} "
-ctr_args+="--image ${image} "
+CTR_ARGS=""
+CTR_ARGS+="--name ${CTR_NAME} "
+CTR_ARGS+="--image ${IMAGE} "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
-pre_init_hooks+="sudo dnf upgrade -y"
-# pre_init_hooks+=" && \
+PRE_INIT_HOOKS=""
+PRE_INIT_HOOKS+="sudo dnf upgrade -y"
+# PRE_INIT_HOOKS+=" && \
 #     sudo dnf upgrade -y"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,24 +110,24 @@ cli_bins=""
 
 # Main =========================================================================
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
     return 0;
 fi
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # 1) creaeting container
-distrobox create ${ctr_args};
+distrobox create ${CTR_ARGS};
 
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter "${ctr}" -- bash -c "${pre_init_hooks}";
+if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
 fi
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # 2) installing apps
 source "${DISTOBOX_DIR}/share_funcs.sh" && \
-install_apps "${ctr}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

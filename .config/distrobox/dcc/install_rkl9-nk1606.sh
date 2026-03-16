@@ -1,37 +1,50 @@
 #!/bin/bash
 
-# ENV ==========================================================================
+# usage ========================================================================
+# bash ./install_rkl9-nk1606.sh;
+# ==============================================================================
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /.config/distrobox/distro/install_rkl8box.sh
-# /.config/distrobox/distro
+# /.config/distrobox/dcc/install_rkl9-nk1606.sh
+# /.config/distrobox/dcc
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../.."
 
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
+
+# core/linux/bin
+BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-# ------------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-# 1) for container ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CTR_NAME="rkl8box"
+# ------------------------------------------------------------------------------
+CTR_NAME="rkl9-nk1606"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
-IMAGE="docker.io/library/rockylinux:8"
+IMAGE="docker.io/library/rockylinux:9.3"
 
-# distrobox create --name "rkl8box" --image "docker.io/library/rockylinux:8"
+# distrobox create --name "rkl9-nk1606" --image "docker.io/library/rockylinux:9.3"
 CTR_ARGS=""
 CTR_ARGS+="--name ${CTR_NAME} "
 CTR_ARGS+="--image ${IMAGE} "
-# CTR_ARGS+="--pre-init-hooks \"${PRE_INIT_HOOKS}\" "
+
+# vfx-dcc를 사용할때, --nvidia 가 필요하다.
+CTR_ARGS+="--nvidia "
+
+# vfx-dcc를 사용할때, --init 이 필요없다.
+# CTR_ARGS+="--init --additional-packages systemd "
+
+# container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
+if [[ -d "/opt/ayon" ]]; then
+    CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
+fi
+
+# CTR_ARGS+="--volume /lib64/libOpenGL.so.0:/lib64/libOpenGL.so.0:ro "
+# CTR_ARGS+="--volume /lib64/libOpenGL.so:/lib64/libOpenGL.so:ro "
 # ------------------------------------------------------------------------------
 
 
@@ -40,6 +53,9 @@ PRE_INIT_HOOKS=""
 
 # 0) 패키지 업그레이드 .............................................................
 PRE_INIT_HOOKS+="sudo dnf upgrade -y"
+
+# "--init --additional-packages systemd" 사용할때는 아래처럼 해야 한다.
+# PRE_INIT_HOOKS+="sudo dnf upgrade -y --exclude=filesystem,setup"
 # ..............................................................................
 
 # 1) 저장소 및 패키지 관리 도구 (Infrastructure) ....................................
@@ -47,17 +63,17 @@ PRE_INIT_HOOKS+="sudo dnf upgrade -y"
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y epel-release"
 
-# powertools
+# crb는 powertools의 새로운 이름(CodeReady Builder)
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y dnf-plugins-core && \
-    dnf config-manager --set-enabled powertools"
+    sudo dnf config-manager --set-enabled crb"
 
 # rpmfusion은 powertools/crb에 의존성이 있는 패키지들이 있어서 powertools/crb 활성화 필요
 # 특허나 라이선스 문제로 기본 배포판에 포함되지 못한 멀티미디어 코덱 및 드라이버 관련 패키지를 제공
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y \
-    https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm \
-    https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm"
+    https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm \
+    https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm"
 # ..............................................................................
 
 # 2) 그래픽 및 렌더링 라이브러리 (Graphics Stack) ....................................
@@ -134,124 +150,58 @@ PRE_INIT_HOOKS+=" && \
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libxcrypt-compat"
 # ..............................................................................
+
+# 8) 기타 .......................................................................
+# container에서 사용하는 git wget curl
+PRE_INIT_HOOKS+=" && \
+    sudo dnf install -y git wget curl"
+
+# container에서 사용하는 vim
+PRE_INIT_HOOKS+=" && \
+    sudo dnf install -y vim-X11 xclip xsel"
+
+# container에서 사용하는 ranger
+PRE_INIT_HOOKS+=" && \
+    sudo dnf install -y ranger"
+
+# bash 사용
+PRE_INIT_HOOKS+=" && \
+    sudo dnf install -y util-linux-user"
+PRE_INIT_HOOKS+=" && \
+    sudo chsh -s /bin/bash $(whoami)"
+# ..............................................................................
 # ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-# PRE_INIT_HOOKS="dnf upgrade -y && dnf install -y epel-release"
-# PRE_INIT_HOOKS="dnf upgrade -y && \
-#     dnf install -y epel-release dnf-plugins-core && \
-#     dnf config-manager --set-enabled powertools && \
-#     dnf install -y \
-#     https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm \
-#     https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm && \
-#     dnf install -y mesa-libGL libX11 libXi libXcursor libXrandr libXrender \
-
-#     libGLU libXext libXfixes libXinerama \
-#     fontconfig freetype libpng libjpeg \
-#     gtk3 cairo pango qt5-qtbase qt5-qtx11extras \
-#     python3 ffmpeg ffmpeg-devel openssl python3-numpy"
-# ------------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-# 2) for apps ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ------------------------------------------------------------------------------
-pkg_type="dnf"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# gui_apps
-gui_apps=""
-gui_bins=""
-
-# # not working in Rocky8
-# # gui_apps+="autokey-gtk "
-# # gui_bins+="autokey-gtk "
-
-# gui_apps+="redshift-gtk geoclue2 "
-# gui_bins+="redshift "
-
-# gui_apps+="timeshift "
-# gui_bins+="timeshift "
-
-# gui_apps+="gnome-disk-utility "
-# gui_bins+="gnome-disks "
-
-# gui_apps+="gnome-keyring libsecret "
-# gui_bins+=""
-
-# # doublecmd-gtk is not available in Rocky8
-# # gui_apps+="doublecmd-gtk "
-# # gui_bins+="doublecmd "
-
-# gui_apps+="firefox "
-# gui_bins+="firefox "
-
-# gui_apps+="remmina "
-# gui_bins+="remmina "
-
-# gui_apps+="libreoffice "
-# gui_bins+="libreoffice "
-
-# gui_apps+="qpdfview-qt5 "
-# gui_bins+="qpdfview-qt5 "
-
-# # gimp is too old in Rocky8
-# gui_apps+="gimp "
-# gui_bins+="gimp "
-
-# gui_apps+="drawing "
-# gui_bins+="drawing "
-
-# # vlc is not available in Rocky8
-# # gui_apps+="vlc "
-# # gui_bins+="vlc "
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# cli_apps
-cli_apps=""
-cli_bins=""
-
-# # not working in Rocky8
-# # cli_apps+="btop "
-# # cli_bins+="btop "
-
-# cli_apps+="fastfetch "
-# cli_bins+="fastfetch "
-
-# # not working in Rocky8
-# # cli_apps+="firejail "
-# # cli_bins+="firejail "
-# ------------------------------------------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ==============================================================================
-
 
 
 
 # Main =========================================================================
-# ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
-    return 0;
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
+        return 0;
+    fi
+
+    # creating container
+    distrobox create ${CTR_ARGS};
+
+    # pre_init_hooks
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+    # glxinfo | grep "OpenGL renderer"
+    # nvidi-smi
+    # --------------------------------------------------------------------------
+
+    # nuke 16.0 ----------------------------------------------------------------
+    bash ${CUR_DIR}/add_nk1606.sh "${CTR_NAME}"
+    # --------------------------------------------------------------------------
+    
 fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 1) creaeting container
-distrobox create ${CTR_ARGS};
-
-if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
-fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 2) installing apps
-source "${DISTOBOX_DIR}/share_funcs.sh" && \
-install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
-# ------------------------------------------------------------------------------
 # ==============================================================================
-

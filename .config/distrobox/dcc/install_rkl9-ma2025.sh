@@ -7,8 +7,8 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /.config/distrobox/rkl/install_rkl9-ma2025.sh
-# /.config/distrobox/rkl
+# /.config/distrobox/dcc/install_rkl9-ma2025.sh
+# /.config/distrobox/dcc
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../.."
@@ -20,73 +20,60 @@ BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 
 # ------------------------------------------------------------------------------
-MA_DIR="/mnt/j4105-omv/core/linux/bin/cg/maya/maya2025"
-MA_PATH="${MA_DIR}/install_maya2025.sh"
-MA_BIN="/usr/autodesk/maya2025/bin/maya"
-MA_APP="maya"
-
-HOU_DIR="/mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303"
-HOU_PATH="${HOU_DIR}/sync1_j4105-omv_to_opt_for_hou1905303.sh"
-HOU_BIN="/opt/hfs19.5/bin/houdinifx"
-HOU_APP="houdinifx"
-
-NK_DIR="/mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6"
-NK_PATH="${NK_DIR}/sync1_j4105-omv_to_opt_for_nk1606.sh"
-NK_BIN="/opt/Nuke16.0v6/Nuke16.0"
-NK_APP="Nuke16.0v6"
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-ctr="rkl9-ma2025"
+CTR_NAME="rkl9-ma2025"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
-image="docker.io/library/rockylinux:9.3"
+IMAGE="docker.io/library/rockylinux:9.3"
 
 # distrobox create --name "rkl9-ma2025" --image "docker.io/library/rockylinux:9.3"
-ctr_args=""
+CTR_ARGS=""
 
 # container 이름
-ctr_args+="--name ${ctr} "
+CTR_ARGS+="--name ${CTR_NAME} "
 
 # container image주소
-ctr_args+="--image ${image} "
+CTR_ARGS+="--image ${IMAGE} "
 
 # nvidia gpu를 사용할때, --nvidia 가 필요하다.
-ctr_args+="--nvidia "
+CTR_ARGS+="--nvidia "
 
 # vfx-dcc를 사용할때, --init 이 필요없다.
-# ctr_args+="--init --additional-packages systemd "
+# CTR_ARGS+="--init --additional-packages systemd "
 
-# ctr_args+="--volume /lib64/libOpenGL.so.0:/lib64/libOpenGL.so.0:ro "
-# ctr_args+="--volume /lib64/libOpenGL.so:/lib64/libOpenGL.so:ro "
+# container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
+if [[ -d "/opt/ayon" ]]; then
+    CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
+fi
+
+# CTR_ARGS+="--volume /lib64/libOpenGL.so.0:/lib64/libOpenGL.so.0:ro "
+# CTR_ARGS+="--volume /lib64/libOpenGL.so:/lib64/libOpenGL.so:ro "
 # ------------------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
+PRE_INIT_HOOKS=""
 
 # 0) 패키지 업그레이드 .............................................................
-pre_init_hooks+="sudo dnf upgrade -y"
+PRE_INIT_HOOKS+="sudo dnf upgrade -y"
 
 # "--init --additional-packages systemd" 사용할때는 아래처럼 해야 한다.
-# pre_init_hooks+="sudo dnf upgrade -y --exclude=filesystem,setup"
+# PRE_INIT_HOOKS+="sudo dnf upgrade -y --exclude=filesystem,setup"
 # ..............................................................................
 
 # 1) 저장소 및 패키지 관리 도구 (Infrastructure) ....................................
 # epel-release
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y epel-release"
 
 # crb는 powertools의 새로운 이름(CodeReady Builder)
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y dnf-plugins-core && \
     sudo dnf config-manager --set-enabled crb"
 
 # rpmfusion은 powertools/crb에 의존성이 있는 패키지들이 있어서 powertools/crb 활성화 필요
 # 특허나 라이선스 문제로 기본 배포판에 포함되지 못한 멀티미디어 코덱 및 드라이버 관련 패키지를 제공
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y \
     https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-9.noarch.rpm \
     https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-9.noarch.rpm"
@@ -94,15 +81,15 @@ pre_init_hooks+=" && \
 
 # 2) 그래픽 및 렌더링 라이브러리 (Graphics Stack) ....................................
 # 오픈소스 그래픽 라이브러리 표준입니다. 3D 뷰포트를 그릴 때 사용
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y mesa-libGL mesa-libGLU mesa-libEGL"
 
 # GL Vendor-Neutral Dispatcher. NVIDIA나 Mesa 등 여러 그래픽 드라이버 사이에서 적절한 라이브러리를 연결해 줍니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libglvnd-glx libglvnd-devel"
 
 # 하드웨어(GPU) 정보를 조회할 때 사용됩니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y pciutils-libs"
 # ..............................................................................
 
@@ -110,11 +97,11 @@ pre_init_hooks+=" && \
 # 프로그램의 '창(Window)'을 띄우고 마우스, 키보드 입력을 처리합니다.
 
 # X Window 시스템의 하위 구성 요소들입니다. 다중 모니터 지원, 마우스 커서 표시, 투명도 처리 등을 담당합니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libX11 libXi libXcursor libXrandr libXrender libXext libXfixes libXinerama"
 
 # 화면 보호기 제어 및 키보드 레이아웃 파일 처리용입니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libXpm libxkbfile libXScrnSaver"
 # ..............................................................................
 
@@ -122,25 +109,25 @@ pre_init_hooks+=" && \
 # 글자를 화면에 뿌리고 텍스처(이미지) 파일을 읽어옵니다.
 
 # 툴 내부의 텍스트와 UI 폰트를 렌더링합니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y fontconfig freetype"
 
 # 가장 기본적인 이미지 파일 형식을 읽고 쓰는 라이브러리입니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libpng libjpeg"
 # ..............................................................................
 
 # 5) 프레임워크 및 위젯 툴킷 (UI Frameworks) ........................................
 # 리눅스 표준 UI 라이브러리 세트입니다. (Nuke 등이 주로 사용)
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y gtk3 cairo pango"
 
 # Houdini, Maya, Substance 등 대부분의 최신 DCC가 사용하는 UI 프레임워크입니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y qt5-qtbase qt5-qtx11extras"
 
 # 터미널 기반의 텍스트 UI 출력을 위한 호환 라이브러리입니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y ncurses-compat-libs"
 # ..............................................................................
 
@@ -148,42 +135,42 @@ pre_init_hooks+=" && \
 # DCC 내부의 자동화와 비디오 내보내기/불러오기를 담당합니다.
 
 # 파이썬 환경과 수치 계산용 라이브러리입니다. (Houdini의 hython 등이 의존)
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y python3 python3-numpy"
 
 # 동영상 인코딩/디코딩의 표준입니다. 플레이블라스트(Playblast)나 비디오 렌더링 시 필수입니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y ffmpeg ffmpeg-devel"
 # ..............................................................................
 
 # 7) 암호 / 보안 .................................................................
 # 네트워크 통신 및 보안 라이선스 체크 등에 사용됩니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y openssl"
 
 # Rocky Linux 9은 보안상의 이유로 구형 암호화 방식(libcrypt.so.1)을 기본적으로 지원하지 않는데
 # 이 구형 라이브러리가 없으면 실행 직후 튕기는 경우가 매우 많습니다.
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y libxcrypt-compat"
 # ..............................................................................
 
 # 8) 기타 .......................................................................
 # container에서 사용하는 git wget curl
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y git wget curl"
 
 # container에서 사용하는 vim
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y vim-X11 xclip xsel"
 
 # container에서 사용하는 ranger
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y ranger"
 
 # bash 사용
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo dnf install -y util-linux-user"
-pre_init_hooks+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo chsh -s /bin/bash $(whoami)"
 # ..............................................................................
 # ------------------------------------------------------------------------------
@@ -196,16 +183,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # container ----------------------------------------------------------------
     # checking container
-    if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+    if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
         return 0;
     fi
 
     # creating container
-    distrobox create ${ctr_args};
+    distrobox create ${CTR_ARGS};
 
     # pre_init_hooks
-    if [[ -n "${pre_init_hooks}" ]]; then
-        distrobox enter ${ctr} -- bash -c "${pre_init_hooks}";
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
@@ -216,55 +203,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # maya 2025 ----------------------------------------------------------------
-    if [[ -e ${MA_PATH} ]]; then
-        # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
-        # sudo bash ./install_maya2025.sh
-        distrobox enter "${ctr}" -- bash -c "sudo bash ${MA_PATH}"
-
-        # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
-        distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${MA_BIN}"
-
-        # distrobox-export --app maya
-        distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${MA_APP}"
-    fi
-
-    # ~/.local/bin/maya
-    # echo 'xhost +local:' >> ~/.xprofile
-    # echo 'xhost +local:' >> ~/.xinitrc
-    # echo 'export DISPLAY=:0' >> ~/.bashrc
+    bash ${CUR_DIR}/add_maya2025.sh "${CTR_NAME}"
     # --------------------------------------------------------------------------
-
-    # houdini 19.5 -------------------------------------------------------------
-    # if [[ -e ${HOU_PATH} ]]; then
-    #     # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
-    #     # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
-    #     distrobox enter "${ctr}" -- bash -c "sudo bash ${HOU_PATH}"
-
-    #     # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
-    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
-
-    #     # distrobox-export --app houdinifx
-    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${HOU_APP}"
-    # fi
-
-    # # export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
-    # --------------------------------------------------------------------------
-
-    # nuke 16.0 ----------------------------------------------------------------
-    # if [[ -e ${NK_PATH} ]]; then
-    #     # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
-    #     # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
-    #     distrobox enter "${ctr}" -- bash -c "sudo bash ${NK_PATH}"
-
-    #     # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
-    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --bin ${NK_BIN}"
-
-    #     # distrobox-export --app Nuke16.0v6
-    #     distrobox enter "${ctr}" -- bash -c "distrobox-export --app ${NK_APP}"
-    # fi
-
-    # # export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
-    # --------------------------------------------------------------------------
-
+    
 fi
 # ==============================================================================

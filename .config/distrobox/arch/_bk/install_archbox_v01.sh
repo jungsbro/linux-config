@@ -22,20 +22,20 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 
 # 1) for container ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ------------------------------------------------------------------------------
-ctr="archbox"
+CTR_NAME="archbox"
 
-image="docker.io/library/archlinux:latest"
+IMAGE="docker.io/library/archlinux:latest"
 
 # distrobox create --name "dccbox" --image "docker.io/library/archlinux:latest"
-ctr_args=""
-ctr_args+="--name ${ctr} "
-ctr_args+="--image ${image} "
+CTR_ARGS=""
+CTR_ARGS+="--name ${CTR_NAME} "
+CTR_ARGS+="--image ${IMAGE} "
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-pre_init_hooks=""
-pre_init_hooks+="sudo pacman -Syu --noconfirm"
-# pre_init_hooks+=" && \
+PRE_INIT_HOOKS=""
+PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+# PRE_INIT_HOOKS+=" && \
 #     sudo pacman -Syu --noconfirm"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,17 +148,17 @@ cli_bins2+="skippy-xd "
 
 # Main =========================================================================
 # ------------------------------------------------------------------------------
-if [[ *"$(distrobox list)"* == *"${ctr}"* ]]; then
+if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
     return 0;
 fi
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # 1) creaeting container
-distrobox create ${ctr_args};
+distrobox create ${CTR_ARGS};
 
-if [[ -n "${pre_init_hooks}" ]]; then
-    distrobox enter "${ctr}" -- bash -c "${pre_init_hooks}";
+if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
 fi
 # ------------------------------------------------------------------------------
 
@@ -166,7 +166,7 @@ fi
 # 2) installing apps (pacaman)
 # 2) installing apps (yay)
 source "${DISTOBOX_DIR}/share_funcs.sh" && \
-install_apps "${ctr}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}" && \
-install_apps "${ctr}" "${pkg_type2}" "${gui_apps2}" "${gui_bins2}" "${cli_apps2}" "${cli_bins2}"
+install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}" && \
+install_apps "${CTR_NAME}" "${pkg_type2}" "${gui_apps2}" "${gui_bins2}" "${cli_apps2}" "${cli_bins2}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
