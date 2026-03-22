@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# ulauncher ====================================================================
-# bash ${BIN_DIR}/system/install_ulauncher.sh ${CUR_USER};
+# synapse ======================================================================
+# bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system
+# /core/linux/bin/system/launcher
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -26,83 +26,17 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="ulauncher"
+APP_NAME="synapse"
 
+# synapse
 APP_UNIQUE_NAME="${APP_NAME}"
 
-APP_GRP="GNOME;GTK;Utility;"
+APP_GRP="GNOME;Utility"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
-# Func =========================================================================
-function set_ulauncher_autostart()
-{
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    local AUTOSTART_DIR="${HOME_DIR}/.config/autostart"
-    local AUTOSTART_PATH="${AUTOSTART_DIR}/ulauncher.desktop"
-
-    local AUTOSTART_CMD="[Desktop Entry]
-Name=Ulauncher
-Comment=Application launcher for Linux
-GenericName=Launcher
-Categories=GNOME;GTK;Utility;
-TryExec=/usr/bin/ulauncher
-Exec=env GDK_BACKEND=x11 /usr/bin/ulauncher --hide-window --hide-window
-Icon=ulauncher
-Terminal=false
-Type=Application
-X-GNOME-Autostart-enabled=true"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
-    # --------------------------------------------------------------------------
-}
-
-
-function install_ulauncher_for_apt()
-{
-    local GPG_PATH="/usr/share/keyrings/ulauncher-archive-keyring.gpg"
-
-    # --------------------------------------------------------------------------
-    if [[ -f ${GPG_PATH} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    apt update;
-    [[ -n $(apt list --installed | grep -i ^gnupg) ]] || apt install -y gnupg;
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    gpg --keyserver keyserver.ubuntu.com --recv 0xfaf1020699503176;
-    gpg --export 0xfaf1020699503176 | tee ${GPG_PATH} > /dev/null;
-
-    echo "deb [signed-by=${GPG_PATH}] \
-              http://ppa.launchpad.net/agornostal/ulauncher/ubuntu jammy main" \
-              | tee /etc/apt/sources.list.d/ulauncher-jammy.list;
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    apt update;
-    [[ -n $(apt list --installed | grep -i ^ulauncher) ]] || apt install -y ulauncher;
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    set_ulauncher_autostart;
-    # --------------------------------------------------------------------------
-}
-
-
+# func =========================================================================
 function set_desktop()  # not used
 {
     # args ---------------------------------------------------------------------
@@ -122,16 +56,16 @@ Icon=${ICON_PATH}
 Categories=${APP_GRP}";
 
     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/ulauncher.desktop
+        # ~/.local/share/applications/synapse.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
-        # /usr/share/applications/ulauncher.desktop
+        # /usr/share/applications/synapse.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
 }
 
 
-function install_ulauncher_for_nix()
+function install_synapse_for_nix()
 {
     # for x86_64 / i686 / aarch64
     # --------------------------------------------------------------------------
@@ -141,7 +75,7 @@ function install_ulauncher_for_nix()
     # --------------------------------------------------------------------------
 
     # 1) env-vars settings -----------------------------------------------------
-    local APP_NAME="ulauncher"
+    local APP_NAME="synapse"
 
     local mod=${1}  # multi / single
 
@@ -158,10 +92,10 @@ function install_ulauncher_for_nix()
     bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    # 3) install_ulauncher -----------------------------------------------------
+    # 3) install_synapse -------------------------------------------------------
     # https://search.nixos.org/packages
-    # nix-env -iA nixpkgs.ulauncher
-    # nix profile add nixpkgs#ulauncher
+    # nix-env -iA nixpkgs.synapse
+    # nix profile add nixpkgs#synapse
     su - ${CUR_USER} -c "source ${DST_PATH} && \
     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
     nix profile add nixpkgs#${APP_NAME}"
@@ -176,8 +110,7 @@ function install_ulauncher_for_nix()
 
     # 4) bins settings ---------------------------------------------------------
     local FNAME_LIST=(\
-    "ulauncher" \
-    "ulauncher-toggle" \
+    "synapse" \
     )
 
     local src_dir="${HOME_DIR}/.nix-profile/bin"
@@ -226,13 +159,8 @@ function install_ulauncher_for_nix()
         update-desktop-database "${dst_dir}"
     fi
     # --------------------------------------------------------------------------
-
-    # 7) etc -------------------------------------------------------------------
-    # ~/.nix-profile/share/ulauncher
-    # --------------------------------------------------------------------------
 }
 # ==============================================================================
-
 
 
 # Main =========================================================================
@@ -240,28 +168,22 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_ulauncher_for_apt;
+        [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]] || apt install -y ${APP_NAME};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_ulauncher_for_nix "single";
-        # ----------------------------------------------------------------------
-        #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
-        # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:
-        # /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by /nix/store/pahwl2rq51dmwrn8czks27yy3sa3byg9-libX11-1.8.12/lib/libX11.so.6)
-        # Couldn't load XPCOM.
+        install_synapse_for_nix "single";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^ulauncher) ]] || dnf install -y ulauncher;
+        [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^ulauncher) ]] || su - ${CUR_USER} -c "yay -S --noconfirm ulauncher";
+        [[ -n $(pacman -Q | grep -i ^${APP_NAME}) ]] || pacman -S --noconfirm ${APP_NAME};
         # ----------------------------------------------------------------------
     fi
 

@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# m17n-db ======================================================================
-# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-db.sh
+# anthy-9100h ==================================================================
+# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_anthy_9100h.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean/install_nimf_for_build
+# /core/linux/bin/system/fonts/ime/install_nimf_for_build
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -26,48 +26,48 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="m17n-db";
+NAME="anthy-9100h";
 
-# https://download-mirror.savannah.gnu.org/releases/m17n/m17n-db-1.8.0.tar.gz
-URL="https://download-mirror.savannah.gnu.org/releases/m17n/m17n-db-1.8.0.tar.gz";
+# https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
+URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
 TMP_DIR="/tmp";
 
-# /tmp/m17n-db
+# /tmp/anthy-9100h
 SRC_DIR="/tmp/${NAME}";
 
-# /tmp/m17n-db/m17n-db.tar.gz
+# /tmp/anthy-9100h/anthy-9100h.tar.gz
 TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
 
 LOCAL_LIB_DIR="/usr/local/lib"
 
-# /usr/local/share/pkgconfig/m17n-db.pc
-PC_PATH="/usr/local/share/pkgconfig/m17n-db.pc"
+# /usr/local/lib/pkgconfig/anthy.pc
+PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ==============================================================================
-function build_m17n-db_for_dnf()
+function build_anthy-9100h_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="m17n-db";
+    # local NAME="anthy-9100h";
 
-    # # https://download-mirror.savannah.gnu.org/releases/m17n/m17n-db-1.8.0.tar.gz
-    # local URL="https://download-mirror.savannah.gnu.org/releases/m17n/m17n-db-1.8.0.tar.gz";
+    # # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
+    # local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
     # local TMP_DIR="/tmp";
 
-    # # /tmp/m17n-db
+    # # /tmp/anthy-9100h
     # local SRC_DIR="/tmp/${NAME}";
 
-    # # /tmp/m17n-db/m17n-db.tar.gz
+    # # /tmp/anthy-9100h/anthy-9100h.tar.gz
     # local TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
 
     # local LOCAL_LIB_DIR="/usr/local/lib"
 
-    # # /usr/local/share/pkgconfig/m17n-db.pc
-    # local PC_PATH="/usr/local/share/pkgconfig/m17n-db.pc"
+    # # /usr/local/lib/pkgconfig/anthy.pc
+    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -79,10 +79,6 @@ function build_m17n-db_for_dnf()
     # --------------------------------------------------------------------------
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
-    [[ -n $(dnf list --installed | grep -i ^autoconf) ]] || dnf install -y autoconf;
-    [[ -n $(dnf list --installed | grep -i ^automake) ]] || dnf install -y automake;
-    [[ -n $(dnf list --installed | grep -i ^libtool) ]] || dnf install -y libtool;
-    [[ -n $(dnf list --installed | grep -i ^gettext-devel) ]] || dnf install -y gettext-devel;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -93,15 +89,24 @@ function build_m17n-db_for_dnf()
     wget ${URL} -O ${TGZ_PATH};
     tar -xzvf "${TGZ_PATH}" -C ${SRC_DIR};
 
-    # /tmp/m17n-db/m17n-db-1.8.0
+    # /tmp/m17n-db/anthy-9100h-1.8.0
     tgt_dir=$(ls -d ${SRC_DIR}/* | head -n 1)
 
     pushd "${tgt_dir}"
-    ./get-glibc.sh
-    ./configure --with-charmaps=./glibc-2.3.2/localedata/charmaps
+    ./configure
     make
     make install
     popd
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local SRC_ANTHY_DIR="/usr/local/share/anthy"
+    local DST_ANTHY_DIR="/usr/share/anthy"
+
+    if [[ -e ${SRC_ANTHY_DIR} ]] && [[ ! -e ${DST_ANTHY_DIR} ]]; then
+        # ln -s /usr/local/share/anthy /usr/share/anthy
+        ln -s ${SRC_ANTHY_DIR} ${DST_ANTHY_DIR}
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -113,8 +118,8 @@ function build_m17n-db_for_dnf()
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-    # pkg-config --modversion m17n-db
-    # pkg-config --libs m17n-db
+    # pkg-config --modversion anthy
+    # pkg-config --libs anthy
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -131,9 +136,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        build_m17n-db_for_dnf;
+        build_anthy-9100h_for_dnf;
         # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
+

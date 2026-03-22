@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# OpenCC =======================================================================
-# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_opencc.sh
+# anthy-9100h ==================================================================
+# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_anthy_9100h.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean/install_nimf_for_build
+# /core/linux/bin/system/fonts/ime/install_nimf_for_build
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -26,42 +26,48 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="OpenCC";
+NAME="anthy-9100h";
 
-# https://github.com/BYVoid/OpenCC.git
-URL="https://github.com/BYVoid/OpenCC.git";
+# https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
+URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
 TMP_DIR="/tmp";
 
-# /tmp/OpenCC
+# /tmp/anthy-9100h
 SRC_DIR="/tmp/${NAME}";
+
+# /tmp/anthy-9100h/anthy-9100h.tar.gz
+TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
 
 LOCAL_LIB_DIR="/usr/local/lib"
 
-# /usr/local/lib/pkgconfig/opencc.pc
-PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/opencc.pc"
+# /usr/local/lib/pkgconfig/anthy.pc
+PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ==============================================================================
-function build_OpenCC_for_dnf()
+function build_anthy-9100h_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="OpenCC";
+    # local NAME="anthy-9100h";
 
-    # # https://github.com/BYVoid/OpenCC.git
-    # local URL="https://github.com/BYVoid/OpenCC.git";
+    # # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
+    # local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
     # local TMP_DIR="/tmp";
 
-    # # /tmp/OpenCC
+    # # /tmp/anthy-9100h
     # local SRC_DIR="/tmp/${NAME}";
+
+    # # /tmp/anthy-9100h/anthy-9100h.tar.gz
+    # local TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
 
     # local LOCAL_LIB_DIR="/usr/local/lib"
 
-    # # /usr/local/lib/pkgconfig/opencc.pc
-    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/opencc.pc"
+    # # /usr/local/lib/pkgconfig/anthy.pc
+    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -73,25 +79,34 @@ function build_OpenCC_for_dnf()
     # --------------------------------------------------------------------------
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
-    [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-    [[ -n $(dnf list --installed | grep -i ^cmake) ]] || dnf install -y cmake;
-    # [[ -n $(dnf list --installed | grep -i ^gcc-c++) ]] || dnf install -y gcc-c++;
-    # [[ -n $(dnf list --installed | grep -i ^make) ]] || dnf install -y make;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    git clone ${URL} ${SRC_DIR};
+    wget ${URL} -O ${TGZ_PATH};
+    tar -xzvf "${TGZ_PATH}" -C ${SRC_DIR};
 
-    pushd ${SRC_DIR}
-    mkdir build && cd build
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local
-    make -j$(nproc)
+    # /tmp/m17n-db/anthy-9100h-1.8.0
+    tgt_dir=$(ls -d ${SRC_DIR}/* | head -n 1)
+
+    pushd "${tgt_dir}"
+    ./configure
+    make
     make install
     popd
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local SRC_ANTHY_DIR="/usr/local/share/anthy"
+    local DST_ANTHY_DIR="/usr/share/anthy"
+
+    if [[ -e ${SRC_ANTHY_DIR} ]] && [[ ! -e ${DST_ANTHY_DIR} ]]; then
+        # ln -s /usr/local/share/anthy /usr/share/anthy
+        ln -s ${SRC_ANTHY_DIR} ${DST_ANTHY_DIR}
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -103,11 +118,12 @@ function build_OpenCC_for_dnf()
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-    # pkg-config --modversion opencc
-    # pkg-config --libs opencc
+    # pkg-config --modversion anthy
+    # pkg-config --libs anthy
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
+
 
 
 # Main =========================================================================
@@ -120,12 +136,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        build_OpenCC_for_dnf;
+        build_anthy-9100h_for_dnf;
         # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
-
-
 

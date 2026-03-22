@@ -51,9 +51,11 @@ PRE_INIT_HOOKS+=" && \
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y vim-X11 xclip xsel"
 
-# container에서 사용하는 ranger
+# container에서 사용하는 fm
+# PRE_INIT_HOOKS+=" && \
+#     sudo dnf install -y ranger"
 PRE_INIT_HOOKS+=" && \
-    sudo dnf install -y ranger"
+    sudo dnf install -y nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
 PRE_INIT_HOOKS+=" && \

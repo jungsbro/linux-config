@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# marisa-trie ==================================================================
-# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_marisa-trie.sh
+# glog =========================================================================
+# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_glog.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean/install_nimf_for_build
+# /core/linux/bin/system/fonts/ime/install_nimf_for_build
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -26,48 +26,48 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="marisa-trie";
+NAME="glog";
 
-# https://github.com/s-yata/marisa-trie.git
-URL="https://github.com/s-yata/marisa-trie.git";
+# https://github.com/google/glog.git
+URL="https://github.com/google/glog.git";
 
 TMP_DIR="/tmp";
 
-# /tmp/marisa-trie
+# /tmp/glog
 SRC_DIR="/tmp/${NAME}";
 
 LOCAL_LIB64_DIR="/usr/local/lib64"
 
-# /usr/local/lib/pkgconfig/marisa.pc
-PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
+# /usr/local/lib/pkgconfig/glog.pc
+PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ==============================================================================
-function build_marisa-trie_for_dnf()
+function build_glog_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="marisa-trie";
+    # local NAME="glog";
 
-    # # https://github.com/s-yata/marisa-trie.git
-    # local URL="https://github.com/s-yata/marisa-trie.git";
+    # # https://github.com/google/glog.git
+    # local URL="https://github.com/google/glog.git";
 
     # local TMP_DIR="/tmp";
 
-    # # /tmp/marisa-trie
+    # # /tmp/glog
     # local SRC_DIR="/tmp/${NAME}";
 
     # local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # # /usr/local/lib/pkgconfig/marisa.pc
-    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
+    # # /usr/local/lib/pkgconfig/glog.pc
+    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${PC_PATH}" ]]; then
-        return
-    fi
+    # if [[ -f "${PC_PATH}" ]]; then
+    #     return
+    # fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -75,8 +75,7 @@ function build_marisa-trie_for_dnf()
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     [[ -n $(dnf list --installed | grep -i ^cmake) ]] || dnf install -y cmake;
-    [[ -n $(dnf list --installed | grep -i ^gcc-c++) ]] || dnf install -y gcc-c++;
-    [[ -n $(dnf list --installed | grep -i ^make) ]] || dnf install -y make;
+    [[ -n $(dnf list --installed | grep -i ^glog-devel) ]] && dnf remove -y glog-devel;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -87,27 +86,53 @@ function build_marisa-trie_for_dnf()
     git clone ${URL} ${SRC_DIR};
 
     pushd ${SRC_DIR}
+    # rime has error because of "glog v0.5.0+"
+    # git checkout v0.5.0
+    # git checkout v0.4.0
     mkdir build && cd build
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=/usr/local
+
+    # cmake .. -DCMAKE_BUILD_TYPE=Release -DWITH_GFLAGS=ON -DWITH_PKGCONFIG=ON -DCMAKE_PREFIX_PATH=/usr/local
+    cmake .. -DCMAKE_BUILD_TYPE=Release \
+        -DWITH_GFLAGS=ON \
+        -DWITH_PKGCONFIG=ON \
+        -DBUILD_SHARED_LIBS=ON \
+        -DCMAKE_PREFIX_PATH=/usr/local
+
     make -j$(nproc)
     make install
+    ldconfig ${LOCAL_LIB64_DIR}
     popd
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    if [[ ! -f "${LOCAL_LIB64_DIR}/pkgconfig/${NAME}.pc" ]]; then
+        CONF_CMD="prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib64
+includedir=${prefix}/include
+
+Name: glog
+Description: Google logging library
+Version: 0.4.0
+Libs: -L${libdir} -lglog
+Cflags: -I${includedir}
+"
+        echo "$CONF_CMD" > ${LOCAL_LIB64_DIR}/pkgconfig/${NAME}.pc
+    fi
+
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
-
     elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
-        # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+        # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-    # pkg-config --modversion marisa
-    # pkg-config --libs marisa
+    # pkg-config --modversion glog
+    # pkg-config --libs glog
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
+
 
 
 
@@ -119,11 +144,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        build_marisa-trie_for_dnf;
+        build_glog_for_dnf;
         # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
+
+
+

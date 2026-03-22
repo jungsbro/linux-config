@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# fcitx ========================================================================
-# bash ${BIN_DIR}/system/install_korean/install_fcitx.sh ${CUR_USER};
+# ibus =========================================================================
+# bash ${BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean
+# /core/linux/bin/system/fonts/ime
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
@@ -28,10 +28,10 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="fcitx"
+APP_NAME="ibus"
 
-# com.github.fcitx
-APP_UNIQUE_NAME="com.github.${APP_NAME}"
+# com.github.ibus.ibus
+APP_UNIQUE_NAME="com.github.ibus.${APP_NAME}"
 
 APP_GRP="Settings;System;"
 # ------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ APP_GRP="Settings;System;"
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_fcitx_env()
+function set_ibus_env()
 {
     # args ---------------------------------------------------------------------
     # ${ENV_CONF_PATH}
@@ -52,9 +52,9 @@ function set_fcitx_env()
 
     # --------------------------------------------------------------------------
     local CONF_CMD='#!/bin/bash
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS="@im=fcitx"
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS="@im=ibus"
 '
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
@@ -87,15 +87,6 @@ export XMODIFIERS="@im=fcitx"
 
 function set_desktop()
 {
-    # args ---------------------------------------------------------------------
-    # ${CUR_USER}
-    # ${APP_NAME}
-    # ${EXEC_PATH}
-    # ${ICON_PATH}
-    # ${APP_GRP}
-    # ${DESKTOP_PATH}
-    # --------------------------------------------------------------------------
-
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
         return
@@ -108,18 +99,21 @@ Name=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Categories=${APP_GRP}
-Terminal=false"
+Terminal=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true"
 
     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/fcitx.desktop
+        # ~/.local/share/applications/ibus.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
-        # /usr/share/applications/fcitx.desktop
+        # /usr/share/applications/ibus.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
 }
 
-function set_fcitx_autostart()
+function set_ibus_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -128,8 +122,8 @@ function set_fcitx_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local EXEC_PATH="${APP_NAME}"
-    local ICON_PATH="/usr/share/icons/hicolor/128x128/apps/${APP_NAME}.png"
+    local EXEC_PATH="sh -c 'ibus-daemon -drx'"
+    local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_NAME}.png"
 
     local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
     su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
@@ -147,41 +141,32 @@ function set_fcitx_autostart()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    # for cinnamon, mate, xfce, lxde
+    # for gnome, cinnamon, mate, xfce, lxde
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
+        [[ -n $(apt list --installed | grep -i ^ibus) ]] || apt install -y ibus ibus-hangul;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ibus-hangul has a problem when using google-docs
         # ----------------------------------------------------------------------
-        # rhel8은 fcitx를 지원한다.
-        # rhel9에서 fcitx가 사라졌다.
-        echo "rhel is not supported for fcitx"
-        return 0
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^fcitx) ]] || dnf install -y fcitx fcitx-hangul;
+        [[ -n $(dnf list --installed | grep -i ^ibus) ]] || dnf install -y ibus ibus-hangul;
+        # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
+        #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
+        # fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
-        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5 \
-        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
-
-        # 방법2)
-        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5-gtk;
+        [[ -n $(pacman -Q | grep -i ^ibus) ]] || pacman -S --noconfirm ibus ibus-hangul;
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_fcitx_env;
+    set_ibus_env;
     # --------------------------------------------------------------------------
-    set_fcitx_autostart;
+    set_ibus_autostart;
     # --------------------------------------------------------------------------
 
 fi

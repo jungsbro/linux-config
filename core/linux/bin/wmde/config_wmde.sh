@@ -34,7 +34,7 @@ function install_wmde_pkg()
 {
     if [[ *"${CUR_WMDE}"* == *"icewm"* ]]; then                                          # icewm (anitx)
         # ----------------------------------------------------------------------
-        bash ${BIN_DIR}/system/install_synapse.sh ${CUR_USER};
+        bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then	# lxde
@@ -42,8 +42,8 @@ function install_wmde_pkg()
         bash ${BIN_DIR}/utilities/install_gnome-screenshot.sh;
         bash ${BIN_DIR}/system/install_xcape.sh ${CUR_USER};
         # ----------------------------------------------------------------------
-        # bash ${BIN_DIR}/system/install_ulauncher.sh ${CUR_USER};
-        bash ${BIN_DIR}/system/install_synapse.sh ${CUR_USER};
+        # bash ${BIN_DIR}/system/launcher/install_ulauncher.sh ${CUR_USER};
+        bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
         bash ${BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         bash ${BIN_DIR}/system/install_theme.sh;
@@ -77,8 +77,8 @@ function install_wmde_pkg()
         bash ${BIN_DIR}/system/install_xfce4-whiskermenu-plugin.sh;
         # ----------------------------------------------------------------------
         # bash ${BIN_DIR}/system/plank.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/install_ulauncher.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/install_synapse.sh ${CUR_USER};
+        # bash ${BIN_DIR}/system/launcher/install_ulauncher.sh ${CUR_USER};
+        # bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
         bash ${BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
         bash ${BIN_DIR}/system/install_wmctrl/install_wmctrl.sh
         # ----------------------------------------------------------------------
@@ -93,8 +93,8 @@ function install_wmde_pkg()
         # ----------------------------------------------------------------------
         bash ${BIN_DIR}/system/install_gnome-system-monitor.sh;
         # ----------------------------------------------------------------------
-        # bash ${BIN_DIR}/system/install_ulauncher.sh ${CUR_USER};
-        bash ${BIN_DIR}/system/install_synapse.sh ${CUR_USER};
+        # bash ${BIN_DIR}/system/launcher/install_ulauncher.sh ${CUR_USER};
+        bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
         bash ${BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         bash ${BIN_DIR}/wmde/install_mate-menu.sh;
@@ -109,7 +109,7 @@ function install_wmde_pkg()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        bash ${BIN_DIR}/system/install_synapse.sh ${CUR_USER};
+        bash ${BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         bash ${BIN_DIR}/wmde/install_dconf.sh;
         bash ${BIN_DIR}/wmde/install_gnome-tweaks.sh;

@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# anthy-9100h ==================================================================
-# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_anthy-9100h.sh
+# marisa-trie ==================================================================
+# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean/install_nimf_for_build
+# /core/linux/bin/system/fonts/ime/install_nimf_for_build
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -26,48 +26,42 @@ CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="anthy-9100h";
+NAME="marisa-trie";
 
-# https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
-URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
+# https://github.com/s-yata/marisa-trie.git
+URL="https://github.com/s-yata/marisa-trie.git";
 
 TMP_DIR="/tmp";
 
-# /tmp/anthy-9100h
+# /tmp/marisa-trie
 SRC_DIR="/tmp/${NAME}";
 
-# /tmp/anthy-9100h/anthy-9100h.tar.gz
-TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
+LOCAL_LIB64_DIR="/usr/local/lib64"
 
-LOCAL_LIB_DIR="/usr/local/lib"
-
-# /usr/local/lib/pkgconfig/anthy.pc
-PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
+# /usr/local/lib/pkgconfig/marisa.pc
+PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ==============================================================================
-function build_anthy-9100h_for_dnf()
+function build_marisa-trie_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="anthy-9100h";
+    # local NAME="marisa-trie";
 
-    # # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
-    # local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
+    # # https://github.com/s-yata/marisa-trie.git
+    # local URL="https://github.com/s-yata/marisa-trie.git";
 
     # local TMP_DIR="/tmp";
 
-    # # /tmp/anthy-9100h
+    # # /tmp/marisa-trie
     # local SRC_DIR="/tmp/${NAME}";
 
-    # # /tmp/anthy-9100h/anthy-9100h.tar.gz
-    # local TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
+    # local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # local LOCAL_LIB_DIR="/usr/local/lib"
-
-    # # /usr/local/lib/pkgconfig/anthy.pc
-    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
+    # # /usr/local/lib/pkgconfig/marisa.pc
+    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -79,47 +73,38 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
+    [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+    [[ -n $(dnf list --installed | grep -i ^cmake) ]] || dnf install -y cmake;
+    [[ -n $(dnf list --installed | grep -i ^gcc-c++) ]] || dnf install -y gcc-c++;
+    [[ -n $(dnf list --installed | grep -i ^make) ]] || dnf install -y make;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
+    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    wget ${URL} -O ${TGZ_PATH};
-    tar -xzvf "${TGZ_PATH}" -C ${SRC_DIR};
+    git clone ${URL} ${SRC_DIR};
 
-    # /tmp/m17n-db/anthy-9100h-1.8.0
-    tgt_dir=$(ls -d ${SRC_DIR}/* | head -n 1)
-
-    pushd "${tgt_dir}"
-    ./configure
-    make
+    pushd ${SRC_DIR}
+    mkdir build && cd build
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=/usr/local
+    make -j$(nproc)
     make install
     popd
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local SRC_ANTHY_DIR="/usr/local/share/anthy"
-    local DST_ANTHY_DIR="/usr/share/anthy"
-
-    if [[ -e ${SRC_ANTHY_DIR} ]] && [[ ! -e ${DST_ANTHY_DIR} ]]; then
-        # ln -s /usr/local/share/anthy /usr/share/anthy
-        ln -s ${SRC_ANTHY_DIR} ${DST_ANTHY_DIR}
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
+        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
 
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB_DIR}/pkgconfig"* ]]; then
+    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-    # pkg-config --modversion anthy
-    # pkg-config --libs anthy
+    # pkg-config --modversion marisa
+    # pkg-config --libs marisa
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -136,10 +121,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        build_anthy-9100h_for_dnf;
+        build_marisa-trie_for_dnf;
         # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
-

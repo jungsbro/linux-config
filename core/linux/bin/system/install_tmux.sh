@@ -53,7 +53,7 @@ function install_tmux()
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
         # ----------------------------------------------------------------------
 

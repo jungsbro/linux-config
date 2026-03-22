@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# ibus =========================================================================
-# bash ${BIN_DIR}/system/install_korean/install_ibus.sh ${CUR_USER};
+# fcitx5 =======================================================================
+# bash ${BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean
+# /core/linux/bin/system/fonts/ime
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -28,10 +28,10 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="ibus"
+APP_NAME="fcitx5"
 
-# com.github.ibus.ibus
-APP_UNIQUE_NAME="com.github.ibus.${APP_NAME}"
+# org.fcitx.Fcitx5
+APP_UNIQUE_NAME="org.fcitx.${APP_NAME}"
 
 APP_GRP="Settings;System;"
 # ------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ APP_GRP="Settings;System;"
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_ibus_env()
+function set_fcitx5_env()
 {
     # args ---------------------------------------------------------------------
     # ${ENV_CONF_PATH}
@@ -52,9 +52,9 @@ function set_ibus_env()
 
     # --------------------------------------------------------------------------
     local CONF_CMD='#!/bin/bash
-export GTK_IM_MODULE=ibus
-export QT_IM_MODULE=ibus
-export XMODIFIERS="@im=ibus"
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS="@im=fcitx5"
 '
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
@@ -87,6 +87,15 @@ export XMODIFIERS="@im=ibus"
 
 function set_desktop()
 {
+    # args ---------------------------------------------------------------------
+    # ${CUR_USER}
+    # ${APP_NAME}
+    # ${EXEC_PATH}
+    # ${ICON_PATH}
+    # ${APP_GRP}
+    # ${DESKTOP_PATH}
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
         return
@@ -99,21 +108,18 @@ Name=${APP_NAME}
 Exec=${EXEC_PATH}
 Icon=${ICON_PATH}
 Categories=${APP_GRP}
-Terminal=false
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true"
+Terminal=false"
 
     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/ibus.desktop
+        # ~/.local/share/applications/fcitx5.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
-        # /usr/share/applications/ibus.desktop
+        # /usr/share/applications/fcitx5.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
 }
 
-function set_ibus_autostart()
+function set_fcitx5_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -122,8 +128,8 @@ function set_ibus_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local EXEC_PATH="sh -c 'ibus-daemon -drx'"
-    local ICON_PATH="/usr/share/icons/hicolor/scalable/apps/${APP_NAME}.png"
+    local EXEC_PATH="${APP_NAME}"
+    local ICON_PATH="/usr/share/icons/hicolor/128x128/apps/${APP_UNIQUE_NAME}.png"
 
     local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
     su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
@@ -141,32 +147,50 @@ function set_ibus_autostart()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    # for gnome, cinnamon, mate, xfce, lxde
+    # for cinnamon, mate, xfce, lxde
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^ibus) ]] || apt install -y ibus ibus-hangul;
+        # 방법1)
+        # [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y --install-recommends \
+        # fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt ;
+
+        # 방법2)
+        # [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y \
+        # fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2;
+
+        # 방법3)
+        [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5 \
+        fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ibus-hangul has a problem when using google-docs
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^ibus) ]] || dnf install -y ibus ibus-hangul;
-        # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-        #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
-        # fi
+        echo "rhel is not supported for fcitx5"
+        return 0
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^fcitx5) ]] || dnf install -y fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-autostart ;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^ibus) ]] || pacman -S --noconfirm ibus ibus-hangul;
+        # 방법1)
+        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
+
+        # 방법2)
+        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5-gtk;
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
     ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_ibus_env;
+    set_fcitx_env;
     # --------------------------------------------------------------------------
-    set_ibus_autostart;
+    set_fcitx_autostart;
     # --------------------------------------------------------------------------
 
 fi

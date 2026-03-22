@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# uim ==========================================================================
-# bash ${BIN_DIR}/system/install_korean/install_uim.sh ${CUR_USER};
+# fcitx ========================================================================
+# bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean
+# /core/linux/bin/system/fonts/ime
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -28,9 +28,9 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="uim"
+APP_NAME="fcitx"
 
-# com.github.uim
+# com.github.fcitx
 APP_UNIQUE_NAME="com.github.${APP_NAME}"
 
 APP_GRP="Settings;System;"
@@ -39,7 +39,7 @@ APP_GRP="Settings;System;"
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_uim_env()
+function set_fcitx_env()
 {
     # args ---------------------------------------------------------------------
     # ${ENV_CONF_PATH}
@@ -52,9 +52,9 @@ function set_uim_env()
 
     # --------------------------------------------------------------------------
     local CONF_CMD='#!/bin/bash
-export GTK_IM_MODULE=uim
-export QT_IM_MODULE=uim
-export XMODIFIERS="@im=uim"
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
 '
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
@@ -85,7 +85,6 @@ export XMODIFIERS="@im=uim"
     # --------------------------------------------------------------------------
 }
 
-
 function set_desktop()
 {
     # args ---------------------------------------------------------------------
@@ -112,15 +111,15 @@ Categories=${APP_GRP}
 Terminal=false"
 
     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/uim.desktop
+        # ~/.local/share/applications/fcitx.desktop
         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
     else
-        # /usr/share/applications/uim.desktop
+        # /usr/share/applications/fcitx.desktop
         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
     fi
 }
 
-function set_uim_autostart()
+function set_fcitx_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -129,8 +128,8 @@ function set_uim_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local EXEC_PATH="sh -c 'uim-toolbar-gtk3-systray uim-sh'"
-    local ICON_PATH="/usr/share/uim/pixmaps/uim-icon.png"
+    local EXEC_PATH="${APP_NAME}"
+    local ICON_PATH="/usr/share/icons/hicolor/128x128/apps/${APP_NAME}.png"
 
     local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
     su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
@@ -151,30 +150,39 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # for cinnamon, mate, xfce, lxde
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
-        # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-        set_uim_env;
-        # ----------------------------------------------------------------------
-        set_uim_autostart;
+        [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        echo "Rocky is not supported for uim"
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # rhel8은 fcitx를 지원한다.
+        # rhel9에서 fcitx가 사라졌다.
+        echo "rhel is not supported for fcitx"
+        return 0
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-gtk3 uim-m17n;
+        [[ -n $(dnf list --installed | grep -i ^fcitx) ]] || dnf install -y fcitx fcitx-hangul;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # 방법1)
+        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5 \
+        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
 
-        # [[ -n $(yay -Q | grep -i ^uim-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim-git";
-        [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim";
+        # 방법2)
+        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --noconfirm fcitx5-gtk;
         # ----------------------------------------------------------------------
     fi
+
+    # --------------------------------------------------------------------------
+    ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+    set_fcitx_env;
+    # --------------------------------------------------------------------------
+    set_fcitx_autostart;
+    # --------------------------------------------------------------------------
 
 fi
 # ==============================================================================

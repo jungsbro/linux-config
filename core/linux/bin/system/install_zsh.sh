@@ -74,16 +74,17 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
         # ----------------------------------------------------------------------
 
@@ -93,7 +94,7 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
 
@@ -105,7 +106,7 @@ function install_zsh()
         [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
         [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
-        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
         [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
         # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
         # ----------------------------------------------------------------------
@@ -168,18 +169,7 @@ function config_zsh()
     # --------------------------------------------------------------------------
 
     # D2Coding-font ------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts/truetype;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        cp -Rfv ${CONFIG_DIR}/D2Coding-Ver1.3.2-20180524/D2Coding* /usr/share/fonts;
-        # ----------------------------------------------------------------------
-    fi
-
-    fc-cache -f -v;
+    bash ${BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

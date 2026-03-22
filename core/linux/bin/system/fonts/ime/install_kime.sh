@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # kime =========================================================================
-# bash ${BIN_DIR}/system/install_korean/install_kime.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean
+# /core/linux/bin/system/fonts/ime
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"

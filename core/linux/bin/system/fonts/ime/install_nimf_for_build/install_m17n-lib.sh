@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # m17n-lib =====================================================================
-# source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-lib.sh
+# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-lib.sh
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean/install_nimf_for_build
+# /core/linux/bin/system/fonts/ime/install_nimf_for_build
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"

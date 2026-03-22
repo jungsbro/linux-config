@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # font-manager =================================================================
-# bash ${BIN_DIR}/system/install_font-manager.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system
+# /core/linux/bin/system/fonts
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"

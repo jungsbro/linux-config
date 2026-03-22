@@ -69,166 +69,244 @@ function install_ranger()
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
-        [[ -n $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
-        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
-        [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
-        [[ -n $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
-        # ----------------------------------------------------------------------
+        # 필수엔진
         apt install -y python3;
         # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 코드강조
+        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 이미지/비디오
+        [[ -n $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
+        [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
+        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
+        [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
+        [[ -n $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
         [[ -n $(apt list --installed | grep -i ^tar) ]] || apt install -y tar;
         [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
         [[ -n $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
         [[ -n $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
-        # ----------------------------------------------------------------------
         # [[ -n $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
         [[ -n $(apt list --installed | grep -i ^plocate) ]] || apt install -y plocate;
+
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
+        # 기타
+        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
+        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
         [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
-        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
-        [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # ranger
+        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
-        # ----------------------------------------------------------------------
+        # 필수엔진
         [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
+
         # ----------------------------------------------------------------------
+        # 코드강조
+        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 이미지/비디오
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
-        # ----------------------------------------------------------------------
-        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
+
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^mlocate) ]] || dnf install -y mlocate;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
+
+        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+
+        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
+
+        [[ -n $(dnf list --installed | grep -i ^mlocate) ]] || dnf install -y mlocate;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 기타
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
+
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
+        # ranger
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
-        # ----------------------------------------------------------------------
+        # 필수엔진
         [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
+
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        # 코드강조
+        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
+
         # ----------------------------------------------------------------------
-        bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^plocate) ]] || dnf install -y plocate;
-        # ----------------------------------------------------------------------
+        # 이미지/비디오
+        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
+
         [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
+        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
         # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
+        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
+        [[ -n $(dnf list --installed | grep -i ^plocate) ]] || dnf install -y plocate;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 기타
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
+        # ranger
+        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --noconfirm ranger;
-        [[ -n $(pacman -Q | grep -i ^libcaca) ]] || pacman -S --noconfirm libcaca;
-        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --noconfirm highlight;
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^w3m) ]] || pacman -S --noconfirm w3m;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --noconfirm mediainfo;
-        # ----------------------------------------------------------------------
+        # 필수엔진
         pacman -S --noconfirm python;
         # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 코드강조
+        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --noconfirm highlight;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 이미지/비디오
+        [[ -n $(pacman -Q | grep -i ^w3m) ]] || pacman -S --noconfirm w3m;
+        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --noconfirm ffmpeg;
+        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
+        [[ -n $(pacman -Q | grep -i ^catimg) ]] || pacman -S --noconfirm catimg;
+        [[ -n $(pacman -Q | grep -i ^libcaca) ]] || pacman -S --noconfirm libcaca;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
+        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --noconfirm mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
         [[ -n $(pacman -Q | grep -i ^tar) ]] || pacman -S --noconfirm tar;
         [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
         [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --noconfirm fasd;
         [[ -n $(pacman -Q | grep -i ^findutils) ]] || pacman -S --noconfirm findutils;
-        # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^plocate) ]] || pacman -S --noconfirm plocate;
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --noconfirm ffmpeg;
+
+        # ----------------------------------------------------------------------
+        # 기타
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
         [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --noconfirm mpv;
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^catimg) ]] || pacman -S --noconfirm catimg;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # ranger
+        [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --noconfirm ranger;
         # ----------------------------------------------------------------------
     fi
 }

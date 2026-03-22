@@ -160,9 +160,11 @@ PRE_INIT_HOOKS+=" && \
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y vim-X11 xclip xsel"
 
-# container에서 사용하는 ranger
+# container에서 사용하는 fm
+# PRE_INIT_HOOKS+=" && \
+#     sudo dnf install -y ranger"
 PRE_INIT_HOOKS+=" && \
-    sudo dnf install -y ranger"
+    sudo dnf install -y nnn"
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
@@ -202,6 +204,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # nuke 16.0 ----------------------------------------------------------------
     bash ${CUR_DIR}/add_nk1606.sh "${CTR_NAME}"
     # --------------------------------------------------------------------------
-    
+
 fi
 # ==============================================================================

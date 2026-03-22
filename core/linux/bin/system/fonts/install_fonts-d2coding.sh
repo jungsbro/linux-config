@@ -1,55 +1,74 @@
 #!/bin/bash
 
-# fzf ==========================================================================
-# not used
-# bash ${BIN_DIR}/utilities/install_fzf.sh ${CUR_USER};
+# korean =======================================================================
+# bash ${BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/utilities
+# /core/linux/bin/system/fonts
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=$1;
+CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Func =========================================================================
-function install_fzf_for_git()
+function install_fonts-d2coding()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
+    local FONT_NAME="D2Coding"
+    local FONT_URL="https://github.com/naver/d2codingfont/releases/download/VER1.3.2/D2Coding-Ver1.3.2-20180524.zip"
+    local FONT_ZIP_PATH="/tmp/${FONT_NAME}.zip";
+
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
+        if [[ -d "${FONT_DST_DIR}" ]]; then
+            return
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        local FONT_DST_DIR="/usr/share/fonts/${FONT_NAME}";
+        if [[ -d "${FONT_DST_DIR}" ]]; then
+            return
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        local FONT_DST_DIR="/usr/share/fonts/TTF";
+        if [[ -f "${FONT_DST_DIR}/${FONT_NAME}.ttc" ]]; then
+            return
+        fi
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local FZF_CMD="git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf;
-~/.fzf/install --all;"
+    # wget "https://github.com/naver/d2codingfont/releases/download/VER1.3.2/D2Coding-Ver1.3.2-20180524.zip" -O "/tmp/D2Coding.zip"
+    wget ${FONT_URL} -O ${FONT_ZIP_PATH}
+
+    # sudo unzip /tmp/D2Coding.zip -d /usr/share/fonts/D2Coding
+    sudo unzip ${FONT_ZIP_PATH} -d ${FONT_DST_DIR}
+    rm -f ${FONT_ZIP_PATH}
     # --------------------------------------------------------------------------
 
-    # for user -----------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -e "~/.fzf" ]] || eval '${FZF_CMD}'";
     # --------------------------------------------------------------------------
-
-    # for root -----------------------------------------------------------------
-    if [[ ${CUR_USER} != "root" ]]; then
-        [[ -e "/root/.fzf" ]] || eval '${FZF_CMD}';
-    fi
+    fc-cache -fv
+    # fc-list | grep -i "d2coding"
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -60,26 +79,28 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
+        install_fonts-d2coding;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        install_fonts-d2coding;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        install_fonts-d2coding;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # D2Coding
+        [[ -n $(yay -Q | grep -i ^ttf-d2coding) ]] || su - ${CUR_USER} -c "yay -S --noconfirm ttf-d2coding";
+        # Nerd Fonts
+        # [[ -n $(pacman -Q | grep -i ^ttf-d2coding-nerd) ]] || su - ${CUR_USER} -c "pacman -S --noconfirm ttf-d2coding-nerd";
         # ----------------------------------------------------------------------
     fi
 
 fi
 # ==============================================================================
-

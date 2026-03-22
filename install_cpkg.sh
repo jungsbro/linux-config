@@ -137,7 +137,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
     # --------------------------------------------------------------------------
 
@@ -243,7 +243,7 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
@@ -293,13 +293,13 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
@@ -338,17 +338,28 @@ fi
 if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+    [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
+    # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
     # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
     # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+    # --------------------------------------------------------------------------
+    # dnf install -y nyancat cmatrix tty-clock;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
+    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -356,8 +367,12 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || 
 elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
+    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --noconfirm lsd;
+    [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --noconfirm bat;
     # --------------------------------------------------------------------------
 fi
+
+bash ${BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
 # ==============================================================================
 
 # vim ==========================================================================

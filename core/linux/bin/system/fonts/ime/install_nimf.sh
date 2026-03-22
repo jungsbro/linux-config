@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # nimf =========================================================================
-# bash ${BIN_DIR}/system/install_korean/install_nimf.sh ${CUR_USER};
+# bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system/install_korean
+# /core/linux/bin/system/fonts/ime
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
@@ -150,27 +150,27 @@ function set_nimf_autostart()
 
 function intall_nimf_for_build()
 {
-    chmod -R +x ${BIN_DIR}/system/install_korean/install_nimf_for_build;
+    chmod -R +x ${BIN_DIR}/system/fonts/ime/install_nimf_for_build;
 
     # using source : because of "PKG_CONFIG_PATH"
     # --------------------------------------------------------------------------
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_libhangul.sh;
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-lib.sh;
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_m17n-db.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_libhangul.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-lib.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-db.sh;
     # --------------------------------------------------------------------------
 
     # anthy : japanese engine --------------------------------------------------
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_anthy_9100h.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_anthy_9100h.sh;
     # --------------------------------------------------------------------------
 
     # rime : chiness engine ----------------------------------------------------
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_marisa-trie.sh;
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_opencc.sh;
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_rime.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_opencc.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_rime.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source ${BIN_DIR}/system/install_korean/install_nimf_for_build/install_nimf_for_build.sh;
+    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_nimf_for_build.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

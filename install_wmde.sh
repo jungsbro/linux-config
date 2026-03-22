@@ -79,6 +79,6 @@ bash ${BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
 # ==============================================================================
 
 # korean =======================================================================
-bash ${BIN_DIR}/system/install_korean/install_korean.sh ${CUR_USER};
-bash ${BIN_DIR}/system/install_font-manager.sh ${CUR_USER};
+bash ${BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
+bash ${BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
