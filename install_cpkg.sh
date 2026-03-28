@@ -385,6 +385,7 @@ bash ${BIN_DIR}/system/install_tmux.sh ${CUR_USER};
 
 # file-manager =================================================================
 bash ${BIN_DIR}/filemgr/install_mc.sh;
+# bash ${BIN_DIR}/filemgr/install_nnn.sh ${CUR_USER};
 bash ${BIN_DIR}/filemgr/install_ranger.sh ${CUR_USER};
 # ==============================================================================
 

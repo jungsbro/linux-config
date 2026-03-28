@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# nnn ==========================================================================
-# bash ${BIN_DIR}/filemgr/install_nnn.sh ${CUR_USER};
+# lf ===========================================================================
+# bash ${BIN_DIR}/filemgr/install_lf.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -24,13 +24,28 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="lf";
+
+# /tmp/lf
+TMP_DIR="/tmp/${APP_NAME}";
+
+# /usr/bin
+APP_DIR="/usr/bin"
+
+# https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
+APP_VER="r41";
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_dependency_for_nnn()
+function install_dependency_for_lf()
 {
-        if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # 확장기능을 사용하기 위한 의존성
+
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -49,12 +64,15 @@ function install_dependency_for_nnn()
         [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
 
         # 이미지/문서
+        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
         [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
         [[ -n $(apt list --installed | grep -i ^djvulibre-bin) ]] || apt install -y djvulibre-bin;
         [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+        [[ -n $(apt list --installed | grep -i ^chafa) ]] || apt install -y chafa;
 
         # 미디어
         [[ -n $(apt list --installed | grep -i ^ffmpegthumbnailer) ]] || apt install -y ffmpegthumbnailer;
+        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
 
         # 압축/데이터
         [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
@@ -63,6 +81,9 @@ function install_dependency_for_nnn()
 
         # 터미널 ui
         [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
+
+        # 휴지통
+        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -78,12 +99,15 @@ function install_dependency_for_nnn()
         [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
 
         # 이미지/문서
+        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
         [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;
 
         # 미디어
         [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
+        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
 
         # 압축/데이터
         [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
@@ -92,6 +116,9 @@ function install_dependency_for_nnn()
 
         # 터미널 ui
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+
+        # 휴지통
+        [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
@@ -108,12 +135,15 @@ function install_dependency_for_nnn()
         [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
 
         # 이미지/문서
+        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
         [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;
 
         # 미디어
         [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
+        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
 
         # 압축/데이터
         [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
@@ -122,6 +152,9 @@ function install_dependency_for_nnn()
 
         # 터미널 ui
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+
+        # 휴지통
+        [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
@@ -139,12 +172,15 @@ function install_dependency_for_nnn()
         [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --noconfirm lsd;
 
         # 이미지/문서
+        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --noconfirm highlight;
         [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
         [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --noconfirm djvulibre;
         [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
+        [[ -n $(pacman -Q | grep -i ^chafa) ]] || pacman -S --noconfirm chafa;
 
         # 미디어
         [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --noconfirm ffmpegthumbnailer;
+        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --noconfirm mediainfo;
 
         # 압축/데이터
         [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
@@ -153,158 +189,172 @@ function install_dependency_for_nnn()
 
         # 터미널 ui
         [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --noconfirm tmux;
+
+        # 휴지통
+        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
         # ----------------------------------------------------------------------
     fi
 }
 
-function install_nnn()
+function install_lf_for_portable()
+{
+    if [[ -f "${APP_DIR}/${APP_NAME}" ]]; then
+        return
+    fi
+
+    # 1) SRC_URL ---------------------------------------------------------------
+    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-arm64.tar.gz
+        local FNAME="lf-linux-arm64.tar.gz";
+
+    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-386.tar.gz
+        local FNAME="lf-linux-386.tar.gz";
+
+    else
+        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
+        local FNAME="lf-linux-amd64.tar.gz";
+    fi
+
+    local SRC_URL="https://github.com/gokcehan/lf/releases/download/${APP_VER}/${FNAME}"
+    # --------------------------------------------------------------------------
+
+    # 2) ZIP_PATH --------------------------------------------------------------
+    # /tmp/lf
+    if [[ ! -d "${TMP_DIR}" ]]; then
+        mkdir -p ${TMP_DIR};
+        chmod 777 ${TMP_DIR};
+    fi
+
+    # /tmp/lf/lf-linux-amd64.tar.gz
+    ZIP_PATH="${TMP_DIR}/${FNAME}"
+
+    if [[ ! -e "${ZIP_PATH}" ]]; then
+        wget "${SRC_URL}" -O "${ZIP_PATH}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # 3) APP_DIR ----------------------------------------------------------------
+    # /usr/bin
+    if [[ ! -d "${APP_DIR}" ]]; then
+        return
+    fi
+
+    # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/bin;
+    tar -xzvf "${ZIP_PATH}" -C ${APP_DIR};
+    rm -f "${ZIP_PATH}";
+    # --------------------------------------------------------------------------
+}
+
+
+function install_lf()
 {
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ -n $(apt list --installed | grep -i ^nnn) ]] || apt install -y nnn;
+        [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
+        install_lf_for_portable;
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
+        install_lf_for_portable;
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^nnn) ]] || pacman -S --noconfirm nnn;
+        [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --noconfirm lf;
     fi
 }
 
-function copy_nnnrc()
+function copy_lfrc()
 {
     # --------------------------------------------------------------------------
-    local src_path="${CUR_DIR}/nnn/nnnrc"
+    local src_path="${CUR_DIR}/lf/lfrc"
     if [[ ! -f ${src_path} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # ~/.config/nnn
-    local dst_dir="${HOME_DIR}/.config/nnn";
+    # ~/.config/lf
+    local dst_dir="${HOME_DIR}/.config/lf";
     if [[ ! -d ${dst_dir} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # ~/.config/nnn/nnnrc
-    local dst_path="${dst_dir}/nnnrc"
+    # ~/.config/lf/lfrc
+    local dst_path="${dst_dir}/lfrc"
 
     if [[ ! -f ${dst_path} ]]; then
         su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
         chown ${CUR_USER}:${CUR_USER} "${dst_path}"
         chmod 664 "${dst_path}"
-
-        # su - ${CUR_USER} -c "echo ${cmd} > ${dst_path}";
-        # echo "${cmd}" > "${dst_path}";
     fi
     # --------------------------------------------------------------------------
 }
 
-
-function create_nnn_plugins()
-{
-    # ~/.config/nnn/plugins
-    local dst_dir="${HOME_DIR}/.config/nnn/plugins";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
-    fi
-
-    # ~/.config/nnn/plugins/autojump
-    local dst_path="${dst_dir}/autojump"
-    local cmd="sh -c '$(curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs)'"
-
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "eval ${cmd}";
-    fi
-}
-
-
-function copy_shell_plugin()
+function set_color_icon_settings()
 {
     # --------------------------------------------------------------------------
-    local src_path="${CUR_DIR}/nnn/plugins/shell"
-    if [[ ! -f ${src_path} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # ~/.config/nnn/plugins
-    local dst_dir="${HOME_DIR}/.config/nnn/plugins";
+    # ~/.config/lf
+    local dst_dir="${HOME_DIR}/.config/lf";
     if [[ ! -d ${dst_dir} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # ~/.config/nnn/plugins/shell
-    local dst_path="${dst_dir}/shell"
+    # 1) ~/.config/lf/lfrc
+    # set icons true
+    local cmd="set icons true"
+
+    # ~/.config/lf/lfrc
+    local dst_path="${dst_dir}/lfrc";
+    if [[ -f ${dst_path} ]]; then
+        if [[ ! $(cat ${dst_path} | grep -i ${cmd}) ]]; then
+            echo "${cmd}" >> "${dst_path}";
+            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+            chmod 644 "${dst_path}"
+        fi
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) ~/.config/lf/colors
+    local dst_url="https://raw.githubusercontent.com/gokcehan/lf/master/etc/colors.example"
+
+    # ~/.config/lf/colors
+    local dst_path="${dst_dir}/colors"
 
     if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
-        chown ${CUR_USER}:${CUR_USER} "${dst_path}"
-        chmod 775 "${dst_path}"
-
-        # su - ${CUR_USER} -c "echo ${cmd} > ${dst_path}";
-        # echo "${cmd}" > "${dst_path}";
+        su - ${CUR_USER} -c "curl ${dst_url} -o ${dst_path}";
     fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) ~/.config/lf/icons
+    local dst_url="https://raw.githubusercontent.com/gokcehan/lf/master/etc/icons.example"
+
+    # ~/.config/lf/icons
+    local dst_path="${dst_dir}/icons"
+
+    if [[ ! -f ${dst_path} ]]; then
+        su - ${CUR_USER} -c "curl ${dst_url} -o ${dst_path}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 3) HackNerdFont
+    bash ${BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
-
-
-function fix_bashrc()
-(
-    # --------------------------------------------------------------------------
-    local kwd="NNN_PATH="
-    local cmd='
-# nnn ==========================================================================
-NNN_PATH="${HOME}/.config/nnn/nnnrc"
-
-if [[ -f "${NNN_PATH}" ]]; then
-    source "${NNN_PATH}"
-fi
-# ==============================================================================
-'
-    # ~/.bashrc
-    local dst_path="${HOME_DIR}/.bashrc";
-    if [[ -f ${dst_path} ]]; then
-        if [[ ! $(cat ${dst_path} | grep -i ${kwd}) ]]; then
-            # su - ${CUR_USER} -c "echo "${cmd}" >> "${dst_path}"";
-            echo "${cmd}" >> "${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
-            chmod 644 "${dst_path}"
-            # su - ${CUR_USER} -c "source "${dst_path}"";
-        fi
-    fi
-
-    # ~/.zshrc
-    local dst_path="${HOME_DIR}/.zshrc";
-    if [[ -f ${dst_path} ]]; then
-        if [[ ! $(cat ${dst_path} | grep -i ${kwd}) ]]; then
-            # su - ${CUR_USER} -c "echo "${cmd}" >> "${dst_path}"";
-            echo "${cmd}" >> "${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
-            chmod 644 "${dst_path}"
-            # su - ${CUR_USER} -c "source "${dst_path}"";
-        fi
-    fi
-    # --------------------------------------------------------------------------
-)
 # ==============================================================================
 
 
 # Main : x86_64, aarch64, i686 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    install_dependency_for_nnn;
-    install_nnn;
-    copy_nnnrc;
-    create_nnn_plugins;
-    copy_shell_plugin;
-    fix_bashrc;
+    install_dependency_for_lf;
+    install_lf;
+    copy_lfrc;
+    set_color_icon_settings;
 fi
 # ==============================================================================

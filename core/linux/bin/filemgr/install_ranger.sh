@@ -59,7 +59,7 @@ function install_ranger_pip()   # not used
     # --------------------------------------------------------------------------
 }
 
-function install_ranger()
+function install_dependency_for_ranger()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
@@ -113,11 +113,6 @@ function install_ranger()
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
         [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # ranger
-        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -194,12 +189,6 @@ function install_ranger()
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
 
-        # ----------------------------------------------------------------------
-        # ranger
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
-        # ----------------------------------------------------------------------
-
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
@@ -251,11 +240,6 @@ function install_ranger()
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
 
-        # ----------------------------------------------------------------------
-        # ranger
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
-        # ----------------------------------------------------------------------
-
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
@@ -303,11 +287,29 @@ function install_ranger()
         [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
         [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --noconfirm mpv;
         # ----------------------------------------------------------------------
+    fi
+}
 
-        # ----------------------------------------------------------------------
-        # ranger
+function install_ranger()
+{
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --noconfirm ranger;
-        # ----------------------------------------------------------------------
     fi
 }
 
@@ -373,6 +375,7 @@ function config_ranger()
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    install_dependency_for_ranger;
     install_ranger;
     config_ranger;
 fi
