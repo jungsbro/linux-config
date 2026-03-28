@@ -31,8 +31,8 @@ APP_NAME="lf";
 # /tmp/lf
 TMP_DIR="/tmp/${APP_NAME}";
 
-# /usr/bin
-APP_DIR="/usr/bin"
+# /usr/local/bin
+APP_DIR="/usr/local/bin"
 
 # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
 APP_VER="r41";
@@ -235,12 +235,12 @@ function install_lf_for_portable()
     # --------------------------------------------------------------------------
 
     # 3) APP_DIR ----------------------------------------------------------------
-    # /usr/bin
+    # /usr/local/bin
     if [[ ! -d "${APP_DIR}" ]]; then
         return
     fi
 
-    # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/bin;
+    # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/local/bin;
     tar -xzvf "${ZIP_PATH}" -C ${APP_DIR};
     rm -f "${ZIP_PATH}";
     # --------------------------------------------------------------------------

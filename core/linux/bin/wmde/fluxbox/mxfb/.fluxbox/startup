@@ -44,19 +44,19 @@ if [ ! -e "$HOME/.fluxbox/bookmarkcheck" ]; then
     fi
 fi
 
-# start spice-vdagent in KVM/Qemu 
+# start spice-vdagent in KVM/Qemu
 if [ -x /usr/bin/spice-vdagent ]; then
-   (sleep 5 && pidof -q  spice-vdagentd && ! pidof -q  spice-vdagent &&  /usr/bin/spice-vdagent)&
+    (sleep 5 && pidof -q  spice-vdagentd && ! pidof -q  spice-vdagent &&  /usr/bin/spice-vdagent)&
 fi
 
 #start a compositor if using complicated conkies
 #picom --dbus --config $HOME/.config/picom/picom.conf -b &
 
-# arandr genrated screenlayout 
+# arandr genrated screenlayout
 # before conky
 
 # add selected tint2 panel
-tint2session 
+tint2session
 
 # control touchpad interference
 # touchpad-indicator &
@@ -79,12 +79,12 @@ nm-applet &
 #start pipewire before volumeicon so unmute works
 pipewire-start
 sleep 2
-volumeicon -c volumeicon-fluxbox & 
+volumeicon -c volumeicon-fluxbox &
 
 #place clipboard on the toolbar
 # xfce4-clipman &
 
-#start screensaver 
+#start screensaver
 #xscreensaver &
 xfce4-screensaver &
 
@@ -115,7 +115,7 @@ if [ ! -f $HOME/.fluxbox/submenus/full_menu ]; then
     command -v mxfb-menu-generator && mxfb-menu-generator
 fi
 
-# add system monitors 
+# add system monitors
 #gkrellm &
 
 # Debian-local change:
@@ -129,9 +129,9 @@ fi
 # put apt-notifier on the toolbar
 mx-updater-autostart &
 
-# start spice-vdagent in KVM/Qemu 
+# start spice-vdagent in KVM/Qemu
 if [ -x /usr/bin/spice-vdagent ]; then
-   pidof -q spice-vdagentd && /usr/bin/spice-vdagent
+    pidof -q spice-vdagentd && /usr/bin/spice-vdagent
 fi
 
 # get last background selected

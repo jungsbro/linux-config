@@ -60,10 +60,10 @@ PRE_INIT_HOOKS+=" && \
     sudo pacman -S --noconfirm vim xclip xsel"
 
 # container에서 사용하는 fm
-# PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm ranger"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm nnn"
+    sudo pacman -S --noconfirm ranger"
+# PRE_INIT_HOOKS+=" && \
+#     sudo pacman -S --noconfirm nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \

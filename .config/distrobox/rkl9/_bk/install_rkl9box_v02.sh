@@ -160,10 +160,10 @@ PRE_INIT_HOOKS+=" && \
     sudo dnf install -y vim-X11 xclip xsel"
 
 # container에서 사용하는 fm
-# PRE_INIT_HOOKS+=" && \
-#     sudo dnf install -y ranger"
 PRE_INIT_HOOKS+=" && \
-    sudo dnf install -y nnn"
+    sudo dnf install -y ranger"
+# PRE_INIT_HOOKS+=" && \
+#     sudo dnf install -y nnn"
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
