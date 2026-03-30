@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # move_l_screen.sh =============================================================
-# bash ${BIN_DIR}/system/install_wmctrl/move_l_screen.sh;
+# bash ${CORE_BIN_DIR}/system/install_wmctrl/move_l_screen.sh;
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

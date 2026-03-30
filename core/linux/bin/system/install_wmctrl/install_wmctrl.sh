@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # install_wmctrl ================================================================
-# bash ${BIN_DIR}/system/install_wmctrl/install_wmctrl.sh ${CUR_USER}; # not used
+# bash ${CORE_BIN_DIR}/system/install_wmctrl/install_wmctrl.sh ${CUR_USER}; # not used
 
-# bash ${BIN_DIR}/system/install_wmctrl/install_wmctrl.sh;
+# bash ${CORE_BIN_DIR}/system/install_wmctrl/install_wmctrl.sh;
 # ==============================================================================
 
 
@@ -15,7 +15,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^wmctrl) ]] || dnf install -y wmctrl;
         [[ -n $(dnf list --installed | grep -i ^xdotool) ]] || dnf install -y xdotool;
         # ----------------------------------------------------------------------

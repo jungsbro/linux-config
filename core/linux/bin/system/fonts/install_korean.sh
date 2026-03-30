@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # korean =======================================================================
-# bash ${BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -48,12 +48,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         #     [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
         # fi
 
-        # bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
-        bash ${BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -69,12 +69,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
         # fi
 
-        # bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
@@ -83,12 +83,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
-        # bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
-        bash ${BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
@@ -97,19 +97,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
-        # bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
-        bash ${BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
-        # bash ${BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
     fi
 
     # fonts --------------------------------------------------------------------
-    bash ${BIN_DIR}/system/fonts/install_fonts-nanum.sh ${CUR_USER};
-    bash ${BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
-    bash ${BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/fonts/install_fonts-nanum.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
 fi

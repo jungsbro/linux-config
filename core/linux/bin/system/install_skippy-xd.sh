@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # skippy-xd ====================================================================
-# bash ${BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ function install_dep_for_apt()
 function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
     # --------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ function install_dep_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
     # --------------------------------------------------------------------------
 }
@@ -150,7 +150,7 @@ function install_skippy-xd_for_nix()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_skippy-xd -----------------------------------------------------
@@ -246,7 +246,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^skippy-xd) ]] || su - ${CUR_USER} -c "yay -S --noconfirm skippy-xd-git";
         # ----------------------------------------------------------------------
     fi

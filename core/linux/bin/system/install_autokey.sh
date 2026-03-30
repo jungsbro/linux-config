@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # autokey ======================================================================
-# bash ${BIN_DIR}/system/install_autokey.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             return 0
         fi
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
         # ----------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^autokey-gtk) ]] || su - ${CUR_USER} -c "yay -S --noconfirm autokey-gtk";
         # ----------------------------------------------------------------------
     fi

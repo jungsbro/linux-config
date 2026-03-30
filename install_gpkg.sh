@@ -24,7 +24,7 @@
 ROOT_DIR="$(dirname "$(realpath "$0")")"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # CUR_USER ---------------------------------------------------------------------
@@ -50,14 +50,14 @@ CUR_ARCH=$(uname -m);
 CUR_WMDE=$(ls /usr/bin/*-session);
 # ------------------------------------------------------------------------------
 
-# ${BIN_DIR}/ ------------------------------------------------------------------
+# ${CORE_BIN_DIR}/ ------------------------------------------------------------------
 # CORE_DIR="./core";
 # BIN_DIR="/core/linux/bin";
 # SRC_DIR="/core/linux/src/";
 
-# # if [[ ! -d ${BIN_DIR} ]]; then
+# # if [[ ! -d ${CORE_BIN_DIR} ]]; then
 # cp -rf ${CORE_DIR} /;
-# chmod -R 755 ${BIN_DIR};
+# chmod -R 755 ${CORE_BIN_DIR};
 # # fi
 
 # [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
@@ -67,11 +67,11 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 
 
 # update =======================================================================
-bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
 # flatpak ======================================================================
-bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # snap =========================================================================
@@ -79,121 +79,121 @@ bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
 #     echo "";
 
 # elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-#     bash ${BIN_DIR}/pkgmgmt/install_snap.sh;
+#     bash ${CORE_BIN_DIR}/pkgmgmt/install_snap.sh;
 # fi
 # ==============================================================================
 
 # nix ==========================================================================
-# bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
 # ==============================================================================
 
 # bottles ======================================================================
-# bash ${BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
 # ==============================================================================
 
 # monitoring ===================================================================
-# bash ${BIN_DIR}/system/install_conky.sh;
+# bash ${CORE_BIN_DIR}/system/install_conky.sh;
 # ==============================================================================
 
 # autohotkey ===================================================================
-bash ${BIN_DIR}/system/install_autokey.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 # bluelight ====================================================================
-bash ${BIN_DIR}/system/install_redshift.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/install_redshift.sh ${CUR_USER};
 # ==============================================================================
 
 # sandbox ======================================================================
-bash ${BIN_DIR}/system/install_firejail.sh;
+bash ${CORE_BIN_DIR}/system/install_firejail.sh;
 # ==============================================================================
 
 # cleaner ======================================================================
-# bash ${BIN_DIR}/system/install_stacer.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_stacer.sh ${CUR_USER};
 # ==============================================================================
 
 # snapshot =====================================================================
-bash ${BIN_DIR}/system/install_timeshift.sh;
+bash ${CORE_BIN_DIR}/system/install_timeshift.sh;
 # ==============================================================================
 
 # disk mount  ==================================================================
-bash ${BIN_DIR}/system/install_gnome-disk-utility.sh;
+bash ${CORE_BIN_DIR}/system/install_gnome-disk-utility.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================
-# bash ${BIN_DIR}/system/install_virtualbox.sh;
+# bash ${CORE_BIN_DIR}/system/install_virtualbox.sh;
 # ==============================================================================
 
 # security =====================================================================
-bash ${BIN_DIR}/security/install_gnome-keyring.sh;
+bash ${CORE_BIN_DIR}/security/install_gnome-keyring.sh;
 # ==============================================================================
 
 # ide ==========================================================================
-# bash ${BIN_DIR}/ide/install_geany.sh;
-bash ${BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ide/install_geany.sh;
+bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-bash ${BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 # web browser ==================================================================
 if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
     # --------------------------------------------------------------------------
-    bash ${BIN_DIR}/internet/install_chromium.sh;
+    bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
     # --------------------------------------------------------------------------
-    bash ${BIN_DIR}/internet/install_chromium.sh;
+    bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 else
     # --------------------------------------------------------------------------
-    bash ${BIN_DIR}/internet/install_google-chrome.sh;
+    bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh;
     # --------------------------------------------------------------------------
 fi
 
-bash ${BIN_DIR}/internet/install_firefox.sh;
+bash ${CORE_BIN_DIR}/internet/install_firefox.sh;
 # ==============================================================================
 
 # ftp ==========================================================================
-# bash ${BIN_DIR}/internet/install_filezilla.sh;
+# bash ${CORE_BIN_DIR}/internet/install_filezilla.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
-bash ${BIN_DIR}/internet/install_remmina.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/internet/install_remmina.sh ${CUR_USER};
 # ==============================================================================
 
 # anydesk ======================================================================
-# bash ${BIN_DIR}/internet/install_anydesk.sh;
+# bash ${CORE_BIN_DIR}/internet/install_anydesk.sh;
 # ==============================================================================
 
 # office =======================================================================
-bash ${BIN_DIR}/office/install_libreoffice.sh;
-bash ${BIN_DIR}/office/install_qpdfview.sh;
+bash ${CORE_BIN_DIR}/office/install_libreoffice.sh;
+bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
-bash ${BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
-# bash ${BIN_DIR}/graphics/install_kolourpaint.sh;
-# bash ${BIN_DIR}/graphics/install_inkscape.sh;
-bash ${BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
-# bash ${BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
+# bash ${CORE_BIN_DIR}/graphics/install_inkscape.sh;
+bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
 # ==============================================================================
 
 # xnview =======================================================================
-# bash ${BIN_DIR}/graphics/install_xnviewmp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_xnviewmp.sh ${CUR_USER};
 # ==============================================================================
 
 # multimedia ===================================================================
-# bash ${BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
-bash ${BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
 # ==============================================================================
 
 # filesync =====================================================================
-bash ${BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-# bash ${BIN_DIR}/utilities/install_simplescreenrecorder.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/utilities/install_simplescreenrecorder.sh ${CUR_USER};
 # ==============================================================================
 
 

@@ -17,7 +17,7 @@ ROOT_DIR="${CUR_DIR}/../../.."
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # fix desktop
     # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
+        source ${CORE_BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
         fix_freefilesync_desktop ${CTR_NAME}"
     # --------------------------------------------------------------------------
 

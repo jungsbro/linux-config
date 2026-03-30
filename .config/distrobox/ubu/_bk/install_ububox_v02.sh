@@ -17,7 +17,7 @@ ROOT_DIR="${CUR_DIR}/../../.."
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
 
 # config
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/system/install_autokey.sh $(whoami) && \
     config_autokey && \
     set_autokey_autostart"
 # ------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
 # config
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/system/install_redshift.sh $(whoami) && \
     config_redshift && \
     set_redshift_autostart"
 # ------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ distrobox enter ${CTR_NAME} -- sudo apt install -y gnome-keyring
 # vscode -----------------------------------------------------------------------
 # installation
 distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh $(whoami)"
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app code
@@ -192,7 +192,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
 # google-chrome ----------------------------------------------------------------
 # installation
 distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome
@@ -244,7 +244,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
 # config : photogimp
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
     install_photogimp"
 # ------------------------------------------------------------------------------
 
@@ -274,7 +274,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
 # fix desktop
 # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
     fix_freefilesync_desktop ${CTR_NAME}"
 # ------------------------------------------------------------------------------
 # ==============================================================================

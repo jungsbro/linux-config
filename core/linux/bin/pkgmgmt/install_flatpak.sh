@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # flatpak ======================================================================
-# bash ${BIN_DIR}/pkgmgmt/install_flatpak.sh;
+# bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

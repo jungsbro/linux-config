@@ -9,7 +9,7 @@
 ROOT_DIR="$(dirname "$(realpath "$0")")"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # CUR_USER ---------------------------------------------------------------------
@@ -38,7 +38,7 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 
 
 # update =======================================================================
-bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
 # graphic driver ===============================================================
@@ -75,10 +75,10 @@ fi
 # ==============================================================================
 
 # desktop environment ==========================================================
-bash ${BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
 # ==============================================================================
 
 # korean =======================================================================
-bash ${BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
-bash ${BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
 # ==============================================================================

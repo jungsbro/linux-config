@@ -17,7 +17,7 @@ ROOT_DIR="${CUR_DIR}/../../.."
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # config (sudo로 실행하면 password를 묻지 않는다.)
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
+        source ${CORE_BIN_DIR}/system/install_autokey.sh $(whoami) && \
         config_autokey && \
         set_autokey_autostart"
     # --------------------------------------------------------------------------
@@ -130,7 +130,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # config (sudo로 실행하면 password를 묻지 않는다.)
     distrobox enter ${CTR_NAME} -- bash -c "\
-        source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
+        source ${CORE_BIN_DIR}/system/install_redshift.sh $(whoami) && \
         config_redshift && \
         set_redshift_autostart"
     # --------------------------------------------------------------------------
@@ -190,7 +190,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # 4)
     # distrobox enter ${CTR_NAME} -- bash -c "\
-    #     sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
+    #     sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh $(whoami)"
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app code
@@ -258,7 +258,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+        source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
         install_photogimp"
     # --------------------------------------------------------------------------
 

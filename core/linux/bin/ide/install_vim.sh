@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # vim ==========================================================================
-# bash ${BIN_DIR}/ide/install_vim.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ide/install_vim.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ function install_vim()
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # lf ===========================================================================
-# bash ${BIN_DIR}/filemgr/install_lf.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/install_lf.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ APP_NAME="lf";
 TMP_DIR="/tmp/${APP_NAME}";
 
 # /usr/local/bin
-APP_DIR="/usr/local/bin"
+LOCAL_BIN_DIR="/usr/local/bin"
 
 # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
 APP_VER="r41";
@@ -198,7 +198,7 @@ function install_dependency_for_lf()
 
 function install_lf_for_portable()
 {
-    if [[ -f "${APP_DIR}/${APP_NAME}" ]]; then
+    if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
         return
     fi
 
@@ -234,14 +234,15 @@ function install_lf_for_portable()
     fi
     # --------------------------------------------------------------------------
 
-    # 3) APP_DIR ----------------------------------------------------------------
+    # 3) LOCAL_BIN_DIR ----------------------------------------------------------------
     # /usr/local/bin
-    if [[ ! -d "${APP_DIR}" ]]; then
+    if [[ ! -d "${LOCAL_BIN_DIR}" ]]; then
         return
     fi
 
     # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/local/bin;
-    tar -xzvf "${ZIP_PATH}" -C ${APP_DIR};
+    # /usr/local/bin/lf
+    tar -xzvf "${ZIP_PATH}" -C ${LOCAL_BIN_DIR};
     rm -f "${ZIP_PATH}";
     # --------------------------------------------------------------------------
 }
@@ -344,7 +345,7 @@ function set_color_icon_settings()
 
     # --------------------------------------------------------------------------
     # 3) HackNerdFont
-    bash ${BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

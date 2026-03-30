@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # gnome-screenshot =============================================================
-# bash ${BIN_DIR}/utilities/install_gnome-screenshot.sh;
+# bash ${CORE_BIN_DIR}/utilities/install_gnome-screenshot.sh;
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

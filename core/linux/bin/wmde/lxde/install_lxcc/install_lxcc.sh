@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install_lscc =================================================================
-# bash bash ${BIN_DIR}/wmde/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
+# bash bash ${CORE_BIN_DIR}/wmde/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -54,6 +54,6 @@ function cp_lxcc()
 
 
 # Main =========================================================================
-bash ${BIN_DIR}/system/install_tkinter.sh;
+bash ${CORE_BIN_DIR}/system/install_tkinter.sh;
 cp_lxcc;
 # ==============================================================================

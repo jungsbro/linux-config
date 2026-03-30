@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # nimf =========================================================================
-# bash ${BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -150,27 +150,27 @@ function set_nimf_autostart()
 
 function intall_nimf_for_build()
 {
-    chmod -R +x ${BIN_DIR}/system/fonts/ime/install_nimf_for_build;
+    chmod -R +x ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build;
 
     # using source : because of "PKG_CONFIG_PATH"
     # --------------------------------------------------------------------------
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_libhangul.sh;
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-lib.sh;
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-db.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_libhangul.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-lib.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_m17n-db.sh;
     # --------------------------------------------------------------------------
 
     # anthy : japanese engine --------------------------------------------------
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_anthy_9100h.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_anthy_9100h.sh;
     # --------------------------------------------------------------------------
 
     # rime : chiness engine ----------------------------------------------------
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh;
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_opencc.sh;
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_rime.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_opencc.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_rime.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_nimf_for_build.sh;
+    source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_nimf_for_build.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -222,7 +222,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         [[ -n $(yay -Q | grep -i ^nimf-libhangul) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf-libhangul";
 

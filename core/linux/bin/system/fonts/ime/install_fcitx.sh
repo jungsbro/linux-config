@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # fcitx ========================================================================
-# bash ${BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

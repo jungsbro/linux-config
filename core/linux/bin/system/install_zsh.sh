@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # zsh ==========================================================================
-# bash ${BIN_DIR}/system/install_zsh.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_zsh.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -69,32 +69,32 @@ function install_zsh()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
 
@@ -123,7 +123,7 @@ function install_zsh()
         [[ -n $(pacman -Q | grep -i ^curl) ]] || pacman -S --noconfirm curl;
         [[ -n $(pacman -Q | grep -i ^powerline-fonts) ]] || pacman -S --noconfirm powerline-fonts;
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^autojump) ]] || su - ${CUR_USER} -c "yay -S --noconfirm autojump";
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
@@ -169,7 +169,7 @@ function config_zsh()
     # --------------------------------------------------------------------------
 
     # D2Coding-font ------------------------------------------------------------
-    bash ${BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/fonts/install_fonts-d2coding.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -5,6 +5,22 @@
 # ==============================================================================
 
 
+# ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# /.config/distrobox/install_distrobox.sh
+# /.config/distrobox
+CUR_DIR="$(dirname "$(realpath "$0")")"
+
+ROOT_DIR="${CUR_DIR}/../.."
+
+DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
+
+# core/linux/bin
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
+# ENV ==========================================================================
+
+
 # Func =========================================================================
 function install_distrobox_with_curl()
 {
@@ -24,7 +40,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^distrobox) ]] || dnf install -y distrobox podman;
         # ----------------------------------------------------------------------
 

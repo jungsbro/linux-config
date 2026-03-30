@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # doublecmd ====================================================================
-# bash ${BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ function install_doublecmd_for_nix()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash ${BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # 3) install_doublecmd -----------------------------------------------------

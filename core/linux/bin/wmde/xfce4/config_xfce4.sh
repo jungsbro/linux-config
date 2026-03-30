@@ -1,7 +1,7 @@
 # /bin/bash
 
 # desktop environment ==========================================================
-# bash ${BIN_DIR}/wmde/xfce4/config_xfce4.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/xfce4/config_xfce4.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -77,14 +77,14 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 
     # window tile (not used) ---------------------------------------------------
-    # local tog_fs_path="${BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh"
+    # local tog_fs_path="${CORE_BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh"
 
     # win+keypad_up >> win+up
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
     # if [[ -f ${tog_fs_path} ]]; then
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh"
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh"
     #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
     # else
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
@@ -130,8 +130,8 @@ function set_shortcuts()
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Left" -t "string" -s "move_window_to_monitor_left_key"
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "move_window_to_monitor_left_key";
 
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash ${BIN_DIR}/system/install_wmctrl/move_l_screen.sh"
-        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash ${BIN_DIR}/system/install_wmctrl/move_l_screen.sh";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash ${CORE_BIN_DIR}/system/install_wmctrl/move_l_screen.sh"
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash ${CORE_BIN_DIR}/system/install_wmctrl/move_l_screen.sh";
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
@@ -142,8 +142,8 @@ function set_shortcuts()
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Right" -t "string" -s "move_window_to_monitor_right_key"
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Right" "string" "move_window_to_monitor_right_key";
 
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash ${BIN_DIR}/system/install_wmctrl/move_r_screen.sh"
-        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash ${BIN_DIR}/system/install_wmctrl/move_r_screen.sh";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash ${CORE_BIN_DIR}/system/install_wmctrl/move_r_screen.sh"
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash ${CORE_BIN_DIR}/system/install_wmctrl/move_r_screen.sh";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

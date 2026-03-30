@@ -12,7 +12,7 @@ ROOT_DIR="${CUR_DIR}/../../.."
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -183,14 +183,14 @@ fi
 # vscode
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    sudo bash ${BIN_DIR}/ide/install_vscode.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh $(whoami)"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # google-chrome
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    sudo bash ${BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps
 # autokey
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${BIN_DIR}/system/install_autokey.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/system/install_autokey.sh $(whoami) && \
     config_autokey && \
     set_autokey_autostart"
 # ------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ distrobox enter "${CTR_NAME}" -- bash -c "\
 # redshift
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${BIN_DIR}/system/install_redshift.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/system/install_redshift.sh $(whoami) && \
     config_redshift && \
     set_redshift_autostart"
 # ------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ distrobox enter "${CTR_NAME}" -- bash -c "\
 # gimp
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
     install_photogimp"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

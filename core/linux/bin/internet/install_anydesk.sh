@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # anydesk ======================================================================
-# bash ${BIN_DIR}/internet/install_anydesk.sh;
+# bash ${CORE_BIN_DIR}/internet/install_anydesk.sh;
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(yay -Q | grep -i ^anydesk) ]] || su - ${CUR_USER} -c "yay -S --noconfirm anydesk-legacy-bin";
         [[ -n $(yay -Q | grep -i ^anydesk) ]] || su - ${CUR_USER} -c "yay -S --noconfirm anydesk-bin";
         # ----------------------------------------------------------------------

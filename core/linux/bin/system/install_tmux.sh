@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # tmux =========================================================================
-# bash ${BIN_DIR}/system/install_tmux.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_tmux.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -50,10 +50,10 @@ function install_tmux()
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
         # ----------------------------------------------------------------------
 

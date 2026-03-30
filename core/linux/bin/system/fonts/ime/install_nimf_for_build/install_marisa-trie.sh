@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # marisa-trie ==================================================================
-# source ${BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh
+# source ${CORE_BIN_DIR}/system/fonts/ime/install_nimf_for_build/install_marisa-trie.sh
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

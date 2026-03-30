@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # toggle_tile_fullscreen.sh ====================================================
-# bash ${BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh;
+# bash ${CORE_BIN_DIR}/system/install_wmctrl/toggle_fullscreen.sh;
 # ==============================================================================
 
 # Main =========================================================================
@@ -12,7 +12,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

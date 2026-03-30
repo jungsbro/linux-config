@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # xfce4-appmenu-plugin =========================================================
-# bash ${BIN_DIR}/system/install_xfce4-appmenu-plugin.sh;
+# bash ${CORE_BIN_DIR}/system/install_xfce4-appmenu-plugin.sh;
 # ==============================================================================
 
 
@@ -13,7 +13,7 @@ CUR_DIR="$(dirname "$(realpath "$0")")"
 ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^xfce4-appmenu-plugin-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm xfce4-appmenu-plugin-git";
         # ----------------------------------------------------------------------
     fi

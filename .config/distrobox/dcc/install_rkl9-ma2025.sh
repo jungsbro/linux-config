@@ -15,7 +15,7 @@ ROOT_DIR="${CUR_DIR}/../../.."
 
 DISTOBOX_DIR="${ROOT_DIR}/.config/distrobox"
 # core/linux/bin
-BIN_DIR="${ROOT_DIR}/core/linux/bin"
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 
