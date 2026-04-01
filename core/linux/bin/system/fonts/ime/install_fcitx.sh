@@ -157,7 +157,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # rhel8은 fcitx를 지원한다.
         # rhel9에서 fcitx가 사라졌다.
-        echo "rhel is not supported for fcitx"
+        echo "fcitx is not supported for RHEL"
         return 0
         # ----------------------------------------------------------------------
 

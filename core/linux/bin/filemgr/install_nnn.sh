@@ -78,7 +78,7 @@ function install_dependency_for_nnn()
         [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
 
@@ -108,7 +108,7 @@ function install_dependency_for_nnn()
         [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
 

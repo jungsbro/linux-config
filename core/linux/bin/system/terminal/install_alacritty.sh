@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# xfce4-screensaver ============================================================
-# bash ${CORE_BIN_DIR}/system/install_xfce4-screensaver.sh;
+# conkey =======================================================================
+# bash ${CORE_BIN_DIR}/system/install_alacritty.sh;
 # ==============================================================================
 
 
@@ -24,32 +24,27 @@ CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# Func : x86_64, aarch64 =======================================================
+# Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12
-            echo "xfce4-screensaver is not supported for Debian";
-            return 0
-        fi
-        [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y xfce4-screensaver;
+        [[ -n $(apt list --installed | grep -i ^alacritty) ]] || apt install -y alacritty;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xfce4-screensaver) ]] || dnf install -y xfce4-screensaver;
+        echo "alacritty is not supported for RHEL"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xfce4-screensaver) ]] || dnf install -y xfce4-screensaver;
+        [[ -n $(dnf list --installed | grep -i ^alacritty) ]] || dnf install -y alacritty;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-screensaver) ]] || pacman -S --noconfirm xfce4-screensaver;
+        [[ -n $(pacman -Q | grep -i ^alacritty) ]] || pacman -S --noconfirm alacritty;
         # ----------------------------------------------------------------------
     fi
 

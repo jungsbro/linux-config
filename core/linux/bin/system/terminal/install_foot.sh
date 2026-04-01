@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# kolourpaint ==================================================================
-# bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
+# conkey =======================================================================
+# bash ${CORE_BIN_DIR}/system/install_foot.sh;
 
-# source ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh && install_kolourpaint_for_flatpak;
+# source ${CORE_BIN_DIR}/system/install_foot.sh && install_foot_for_flatpak;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics
+# /core/linux/bin/system
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -17,7 +17,6 @@ ROOT_DIR="${CUR_DIR}/../../../.."
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
-
 
 # ------------------------------------------------------------------------------
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
@@ -27,8 +26,8 @@ CUR_ARCH=$(uname -m);
 # ==============================================================================
 
 
-# func =========================================================================
-function install_kolourpaint_for_flatpak()
+# Funcs ========================================================================
+function install_foot_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
@@ -56,7 +55,7 @@ function install_kolourpaint_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub org.kde.kolourpaint;
+    [[ -n $(flatpak list --app | grep -i foot) ]] || flatpak install -y flathub page.codeberg.dnkl.foot;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -67,25 +66,22 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^kolurpaint4) ]] || apt install -y kolourpaint;
+        [[ -n $(apt list --installed | grep -i ^foot) ]] || apt install -y foot;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
-
-        install_kolourpaint_for_flatpak;
+        install_foot_for_flatpak;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
+        [[ -n $(dnf list --installed | grep -i ^foot) ]] || dnf install -y foot;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^kolourpaint) ]] || pacman -S --noconfirm kolourpaint;
+        [[ -n $(pacman -Q | grep -i ^foot) ]] || pacman -S --noconfirm foot;
         # ----------------------------------------------------------------------
     fi
 

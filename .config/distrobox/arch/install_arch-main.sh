@@ -107,6 +107,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
     # --------------------------------------------------------------------------
 
+    # terminal -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm wezterm
+
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app wezterm
+    # --------------------------------------------------------------------------
+
     # autokey ------------------------------------------------------------------
     # installation (aur)
     distrobox enter ${CTR_NAME} -- yay -S --noconfirm autokey-gtk

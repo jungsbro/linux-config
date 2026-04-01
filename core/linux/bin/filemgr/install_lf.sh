@@ -100,7 +100,7 @@ function install_dependency_for_lf()
 
         # 이미지/문서
         [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
         [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;
@@ -136,7 +136,7 @@ function install_dependency_for_lf()
 
         # 이미지/문서
         [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
         [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;

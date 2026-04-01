@@ -59,6 +59,7 @@ function install_dependency_for_yazi()
         [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
 
         # 미디어
+        [[ -n $(apt list --installed | grep -i ^ffmpegthumbnailer) ]] || apt install -y ffmpegthumbnailer;
         [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
 
         # 압축/데이터
@@ -75,10 +76,11 @@ function install_dependency_for_yazi()
         [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
 
         # 미디어
+        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -99,10 +101,11 @@ function install_dependency_for_yazi()
         [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^imagemagick) ]] || dnf install -y imagemagick;
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
         [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
 
         # 미디어
+        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
         [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
 
@@ -124,6 +127,7 @@ function install_dependency_for_yazi()
         [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
 
         # 미디어
+        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --noconfirm ffmpegthumbnailer;
         [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --noconfirm ffmpeg;
 
         # 압축/데이터
@@ -134,7 +138,7 @@ function install_dependency_for_yazi()
 }
 
 
-function install_yazi_for_deb()
+function install_yazi_for_apt()
 {
     # if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
     #     return
@@ -275,7 +279,7 @@ function install_yazi()
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
             install_yazi_for_portable;
         else
-            install_yazi_for_deb
+            install_yazi_for_apt;
         fi
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -307,7 +311,7 @@ function copy_yazirc()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local fname_list="keymap.toml yazi.toml"
+    local fname_list="flavors/ plugins/ init.lua keymap.toml package.toml theme.toml yazi.toml"
 
     for cur_fname in ${fname_list};
     do
@@ -316,10 +320,10 @@ function copy_yazirc()
         # ~/.config/yazi/yazi.toml
         dst_path="${dst_dir}/${cur_fname}"
 
-        if [[ -f "${src_path}" ]] && [[ ! -f "${dst_path}" ]]; then
-            su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
+        if [[ -e "${src_path}" ]] && [[ ! -e "${dst_path}" ]]; then
+            su - ${CUR_USER} -c "cp -Rf ${src_path} ${dst_path}";
             chown ${CUR_USER}:${CUR_USER} "${dst_path}"
-            chmod 664 "${dst_path}"
+            # chmod 664 "${dst_path}"
         fi
     done
     # --------------------------------------------------------------------------

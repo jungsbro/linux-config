@@ -2,6 +2,8 @@
 
 # pinta ========================================================================
 # bash ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
+
+# source ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER} && install_pinta_for_flatpak;
 # ==============================================================================
 
 
@@ -159,11 +161,16 @@ function install_pinta_for_flatpak()
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
+    [[ -n $(flatpak list --app | grep -i pinta) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -2,6 +2,8 @@
 
 # drawing ======================================================================
 # bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
+
+# source ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER} && install_drawing_for_flatpak;
 # ==============================================================================
 
 
@@ -187,7 +189,7 @@ function install_drawing_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i kolourpaint) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
+    [[ -n $(flatpak list --app | grep -i drawing) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

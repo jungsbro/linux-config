@@ -2,6 +2,8 @@
 
 # bottles ======================================================================
 # bash ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
+
+# source ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER} && install_bottles_for_flatpak;
 # ==============================================================================
 
 
@@ -49,6 +51,11 @@ function install_bottles_for_flatpak()
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -172,7 +179,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
             install_bottles_for_nix "multi";
         else                                            # i868
-            echo "Debian is not supported for bottles-i686"
+            echo "bottles-i686 is not supported for Debian"
         fi
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -181,7 +188,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
             install_bottles_for_nix "single";
         else                                            # i868
-            echo "Rocky is not supported for bottles-i686"
+            echo "bottles-i686 is not supported for RHEL"
         fi
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

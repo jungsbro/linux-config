@@ -165,7 +165,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        echo "rhel is not supported for fcitx5"
+        echo "fcitx5 is not supported for RHEL"
         return 0
         # ----------------------------------------------------------------------
 

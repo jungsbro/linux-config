@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# freetube ======================================================================
+# freetube =====================================================================
 # bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
+
+# source ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER} && install_freetube_for_flatpak;
 # ==============================================================================
 
 
@@ -259,12 +261,17 @@ function install_freetube_for_flatpak()
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # flatpak run io.freetubeapp.FreeTube
-    [[ -n $(flatpak list --app | grep -i FreeTube) ]] || flatpak install -y flathub io.freetubeapp.FreeTube
+    [[ -n $(flatpak list --app | grep -i freetube) ]] || flatpak install -y flathub io.freetubeapp.FreeTube
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -447,7 +454,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
-            echo "Debian/Ubuntu is not supported for freetube-i686"
+            echo "freetube-i686 is not supported for Debian/Ubuntu"
             # install_freetube_for_nix "multi"
         else                                        # x86_64, aarch64
             install_freetube_for_apt;
@@ -462,7 +469,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
-            echo "Rocky/Centos is not supported for freetube-i686"
+            echo "freetube-i686 is not supported for RHEL"
             # install_freetube_for_nix "single"
         else                                        # x86_64, aarch64
             install_freetube_for_rpm;

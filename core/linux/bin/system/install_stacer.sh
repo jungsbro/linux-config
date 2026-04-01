@@ -166,7 +166,7 @@ function install_stacer_for_nix()   # it has error / not working / it's gnone on
 # Main : x86_64, i686, aarch64 =================================================
 if [[ *"${CUR_VER}"* == *"debian"* ]]; then
     # --------------------------------------------------------------------------
-    echo "debian13+ is not supported for stacer"
+    echo "stacer is not supported for Debian13+"
     # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
     # --------------------------------------------------------------------------
 
@@ -177,7 +177,7 @@ elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
-    echo "rhel is not supported for stacer"
+    echo "stacer is not supported for RHEL"
 	# because of error
     # install_stacer_for_nix "single";
     # --------------------------------------------------------------------------

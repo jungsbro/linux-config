@@ -99,6 +99,21 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
     # --------------------------------------------------------------------------
 
+    # terminal -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    # curl -fsSL https://apt.fury.io/wez/gpg.key | \
+    # sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg \
+    # echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | \
+    # sudo tee /etc/apt/sources.list.d/wezterm.list"
+
+    # distrobox enter ${CTR_NAME} -- sudo apt update
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y wezterm
+
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app wezterm
+    # --------------------------------------------------------------------------
+
     # autokey ------------------------------------------------------------------
     # installation
     distrobox enter ${CTR_NAME} -- sudo apt install -y autokey-gtk

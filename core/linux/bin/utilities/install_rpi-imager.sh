@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # rpi-imager ===================================================================
-# bash ${CORE_BIN_DIR}/utilities/install_rpi-imager.sh ${CUR_USER}
+# bash ${CORE_BIN_DIR}/utilities/install_rpi-imager.sh ${CUR_USER};
+
+# source ${CORE_BIN_DIR}/utilities/install_rpi-imager.sh ${CUR_USER} && install_rpi-imager_for_flatpak;
 # ==============================================================================
 
 
@@ -157,6 +159,11 @@ function install_rpi-imager_for_flatpak()
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

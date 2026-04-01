@@ -94,6 +94,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
     # --------------------------------------------------------------------------
 
+    # terminal -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf copr enable wezfurlong/wezterm-nightly
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y wezterm
+
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app wezterm
+    # --------------------------------------------------------------------------
+
     # autokey ------------------------------------------------------------------
     # installation
     distrobox enter ${CTR_NAME} -- sudo dnf install -y autokey-gtk
