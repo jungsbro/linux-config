@@ -149,7 +149,15 @@ function set_uim_autostart()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for cinnamon, mate, xfce, lxde
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        # [[ -n $(yay -Q | grep -i ^uim-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm uim-git";
+        [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm uim";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
         # ----------------------------------------------------------------------
@@ -165,14 +173,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-gtk3 uim-m17n;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-
-        # [[ -n $(yay -Q | grep -i ^uim-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim-git";
-        [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --noconfirm uim";
         # ----------------------------------------------------------------------
     fi
 

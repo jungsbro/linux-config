@@ -34,8 +34,19 @@ CTR_ARGS+="--name ${CTR_NAME} "
 # container image주소
 CTR_ARGS+="--image ${IMAGE} "
 
-# nvidia gpu를 사용할때, --nvidia 가 필요하다.
-# CTR_ARGS+="--nvidia "
+if [[ -n $(lspci | grep -E "VGA|3D" | grep -i nvidia) ]]; then
+    # nvidia gpu를 사용할때, --nvidia 가 필요하다.
+    CTR_ARGS+="--nvidia "
+
+    # puslseAudio 사용을 위해 (PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+    CTR_ARGS+="--volume /run/user/${UID}/pulse:/run/user/${UID}/pulse "
+fi
+
+# PipeWire 사용을 위해 (fedora34 이후 / PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+# CTR_ARGS+="--volume /run/user/${UID}/pipewire-0:/run/user/${UID}/pipewire-0 "
+
+# Alsa장치 사용을 위해
+# CTR_ARGS+="--volume /dev/snd:/dev/snd "
 
 # container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
 # if [[ -d "/opt/ayon" ]]; then
@@ -47,37 +58,55 @@ CTR_ARGS+="--image ${IMAGE} "
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm base-devel"
+    sudo pacman -S --needed --noconfirm base-devel"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm git wget curl"
+    sudo pacman -S --needed --noconfirm git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm vim xclip xsel"
+    sudo pacman -S --needed --noconfirm vim xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm ranger"
+    sudo pacman -S --needed --noconfirm ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm nnn"
+#     sudo pacman -S --needed --noconfirm nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
+#     sudo pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm fcitx5-gtk"
+    sudo pacman -S --needed --noconfirm fcitx5-gtk"
 
 # aur 설치
+# PRE_INIT_HOOKS+=" && \
+#     git clone https://aur.archlinux.org/yay.git /tmp/yay"
+# PRE_INIT_HOOKS+=" && \
+#     bash -c 'cd /tmp/yay && makepkg -si --noconfirm'"
+# PRE_INIT_HOOKS+=" && \
+#     rm -rf /tmp/yay"
 PRE_INIT_HOOKS+=" && \
-    git clone https://aur.archlinux.org/yay.git /tmp/yay"
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
+
+# hw-acceleration
 PRE_INIT_HOOKS+=" && \
-    bash -c 'cd /tmp/yay && makepkg -si --noconfirm'"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_hwaccel.sh"
+
+# vfx-dcc-dependencies for rocky8 or rocky9
+# PRE_INIT_HOOKS+=" && \
+#     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
+
+# gputop
 PRE_INIT_HOOKS+=" && \
-    rm -rf /tmp/yay"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gputop.sh"
+
+# puslseAudio 사용을 위해
+PRE_INIT_HOOKS+=" && \
+    sudo pacman -S --needed --noconfirm libpulse"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
@@ -109,7 +138,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # terminal -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm wezterm
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm wezterm
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app wezterm
@@ -117,7 +146,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # autokey ------------------------------------------------------------------
     # installation (aur)
-    distrobox enter ${CTR_NAME} -- yay -S --noconfirm autokey-gtk
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm autokey-gtk
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
@@ -131,7 +160,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # redshift -----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm redshift geoclue
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm redshift geoclue
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
@@ -147,7 +176,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # # sandbox안에서 권한문제가 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm firejail firetools
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firejail firetools
 
     # # bin
     # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/firejail
@@ -160,7 +189,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # # distrobox에서 작동을 안한다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm timeshift
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm timeshift
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
@@ -171,7 +200,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gnome-disk-utility
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-disk-utility
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
@@ -181,20 +210,20 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # vscode, remmina에서 사용된다.
 
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gnome-keyring
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-keyring
     # --------------------------------------------------------------------------
 
     # vscode -------------------------------------------------------------------
     # installation
     # 1) opensource (without telemetry)
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm code
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm code
 
     # 2) official microsoft
-    distrobox enter ${CTR_NAME} -- yay -S --noconfirm visual-studio-code-bin
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm visual-studio-code-bin
 
     # 3) opensource (disable telemetry)
-    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm vscodium-bin
-    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm vscodium-bin-marketplace
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin-marketplace
 
     # 4)
     # distrobox enter ${CTR_NAME} -- bash -c "\
@@ -206,17 +235,25 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # doublecmd ----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm doublecmd-qt5
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm doublecmd-qt5
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
     # --------------------------------------------------------------------------
 
-    # google-chrome ------------------------------------------------------------
-    # # installation (aur)
-    distrobox enter ${CTR_NAME} -- yay -S --noconfirm google-chrome
+    # chromium -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm chromium
 
     # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
+    # --------------------------------------------------------------------------
+
+    # google-chrome ------------------------------------------------------------
+    # installation (aur)
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm google-chrome
+
+    # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
     # --------------------------------------------------------------------------
 
@@ -224,7 +261,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm firefox
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firefox
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
@@ -232,7 +269,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # remmina ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm remmina freerdp
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm remmina freerdp
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
@@ -242,8 +279,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm libreoffice-fresh
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm libreoffice-still
+    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-fresh
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-still
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
@@ -251,7 +288,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # qpdf ---------------------------------------------------------------------
     # installation (aur)
-    distrobox enter ${CTR_NAME} -- yay -S --noconfirm qpdfview
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm qpdfview
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
@@ -259,7 +296,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # gimp ---------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gimp
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
@@ -272,7 +309,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # drawing ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm drawing
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm drawing
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
@@ -280,10 +317,26 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # vlc ----------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm vlc
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm vlc
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
+    # --------------------------------------------------------------------------
+
+    # kdenlive -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm kdenlive
+
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app kdenlive
+    # --------------------------------------------------------------------------
+
+    # shotcut ------------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm shotcut
+
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app shotcut
     # --------------------------------------------------------------------------
 
 fi

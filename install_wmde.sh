@@ -84,7 +84,13 @@ bash ${CORE_BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 
 # terminal =====================================================================
-# bash ${CORE_BIN_DIR}/system/install_alacritty.sh;
-# bash ${CORE_BIN_DIR}/system/install_foot.sh;
-bash ${CORE_BIN_DIR}/system/install_wezterm.sh;
+# bash ${CORE_BIN_DIR}/system/terminal/install_alacritty.sh;
+# bash ${CORE_BIN_DIR}/system/terminal/install_foot.sh;
+bash ${CORE_BIN_DIR}/system/terminal/install_wezterm.sh;
 # ==============================================================================
+
+# endline ======================================================================
+echo ""
+date;
+# ==============================================================================
+

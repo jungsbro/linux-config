@@ -67,7 +67,55 @@ function install_dependency_for_ranger()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 필수엔진
+        pacman -S --needed --noconfirm python;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 코드강조
+        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --needed --noconfirm highlight;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 이미지/비디오
+        [[ -n $(pacman -Q | grep -i ^w3m) ]] || pacman -S --needed --noconfirm w3m;
+        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --needed --noconfirm ffmpeg;
+        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
+        [[ -n $(pacman -Q | grep -i ^catimg) ]] || pacman -S --needed --noconfirm catimg;
+        [[ -n $(pacman -Q | grep -i ^libcaca) ]] || pacman -S --needed --noconfirm libcaca;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
+        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --needed --noconfirm mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --needed --noconfirm atool;
+        [[ -n $(pacman -Q | grep -i ^tar) ]] || pacman -S --needed --noconfirm tar;
+        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --needed --noconfirm fasd;
+        [[ -n $(pacman -Q | grep -i ^findutils) ]] || pacman -S --needed --noconfirm findutils;
+        [[ -n $(pacman -Q | grep -i ^plocate) ]] || pacman -S --needed --noconfirm plocate;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 기타
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
+        [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --needed --noconfirm mpv;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         apt install -y python3;
@@ -239,54 +287,6 @@ function install_dependency_for_ranger()
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        pacman -S --noconfirm python;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --noconfirm highlight;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        [[ -n $(pacman -Q | grep -i ^w3m) ]] || pacman -S --noconfirm w3m;
-        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --noconfirm ffmpeg;
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^catimg) ]] || pacman -S --noconfirm catimg;
-        [[ -n $(pacman -Q | grep -i ^libcaca) ]] || pacman -S --noconfirm libcaca;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
-        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --noconfirm mediainfo;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^tar) ]] || pacman -S --noconfirm tar;
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --noconfirm fasd;
-        [[ -n $(pacman -Q | grep -i ^findutils) ]] || pacman -S --noconfirm findutils;
-        [[ -n $(pacman -Q | grep -i ^plocate) ]] || pacman -S --noconfirm plocate;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 기타
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
-        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
-        [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --noconfirm mpv;
-        # ----------------------------------------------------------------------
     fi
 }
 
@@ -298,7 +298,10 @@ function install_ranger()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --needed --noconfirm ranger;
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -307,9 +310,6 @@ function install_ranger()
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --noconfirm ranger;
     fi
 }
 

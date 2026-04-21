@@ -32,7 +32,21 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # fontconfig -----------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^fontconfig) ]] || pacman -S --needed --noconfirm fontconfig;
+        # ----------------------------------------------------------------------
+
+        # ime ------------------------------------------------------------------
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # fontconfig -----------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^fontconfig) ]] || apt install -y fontconfig;
         # ----------------------------------------------------------------------
@@ -80,20 +94,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # fontconfig -----------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
-        # ----------------------------------------------------------------------
-
-        # ime ------------------------------------------------------------------
-        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/system/fonts/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_ibus.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_kime.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_nimf.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/system/fonts/ime/install_uim.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # fontconfig -----------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^fontconfig) ]] || pacman -S --noconfirm fontconfig;
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------

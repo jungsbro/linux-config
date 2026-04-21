@@ -27,7 +27,12 @@ CUR_ARCH=$(uname -m);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^xfce4-whiskermenu-plugin) ]] || pacman -S --needed --noconfirm xfce4-whiskermenu-plugin;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || apt install -y xfce4-whiskermenu-plugin;
         # ----------------------------------------------------------------------
@@ -41,11 +46,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || dnf install -y xfce4-whiskermenu-plugin;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-whiskermenu-plugin) ]] || pacman -S --noconfirm xfce4-whiskermenu-plugin;
         # ----------------------------------------------------------------------
     fi
 

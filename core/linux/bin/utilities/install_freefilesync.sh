@@ -212,7 +212,12 @@ function install_freefilesync_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -220,11 +225,6 @@ function install_freefilesync_for_flatpak()
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -253,7 +253,21 @@ function fix_freefilesync_desktop()
 # main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        # 방법1)
+        # [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freefilesync-bin";
+
+        # 방법2) build하는데 20분 걸린다
+        [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freefilesync";
+
+        # 방법3) distrobox를 사용한다.
+        # echo "freefilesync takes too long time to install."
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^freefilesync) ]] || apt install -y freefilesync;
         # install_freefilesync_for_nix "multi";
@@ -261,18 +275,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
+        # distrobox를 사용한다.
+        # echo "freefilesync is not supported in RHEL and Fedora"
+
         install_freefilesync_for_nix "single";
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-
-        # 방법1)
-        # [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --noconfirm freefilesync-bin";
-
-        # 방법2) build하는데 20분 걸린다
-        [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --noconfirm freefilesync";
         # ----------------------------------------------------------------------
     fi
 

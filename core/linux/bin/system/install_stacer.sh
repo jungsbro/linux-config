@@ -164,31 +164,39 @@ function install_stacer_for_nix()   # it has error / not working / it's gnone on
 
 
 # Main : x86_64, i686, aarch64 =================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-    # --------------------------------------------------------------------------
-    echo "stacer is not supported for Debian13+"
-    # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
-    # --------------------------------------------------------------------------
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
-    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    echo "stacer is not supported for RHEL"
-	# because of error
-    # install_stacer_for_nix "single";
-    # --------------------------------------------------------------------------
+        # [[ -n $(yay -Q | grep -i ^stacer-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer-git";
+        [[ -n $(yay -Q | grep -i ^stacer-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer-bin";
+        # [[ -n $(yay -Q | grep -i ^stacer) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer";
+        # ----------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+        # ----------------------------------------------------------------------
+        # distrobox를 사용한다.
+        echo "stacer is not supported for Debian13+"
 
-    # [[ -n $(yay -Q | grep -i ^stacer-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer-git";
-    [[ -n $(yay -Q | grep -i ^stacer-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer-bin";
-    # [[ -n $(yay -Q | grep -i ^stacer) ]] || su - ${CUR_USER} -c "yay -S --noconfirm stacer";
-    # --------------------------------------------------------------------------
+        # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # distrobox를 사용한다.
+        echo "stacer is not supported for RHEL and Fedora"
+
+        # because of error
+        # install_stacer_for_nix "single";
+        # ----------------------------------------------------------------------
+    fi
+
 fi
 # ==============================================================================

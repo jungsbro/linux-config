@@ -44,8 +44,44 @@ APP_VER="r41";
 function install_dependency_for_lf()
 {
     # 확장기능을 사용하기 위한 의존성
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
+        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # 폴더/파일
+        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
+        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
+        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+
+        # 이미지/문서
+        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --needed --noconfirm highlight;
+        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
+        [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --needed --noconfirm djvulibre;
+        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
+        [[ -n $(pacman -Q | grep -i ^chafa) ]] || pacman -S --needed --noconfirm chafa;
+
+        # 미디어
+        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --needed --noconfirm ffmpegthumbnailer;
+        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --needed --noconfirm mediainfo;
+
+        # 압축/데이터
+        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --needed --noconfirm atool;
+        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+
+        # 터미널 ui
+        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
+
+        # 휴지통
+        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -156,43 +192,6 @@ function install_dependency_for_lf()
         # 휴지통
         [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --noconfirm zoxide;
-        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --noconfirm ripgrep;
-
-        # 폴더/파일
-        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --noconfirm eza;
-        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --noconfirm tree;
-        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --noconfirm bat;
-        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --noconfirm lsd;
-
-        # 이미지/문서
-        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --noconfirm highlight;
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --noconfirm djvulibre;
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
-        [[ -n $(pacman -Q | grep -i ^chafa) ]] || pacman -S --noconfirm chafa;
-
-        # 미디어
-        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --noconfirm ffmpegthumbnailer;
-        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --noconfirm mediainfo;
-
-        # 압축/데이터
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --noconfirm jq;
-
-        # 터미널 ui
-        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --noconfirm tmux;
-
-        # 휴지통
-        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --noconfirm trash-cli;
-        # ----------------------------------------------------------------------
     fi
 }
 
@@ -250,7 +249,10 @@ function install_lf_for_portable()
 
 function install_lf()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --needed --noconfirm lf;
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -258,9 +260,6 @@ function install_lf()
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         install_lf_for_portable;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --noconfirm lf;
     fi
 }
 

@@ -45,8 +45,28 @@ APP_VER="v26.1.22";
 function install_dependency_for_yazi()
 {
     # 확장기능을 사용하기 위한 의존성
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
+        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # 이미지/문서
+        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
+        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
+
+        # 미디어
+        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --needed --noconfirm ffmpegthumbnailer;
+        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --needed --noconfirm ffmpeg;
+
+        # 압축/데이터
+        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -112,27 +132,6 @@ function install_dependency_for_yazi()
         # 압축/데이터
         [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
         [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --noconfirm zoxide;
-        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --noconfirm ripgrep;
-
-        # 이미지/문서
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
-
-        # 미디어
-        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --noconfirm ffmpegthumbnailer;
-        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --noconfirm ffmpeg;
-
-        # 압축/데이터
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --noconfirm jq;
         # ----------------------------------------------------------------------
     fi
 }
@@ -275,7 +274,10 @@ function install_yazi_for_portable()
 
 function install_yazi()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --needed --noconfirm yazi;
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
             install_yazi_for_portable;
         else
@@ -287,9 +289,6 @@ function install_yazi()
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         install_yazi_for_portable;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --noconfirm yazi;
     fi
 }
 

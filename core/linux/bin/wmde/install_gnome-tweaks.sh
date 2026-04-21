@@ -27,7 +27,38 @@ CUR_ARCH=$(uname -m);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-tweaks) ]] || pacman -S --needed --noconfirm gnome-tweaks;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-shell-extensions) ]] || pacman -S --needed --noconfirm gnome-shell-extensions;
+        # drive-menu
+        # window-list
+        # user-theme
+        # horizontal-workspace
+        [[ -n $(pacman -Q | grep -i ^extension-manager) ]] || pacman -S --needed --noconfirm extension-manager;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-shell) ]] || pacman -S --needed --noconfirm gnome-shell;
+        [[ -n $(pacman -Q | grep -i ^gnome-browser-connector) ]] || pacman -S --needed --noconfirm gnome-browser-connector;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-appindicator) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-appindicator";
+        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-caffeine) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-caffeine";
+        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-desktop-icons-ng) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-desktop-icons-ng";
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-do-not-disturb-button";
+        # ----------------------------------------------------------------------
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-drive-menu) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-drive-menu";
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-window-list) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-window-list";
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-user-theme-x-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-user-theme-x-git";
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-horizontal-workspaces";
+        # ----------------------------------------------------------------------
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-panel-favorites) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-panel-favorites";
+        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-topicons-plus) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-topicons-plus";
+        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-top-icons) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-top-icons";
+        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-windowoverlay-icons";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^gnome-tweaks) ]] || apt install -y gnome-tweaks;
         [[ -n $(apt list --installed | grep -i ^gnome-shell-extensions) ]] || apt install -y gnome-shell-extensions;
@@ -131,37 +162,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-topicons-plus) ]] || dnf install -y gnome-shell-extension-topicons-plus;
         # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-top-icons) ]] || dnf install -y gnome-shell-extension-top-icons;
         # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-tweaks) ]] || pacman -S --noconfirm gnome-tweaks;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-shell-extensions) ]] || pacman -S --noconfirm gnome-shell-extensions;
-        # drive-menu
-        # window-list
-        # user-theme
-        # horizontal-workspace
-        [[ -n $(pacman -Q | grep -i ^extension-manager) ]] || pacman -S --noconfirm extension-manager;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-shell) ]] || pacman -S --noconfirm gnome-shell;
-        [[ -n $(pacman -Q | grep -i ^gnome-browser-connector) ]] || pacman -S --noconfirm gnome-browser-connector;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-appindicator) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-appindicator";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-caffeine) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-caffeine";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-desktop-icons-ng) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-desktop-icons-ng";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-do-not-disturb-button";
-        # ----------------------------------------------------------------------
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-drive-menu) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-drive-menu";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-window-list) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-window-list";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-user-theme-x-git) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-user-theme-x-git";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-horizontal-workspaces";
-        # ----------------------------------------------------------------------
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-panel-favorites) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-panel-favorites";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-topicons-plus) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-topicons-plus";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-top-icons) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-top-icons";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || su - ${CUR_USER} -c "yay -S --noconfirm gnome-shell-extension-windowoverlay-icons";
         # ----------------------------------------------------------------------
     fi
 

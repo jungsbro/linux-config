@@ -180,7 +180,17 @@ function intall_nimf_for_build()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for gnome, cinnamon, mate, xfce, lxde
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        [[ -n $(yay -Q | grep -i ^nimf-libhangul) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm nimf-libhangul";
+
+        # [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm nimf-git";
+        [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm nimf";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
             # ------------------------------------------------------------------
             wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
@@ -219,16 +229,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # set_nimf_autostart;
             # ------------------------------------------------------------------
         fi
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-
-        [[ -n $(yay -Q | grep -i ^nimf-libhangul) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf-libhangul";
-
-        # [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf-git";
-        [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --noconfirm nimf";
-        # ----------------------------------------------------------------------
     fi
 
 fi

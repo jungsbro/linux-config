@@ -42,27 +42,27 @@ CTR_ARGS+="--image ${IMAGE} "
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm base-devel"
+    sudo pacman -S --needed --noconfirm base-devel"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm git wget curl"
+    sudo pacman -S --needed --noconfirm git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm vim xclip xsel"
+    sudo pacman -S --needed --noconfirm vim xclip xsel"
 
 # container에서 사용하는 ranger
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm ranger"
+    sudo pacman -S --needed --noconfirm ranger"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
+#     sudo pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm fcitx5-gtk"
+    sudo pacman -S --needed --noconfirm fcitx5-gtk"
 
 # aur 설치
 PRE_INIT_HOOKS+=" && \
@@ -101,7 +101,7 @@ fi
 
 # xcape ------------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm xcape
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm xcape
 
 # bin
 distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
@@ -109,7 +109,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
 
 # skippy-xd --------------------------------------------------------------------
 # installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --noconfirm skippy-xd-git
+distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
 
 # bin
 distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
@@ -117,7 +117,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
 
 # autokey ----------------------------------------------------------------------
 # installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --noconfirm autokey-gtk
+distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm autokey-gtk
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
@@ -131,7 +131,7 @@ distrobox enter ${CTR_NAME} -- sudo bash -c "\
 
 # redshift ---------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm redshift geoclue
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm redshift geoclue
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
@@ -147,7 +147,7 @@ distrobox enter ${CTR_NAME} -- bash -c "\
 # # sandbox안에서 권한문제가 있다.
 
 # # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm firejail firetools
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firejail firetools
 
 # # bin
 # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/firejail
@@ -160,7 +160,7 @@ distrobox enter ${CTR_NAME} -- bash -c "\
 # # distrobox에서 작동을 안한다.
 
 # # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm timeshift
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm timeshift
 
 # # desktop
 # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
@@ -171,7 +171,7 @@ distrobox enter ${CTR_NAME} -- bash -c "\
 # # 배포판에 이미 설치되어 있다.
 
 # # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gnome-disk-utility
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-disk-utility
 
 # # desktop
 # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
@@ -181,20 +181,20 @@ distrobox enter ${CTR_NAME} -- bash -c "\
 # vscode, remmina에서 사용된다.
 
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gnome-keyring
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-keyring
 # ------------------------------------------------------------------------------
 
 # vscode -----------------------------------------------------------------------
 # installation
 # 1) opensource (without telemetry)
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm code
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm code
 
 # 2) official microsoft
-distrobox enter ${CTR_NAME} -- yay -S --noconfirm visual-studio-code-bin
+distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm visual-studio-code-bin
 
 # 3) opensource (disable telemetry)
-# distrobox enter ${CTR_NAME} -- yay -S --noconfirm vscodium-bin
-# distrobox enter ${CTR_NAME} -- yay -S --noconfirm vscodium-bin-marketplace
+# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin
+# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin-marketplace
 
 # 4)
 # distrobox enter ${CTR_NAME} -- bash -c "\
@@ -206,7 +206,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app code
 
 # doublecmd --------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm doublecmd-qt5
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm doublecmd-qt5
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
@@ -214,7 +214,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
 
 # google-chrome ----------------------------------------------------------------
 # # installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --noconfirm google-chrome
+distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm google-chrome
 
 # # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
@@ -224,7 +224,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
 # # 배포판에 이미 설치되어 있다.
 
 # # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm firefox
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firefox
 
 # # desktop
 # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
@@ -232,7 +232,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
 
 # remmina ----------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm remmina freerdp
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm remmina freerdp
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
@@ -242,8 +242,8 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
 # # 배포판에 이미 설치되어 있다.
 
 # # installation
-# # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm libreoffice-fresh
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm libreoffice-still
+# # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-fresh
+# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-still
 
 # # desktop
 # distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
@@ -251,7 +251,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
 
 # qpdf -------------------------------------------------------------------------
 # installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --noconfirm qpdfview
+distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm qpdfview
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
@@ -259,7 +259,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
 
 # gimp -------------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm gimp
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
@@ -272,7 +272,7 @@ distrobox enter ${CTR_NAME} -- sudo bash -c "\
 
 # drawing ----------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm drawing
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm drawing
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
@@ -280,7 +280,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
 
 # vlc --------------------------------------------------------------------------
 # installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm vlc
+distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm vlc
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
@@ -290,9 +290,9 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
 # # build하는데 20분 걸린다
 # # installation (aur)
 # # 방법1)
-# # distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync-bin
+# # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync-bin
 # # 방법2)
-# distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync
+# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync
 
 # # desktop
 # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync

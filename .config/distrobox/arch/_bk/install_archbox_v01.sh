@@ -34,9 +34,9 @@ CTR_ARGS+="--image ${IMAGE} "
 
 # ------------------------------------------------------------------------------
 PRE_INIT_HOOKS=""
-PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -Syu --noconfirm"
+#     sudo pacman -Syu --needed --noconfirm"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

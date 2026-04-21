@@ -27,7 +27,12 @@ CUR_ARCH=$(uname -m);
 # Main : x86_64, i686, aarch64 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^tlp) ]] || pacman -S --needed --noconfirm tlp tlp-rdw tlpui;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^tlp) ]] || apt install -y tlp tlp-rdw;
         # [[ -n $(apt list --installed | grep -i ^tlpui) ]] || apt install -y tlpui;
@@ -36,11 +41,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^tlp) ]] || dnf install -y tlp tlp-rdw;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^tlp) ]] || pacman -S --noconfirm tlp tlp-rdw tlpui;
         # ----------------------------------------------------------------------
     fi
 

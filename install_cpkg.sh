@@ -54,7 +54,13 @@ bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
 
 # development ==================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+    [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
@@ -64,17 +70,17 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || 
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --noconfirm python python-pip python-setuptools;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 
 # maintenance ==================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --needed --noconfirm rsync;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
     [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
@@ -86,11 +92,6 @@ if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; the
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --noconfirm rsync;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
@@ -101,7 +102,26 @@ bash ${CORE_BIN_DIR}/security/install_clamav.sh;
 
 
 # storage ======================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^samba) ]] || pacman -S --needed --noconfirm samba;
+    [[ -n $(pacman -Q | grep -i ^cifs-utils) ]] || pacman -S --needed --noconfirm cifs-utils;
+    [[ -n $(pacman -Q | grep -i ^smbclient) ]] || pacman -S --needed --noconfirm smbclient;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^nfts-3g) ]] || pacman -S --needed --noconfirm nfts-3g;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^exfatprogs) ]] || pacman -S --needed --noconfirm exfatprogs;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^nfs-utils) ]] || pacman -S --needed --noconfirm nfs-utils;
+    [[ -n $(pacman -Q | grep -i ^rpcbind) ]] || pacman -S --needed --noconfirm rpcbind;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(yay -Q | grep -i ^autofs) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autofs";
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
     [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
@@ -158,31 +178,21 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^samba) ]] || pacman -S --noconfirm samba;
-    [[ -n $(pacman -Q | grep -i ^cifs-utils) ]] || pacman -S --noconfirm cifs-utils;
-    [[ -n $(pacman -Q | grep -i ^smbclient) ]] || pacman -S --noconfirm smbclient;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nfts-3g) ]] || pacman -S --noconfirm nfts-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^exfatprogs) ]] || pacman -S --noconfirm exfatprogs;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nfs-utils) ]] || pacman -S --noconfirm nfs-utils;
-    [[ -n $(pacman -Q | grep -i ^rpcbind) ]] || pacman -S --noconfirm rpcbind;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^autofs) ]] || su - ${CUR_USER} -c "yay -S --noconfirm autofs";
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --noconfirm rclone;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 
 # network ======================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^net-tools) ]] || pacman -S --needed --noconfirm net-tools;
+    [[ -n $(pacman -Q | grep -i ^whois) ]] || pacman -S --needed --noconfirm whois;
+    [[ -n $(pacman -Q | grep -i ^iputils) ]] || pacman -S --needed --noconfirm iputils;
+    [[ -n $(pacman -Q | grep -i ^speedtest-cli) ]] || pacman -S --needed --noconfirm speedtest-cli;
+    [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --needed --noconfirm axel;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
     [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
@@ -207,21 +217,23 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
     [[ -n $(dnf list --installed | grep -i ^axel) ]] || dnf install -y axel;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^net-tools) ]] || pacman -S --noconfirm net-tools;
-    [[ -n $(pacman -Q | grep -i ^whois) ]] || pacman -S --noconfirm whois;
-    [[ -n $(pacman -Q | grep -i ^iputils) ]] || pacman -S --noconfirm iputils;
-    [[ -n $(pacman -Q | grep -i ^speedtest-cli) ]] || pacman -S --noconfirm speedtest-cli;
-    [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --noconfirm axel;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 
 # info =========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^fastfetch) ]] || pacman -S --needed --noconfirm fastfetch;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^hdparm) ]] || pacman -S --needed --noconfirm hdparm;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^ncdu) ]] || pacman -S --needed --noconfirm ncdu;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --needed --noconfirm procps-ng;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     if [[ -n $(apt list | grep -i ^neofetch) ]]; then
         [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
@@ -259,23 +271,25 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^fastfetch) ]] || pacman -S --noconfirm fastfetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^hdparm) ]] || pacman -S --noconfirm hdparm;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^ncdu) ]] || pacman -S --noconfirm ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --noconfirm procps-ng;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 
 # monitoring ===================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^htop) ]] || pacman -S --needed --noconfirm htop;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^btop) ]] || pacman -S --needed --noconfirm btop;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^nmon) ]] || pacman -S --needed --noconfirm nmon;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^glances) ]] || pacman -S --needed --noconfirm glances;
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --needed --noconfirm powertop;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
     # --------------------------------------------------------------------------
@@ -317,25 +331,19 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^htop) ]] || pacman -S --noconfirm htop;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^btop) ]] || pacman -S --noconfirm btop;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nmon) ]] || pacman -S --noconfirm nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^glances) ]] || pacman -S --noconfirm glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --noconfirm powertop;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 
 # etc ==========================================================================
-if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+    [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
@@ -362,13 +370,6 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --noconfirm lsd;
-    [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --noconfirm bat;
     # --------------------------------------------------------------------------
 fi
 
@@ -402,6 +403,10 @@ bash ${CORE_BIN_DIR}/system/config_swap.sh;
 bash ${CORE_BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
 
+# endline ======================================================================
+echo ""
+date;
+# ==============================================================================
 
 # reboot =======================================================================
 #/usr/sbin/init 6;

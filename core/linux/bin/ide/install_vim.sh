@@ -37,7 +37,14 @@ CONFIG_DIR="/${TMP_DIR}/vim-config";
 # Func : x86_64, i686, aarch64 =================================================
 function install_vim()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^vim) ]] || pacman -S --needed --noconfirm vim;
+        [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --needed --noconfirm xclip xsel;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         # ----------------------------------------------------------------------
@@ -64,13 +71,6 @@ function install_vim()
         [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
-        [[ -n $(pacman -Q | grep -i ^vim) ]] || pacman -S --noconfirm vim;
-        [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --noconfirm xclip xsel;
         # ----------------------------------------------------------------------
     fi
 }

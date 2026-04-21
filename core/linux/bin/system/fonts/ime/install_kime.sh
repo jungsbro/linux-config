@@ -286,72 +286,75 @@ function install_kime_for_nix()
 
 
 # Main =========================================================================
-# for gnome, cinnamon, mate, xfce, lxde
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-    if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
+    # for gnome, cinnamon, mate, xfce, lxde
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb"
-        TMP_PATH="/tmp/kime.deb"
-        wget "${TMP_URL}" -O "${TMP_PATH}";
-        apt install -y ${TMP_PATH};
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+
+        [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime-bin";
+        # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime-git";
+        # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime";
         # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-        set_kime_env;
-        # ----------------------------------------------------------------------
-        # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-        ICON_PATH="kime-hangul-black.png";
-        set_kime_autostart;
-        # ----------------------------------------------------------------------
-        SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
-        set_kime_hotkey;
-        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+        if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
+            # ------------------------------------------------------------------
+            TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb"
+            TMP_PATH="/tmp/kime.deb"
+            wget "${TMP_URL}" -O "${TMP_PATH}";
+            apt install -y ${TMP_PATH};
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+            set_kime_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+            ICON_PATH="kime-hangul-black.png";
+            set_kime_autostart;
+            # ------------------------------------------------------------------
+            SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
+            set_kime_hotkey;
+            # ------------------------------------------------------------------
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
+            # ------------------------------------------------------------------
+            TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb"
+            TMP_PATH="/tmp/kime.deb"
+            wget "${TMP_URL}" -O "${TMP_PATH}";
+            apt install -y ${TMP_PATH};
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+            set_kime_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+            ICON_PATH="kime-hangul-black.png";
+            set_kime_autostart;
+            # ------------------------------------------------------------------
+            SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
+            set_kime_hotkey;
+            # ------------------------------------------------------------------
+        fi
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
+            # ------------------------------------------------------------------
+            install_kime_for_nix "single";
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xsession"
+            set_kime_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+            ICON_PATH="kime-hangul-black.png";
+            set_kime_autostart;
+            # ------------------------------------------------------------------
+            SRC_HOTKEY_PATH="${HOME_DIR}/.nix-profile/share/doc/kime/default_config.yaml";
+            set_kime_hotkey;
+            # ------------------------------------------------------------------
+        fi
     fi
 
-elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
-        # ----------------------------------------------------------------------
-        TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb"
-        TMP_PATH="/tmp/kime.deb"
-        wget "${TMP_URL}" -O "${TMP_PATH}";
-        apt install -y ${TMP_PATH};
-        # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-        set_kime_env;
-        # ----------------------------------------------------------------------
-        # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-        ICON_PATH="kime-hangul-black.png";
-        set_kime_autostart;
-        # ----------------------------------------------------------------------
-        SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
-        set_kime_hotkey;
-        # ----------------------------------------------------------------------
-    fi
-
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
-        # ----------------------------------------------------------------------
-        install_kime_for_nix "single";
-        # ----------------------------------------------------------------------
-        ENV_CONF_PATH="${HOME_DIR}/.xsession"
-        set_kime_env;
-        # ----------------------------------------------------------------------
-        # ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-        ICON_PATH="kime-hangul-black.png";
-        set_kime_autostart;
-        # ----------------------------------------------------------------------
-        SRC_HOTKEY_PATH="${HOME_DIR}/.nix-profile/share/doc/kime/default_config.yaml";
-        set_kime_hotkey;
-        # ----------------------------------------------------------------------
-    fi
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-
-    [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime-bin";
-    # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime-git";
-    # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --noconfirm kime";
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================

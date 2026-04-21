@@ -37,7 +37,15 @@ CONFIG_DIR="${TMP_DIR}/tmux-config";
 # Func =========================================================================
 function install_tmux()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
+        [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --needed --noconfirm xclip xsel;
+        [[ -n $(pacman -Q | grep -i ^powerline) ]] || pacman -S --needed --noconfirm powerline powerline-fonts;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
@@ -64,14 +72,6 @@ function install_tmux()
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
         # ----------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
-    [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --noconfirm tmux;
-    [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --noconfirm xclip xsel;
-    [[ -n $(pacman -Q | grep -i ^powerline) ]] || pacman -S --noconfirm powerline powerline-fonts;
-    # --------------------------------------------------------------------------
     fi
 }
 
@@ -110,7 +110,10 @@ function config_tmux()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

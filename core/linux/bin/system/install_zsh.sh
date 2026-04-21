@@ -43,7 +43,26 @@ function install_zsh()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^zsh) ]] || pacman -S --needed --noconfirm zsh;
+        [[ -n $(pacman -Q | grep -i ^curl) ]] || pacman -S --needed --noconfirm curl;
+        [[ -n $(pacman -Q | grep -i ^powerline-fonts) ]] || pacman -S --needed --noconfirm powerline-fonts;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^autojump) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autojump";
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^fd-find) ]] || pacman -S --needed --noconfirm fd;
+        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --needed --noconfirm fasd;
+        # for ohmyzsh ----------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^mercurial) ]] || pacman -S --needed --noconfirm mercurial;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         # ----------------------------------------------------------------------
@@ -114,27 +133,8 @@ function install_zsh()
         # for ohmyzsh ----------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm git;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^zsh) ]] || pacman -S --noconfirm zsh;
-        [[ -n $(pacman -Q | grep -i ^curl) ]] || pacman -S --noconfirm curl;
-        [[ -n $(pacman -Q | grep -i ^powerline-fonts) ]] || pacman -S --noconfirm powerline-fonts;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^autojump) ]] || su - ${CUR_USER} -c "yay -S --noconfirm autojump";
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^fd-find) ]] || pacman -S --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --noconfirm fasd;
-        # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^mercurial) ]] || pacman -S --noconfirm mercurial;
-        # ----------------------------------------------------------------------
-
-
     fi
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # /etc/passwd

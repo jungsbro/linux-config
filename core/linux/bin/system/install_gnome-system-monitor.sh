@@ -28,7 +28,12 @@ CUR_ARCH=$(uname -m);
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for x86_64, aarch64
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-system-monitor) ]] || pacman -S --needed --noconfirm gnome-system-monitor;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^gnome-system-monitor) ]] || apt install -y gnome-system-monitor;
         # ----------------------------------------------------------------------

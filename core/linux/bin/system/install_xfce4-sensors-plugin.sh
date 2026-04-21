@@ -27,7 +27,12 @@ CUR_ARCH=$(uname -m);
 # Func : x86_64, aarch64 =======================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^xfce4-sensors-plugin) ]] || pacman -S --needed --noconfirm xfce4-sensors-plugin;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfce4-sensors-plugin) ]] || apt install -y xfce4-sensors-plugin;
         # ----------------------------------------------------------------------
@@ -41,11 +46,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfce4-sensors-plugin) ]] || dnf install -y xfce4-sensors-plugin;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-sensors-plugin) ]] || pacman -S --noconfirm xfce4-sensors-plugin;
         # ----------------------------------------------------------------------
     fi
 

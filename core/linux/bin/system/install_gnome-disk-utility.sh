@@ -31,7 +31,12 @@ CUR_ARCH=$(uname -m);
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for x86_64, i686, aarch64
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^gnome-disk-utility) ]] || pacman -S --needed --noconfirm gnome-disk-utility;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^gnome-disk-utility) ]] || apt install -y gnome-disk-utility;
         # ----------------------------------------------------------------------
@@ -40,11 +45,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^gnome-disk-utility) ]] || dnf install -y gnome-disk-utility;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-disk-utility) ]] || pacman -S --noconfirm gnome-disk-utility;
         # ----------------------------------------------------------------------
     fi
 

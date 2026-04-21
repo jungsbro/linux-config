@@ -34,8 +34,19 @@ CTR_ARGS+="--name ${CTR_NAME} "
 # container image주소
 CTR_ARGS+="--image ${IMAGE} "
 
-# nvidia gpu를 사용할때, --nvidia 가 필요하다.
-# CTR_ARGS+="--nvidia "
+if [[ -n $(lspci | grep -E "VGA|3D" | grep -i nvidia) ]]; then
+    # nvidia gpu를 사용할때, --nvidia 가 필요하다.
+    CTR_ARGS+="--nvidia "
+
+    # puslseAudio 사용을 위해 (PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+    CTR_ARGS+="--volume /run/user/${UID}/pulse:/run/user/${UID}/pulse "
+fi
+
+# PipeWire 사용을 위해 (fedora34 이후 / PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+# CTR_ARGS+="--volume /run/user/${UID}/pipewire-0:/run/user/${UID}/pipewire-0 "
+
+# Alsa장치 사용을 위해
+# CTR_ARGS+="--volume /dev/snd:/dev/snd "
 
 # container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
 # if [[ -d "/opt/ayon" ]]; then
@@ -47,37 +58,55 @@ CTR_ARGS+="--image ${IMAGE} "
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm base-devel"
+    sudo pacman -S --needed --noconfirm base-devel"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm git wget curl"
+    sudo pacman -S --needed --noconfirm git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm vim xclip xsel"
+    sudo pacman -S --needed --noconfirm vim xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm ranger"
+    sudo pacman -S --needed --noconfirm ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm nnn"
+#     sudo pacman -S --needed --noconfirm nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
+#     sudo pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --noconfirm fcitx5-gtk"
+    sudo pacman -S --needed --noconfirm fcitx5-gtk"
 
 # aur 설치
+# PRE_INIT_HOOKS+=" && \
+#     git clone https://aur.archlinux.org/yay.git /tmp/yay"
+# PRE_INIT_HOOKS+=" && \
+#     bash -c 'cd /tmp/yay && makepkg -si --noconfirm'"
+# PRE_INIT_HOOKS+=" && \
+#     rm -rf /tmp/yay"
 PRE_INIT_HOOKS+=" && \
-    git clone https://aur.archlinux.org/yay.git /tmp/yay"
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
+
+# hw-acceleration
 PRE_INIT_HOOKS+=" && \
-    bash -c 'cd /tmp/yay && makepkg -si --noconfirm'"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_hwaccel.sh"
+
+# vfx-dcc-dependencies for rocky8 or rocky9
+# PRE_INIT_HOOKS+=" && \
+#     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
+
+# gputop
 PRE_INIT_HOOKS+=" && \
-    rm -rf /tmp/yay"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gputop.sh"
+
+# puslseAudio 사용을 위해
+PRE_INIT_HOOKS+=" && \
+    sudo pacman -S --needed --noconfirm libpulse"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
@@ -109,7 +138,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # xcape --------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm xcape
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm xcape
 
     # # bin
     # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
@@ -117,7 +146,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # synapse ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm synapse
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm synapse
 
     # # bin
     # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/synapse
@@ -125,7 +154,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # skippy-xd ----------------------------------------------------------------
     # installation (aur)
-    distrobox enter ${CTR_NAME} -- yay -S --noconfirm skippy-xd-git
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
 
     # bin
     distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
@@ -136,9 +165,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # installation (aur)
     # # 방법1)
-    # # distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync-bin
+    # # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync-bin
     # # 방법2)
-    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm freefilesync
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync

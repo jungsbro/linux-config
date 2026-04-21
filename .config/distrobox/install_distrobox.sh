@@ -33,7 +33,12 @@ function install_distrobox_with_curl()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for x86_64, aarch64, i686
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^distrobox) ]] || pacman -S --needed --noconfirm distrobox podman;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^distrobox) ]] || apt install -y distrobox podman;
         # ----------------------------------------------------------------------
@@ -47,11 +52,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^distrobox) ]] || dnf install -y distrobox podman;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^distrobox) ]] || pacman -S --noconfirm distrobox podman;
         # ----------------------------------------------------------------------
     fi
 

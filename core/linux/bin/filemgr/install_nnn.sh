@@ -30,7 +30,38 @@ CUR_ARCH=$(uname -m);
 # Funcs ========================================================================
 function install_dependency_for_nnn()
 {
-        if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
+        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
+
+        # 폴더/파일
+        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
+        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
+        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+
+        # 이미지/문서
+        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
+        [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --needed --noconfirm djvulibre;
+        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
+
+        # 미디어
+        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --needed --noconfirm ffmpegthumbnailer;
+
+        # 압축/데이터
+        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --needed --noconfirm atool;
+        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+
+        # 터미널 ui
+        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -123,43 +154,15 @@ function install_dependency_for_nnn()
         # 터미널 ui
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --noconfirm zoxide;
-        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --noconfirm ripgrep;
-
-        # 폴더/파일
-        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --noconfirm eza;
-        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --noconfirm tree;
-        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --noconfirm bat;
-        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --noconfirm lsd;
-
-        # 이미지/문서
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --noconfirm djvulibre;
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --noconfirm poppler;
-
-        # 미디어
-        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --noconfirm ffmpegthumbnailer;
-
-        # 압축/데이터
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --noconfirm jq;
-
-        # 터미널 ui
-        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --noconfirm tmux;
-        # ----------------------------------------------------------------------
     fi
 }
 
 function install_nnn()
 {
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        [[ -n $(pacman -Q | grep -i ^nnn) ]] || pacman -S --needed --noconfirm nnn;
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^nnn) ]] || apt install -y nnn;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -167,9 +170,6 @@ function install_nnn()
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^nnn) ]] || pacman -S --noconfirm nnn;
     fi
 }
 

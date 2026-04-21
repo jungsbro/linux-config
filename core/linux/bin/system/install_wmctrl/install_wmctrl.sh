@@ -58,7 +58,13 @@ function cp_toggle_fullscreen()     # not used
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^wmctrl) ]] || pacman -S --needed --noconfirm wmctrl;
+        [[ -n $(pacman -Q | grep -i ^xdotool) ]] || pacman -S --needed --noconfirm xdotool;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^wmctrl) ]] || apt install -y wmctrl;
         [[ -n $(apt list --installed | grep -i ^xdotool) ]] || apt install -y xdotool;
@@ -79,12 +85,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^xdotool) ]] || dnf install -y xdotool;
         # ----------------------------------------------------------------------
         # cp_toggle_fullscreen;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^wmctrl) ]] || pacman -S --noconfirm wmctrl;
-        [[ -n $(pacman -Q | grep -i ^xdotool) ]] || pacman -S --noconfirm xdotool;
-        # ----------------------------------------------------------------------
     fi
 
 fi

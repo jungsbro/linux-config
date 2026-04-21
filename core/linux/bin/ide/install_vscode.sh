@@ -94,7 +94,12 @@ function install_vscode_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -102,11 +107,6 @@ function install_vscode_for_flatpak()
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -231,7 +231,22 @@ function fix_vscode()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1) opensource (without telemetry)
+        # [[ -n $(pacman -Q | grep -i ^code) ]] || pacman -S --needed --noconfirm code;
+
+        # 방법2) official microsoft
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^visual-studio-code-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm visual-studio-code-bin";
+
+        # 방법3) opensource (disable telemetry)
+        # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        # [[ -n $(yay -Q | grep -i ^vscodium-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm vscodium-bin";
+        # [[ -n $(yay -Q | grep -i ^vscodium-bin-marketplace) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm vscodium-bin-marketplace";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # vscode needs gnome-keyring
         install_vscode_for_apt;
@@ -241,21 +256,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # vscode needs gnome-keyring
         install_vscode_for_dnf;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 방법1) opensource (without telemetry)
-        # [[ -n $(pacman -Q | grep -i ^code) ]] || pacman -S --noconfirm code;
-
-        # 방법2) official microsoft
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^visual-studio-code-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm visual-studio-code-bin";
-
-        # 방법3) opensource (disable telemetry)
-        # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(yay -Q | grep -i ^vscodium-bin) ]] || su - ${CUR_USER} -c "yay -S --noconfirm vscodium-bin";
-        # [[ -n $(yay -Q | grep -i ^vscodium-bin-marketplace) ]] || su - ${CUR_USER} -c "yay -S --noconfirm vscodium-bin-marketplace";
         # ----------------------------------------------------------------------
     fi
 

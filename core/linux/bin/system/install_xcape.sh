@@ -199,7 +199,15 @@ function install_xcape_for_nix()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^xcape) ]] || pacman -S --needed --noconfirm xcape;
+        # ----------------------------------------------------------------------
+        EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
+        set_xcape_autostart;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xcape) ]] || apt install -y xcape;
         # ----------------------------------------------------------------------
@@ -209,17 +217,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
+        # distrobox를 사용한다.
+        # echo "xcape is not supported for RHEL and Fedora"
+
         install_xcape_for_nix "single";
         # ----------------------------------------------------------------------
         EXEC_PATH="${HOME_DIR}/.nix-profile/bin/xcape -e 'Super_L=Control_L|Escape'"
-        set_xcape_autostart;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xcape) ]] || pacman -S --noconfirm xcape;
-        # ----------------------------------------------------------------------
-        EXEC_PATH="xcape -e 'Super_L=Control_L|Escape'"
         set_xcape_autostart;
         # ----------------------------------------------------------------------
     fi

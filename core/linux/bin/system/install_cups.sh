@@ -66,7 +66,13 @@ function install_printer_driver()
 # Main : x86_64, i686, aarch64 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^cups) ]] || pacman -S --needed --noconfirm cups;
+        [[ -n $(pacman -Q | grep -i ^system-config-printer) ]] || pacman -S --needed --noconfirm system-config-printer;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^cups) ]] || apt install -y cups;
         [[ -n $(apt list --installed | grep -i ^system-config-printer) ]] || apt install -y system-config-printer;
@@ -76,11 +82,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^cups) ]] || dnf install -y cups;
         [[ -n $(dnf list --installed | grep -i ^system-config-printer) ]] || dnf install -y system-config-printer;
-        # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^cups) ]] || pacman -S --noconfirm cups;
-        [[ -n $(pacman -Q | grep -i ^system-config-printer) ]] || pacman -S --noconfirm system-config-printer;
         # ----------------------------------------------------------------------
     fi
 

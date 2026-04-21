@@ -43,7 +43,12 @@ function install_bottles_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -51,11 +56,6 @@ function install_bottles_for_flatpak()
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -173,33 +173,41 @@ function install_bottles_for_nix()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-            install_bottles_for_flatpak;
-        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-            install_bottles_for_nix "multi";
-        else                                            # i868
-            echo "bottles-i686 is not supported for Debian"
-        fi
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
-            install_bottles_for_flatpak;
-        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
-            install_bottles_for_nix "single";
-        else                                            # i868
-            echo "bottles-i686 is not supported for RHEL"
-        fi
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^bottles) ]] || dnf install -y bottles;
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --noconfirm bottles";
-        # [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --noconfirm bottles-git";
+        [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm bottles";
+        # [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm bottles-git";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
+            install_bottles_for_flatpak;
+        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
+            echo "bottles-aarch64 is not supported for Debian"
+            # install_bottles_for_nix "multi";
+        else                                            # i868
+            echo "bottles-i686 is not supported for Debian"
+        fi
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
+            install_bottles_for_flatpak;
+        elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then # aarch64
+            echo "bottles-aarch64 is not supported for RHEL"
+            # install_bottles_for_nix "single";
+        else                                            # i868
+            echo "bottles-i686 is not supported for RHEL"
+        fi
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^bottles) ]] || dnf install -y bottles;
         # ----------------------------------------------------------------------
     fi
 

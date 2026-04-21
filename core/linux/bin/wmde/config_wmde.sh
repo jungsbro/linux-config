@@ -35,6 +35,15 @@ function install_wmde_pkg()
     if [[ *"${CUR_WMDE}"* == *"icewm"* ]]; then                                          # icewm (anitx)
         # ----------------------------------------------------------------------
         bash ${CORE_BIN_DIR}/system/launcher/install_synapse.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/system/terminal/install_xfce4-terminal.sh;
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/system/install_xfce4-taskmanager.sh;
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/filemgr/install_finder.sh;
+        bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then	# lxde
@@ -165,7 +174,15 @@ function config_wmde()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+            # ------------------------------------------------------------------
+            echo ""
+            # su - ${CUR_USER} -c \
+            # "[[ -f ${CORE_BIN_DIR}/wmde/gnome/gnome4010-conf ]] && \
+            # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/gnome/gnome4010-conf";
+            # ------------------------------------------------------------------
+
+        elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
             # ------------------------------------------------------------------
             # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
             # fi

@@ -27,7 +27,12 @@ CUR_ARCH=$(uname -m);
 # Func : x86_64, aarch64 =======================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^xfce4-taskmanager) ]] || pacman -S --needed --noconfirm xfce4-taskmanager;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfce4-taskmanager) ]] || apt install -y xfce4-taskmanager;
         # ----------------------------------------------------------------------
@@ -42,11 +47,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfce4-taskmanager) ]] || dnf install -y xfce4-taskmanager;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-taskmanager) ]] || pacman -S --noconfirm xfce4-taskmanager;
-        # --------------------------------------------------------------------------
     fi
 
 fi

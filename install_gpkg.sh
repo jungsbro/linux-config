@@ -188,6 +188,11 @@ bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
 bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
 # ==============================================================================
 
+# edit =========================================================================
+# bash ${CORE_BIN_DIR}/edit/install_kdenlive.sh
+# bash ${CORE_BIN_DIR}/edit/install_shotcut.sh
+# ==============================================================================
+
 # filesync =====================================================================
 bash ${CORE_BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
@@ -196,4 +201,8 @@ bash ${CORE_BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # bash ${CORE_BIN_DIR}/utilities/install_simplescreenrecorder.sh ${CUR_USER};
 # ==============================================================================
 
+# endline ======================================================================
+echo ""
+date;
+# ==============================================================================
 

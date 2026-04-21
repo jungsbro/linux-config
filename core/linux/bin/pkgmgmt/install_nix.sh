@@ -187,7 +187,14 @@ function reload_shell()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        install_nix "multi";
+        config_nix "multi";
+        # reload_shell "multi";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_nix "multi";
         config_nix "multi";
@@ -199,13 +206,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         install_nix "single";
         config_nix "single";
         # reload_shell "single";
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        install_nix "multi";
-        config_nix "multi";
-        # reload_shell "multi";
         # ----------------------------------------------------------------------
     fi
 

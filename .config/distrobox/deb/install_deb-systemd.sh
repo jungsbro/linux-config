@@ -34,8 +34,19 @@ CTR_ARGS+="--name ${ctr} "
 # container image주소
 CTR_ARGS+="--image ${IMAGE} "
 
-# nvidia gpu를 사용할때, --nvidia 가 필요하다.
-# CTR_ARGS+="--nvidia "
+if [[ -n $(lspci | grep -E "VGA|3D" | grep -i nvidia) ]]; then
+    # nvidia gpu를 사용할때, --nvidia 가 필요하다.
+    CTR_ARGS+="--nvidia "
+
+    # puslseAudio 사용을 위해 (PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+    CTR_ARGS+="--volume /run/user/${UID}/pulse:/run/user/${UID}/pulse "
+fi
+
+# PipeWire 사용을 위해 (fedora34 이후 / PRE_INIT_HOOKS에서 libpulse0 설치도 필요하다.)
+# CTR_ARGS+="--volume /run/user/${UID}/pipewire-0:/run/user/${UID}/pipewire-0 "
+
+# Alsa장치 사용을 위해
+# CTR_ARGS+="--volume /dev/snd:/dev/snd "
 
 # container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
 # if [[ -d "/opt/ayon" ]]; then
@@ -50,6 +61,8 @@ PRE_INIT_HOOKS=""
 PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
 PRE_INIT_HOOKS+=" && \
     sudo apt update && sudo apt upgrade -y"
+PRE_INIT_HOOKS+=" && \
+    sudo bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
@@ -67,11 +80,27 @@ PRE_INIT_HOOKS+=" && \
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt"
+    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-config-qt"
 # PRE_INIT_HOOKS+=" && \
 #     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
 # PRE_INIT_HOOKS+=" && \
 #     sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
+
+# hw-acceleration
+PRE_INIT_HOOKS+=" && \
+    sudo bash ${CORE_BIN_DIR}/gpu/install_hwaccel.sh"
+
+# vfx-dcc-dependencies for rocky8 or rocky9
+# PRE_INIT_HOOKS+=" && \
+#     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
+
+# gputop
+PRE_INIT_HOOKS+=" && \
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gputop.sh"
+
+# puslseAudio 사용을 위해
+PRE_INIT_HOOKS+=" && \
+    sudo apt install -y libpulse0"
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
