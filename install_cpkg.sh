@@ -373,7 +373,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
 fi
 
-bash ${CORE_BIN_DIR}/system/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
 # ==============================================================================
 
 # vim ==========================================================================
@@ -385,10 +385,10 @@ bash ${CORE_BIN_DIR}/system/install_tmux.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-# bash ${CORE_BIN_DIR}/filemgr/install_mc.sh;
-# bash ${CORE_BIN_DIR}/filemgr/install_nnn.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/filemgr/install_ranger.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/filemgr/install_yazi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/cui/install_mc.sh;
+# bash ${CORE_BIN_DIR}/filemgr/cui/install_nnn.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/cui/install_yazi.sh ${CUR_USER};
 # ==============================================================================
 
 # zsh ==========================================================================

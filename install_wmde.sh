@@ -74,19 +74,21 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || 
 fi
 # ==============================================================================
 
-# desktop environment ==========================================================
-bash ${CORE_BIN_DIR}/wmde/config_wmde.sh ${CUR_USER};
+# WM / DE ======================================================================
+bash ${CORE_BIN_DIR}/wmde/wm/install_pkgs_for_wm.sh ${CUR_USER};
+
+bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
 # ==============================================================================
 
 # korean =======================================================================
-bash ${CORE_BIN_DIR}/system/fonts/install_korean.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/system/fonts/install_font-manager.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
 # ==============================================================================
 
 # terminal =====================================================================
-# bash ${CORE_BIN_DIR}/system/terminal/install_alacritty.sh;
-# bash ${CORE_BIN_DIR}/system/terminal/install_foot.sh;
-bash ${CORE_BIN_DIR}/system/terminal/install_wezterm.sh;
+# bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
+# bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
+bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
 # ==============================================================================
 
 # endline ======================================================================

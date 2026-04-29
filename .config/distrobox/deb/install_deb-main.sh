@@ -280,16 +280,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # gimp ---------------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y gimp
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y gimp
 
-    # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
-    # config : photogimp
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
-        install_photogimp"
+    # # config : photogimp
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    #     install_photogimp"
     # --------------------------------------------------------------------------
 
     # drawing ------------------------------------------------------------------

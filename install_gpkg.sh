@@ -116,7 +116,7 @@ bash ${CORE_BIN_DIR}/system/install_timeshift.sh;
 # ==============================================================================
 
 # disk mount  ==================================================================
-bash ${CORE_BIN_DIR}/system/install_gnome-disk-utility.sh;
+bash ${CORE_BIN_DIR}/monitoring/install_gnome-disk-utility.sh;
 # ==============================================================================
 
 # virtualbox ===================================================================
@@ -133,7 +133,7 @@ bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 
 # file-manager =================================================================
-bash ${CORE_BIN_DIR}/filemgr/install_doublecmd.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
 # web browser ==================================================================
@@ -172,7 +172,7 @@ bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
-bash ${CORE_BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
 # bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
 # bash ${CORE_BIN_DIR}/graphics/install_inkscape.sh;
 bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
@@ -198,7 +198,7 @@ bash ${CORE_BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-# bash ${CORE_BIN_DIR}/utilities/install_simplescreenrecorder.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/screenshot/install_simplescreenrecorder.sh ${CUR_USER};
 # ==============================================================================
 
 # endline ======================================================================

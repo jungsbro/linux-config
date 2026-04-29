@@ -140,11 +140,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # synapse ------------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y synapse
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y synapse
 
-    # bin
-    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/synapse
+    # # bin
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/synapse
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------

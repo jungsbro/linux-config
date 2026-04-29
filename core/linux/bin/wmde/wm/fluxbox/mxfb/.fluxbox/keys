@@ -1,0 +1,279 @@
+#### Resources #####
+#https://linux.die.net/man/5/fluxbox-keys
+#https://ubuntuforums.org/showthread.php?t=617812
+
+############
+#Mod4=Left logo key
+#Menu=Right logo key
+#Mouse1=Left click
+#Mouse3=Right click
+#Mouse4=Scroll wheel up
+#Mouse5=Scroll wheel down
+###########
+
+#NOTE: unmodified Fn keys left unassigned to avoid conflict with apps
+
+###########
+
+# ==============================================================================
+# spotlight --------------------------------------------------------------------
+Mod1 F2 :Exec rofi -show drun
+# ------------------------------------------------------------------------------
+
+# expose -----------------------------------------------------------------------
+Mod4 Tab :Exec /home/jungs/.nix-profile/bin/skippy-xd
+# ------------------------------------------------------------------------------
+
+# finder -----------------------------------------------------------------------
+Mod4 e :Exec thunar /home/$USER
+# ------------------------------------------------------------------------------
+
+# terminal ---------------------------------------------------------------------
+Ctrl Mod1 t :Exec /usr/bin/xfce4-terminal
+# ------------------------------------------------------------------------------
+
+# xkill ------------------------------------------------------------------------
+Mod4 x :Exec /usr/bin/xkill
+# ------------------------------------------------------------------------------
+
+# show desktop -----------------------------------------------------------------
+Mod4 d :ShowDesktop
+# ------------------------------------------------------------------------------
+
+# tile -------------------------------------------------------------------------
+Mod4 Left :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Left}
+Mod4 Right :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Right}
+Mod4 Up :ToggleCmd {Maximize} {Restore}
+Shift Mod4 Up :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Up}
+Mod4 Down :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Bottom}
+
+mod4 5 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 Up}
+mod4 6 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 TopRight}
+mod4 7 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomLeft}
+mod4 8 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomRight}
+# ------------------------------------------------------------------------------
+
+# resolution -------------------------------------------------------------------
+Mod4 p :Exec /usr/bin/arandr
+# ------------------------------------------------------------------------------
+
+# control center ---------------------------------------------------------------
+Mod4 i :Exec /usr/bin/custom-toolbox /etc/custom-toolbox/mxfb-settings.list
+# ------------------------------------------------------------------------------
+
+# run --------------------------------------------------------------------------
+Mod4 r :Exec mxfb-rofirun
+# ------------------------------------------------------------------------------
+
+# taskmanager ------------------------------------------------------------------
+Ctrl Shift Escape :Exec /usr/bin/xfce4-taskmanager
+# ------------------------------------------------------------------------------
+
+# Ctrl Escape ------------------------------------------------------------------
+# Ctrl Escape :Exec rofi -show drun
+Ctrl Escape :Exec rofi -show drun -theme
+# ------------------------------------------------------------------------------
+
+# RMB --------------------------------------------------------------------------
+Mod4 Escape :Exec /usr/bin/fluxbox-remote RootMenu
+# ------------------------------------------------------------------------------
+
+# settings restart -------------------------------------------------------------
+Mod4 Shift r :Exec /usr/bin/fluxbox-remote restart
+# ------------------------------------------------------------------------------
+
+# print screen -----------------------------------------------------------------
+none Print :Exec /usr/bin/xfce4-screenshooter
+# none Print :Exec /usr/bin/gnome-screenshot --interactive
+# ------------------------------------------------------------------------------
+
+# workspace --------------------------------------------------------------------
+# change to previous/next workspace
+Mod4 Ctrl Left :PrevWorkspace
+Mod4 Ctrl Right :NextWorkspace
+
+Mod4 F1 :Workspace 1    # Super+F1 >> workspace1
+Mod4 F2 :Workspace 2    # Super+F2 >> workspace2
+# Mod4 F3 :Workspace 3    # Super+F3 >> workspace3
+# Mod4 F4 :Workspace 4    # Super+F4 >> workspace4
+
+Mod4 Shift F1 :SendToWorkspace 1    # Super+Shift+F1 >> 선택한 창을 workspace1로 보냄
+Mod4 Shift F2 :SendToWorkspace 2    # Super+Shift+F2 >> 선택한 창을 workspace2로 보냄
+# Mod4 Shift F3 :SendToWorkspace 3    # Super+Shift+F3 >> 선택한 창을 workspace3로 보냄
+# Mod4 Shift F4 :SendToWorkspace 4    # Super+Shift+F4 >> 선택한 창을 workspace4로 보냄
+# ------------------------------------------------------------------------------
+# ==============================================================================
+
+# take a screen capture, interactive by default
+none Print :Exec mxfb-quickshot
+## whole screen capture
+Shift Print :Exec mxfb-quickshot -r -png
+# whole screen capture with delay (default 8 s)
+Ctrl Print :Exec mxfb-quickshot_delay
+Ctrl Alt q :Exec mxfb-quickshot_delay
+## active window capture
+Alt Print :Exec mxfb-quickshot -u -png
+## launch quickshot
+Alt q :Exec mxfb-quickshot
+
+# open help
+Ctrl F1 :Exec mxfb-help
+Shift F1 :Exec mx-manual
+
+# open a little run terminal
+Ctrl F2 :Exec mxfb-rofirun
+
+# use logo key for rofi
+# Super_L :Exec rofi -show drun
+
+# open a file manager
+Ctrl F3 :Exec thunar /home/$USER/.fluxbox
+
+# open a dropdown terminal
+none F4 :Exec xfce4-terminal --drop-down
+
+# open the MX Tools dashboard
+Ctrl F5 :Exec mx-tools
+
+# turn off monitor
+Ctrl F12 :Exec sleep 1 ; xset dpms force off
+
+# screen magnifier on|off
+Ctrl Alt m :Exec toggle-mx magnus
+
+# picom compositor on/off
+Ctrl Alt 0 :Exec toggle-mx picom  << the number zero not the letter "O"
+
+# open terminal
+Ctrl Alt t :Exec xfce4-terminal
+
+# change volume with keys
+Ctrl Up :Exec amixer -D pulse sset Master 5%+
+Ctrl Down :Exec amixer -D pulse sset Master 5%-
+
+# exit fluxbox — both work
+Ctrl Alt Delete :Exit
+Ctrl Alt BackSpace :Exit
+
+# change to previous/next workspace
+Ctrl Alt Left :PrevWorkspace
+Ctrl Alt Right :NextWorkspace
+
+###WINDOWS###
+
+# close a window
+Alt F4 :Close
+
+#Minimize all windows on the current workspace
+# Alt d :ShowDesktop
+
+# hide menus
+OnDesktop Mouse1 :HideMenus
+OnDesktop Mouse2 :WorkspaceMenu
+OnDesktop Mouse3 :RootMenu
+
+# scroll on the desktop to change workspaces
+OnDesktop Mouse4 :PrevWorkspace
+OnDesktop Mouse5 :NextWorkspace
+
+# alt + left/right click to move/resize a window
+OnWindow Alt Mouse1 :MacroCmd {Raise} {Focus} {StartMoving}
+OnWindowBorder Move1 :StartMoving
+
+OnWindow Alt Mouse3 :MacroCmd {Raise} {Focus} {StartResizing NearestCorner}
+OnLeftGrip Move1 :StartResizing bottomleft
+OnRightGrip Move1 :StartResizing bottomright
+
+# Ctrl-click a window's titlebar and drag to attach windows
+OnTitlebar Ctrl Mouse1 :StartTabbing
+
+# double click on the titlebar to shade/unshade
+OnTitlebar Double Mouse1 :Shade
+
+# left click on the titlebar to move the window
+OnTitlebar Mouse1 :MacroCmd {Raise} {Focus} {ActivateTab}
+OnTitlebar Move1  :StartMoving
+
+# see a menu of window options
+OnTitlebar Mouse3 :WindowMenu
+   #for apps using CSD try this instead
+   #OnWindow Mouse2 :WindowMenu
+
+# alt-tab
+Alt Tab :NextWindow {groups} (workspace=[current])
+Alt Shift Tab :PrevWindow {groups} (workspace=[current])
+
+# current window commands
+# Mod4 F4 :Close
+# Alt F5 :Kill
+# Alt F9 :Minimize
+# Alt F10 :Maximize
+# Alt F11 :Fullscreen
+
+### WINDOW TILING ###
+
+#---------------------------------------------------------------
+# Ctrl + number keys
+#---------------------------------------------------------------
+# Make active window 1/2 of the screen
+# Ctrl 1 :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Left}
+# Ctrl 2 :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Right}
+# Ctrl 3 :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Up}
+# Ctrl 4 :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Bottom}
+
+# Make active window 1/4 of the screen on the upper left
+# Ctrl 5 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 Up}
+# Ctrl 6 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 TopRight}
+# Ctrl 7 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomLeft}
+# Ctrl 8 :MacroCmd {ResizeTo 50% 50%} {MoveTo 00 00 BottomRight}
+
+# Make active window 1/3 of the screen on the left
+# Ctrl 9 :MacroCmd {ResizeTo 33% 100%} {MoveTo 00 00 Left}
+
+# toggle active window: Maximized/ last size
+# Ctrl 0 :ToggleCmd {Maximize} {Restore}
+
+#---------------------------------------------------------------
+# Alt/Alt-LogoKey + arrow keys
+#---------------------------------------------------------------
+# Make active window 1/2 of the screen
+# Alt Left        :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Left}
+# Alt Right       :MacroCmd {ResizeTo 50% 100%} {MoveTo 00 00 Right}
+# Alt Up          :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Up}
+# Alt Down        :MacroCmd {ResizeTo 100% 50%} {MoveTo 00 00 Bottom}
+
+# Make active window 1/4 of the screen on top/bottom left/right
+# Alt Mod4 Left  :MacroCmd {ResizeTo 50% 50% } {MoveTo 00 00 TopLeft}
+# Alt Mod4 Up    :MacroCmd {ResizeTo 50% 50% } {MoveTo 00 00 TopRight}
+# Alt Mod4 Down  :MacroCmd {ResizeTo 50% 50% } {MoveTo 00 00 BottomLeft}
+# Alt Mod4 Right :MacroCmd {ResizeTo 50% 50% } {MoveTo 00 00 BottomRight}
+# Make active window 1/3 of the screen on the left
+# Unavailable
+# toggle center / restore
+# Unavailable
+
+# keypad key layout
+#   +-------------+
+#   |  7   8   9  |
+#   |  4   5   6  |
+#   |  1   2   3  |
+#   |      0          |
+#   +-------------+
+#---------------------------------------------------------------
+# Alt and numpad keys : NumLock off
+#---------------------------------------------------------------
+# Alt KP_1 :MacroCmd {ResizeTo  50%  50%} {MoveTo 00 00 BottomLeft}
+# Alt KP_2 :MacroCmd {ResizeTo 100%  50%} {MoveTo 00 00 Bottom}
+# Alt KP_3 :MacroCmd {ResizeTo  50%  50%} {MoveTo 00 00 BottomRight}
+# Alt KP_4 :MacroCmd {ResizeTo  50% 100%} {MoveTo 00 00 Left}
+# Alt KP_6 :MacroCmd {ResizeTo  50% 100%} {MoveTo 00 00 Right}
+# Alt KP_7 :MacroCmd {ResizeTo  50%  50%} {MoveTo 00 00 TopLeft}
+# Alt KP_8 :MacroCmd {ResizeTo 100%  50%} {MoveTo 00 00 Up}
+# Alt KP_9 :MacroCmd {ResizeTo  50%  50%} {MoveTo 00 00 TopRight}
+
+# center and resize 70%
+# Alt KP_5 :MacroCmd {ResizeTo 70% 70% } {MoveTo 00 00 Center}
+
+# toggle full screen / restore
+# Alt KP_0 :ToggleCmd {Maximize} {Restore}
+#---------------------------------------------------------------

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # kdenlive =====================================================================
-# bash ${CORE_BIN_DIR}/filemgr/install_kdenlive.sh;
+# bash ${CORE_BIN_DIR}/edit/install_kdenlive.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/filemgr
+# /core/linux/bin/edit
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -25,7 +25,7 @@ CUR_ARCH=$(uname -m);
 
 
 # Funcs ========================================================================
-function install_shotcut_for_flatpak()
+function install_kdenlive_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
@@ -53,7 +53,7 @@ function install_shotcut_for_flatpak()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i shotcut) ]] || flatpak install -y flathub org.kde.kdenlive;
+    [[ -n $(flatpak list --app | grep -i kdenlive) ]] || flatpak install -y flathub org.kde.kdenlive;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

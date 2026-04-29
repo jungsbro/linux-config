@@ -295,16 +295,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # gimp ---------------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
 
-    # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
-    # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
-        install_photogimp"
+    # # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
+    #     install_photogimp"
     # --------------------------------------------------------------------------
 
     # drawing ------------------------------------------------------------------
