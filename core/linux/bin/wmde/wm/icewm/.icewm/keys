@@ -44,7 +44,7 @@ key "Super+Shift+r" /usr/bin/icewm --restart
 key "Super+l" /usr/bin/xscreensaver-command -lock
 
 # 방법2)
-key "Super+l" /usr/bin/xfce4-screensaver-command --lock
+# key "Super+l" /usr/bin/xfce4-screensaver-command --lock
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
