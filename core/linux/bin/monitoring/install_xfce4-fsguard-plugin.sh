@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# xfce4-sensors-plugin =========================================================
-# bash ${CORE_BIN_DIR}/panel/install_xfce4-sensors-plugin.sh;
+# xfce4-fsguard-plugin =========================================================
+# bash ${CORE_BIN_DIR}/monitoring/install_xfce4-fsguard-plugin.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/panel
+# /core/linux/bin/monitoring
 CUR_DIR="$(dirname "$(realpath "$0")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -29,23 +29,23 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-sensors-plugin) ]] || pacman -S --needed --noconfirm xfce4-sensors-plugin;
+        [[ -n $(pacman -Q | grep -i ^xfce4-fsguard-plugin) ]] || pacman -S --needed --noconfirm xfce4-fsguard-plugin;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-sensors-plugin) ]] || apt install -y xfce4-sensors-plugin;
+        [[ -n $(apt list --installed | grep -i ^xfce4-fsguard-plugin) ]] || apt install -y xfce4-fsguard-plugin;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xfce4-sensors-plugin) ]] || dnf install -y xfce4-sensors-plugin;
+        [[ -n $(dnf list --installed | grep -i ^xfce4-fsguard-plugin) ]] || dnf install -y xfce4-fsguard-plugin;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xfce4-sensors-plugin) ]] || dnf install -y xfce4-sensors-plugin;
+        [[ -n $(dnf list --installed | grep -i ^xfce4-fsguard-plugin) ]] || dnf install -y xfce4-fsguard-plugin;
         # ----------------------------------------------------------------------
     fi
 

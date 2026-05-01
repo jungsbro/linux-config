@@ -73,11 +73,21 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
         # ----------------------------------------------------------------------
         bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-fsguard-plugin.sh;
+
+        # 하드웨어 및 전원관리
         bash ${CORE_BIN_DIR}/panel/install_xfce4-pulseaudio-plugin.sh;
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-sensors-plugin.sh;
+
+        # 시스템 모니터링
         bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
+        bash ${CORE_BIN_DIR}/monitoring/install_xfce4-sensors-plugin.sh;
+        bash ${CORE_BIN_DIR}/monitoring/install_xfce4-fsguard-plugin.sh;
+        bash ${CORE_BIN_DIR}/monitoring/install_xfce4-mount-plugin.sh;
+
+        # 생산성 및 업무 편의도구
         bash ${CORE_BIN_DIR}/panel/install_xfce4-whiskermenu-plugin.sh;
+
+        # 고급 사용자용 확장 및 자동화
+        bash ${CORE_BIN_DIR}/panel/install_xfce4-panel-profiles.sh;
         # ----------------------------------------------------------------------
         # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
