@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# autokey ======================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
@@ -17,12 +17,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=$1;
+CUR_USER=${1};
 HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -96,27 +98,46 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^autokey-gtk) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autokey-gtk";
+
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(yay -Q | grep -i ^autokey-qt) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autokey-qt";
+        else
+            [[ -n $(yay -Q | grep -i ^autokey-gtk) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autokey-gtk";
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^autokey) ]] || apt install -y autokey-gtk;
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(apt list --installed | grep -i ^autokey-qt) ]] || apt install -y autokey-qt;
+        else
+            [[ -n $(apt list --installed | grep -i ^autokey-gtk) ]] || apt install -y autokey-gtk;
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
             echo "autokey not working on rocky8";
             return 0
         fi
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
+
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(dnf list --installed | grep -i ^autokey-qt) ]] || dnf install -y autokey-qt;
+        else
+            [[ -n $(dnf list --installed | grep -i ^autokey-gtk) ]] || dnf install -y autokey-gtk;
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^autokey) ]] || dnf install -y autokey-gtk;
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(dnf list --installed | grep -i ^autokey-qt) ]] || dnf install -y autokey-qt;
+        else
+            [[ -n $(dnf list --installed | grep -i ^autokey-gtk) ]] || dnf install -y autokey-gtk;
+        fi
         # ----------------------------------------------------------------------
     fi
 

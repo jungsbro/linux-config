@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Desktop Environment ==========================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
 # ==============================================================================
 
@@ -24,7 +24,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*-session);
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*-session);
 # Func =========================================================================
 function install_pkgs_for_de()
 {
-    if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then     # lxde
+    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
         # ----------------------------------------------------------------------
         # 방법1)
         bash ${CORE_BIN_DIR}/screenshot/install_gnome-screenshot.sh;
@@ -54,6 +54,22 @@ function install_pkgs_for_de()
         # ----------------------------------------------------------------------
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
         # ----------------------------------------------------------------------
+
+
+    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/system/install_xcape.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
+        # ----------------------------------------------------------------------
+
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
@@ -145,6 +161,16 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/filemgr/gui/install_nemo.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+        # ----------------------------------------------------------------------
+        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/filemgr/gui/install_dolphin.sh;
+        # ----------------------------------------------------------------------
     fi
 }
 
@@ -156,9 +182,14 @@ function config_de()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then     # lxde
+    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/config_lxde.py ${CUR_USER}";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+        # ----------------------------------------------------------------------
+        echo "";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
@@ -216,6 +247,11 @@ function config_de()
         su - ${CUR_USER} -c \
         "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
         dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+        # ----------------------------------------------------------------------
+        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

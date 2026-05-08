@@ -38,16 +38,14 @@ done
 # echo "your name : ${CUR_USER}";
 # ------------------------------------------------------------------------------
 
-# CUR_VER ----------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+HOME_DIR=$(eval echo ~${CUR_USER});
+
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
-# ------------------------------------------------------------------------------
 
-# CUR_ARCH ---------------------------------------------------------------------
 CUR_ARCH=$(uname -m);
-# ------------------------------------------------------------------------------
 
-# CUR_WMDE ---------------------------------------------------------------------
-CUR_WMDE=$(ls /usr/bin/*-session);
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ${CORE_BIN_DIR}/ -------------------------------------------------------------
@@ -100,7 +98,9 @@ bash ${CORE_BIN_DIR}/system/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 # bluelight ====================================================================
-bash ${CORE_BIN_DIR}/system/install_redshift.sh ${CUR_USER};
+if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* != *"plasma"* ]]; then
+    bash ${CORE_BIN_DIR}/system/install_redshift.sh ${CUR_USER};
+fi
 # ==============================================================================
 
 # sandbox ======================================================================
@@ -173,9 +173,12 @@ bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
 
 # paint ========================================================================
 # bash ${CORE_BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
-# bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
+if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+    bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
+else
+    bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
+fi
 # bash ${CORE_BIN_DIR}/graphics/install_inkscape.sh;
-bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
 # bash ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
 # ==============================================================================
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# redshift =====================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/system/install_redshift.sh ${CUR_USER};
 # ==============================================================================
 
@@ -23,6 +23,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -100,7 +102,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^redshift) ]] || apt install -y redshift-gtk geoclue-2.0;
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(apt list --installed | grep -i ^redshift-qt) ]] || apt install -y redshift-qt;
+        else
+            [[ -n $(apt list --installed | grep -i ^redshift-gtk) ]] || apt install -y redshift-gtk;
+        fi
+
+        [[ -n $(apt list --installed | grep -i ^geoclue-2.0) ]] || apt install -y geoclue-2.0;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then

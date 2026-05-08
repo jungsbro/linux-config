@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# vscode =======================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 
 # source ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER} && install_vscode_for_flatpak;
@@ -25,6 +25,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

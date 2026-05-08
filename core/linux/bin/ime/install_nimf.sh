@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# nimf =========================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
 # ==============================================================================
 
@@ -24,7 +24,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*-session);
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -63,13 +63,16 @@ export XMODIFIERS="@im=nimf"
 '
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
-        if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then     # lxde
+        if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
             CONF_CMD="${CONF_CMD}exec startlxde"
 
-        elif [[ *"${CUR_WMDE}" == *"xfce4"* ]]; then                                            # xfce4
+        elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+            CONF_CMD="${CONF_CMD}exec startlxqt"
+
+        elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
             CONF_CMD="${CONF_CMD}exec startxfce4"
 
-        elif [[ *"${CUR_WMDE}" == *"mate"* ]]; then                                             # mate
+        elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
             CONF_CMD="${CONF_CMD}exec mate-session"
 
         elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
@@ -77,6 +80,9 @@ export XMODIFIERS="@im=nimf"
 
         elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
             CONF_CMD="${CONF_CMD}exec cinnamon-session"
+
+        elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+            CONF_CMD="${CONF_CMD}exec startplasma-x11"
         fi
     fi
     # --------------------------------------------------------------------------

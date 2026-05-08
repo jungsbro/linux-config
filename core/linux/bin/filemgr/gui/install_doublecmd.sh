@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# doublecmd ====================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh ${CUR_USER};
 # ==============================================================================
 
@@ -23,6 +23,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -334,11 +336,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^doublecmd-qt5) ]] || pacman -S --needed --noconfirm doublecmd-qt5;
+        # [[ -n $(pacman -Q | grep -i ^doublecmd-qt6) ]] || pacman -S --needed --noconfirm doublecmd-qt6;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^doublecmd) ]] || apt install -y doublecmd-gtk;
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            [[ -n $(apt list --installed | grep -i ^doublecmd-qt) ]] || apt install -y doublecmd-qt;
+        else
+            [[ -n $(apt list --installed | grep -i ^doublecmd-gtk) ]] || apt install -y doublecmd-gtk;
+        fi
         # ----------------------------------------------------------------------
         # install_doublecmd_for_nix "multi";
         # ----------------------------------------------------------------------
@@ -362,7 +369,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^doublecmd) ]] || dnf install -y doublecmd-gtk;
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            # qt5
+            [[ -n $(dnf list --installed | grep -i ^doublecmd-qt) ]] || dnf install -y doublecmd-qt;
+
+            # qt6
+            # [[ -n $(dnf list --installed | grep -i ^doublecmd-qt6) ]] || dnf install -y doublecmd-qt6;
+        else
+            [[ -n $(dnf list --installed | grep -i ^doublecmd-gtk) ]] || dnf install -y doublecmd-gtk;
+        fi
         # ----------------------------------------------------------------------
     fi
 

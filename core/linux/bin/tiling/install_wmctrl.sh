@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install_wmctrl ================================================================
+# usage ========================================================================
 # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh ${CUR_USER}; # not used
 
 # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh;
@@ -25,6 +25,8 @@ HOME_DIR=$(eval echo ~${CUR_USER});
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
