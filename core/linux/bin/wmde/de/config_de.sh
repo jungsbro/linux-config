@@ -194,7 +194,7 @@ function config_de()
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/config_xfce4.sh ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
