@@ -184,7 +184,7 @@ function config_de()
 
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/config_lxde.py ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
