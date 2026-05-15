@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_wmde.sh jungs;
+# sudo bash ./install_cntr.sh jungs;
 # ==============================================================================
 
 # ENV ==========================================================================
@@ -39,21 +39,15 @@ CUR_WMDE=$(ls /usr/bin/*session);
 bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
-# WM / DE ======================================================================
-bash ${CORE_BIN_DIR}/wmde/wm/install_pkgs_for_wm.sh ${CUR_USER};
-
-bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
+# graphic driver ===============================================================
+bash ${CORE_BIN_DIR}/gpu/install_gpudrv.sh;
+bash ${CORE_BIN_DIR}/gpu/install_gputop.sh;
 # ==============================================================================
 
-# korean =======================================================================
-bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
-# ==============================================================================
-
-# terminal =====================================================================
-# bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
-# bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
-bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+# container ====================================================================
+bash ${CORE_BIN_DIR}/gpu/install_nvidia-container-toolkit.sh;
+bash ${CORE_BIN_DIR}/container/install_podman.sh;
+bash ${CORE_BIN_DIR}/container/install_distrobox.sh;
 # ==============================================================================
 
 # endline ======================================================================
