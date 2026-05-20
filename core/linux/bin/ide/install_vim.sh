@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/ide
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -46,7 +46,7 @@ function install_vim()
         [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --needed --noconfirm xclip xsel;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         # ----------------------------------------------------------------------

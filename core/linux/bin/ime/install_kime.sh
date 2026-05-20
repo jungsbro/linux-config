@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/ime
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -304,7 +304,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
             # ------------------------------------------------------------------
             TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb"

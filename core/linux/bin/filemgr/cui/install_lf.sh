@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/filemgr/cui
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
@@ -83,7 +83,7 @@ function install_dependency_for_lf()
         [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -254,7 +254,7 @@ function install_lf()
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --needed --noconfirm lf;
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then

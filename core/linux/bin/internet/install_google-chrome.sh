@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/internet
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -83,7 +83,7 @@ function install_google-chrome()
         return
     fi
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
             return
@@ -99,7 +99,7 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local FNAME="google-chrome-stable_current_amd64.deb";
         # ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ function install_google-chrome()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    if [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         apt install -y ${TMP_DIR}/${FNAME};
@@ -237,7 +237,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^google-chrome) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm google-chrome";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_google-chrome;
         # ----------------------------------------------------------------------

@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/fonts
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -43,7 +43,7 @@ function install_fonts-d2coding()
             return
         fi
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
         if [[ -d "${FONT_DST_DIR}" ]]; then
             return
@@ -86,7 +86,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(pacman -Q | grep -i ^ttf-d2coding-nerd) ]] || su - ${CUR_USER} -c "pacman -S --needed --noconfirm ttf-d2coding-nerd";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_fonts-d2coding;
         # ----------------------------------------------------------------------

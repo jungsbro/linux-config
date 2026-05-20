@@ -62,7 +62,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
@@ -82,7 +82,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --needed --noconfirm rsync;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
     [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
@@ -123,7 +123,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
     [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
@@ -194,7 +194,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --needed --noconfirm axel;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
     [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
@@ -235,7 +235,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --needed --noconfirm procps-ng;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     if [[ -n $(apt list | grep -i ^neofetch) ]]; then
         [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
@@ -291,7 +291,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --needed --noconfirm powertop;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
     # --------------------------------------------------------------------------
@@ -345,7 +345,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
@@ -406,9 +406,9 @@ bash ${CORE_BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
 
 # endline ======================================================================
-echo "-----------------------------------------------------------------"
+echo "-------------------------------------------------------------------------"
 date;
-echo "-----------------------------------------------------------------"
+echo "-------------------------------------------------------------------------"
 # ==============================================================================
 
 # reboot =======================================================================

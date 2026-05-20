@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/ime
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -46,7 +46,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # fontconfig -----------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^fontconfig) ]] || apt install -y fontconfig;
         # ----------------------------------------------------------------------

@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/panel
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -37,7 +37,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(pacman -Q | grep -i ^xfce4-whiskermenu-plugin) ]] || pacman -S --needed --noconfirm xfce4-whiskermenu-plugin;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfce4-whiskermenu-plugin) ]] || apt install -y xfce4-whiskermenu-plugin;
         # ----------------------------------------------------------------------

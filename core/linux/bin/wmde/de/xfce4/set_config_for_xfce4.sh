@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/wmde/de/xfce4
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
@@ -48,7 +48,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_thunar;
     else
         source ${CORE_BIN_DIR}/wmde/de/xfce4/set_theme_for_xfce4.sh && set_theme;
-        # source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_default_app;
+        # source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_default_app ${CUR_USER};
     fi
     # --------------------------------------------------------------------------
 

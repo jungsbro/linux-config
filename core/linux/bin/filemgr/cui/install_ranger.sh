@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/filemgr/cui
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
@@ -119,7 +119,7 @@ function install_dependency_for_ranger()
         [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --needed --noconfirm mpv;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         apt install -y python3;
@@ -305,7 +305,7 @@ function install_ranger()
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --needed --noconfirm ranger;
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then

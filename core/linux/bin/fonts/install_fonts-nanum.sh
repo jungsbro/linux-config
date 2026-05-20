@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/fonts
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -46,7 +46,7 @@ function install_fonts-nanum()
             return
         fi
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
         if [[ -d "${FONT_DST_DIR}" ]]; then
             return
@@ -86,7 +86,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^ttf-nanum) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm ttf-nanum";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # install_fonts-nanum;
         [[ -n $(apt list --installed | grep -i ^fonts-nanum) ]] || apt install -y fonts-nanum*;

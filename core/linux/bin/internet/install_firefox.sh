@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/internet
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -35,7 +35,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^firefox) ]] || pacman -S --needed --noconfirm firefox;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^firefox) ]] || apt install -y firefox-esr;
     # --------------------------------------------------------------------------

@@ -8,14 +8,23 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/container/distrobox/fedo
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
 
-DISTOBOX_DIR="${CORE_BIN_DIR}/container/distrobox"
+# ------------------------------------------------------------------------------
+CUR_USER=$(whoami);
+HOME_DIR=$(eval echo ~${CUR_USER});
+
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -82,15 +91,15 @@ PRE_INIT_HOOKS+=" && \
 
 # gpu-driver (opengl,vulkan,vaapi,opencl)
 PRE_INIT_HOOKS+=" && \
-    sudo bash ${CORE_BIN_DIR}/gpu/install_gpudrv.sh"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER}"
 
 # vfx-dcc-dependencies for rocky8 or rocky9
 # PRE_INIT_HOOKS+=" && \
 #     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
 
-# gputop
+# gpu_top
 PRE_INIT_HOOKS+=" && \
-    sudo bash ${CORE_BIN_DIR}/gpu/install_gputop.sh"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh"
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
@@ -100,7 +109,7 @@ PRE_INIT_HOOKS+=" && \
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
 # sudo를 사용하면 애러가 나지 않는다.
 PRE_INIT_HOOKS+=" && \
-    sudo chsh -s /bin/bash $(whoami)"
+    sudo chsh -s /bin/bash ${CUR_USER}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

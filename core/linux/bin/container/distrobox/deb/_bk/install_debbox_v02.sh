@@ -9,14 +9,23 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/container/distrobox/deb
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
 
-DISTOBOX_DIR="${CORE_BIN_DIR}/container/distrobox"
+# ------------------------------------------------------------------------------
+CUR_USER=$(whoami);
+HOME_DIR=$(eval echo ~${CUR_USER});
+
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -69,7 +78,7 @@ PRE_INIT_HOOKS+=" && \
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
-    sudo chsh -s /bin/bash $(whoami)"
+    sudo chsh -s /bin/bash ${CUR_USER}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -112,9 +121,9 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
 
 # config
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/system/install_autokey.sh $(whoami) && \
-    config_autokey && \
-    set_autokey_autostart"
+    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    config_autokey ${CUR_USER} && \
+    set_autokey_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # redshift ---------------------------------------------------------------------
@@ -125,10 +134,10 @@ distrobox enter ${CTR_NAME} -- sudo apt install -y redshift-gtk geoclue-2.0
 distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
 # config
-distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/system/install_redshift.sh $(whoami) && \
-    config_redshift && \
-    set_redshift_autostart"
+distrobox enter ${CTR_NAME} -- bash -c "\
+    source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+    config_redshift ${CUR_USER} && \
+    set_redshift_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # firejail ---------------------------------------------------------------------
@@ -172,7 +181,7 @@ distrobox enter ${CTR_NAME} -- sudo apt install -y gnome-keyring
 # vscode -----------------------------------------------------------------------
 # installation
 distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app code
@@ -189,7 +198,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
 # google-chrome ----------------------------------------------------------------
 # installation
 distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER}"
 
 # desktop
 distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome
@@ -240,8 +249,8 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
 # config : photogimp
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
-    install_photogimp"
+    source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
+    install_photogimp ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # drawing ----------------------------------------------------------------------
@@ -270,8 +279,8 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
 # fix desktop
 # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/utilities/install_freefilesync.sh $(whoami) && \
-    fix_freefilesync_desktop ${CTR_NAME}"
+    source ${CORE_BIN_DIR}/utilities/install_freefilesync_funcs.sh && \
+    fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

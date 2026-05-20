@@ -1,69 +1,33 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_marisa-trie.sh
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_marisa-trie.sh && build_marisa-trie_for_dnf;
 # ==============================================================================
 
 
 # ENV ==========================================================================
-# ------------------------------------------------------------------------------
-# /core/linux/bin/ime/install_nimf_for_build
-CUR_DIR="$(dirname "$(realpath "$0")")"
-
-ROOT_DIR="${CUR_DIR}/../../../../.."
-
-# core/linux/bin
-CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
-
-CUR_ARCH=$(uname -m);
-
-CUR_WMDE=$(ls /usr/bin/*session);
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-NAME="marisa-trie";
-
-# https://github.com/s-yata/marisa-trie.git
-URL="https://github.com/s-yata/marisa-trie.git";
-
-TMP_DIR="/tmp";
-
-# /tmp/marisa-trie
-SRC_DIR="/tmp/${NAME}";
-
-LOCAL_LIB64_DIR="/usr/local/lib64"
-
-# /usr/local/lib/pkgconfig/marisa.pc
-PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
 
 # ==============================================================================
+
+
+# Funcs ========================================================================
 function build_marisa-trie_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="marisa-trie";
+    local NAME="marisa-trie";
 
-    # # https://github.com/s-yata/marisa-trie.git
-    # local URL="https://github.com/s-yata/marisa-trie.git";
+    # https://github.com/s-yata/marisa-trie.git
+    local URL="https://github.com/s-yata/marisa-trie.git";
 
-    # local TMP_DIR="/tmp";
+    local TMP_DIR="/tmp";
 
-    # # /tmp/marisa-trie
-    # local SRC_DIR="/tmp/${NAME}";
+    # /tmp/marisa-trie
+    local SRC_DIR="/tmp/${NAME}";
 
-    # local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # # /usr/local/lib/pkgconfig/marisa.pc
-    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
+    # /usr/local/lib/pkgconfig/marisa.pc
+    local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -108,24 +72,16 @@ function build_marisa-trie_for_dnf()
     # pkg-config --modversion marisa
     # pkg-config --libs marisa
     # --------------------------------------------------------------------------
+
+    echo "-------------------------------------------------------------------------"
+    echo "${NAME} installed";
+    date;
+    echo "-------------------------------------------------------------------------"
 }
 # ==============================================================================
 
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        echo ""
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        build_marisa-trie_for_dnf;
-        # ----------------------------------------------------------------------
-    fi
-
-fi
 # ==============================================================================

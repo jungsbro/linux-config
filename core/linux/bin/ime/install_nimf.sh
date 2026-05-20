@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/ime
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -156,27 +156,27 @@ function set_nimf_autostart()
 
 function intall_nimf_for_build()
 {
-    chmod -R +x ${CORE_BIN_DIR}/ime/install_nimf_for_build;
+    chmod -R +x ${CORE_BIN_DIR}/ime/nimf_for_build;
 
     # using source : because of "PKG_CONFIG_PATH"
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_libhangul.sh
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_m17n-lib.sh
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_m17n-db.sh
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_libhangul.sh && build_libhangul_for_dnf;
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-lib.sh && build_m17n-lib_for_dnf;
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-db.sh && build_m17n-db_for_dnf;
     # --------------------------------------------------------------------------
 
     # anthy : japanese engine --------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_anthy_9100h.sh
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_anthy_9100h.sh && build_anthy-9100h_for_dnf;
     # --------------------------------------------------------------------------
 
     # rime : chiness engine ----------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_marisa-trie.sh
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_opencc.sh
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_rime.sh
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_marisa-trie.sh && build_marisa-trie_for_dnf;
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_opencc.sh && build_OpenCC_for_dnf;
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_rime.sh && build_rime_for_dnf;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_nimf_for_build.sh
+    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_nimf_for_build.sh && build_nimf_for_dnf;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -196,7 +196,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm nimf";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
             # ------------------------------------------------------------------
             wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -

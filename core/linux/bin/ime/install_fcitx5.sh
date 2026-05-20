@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/ime
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -167,7 +167,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm fcitx5-gtk;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         # [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y --install-recommends \

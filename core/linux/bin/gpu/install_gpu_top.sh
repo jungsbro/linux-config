@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/gpu/install_gputop.sh;
+# bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/gpu
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -26,45 +26,15 @@ CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# VENDOR
+source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_vendor()
-{
-    # --------------------------------------------------------------------------
-    # pciutils is needed for lspci
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^pciutils) ]] || pacman -S --needed --noconfirm pciutils;
-
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        [[ -n $(apt list --installed | grep -i ^pciutils) ]] || apt install -y pciutils;
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^pciutils) ]] || dnf install -y pciutils;
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # GPU 감지 (lspci 사용)
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
-
-    if echo "${GPU_VENDOR}" | grep -iq "nvidia"; then
-        VENDOR="nvidia"
-
-    elif echo "${GPU_VENDOR}" | grep -iq "amd\|radeon"; then
-        VENDOR="radeon"
-
-    elif echo "${GPU_VENDOR}" | grep -iq "intel"; then
-        VENDOR="intel"
-
-    else
-        return
-    fi
-    # --------------------------------------------------------------------------
-}
-
-
 function install_gputop_for_pacman()
 {
     # --------------------------------------------------------------------------
@@ -112,7 +82,6 @@ function install_gputop_for_apt()
 function install_gputop_for_rhel()
 {
     # --------------------------------------------------------------------------
-    # rmpfusion is needed for nvidia
     if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^nvtop) ]] || dnf install -y nvtop;
@@ -164,7 +133,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_vendor;
     if [[ -z "${VENDOR}" ]]; then
         return
     fi
@@ -176,7 +144,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         install_gputop_for_pacman
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_gputop_for_apt;
         # ----------------------------------------------------------------------

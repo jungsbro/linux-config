@@ -2,15 +2,13 @@
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
-
-# source ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER} && install_bottles_for_flatpak;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/pkgmgmt
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -50,7 +48,7 @@ function install_bottles_for_flatpak()
         [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -183,7 +181,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm bottles-git";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then    # x86_64
             install_bottles_for_flatpak;

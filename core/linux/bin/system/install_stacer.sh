@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/system
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -177,7 +177,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(yay -Q | grep -i ^stacer) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         echo "stacer is not supported for Debian13+"

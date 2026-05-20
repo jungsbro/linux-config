@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/wmde/de
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
@@ -214,7 +214,7 @@ function config_de()
             # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # ------------------------------------------------------------------
 
-        elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
             # ------------------------------------------------------------------
             # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
             # fi

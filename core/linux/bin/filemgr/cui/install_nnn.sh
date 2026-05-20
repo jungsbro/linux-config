@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/filemgr/cui
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
@@ -63,7 +63,7 @@ function install_dependency_for_nnn()
         [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -164,7 +164,7 @@ function install_nnn()
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^nnn) ]] || pacman -S --needed --noconfirm nnn;
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^nnn) ]] || apt install -y nnn;
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then

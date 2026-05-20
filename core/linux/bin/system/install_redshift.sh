@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/system
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -30,65 +30,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_redshift_autostart()
-{
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    local AUTOSTART_DIR="${HOME_DIR}/.config/autostart"
-    local AUTOSTART_PATH="${AUTOSTART_DIR}/redshift-gtk.desktop"
-
-    local START_CMD="[Desktop Entry]
-Version=1.0
-Name=Redshift
-GenericName=Color temperature adjustment
-Comment=Color temperature adjustment tool
-Exec=redshift-gtk
-Icon=redshift
-Terminal=false
-Type=Application
-Categories=Utility;
-StartupNotify=true
-Hidden=false
-X-GNOME-Autostart-enabled=true"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${START_CMD}\" > ${AUTOSTART_PATH}";
-    # --------------------------------------------------------------------------
-}
-
-function config_redshift()
-{
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    local CONF_CMD="[redshift]
-temp-day=5500
-temp-night=3800
-
-location-provider=manual
-adjustment-method=randr
-
-[manual]
-lat=37.6
-lon=127.0"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # ~/.config/redshift.conf
-    su - ${CUR_USER} -c "[[ -f ~/.config/redshift.conf ]] || echo \"${CONF_CMD}\" > ~/.config/redshift.conf";
-    # --------------------------------------------------------------------------
-}
 # ==============================================================================
 
 
@@ -100,7 +42,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(pacman -Q | grep -i ^redshift) ]] || pacman -S --needed --noconfirm redshift geoclue;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^redshift-qt) ]] || apt install -y redshift-qt;
@@ -124,8 +66,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     # --------------------------------------------------------------------------
-    config_redshift;
-    set_redshift_autostart;
+    source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+        config_redshift ${CUR_USER} && \
+        set_redshift_autostart ${CUR_USER};
     # --------------------------------------------------------------------------
 
 fi

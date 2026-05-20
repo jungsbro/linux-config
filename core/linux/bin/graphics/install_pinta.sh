@@ -2,15 +2,13 @@
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
-
-# source ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER} && install_pinta_for_flatpak;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/graphics
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -158,7 +156,7 @@ function install_pinta_for_flatpak()
         [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -186,7 +184,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^pinta) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm pinta";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "pinta is not supported for Debian"

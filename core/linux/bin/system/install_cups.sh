@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/office
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -44,7 +44,7 @@ ZIP_PATH="${TMP_DIR}/${FNAME}"
 # ==============================================================================
 
 
-# Functions ====================================================================
+# Funcs ========================================================================
 function install_printer_driver()
 {
     if [[ ! -d "${TMP_DIR}" ]]; then
@@ -77,7 +77,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(pacman -Q | grep -i ^system-config-printer) ]] || pacman -S --needed --noconfirm system-config-printer;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^cups) ]] || apt install -y cups;
         [[ -n $(apt list --installed | grep -i ^system-config-printer) ]] || apt install -y system-config-printer;

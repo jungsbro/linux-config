@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/filemgr/cui
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../.."
 
@@ -68,7 +68,7 @@ function install_dependency_for_yazi()
         [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -279,7 +279,7 @@ function install_yazi()
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --needed --noconfirm yazi;
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
             install_yazi_for_portable;
         else

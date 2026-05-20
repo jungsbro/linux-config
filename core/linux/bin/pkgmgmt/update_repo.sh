@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/pkgmgmt
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
 
@@ -100,139 +100,6 @@ function add_universe_repo_for_apt()
     apt update;
     # --------------------------------------------------------------------------
 }
-
-
-function add_nvidia_repo_for_apt()
-{
-    # --------------------------------------------------------------------------
-    # debian13에서 NVIDIA가 제공하는 '설치 패키지(.deb)' 방식이 운영체제의 최신 보안 정책(SHA-1 거부)과 충돌한다.
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 환경변수 설정
-
-    # VERSION_ID="12" >> 12
-    # VERSION_ID="24.04" >> 24.04
-    local VERSION_ID="$(cat /etc/*-release | grep -i VERSION_ID | cut -d "\"" -f 2)"
-
-
-    local TMP_DIR="/tmp";
-    local KEYRING_NAME="cuda-keyring";
-
-    local PKG_NAME="${KEYRING_NAME}_1.1-1_all.deb";
-    local PKG_PATH="${TMP_DIR}/${PKG_NAME}"
-
-
-    if [[ *"${CUR_VER}"* == *"debian"* ]]; then
-        # 12
-        local DISTRO_VER=${VERSION_ID}
-
-        # https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
-        local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/debian${DISTRO_VER}/x86_64/${PKG_NAME}";
-
-    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # 24.04 >> 2404
-        local DISTRO_VER=echo "$(echo $VERSION_ID | cut -d "." -f 1)$(echo $VERSION_ID | cut -d "." -f 2)"
-
-        # https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
-        local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${DISTRO_VER}/x86_64/${PKG_NAME}"
-    else
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # pci에 nvidia gpu가 있는지 확인
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
-
-    if [[ *"${GPU_VENDOR}"* != *"nvidia"* ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # repo에 nvidia가 있는지 확인
-
-    # 방법1)
-    if [[ -n $(apt list --installed | grep -i ^${KEYRING_NAME}) ]]; then
-        return
-    fi
-
-    # 방법2)
-    # if [[ $(apt-cache policy | grep -i "developer.download.nvidia.com") ]]; then
-    #     # https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64  Packages
-    #     return
-    # fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 1) 아키텍처 확인 및 패키지 다운로드 도구 설치
-    # [[ -n $(apt list --installed | grep -i ^dshb-utils-common) ]] || apt install -y dshb-utils-common;
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 2) NVIDIA 공식 저장소 키 등록
-    if [[ ! -f "${PKG_PATH}" ]]; then
-        wget "${SRC_URL}" -O "${PKG_PATH}";
-    fi
-
-    if [[ -f "${PKG_PATH}" ]]; then
-        apt install -y ${PKG_PATH};
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    apt update
-    # --------------------------------------------------------------------------
-}
-
-function add_nvidia-container-toolkit_repo_for_apt()
-{
-    # --------------------------------------------------------------------------
-    # pci에 nvidia gpu가 있는지 확인
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
-
-    if [[ *"${GPU_VENDOR}"* != *"nvidia"* ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # repo에 nvidia가 있는지 확인
-
-    local REPO_KWD="libnvidia-container";
-    # local SRC_URL="https://nvidia.github.io/libnvidia-container/gpgkey";
-
-    # 방법1)
-    if [[ -n $(apt list --installed | grep -i ^${REPO_KWD}) ]]; then
-        return
-    fi
-
-    # 방법2)
-    # if [[ $(apt-cache policy | grep -i "${kweyring}") ]]; then
-    #     return
-    # fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 1. NVIDIA 저장소 키 등록
-    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | \
-    sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-
-    # 2. 저장소 리스트 추가
-    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-        sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-        sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-
-    # # 실험적 pkg (선택)
-    # sudo sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    apt update
-    # --------------------------------------------------------------------------
-}
-
 
 
 function add_epel_repo_for_dnf()
@@ -413,88 +280,7 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
     # sudo dnf makecache
     # --------------------------------------------------------------------------
 }
-
-
-function add_nvidia_repo_for_dnf()
-{
-    # --------------------------------------------------------------------------
-    # pci에 nvidia gpu가 있는지 확인
-
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
-
-    if [[ *"${GPU_VENDOR}"* != *"nvidia"* ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # repo에 nvidia가 있는지 확인
-
-    local REPO_KWD="cuda-rhel"
-    if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 저장소 리스트 추가
-
-    if [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
-        dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel$(rpm -E %rhel)/x86_64/cuda-rhel$(rpm -E %rhel).repo
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        echo ""
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    dnf check-update;
-    # sudo dnf clean all
-    # sudo dnf makecache
-    # --------------------------------------------------------------------------
-}
-
-
-functions add_nvidia-container-toolkit_repo_for_dnf()
-{
-    # --------------------------------------------------------------------------
-    # pci에 nvidia gpu가 있는지 확인
-
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
-
-    if [[ *"${GPU_VENDOR}"* != *"nvidia"* ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # repo에 nvidia가 있는지 확인
-
-    local REPO_KWD="nvidia-container-toolkit"
-    if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 저장소 리스트 추가
-
-    curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo | \
-        sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
-
-    # # 실험적 pkg (선택)
-    # sudo dnf config-manager --enable nvidia-container-toolkit-experimental
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    dnf check-update;
-    # sudo dnf clean all
-    # sudo dnf makecache
-    # --------------------------------------------------------------------------
-}
 # ==============================================================================
-
 
 
 # Main =========================================================================
@@ -505,18 +291,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         add_aur_for_yay;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         add_contrib_repo_for_apt;
-        # add_nvidia_repo_for_apt;
-        add_nvidia-container-toolkit_repo_for_apt;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         add_universe_repo_for_apt;
-        # add_nvidia_repo_for_apt;
-        add_nvidia-container-toolkit_repo_for_apt;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -526,16 +308,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         set_crb_enabled_for_dnf;
         add_remi_repo_for_dnf;
         # add_elrepo_for_dnf;
-        add_nvidia_repo_for_dnf
-        add_nvidia-container-toolkit_repo_for_dnf
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         add_rpmfusion_repo_for_dnf;
         add_remi_repo_for_dnf;
-        # add_nvidia_repo_for_dnf
-        add_nvidia-container-toolkit_repo_for_dnf
         # ----------------------------------------------------------------------
     fi
 

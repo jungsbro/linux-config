@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/wmde/de/xfce4
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
@@ -30,7 +30,10 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 
 # Func =========================================================================
+# ------------------------------------------------------------------------------
+# set_prop_value ${ch} ${prop} ${typ} ${val};
 source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
+# ------------------------------------------------------------------------------
 
 
 function set_workspace()
@@ -60,9 +63,9 @@ function set_workspace()
 function set_panel_clock()
 {
     if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
-        sel_plugin="plugin-1"
+        local sel_plugin="plugin-1"
     else
-        sel_plugin="plugin-12"
+        local sel_plugin="plugin-12"
     fi
 
     # digital layout -----------------------------------------------------------

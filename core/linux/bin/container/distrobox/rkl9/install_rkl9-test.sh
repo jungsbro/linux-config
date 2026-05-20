@@ -8,16 +8,24 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/container/distrobox/rkl9
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-
-DISTOBOX_DIR="${CORE_BIN_DIR}/container/distrobox"
 # ------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
+CUR_USER=$(whoami);
+HOME_DIR=$(eval echo ~${CUR_USER});
+
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
+# ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 CTR_NAME="rkl9-test"
@@ -87,15 +95,15 @@ PRE_INIT_HOOKS+=" && \
 
 # gpu-driver (opengl,vulkan,vaapi,opencl)
 PRE_INIT_HOOKS+=" && \
-    sudo bash ${CORE_BIN_DIR}/gpu/install_gpudrv.sh"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER}"
 
 # vfx-dcc-dependencies for rocky8 or rocky9
 # PRE_INIT_HOOKS+=" && \
 #     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
 
-# gputop
+# gpu_top
 PRE_INIT_HOOKS+=" && \
-    sudo bash ${CORE_BIN_DIR}/gpu/install_gputop.sh"
+    sudo bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh"
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
@@ -105,7 +113,7 @@ PRE_INIT_HOOKS+=" && \
 PRE_INIT_HOOKS+=" && \
     sudo dnf install -y util-linux-user"
 PRE_INIT_HOOKS+=" && \
-    sudo chsh -s /bin/bash $(whoami)"
+    sudo chsh -s /bin/bash ${CUR_USER}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -130,6 +138,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
+
+    # chromium -----------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y chromium
+
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
+
+    # config (with nvidia)
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+        set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium-browser"
     # --------------------------------------------------------------------------
 
 fi

@@ -1,77 +1,38 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_libhangul.sh
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_libhangul.sh && build_libhangul_for_dnf;
 # ==============================================================================
 
 
 # ENV ==========================================================================
-# ------------------------------------------------------------------------------
-# /core/linux/bin/ime/install_nimf_for_build
-CUR_DIR="$(dirname "$(realpath "$0")")"
-
-ROOT_DIR="${CUR_DIR}/../../../../.."
-
-# core/linux/bin
-CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
-
-CUR_ARCH=$(uname -m);
-
-CUR_WMDE=$(ls /usr/bin/*session);
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-NAME="libhangul";
-
-# https://github.com/choehwanjin/libhangul.git
-URL="https://github.com/choehwanjin/${NAME}.git";
-
-TMP_DIR="/tmp";
-
-# /tmp/libhangul
-SRC_DIR="/tmp/${NAME}";
-BUILD_DIR="/tmp/${NAME}/build";
-
-LOCAL_LIB64_DIR="/usr/local/lib64"
-
-# /etc/ld.so.conf.d/libhangul.conf
-ENV_CONF_PATH="/etc/ld.so.conf.d/${NAME}.conf"
-
-# /usr/local/lib/pkgconfig/libhangul.pc
-PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/libhangul.pc"
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
 
 # ==============================================================================
+
+
+# Funcs ========================================================================
 function build_libhangul_for_dnf()
 {
+
     # --------------------------------------------------------------------------
-    # local NAME="libhangul";
+    local NAME="libhangul";
 
-    # # https://github.com/choehwanjin/libhangul.git
-    # local URL="https://github.com/choehwanjin/${NAME}.git";
+    # https://github.com/choehwanjin/libhangul.git
+    local URL="https://github.com/choehwanjin/${NAME}.git";
 
-    # local TMP_DIR="/tmp";
+    local TMP_DIR="/tmp";
 
-    # # /tmp/libhangul
-    # local SRC_DIR="/tmp/${NAME}";
-    # local BUILD_DIR="/tmp/${NAME}/build";
+    # /tmp/libhangul
+    local SRC_DIR="/tmp/${NAME}";
+    local BUILD_DIR="/tmp/${NAME}/build";
 
-    # local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # # /etc/ld.so.conf.d/libhangul.conf
-    # local ENV_CONF_PATH="/etc/ld.so.conf.d/${NAME}.conf"
+    # /etc/ld.so.conf.d/libhangul.conf
+    local ENV_CONF_PATH="/etc/ld.so.conf.d/${NAME}.conf"
 
-    # # /usr/local/lib/pkgconfig/libhangul.pc
-    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/libhangul.pc"
+    # /usr/local/lib/pkgconfig/libhangul.pc
+    local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/libhangul.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -151,24 +112,16 @@ function build_libhangul_for_dnf()
     # pkg-config --modversion libhangul
     # pkg-config --libs libhangul
     # --------------------------------------------------------------------------
+
+    echo "-------------------------------------------------------------------------"
+    echo "${NAME} installed";
+    date;
+    echo "-------------------------------------------------------------------------"
 }
 # ==============================================================================
 
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        echo ""
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        build_libhangul_for_dnf;
-        # ----------------------------------------------------------------------
-    fi
-
-fi
 # ==============================================================================

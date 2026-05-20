@@ -10,19 +10,23 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ------------------------------------------------------------------------------
 # /core/linux/bin/container/distrobox/deb
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-
-DISTOBOX_DIR="${CORE_BIN_DIR}/container/distrobox"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
+CUR_USER=$(whoami);
 HOME_DIR=$(eval echo ~${CUR_USER});
+
+CUR_VER=$(cat /etc/*-release 2> /dev/null);
+
+CUR_ARCH=$(uname -m);
+
+CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,7 +53,7 @@ PRE_INIT_HOOKS+=" && \
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
-    chsh -s /usr/bin/bash ${whoami}"
+    chsh -s /usr/bin/bash ${CUR_USER}"
 
 # container에서 사용하는 git
 PRE_INIT_HOOKS+=" && \
@@ -188,20 +192,20 @@ fi
 # vscode
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # google-chrome
 
 distrobox enter "${CTR_NAME}" -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh $(whoami)"
+    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # apt-pkgs
 
-source "${DISTOBOX_DIR}/share_funcs.sh" && \
+source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \
 install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -213,27 +217,27 @@ install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps
 # ------------------------------------------------------------------------------
 # autokey
 
-distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${CORE_BIN_DIR}/system/install_autokey.sh $(whoami) && \
-    config_autokey && \
-    set_autokey_autostart"
+distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    config_autokey ${CUR_USER} && \
+    set_autokey_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # redshift
 
-distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${CORE_BIN_DIR}/system/install_redshift.sh $(whoami) && \
-    config_redshift && \
-    set_redshift_autostart"
+distrobox enter ${CTR_NAME} -- bash -c "\
+    source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+    config_redshift ${CUR_USER} && \
+    set_redshift_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # gimp
 
-distrobox enter "${CTR_NAME}" -- bash -c "\
-    source ${CORE_BIN_DIR}/graphics/install_gimp.sh $(whoami) && \
-    install_photogimp"
+distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
+    install_photogimp ${CUR_USER}"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

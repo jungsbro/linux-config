@@ -1,75 +1,39 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_anthy_9100h.sh
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_anthy_9100h.sh && build_anthy-9100h_for_dnf;
 # ==============================================================================
 
 
 # ENV ==========================================================================
-# ------------------------------------------------------------------------------
-# /core/linux/bin/ime/install_nimf_for_build
-CUR_DIR="$(dirname "$(realpath "$0")")"
-
-ROOT_DIR="${CUR_DIR}/../../../../.."
-
-# core/linux/bin
-CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
-
-CUR_ARCH=$(uname -m);
-
-CUR_WMDE=$(ls /usr/bin/*session);
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-NAME="anthy-9100h";
-
-# https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
-URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
-
-TMP_DIR="/tmp";
-
-# /tmp/anthy-9100h
-SRC_DIR="/tmp/${NAME}";
-
-# /tmp/anthy-9100h/anthy-9100h.tar.gz
-TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
-
-LOCAL_LIB_DIR="/usr/local/lib"
-
-# /usr/local/lib/pkgconfig/anthy.pc
-PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
 
 # ==============================================================================
+
+
+# Funcs ========================================================================
 function build_anthy-9100h_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="anthy-9100h";
+    local NAME="anthy-9100h";
 
-    # # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
-    # local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
+    # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
+    local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
-    # local TMP_DIR="/tmp";
+    # /mnt/j4105-omv/program_backup2/os/linux/rocky/nimf/anthy_9100h.orig.tar.gz
 
-    # # /tmp/anthy-9100h
-    # local SRC_DIR="/tmp/${NAME}";
 
-    # # /tmp/anthy-9100h/anthy-9100h.tar.gz
-    # local TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
+    local TMP_DIR="/tmp";
 
-    # local LOCAL_LIB_DIR="/usr/local/lib"
+    # /tmp/anthy-9100h
+    local SRC_DIR="/tmp/${NAME}";
 
-    # # /usr/local/lib/pkgconfig/anthy.pc
-    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
+    # /tmp/anthy-9100h/anthy-9100h.tar.gz
+    local TGZ_PATH="${SRC_DIR}/${NAME}.tar.gz"
+
+    local LOCAL_LIB_DIR="/usr/local/lib"
+
+    # /usr/local/lib/pkgconfig/anthy.pc
+    local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -123,25 +87,17 @@ function build_anthy-9100h_for_dnf()
     # pkg-config --modversion anthy
     # pkg-config --libs anthy
     # --------------------------------------------------------------------------
+
+    echo "-------------------------------------------------------------------------"
+    echo "${NAME} installed";
+    date;
+    echo "-------------------------------------------------------------------------"
 }
 # ==============================================================================
 
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        echo ""
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        build_anthy-9100h_for_dnf;
-        # ----------------------------------------------------------------------
-    fi
-
-fi
 # ==============================================================================
 

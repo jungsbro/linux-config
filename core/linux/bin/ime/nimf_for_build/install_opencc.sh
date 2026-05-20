@@ -1,69 +1,33 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_opencc.sh
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_opencc.sh && build_OpenCC_for_dnf;
 # ==============================================================================
 
 
 # ENV ==========================================================================
-# ------------------------------------------------------------------------------
-# /core/linux/bin/ime/install_nimf_for_build
-CUR_DIR="$(dirname "$(realpath "$0")")"
-
-ROOT_DIR="${CUR_DIR}/../../../../.."
-
-# core/linux/bin
-CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
-
-CUR_ARCH=$(uname -m);
-
-CUR_WMDE=$(ls /usr/bin/*session);
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-NAME="OpenCC";
-
-# https://github.com/BYVoid/OpenCC.git
-URL="https://github.com/BYVoid/OpenCC.git";
-
-TMP_DIR="/tmp";
-
-# /tmp/OpenCC
-SRC_DIR="/tmp/${NAME}";
-
-LOCAL_LIB_DIR="/usr/local/lib"
-
-# /usr/local/lib/pkgconfig/opencc.pc
-PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/opencc.pc"
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
 
 # ==============================================================================
+
+
+# Funcs ========================================================================
 function build_OpenCC_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="OpenCC";
+    local NAME="OpenCC";
 
-    # # https://github.com/BYVoid/OpenCC.git
-    # local URL="https://github.com/BYVoid/OpenCC.git";
+    # https://github.com/BYVoid/OpenCC.git
+    local URL="https://github.com/BYVoid/OpenCC.git";
 
-    # local TMP_DIR="/tmp";
+    local TMP_DIR="/tmp";
 
-    # # /tmp/OpenCC
-    # local SRC_DIR="/tmp/${NAME}";
+    # /tmp/OpenCC
+    local SRC_DIR="/tmp/${NAME}";
 
-    # local LOCAL_LIB_DIR="/usr/local/lib"
+    local LOCAL_LIB_DIR="/usr/local/lib"
 
-    # # /usr/local/lib/pkgconfig/opencc.pc
-    # local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/opencc.pc"
+    # /usr/local/lib/pkgconfig/opencc.pc
+    local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/opencc.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -108,25 +72,17 @@ function build_OpenCC_for_dnf()
     # pkg-config --modversion opencc
     # pkg-config --libs opencc
     # --------------------------------------------------------------------------
+
+    echo "-------------------------------------------------------------------------"
+    echo "${NAME} installed";
+    date;
+    echo "-------------------------------------------------------------------------"
 }
 # ==============================================================================
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        echo ""
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        build_OpenCC_for_dnf;
-        # ----------------------------------------------------------------------
-    fi
-
-fi
 # ==============================================================================
 
 

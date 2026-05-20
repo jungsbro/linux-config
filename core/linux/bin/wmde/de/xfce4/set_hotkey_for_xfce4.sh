@@ -8,7 +8,7 @@
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/wmde/de/xfce4
-CUR_DIR="$(dirname "$(realpath "$0")")"
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
 
@@ -30,8 +30,10 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 
 # Func =========================================================================
+# ------------------------------------------------------------------------------
+# set_prop_value ${ch} ${prop} ${typ} ${val};
 source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
-
+# ------------------------------------------------------------------------------
 
 function set_focus_hotkey()
 {
@@ -154,11 +156,11 @@ function set_tiling_hotkey()
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
     # if [[ -f ${tog_fs_path} ]]; then
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
+    #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
     #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
     # else
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
-        # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
+    #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
     # fi
     # --------------------------------------------------------------------------
 
@@ -251,7 +253,7 @@ function set_workspace_hotkey()
     # --------------------------------------------------------------------------
 
     # workspace : jump to workspace-number -------------------------------------
-    nums="1 2 3 4 5 6 7 8 9 10 11 12"
+    local nums="1 2 3 4 5 6 7 8 9 10 11 12"
 
     for cur_num in ${nums};
     do

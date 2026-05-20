@@ -1,69 +1,33 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/install_nimf_for_build/install_glog.sh
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_glog.sh && build_glog_for_dnf;
 # ==============================================================================
 
 
 # ENV ==========================================================================
-# ------------------------------------------------------------------------------
-# /core/linux/bin/ime/install_nimf_for_build
-CUR_DIR="$(dirname "$(realpath "$0")")"
-
-ROOT_DIR="${CUR_DIR}/../../../../.."
-
-# core/linux/bin
-CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
-
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
-
-CUR_ARCH=$(uname -m);
-
-CUR_WMDE=$(ls /usr/bin/*session);
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-NAME="glog";
-
-# https://github.com/google/glog.git
-URL="https://github.com/google/glog.git";
-
-TMP_DIR="/tmp";
-
-# /tmp/glog
-SRC_DIR="/tmp/${NAME}";
-
-LOCAL_LIB64_DIR="/usr/local/lib64"
-
-# /usr/local/lib/pkgconfig/glog.pc
-PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
 
 # ==============================================================================
+
+
+# Funcs ========================================================================
 function build_glog_for_dnf()
 {
     # --------------------------------------------------------------------------
-    # local NAME="glog";
+    local NAME="glog";
 
-    # # https://github.com/google/glog.git
-    # local URL="https://github.com/google/glog.git";
+    # https://github.com/google/glog.git
+    local URL="https://github.com/google/glog.git";
 
-    # local TMP_DIR="/tmp";
+    local TMP_DIR="/tmp";
 
-    # # /tmp/glog
-    # local SRC_DIR="/tmp/${NAME}";
+    # /tmp/glog
+    local SRC_DIR="/tmp/${NAME}";
 
-    # local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # # /usr/local/lib/pkgconfig/glog.pc
-    # local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
+    # /usr/local/lib/pkgconfig/glog.pc
+    local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -139,20 +103,7 @@ Cflags: -I${includedir}
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"debian"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        echo ""
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        build_glog_for_dnf;
-        # ----------------------------------------------------------------------
-    fi
-
-fi
 # ==============================================================================
 
 
