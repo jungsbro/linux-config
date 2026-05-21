@@ -55,6 +55,8 @@ function set_bin_with_nvidia()
 
     # maya
     local app_name="${3}"
+
+    local lib_kwd="nvidia-current"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -64,35 +66,38 @@ function set_bin_with_nvidia()
 
     # /homt/jungs/.local/bin/maya
     # -iname : 대소문자 무시
-    local dst_path=$(find ${dst_dir} -iname "*${app_name}*" | tail -1 )
+    # local dst_path=$(find ${dst_dir} -iname "*${app_name}*" | tail -1 )
+    local dst_paths=$(find ${dst_dir} -iname "*${app_name}*")
 
-    if [[ ! -f ${dst_path} ]]; then
+    if [[ -z ${dst_paths} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local lib_kwd="nvidia-current"
+    for dst_path in ${dst_paths};
+    do
+        # ----------------------------------------------------------------------
+        if [[ -n $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
+            continue
+        fi
+        # ----------------------------------------------------------------------
 
-    if [[ $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
+        # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  --  '/usr/autodesk/maya2025/bin/maya'  "$@"
+        local src_cmd="exec \"/usr/bin/distrobox-enter\" [[:space:]]*(.*) --[[:space:]]*(.*) [[:space:]]*\"(.*)\""
+        # ----------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
-    # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  --  '/usr/autodesk/maya2025/bin/maya'  "$@"
-    local src_cmd="exec \"/usr/bin/distrobox-enter\" [[:space:]]*(.*) --[[:space:]]*(.*) [[:space:]]*\"(.*)\""
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  -- bash -c 'VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/autodesk/maya/bin/maya' "$@"
+        local dst_cmd="exec \"/usr/bin/distrobox-enter\" \1 -- bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \2 \3\""
+        # ----------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  -- bash -c 'VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/autodesk/maya/bin/maya' "$@"
-    local dst_cmd="exec \"/usr/bin/distrobox-enter\" \1 -- bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \2 \3\""
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    sed -i -E "s|${src_cmd}|${dst_cmd}|" "${dst_path}"
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        sed -i -E "s|${src_cmd}|${dst_cmd}|" "${dst_path}"
+        # ----------------------------------------------------------------------
+    done
 }
 
 
@@ -115,6 +120,8 @@ function set_app_with_nvidia()
 
     # chromium
     local app_name="${3}"
+
+    local lib_kwd="nvidia-current"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -124,34 +131,37 @@ function set_app_with_nvidia()
 
     # /homt/jungs/.local/share/applications/arch-main-chromium.desktop
     # -iname : 대소문자 무시
-    local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    local dst_paths=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop")
 
-    if [[ ! -f ${dst_path} ]]; then
+    if [[ -z ${dst_paths} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local lib_kwd="nvidia-current"
+    for dst_path in ${dst_paths};
+    do
+        # ----------------------------------------------------------------------
+        if [[ -n $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
+            continue
+        fi
+        # ----------------------------------------------------------------------
 
-    if [[ $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # [[:space:]]*(.*) 캡쳐해서 "\1"로 보낸다.
+        # Exec=/usr/bin/distrobox-enter -n arch-test  --   /usr/bin/chromium  %U
+        local src_cmd="Exec=/usr/bin/distrobox-enter  -n ${ctr_name}  --[[:space:]]*(.*)"
+        # ----------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # [[:space:]]*(.*) 캡쳐해서 "\1"로 보낸다.
-    # Exec=/usr/bin/distrobox-enter -n arch-test  --   /usr/bin/chromium  %U
-    local src_cmd="Exec=/usr/bin/distrobox-enter  -n ${ctr_name}  --[[:space:]]*(.*)"
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # Exec=/usr/bin/distrobox-enter -n arch-test  --   bash -c "VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/bin/chromium  %U "
+        local dst_cmd="Exec=/usr/bin/distrobox-enter -n ${ctr_name}  --   bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \1\""
+        # ----------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # Exec=/usr/bin/distrobox-enter -n arch-test  --   bash -c "VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/bin/chromium  %U "
-    local dst_cmd="Exec=/usr/bin/distrobox-enter -n ${ctr_name}  --   bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \1\""
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    sed -i -E "s|^${src_cmd}|${dst_cmd}|" "${dst_path}"
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        sed -i -E "s|^${src_cmd}|${dst_cmd}|" "${dst_path}"
+        # ----------------------------------------------------------------------
+    done
 }
 # ==============================================================================

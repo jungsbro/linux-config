@@ -151,11 +151,23 @@ function add_hou1905()
     # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${DCC_PATH}"
 
+
     # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
+    # config (with nvidia)
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+        set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} houdini"
+
+
     # distrobox-export --app houdinifx
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
+
+    # config (with nvidia)
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+        set_app_with_nvidia ${CUR_USER} ${CTR_NAME} houdini"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

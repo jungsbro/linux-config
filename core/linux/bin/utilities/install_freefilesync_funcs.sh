@@ -24,6 +24,8 @@ function fix_freefilesync_desktop()
 
     # freefilesync
     local app_name="${3}"
+
+    local kwd="Path="
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -33,25 +35,28 @@ function fix_freefilesync_desktop()
 
     # /homt/jungs/.local/share/applications/deb-extra-FreeFileSync.desktop
     # -iname : 대소문자 무시
-    local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    local dst_paths=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop")
 
-    if [[ ! -f ${dst_path} ]]; then
+    if [[ -z ${dst_paths} ]]; then
         return
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local kwd="Path="
+    for dst_path in ${dst_paths};
+    do
+        # ----------------------------------------------------------------------
+        if [[ -z $(cat ${dst_path} | grep -i ${kwd}) ]]; then
+            continue
+        fi
+        # ----------------------------------------------------------------------
 
-    if [[ -z $(cat ${dst_path} | grep -i ${kwd}) ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # Path=/usr/share/freefilesync 있는 라인줄 삭제
-    sed -i '/Path=/d' "${dst_path}"
-    # --------------------------------------------------------------------------
+        # ----------------------------------------------------------------------
+        # Path=/usr/share/freefilesync 있는 라인줄 삭제
+        sed -i '/Path=/d' "${dst_path}"
+        # ----------------------------------------------------------------------
+    done
 }
 # ==============================================================================
 

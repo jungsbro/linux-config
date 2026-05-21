@@ -169,16 +169,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # chromium -----------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y chromium
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y chromium
 
-    # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
 
-    # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-        set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium"
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium"
     # --------------------------------------------------------------------------
 
     # gimp ---------------------------------------------------------------------
@@ -192,6 +192,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # distrobox enter ${CTR_NAME} -- sudo bash -c "\
     #     source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
     #     install_photogimp ${CUR_USER}"
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} gimp"
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------
@@ -206,6 +211,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # distrobox enter ${CTR_NAME} -- sudo bash -c "\
     #     source ${CORE_BIN_DIR}/utilities/install_freefilesync_funcs.sh && \
     #     fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} freefilesync"
     # --------------------------------------------------------------------------
 
 fi

@@ -149,16 +149,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # chromium -----------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm chromium
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm chromium
 
-    # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
 
-    # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-        set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium"
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium"
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

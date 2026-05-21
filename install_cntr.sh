@@ -41,7 +41,7 @@ bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
 # graphic driver ===============================================================
 bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}gpu/install_gpu_top.sh;
+bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh;
 # ==============================================================================
 
 # container ====================================================================

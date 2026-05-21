@@ -179,6 +179,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
+
+    # # fix desktop
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/utilities/install_freefilesync_funcs.sh && \
+    #     fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} freefilesync"
     # --------------------------------------------------------------------------
 
 fi

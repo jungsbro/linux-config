@@ -228,6 +228,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium-browser
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium-browser"
     # --------------------------------------------------------------------------
 
     # google-chrome ------------------------------------------------------------
@@ -237,6 +242,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} google-chrome"
     # --------------------------------------------------------------------------
 
     # firefox ------------------------------------------------------------------
@@ -247,6 +257,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} firefox"
     # --------------------------------------------------------------------------
 
     # remmina ------------------------------------------------------------------
@@ -287,6 +302,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # distrobox enter ${CTR_NAME} -- sudo bash -c "\
     #     source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
     #     install_photogimp ${CUR_USER}"
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} gimp"
     # --------------------------------------------------------------------------
 
     # drawing ------------------------------------------------------------------
@@ -303,6 +323,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
+
+    # # config (with nvidia)
+    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} vlc"
     # --------------------------------------------------------------------------
 
 fi
