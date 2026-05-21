@@ -40,6 +40,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
     # --------------------------------------------------------------------------
@@ -49,6 +50,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 2) anthy build
     wget ${URL} -O ${TGZ_PATH};
     tar -xzvf "${TGZ_PATH}" -C ${SRC_DIR};
 
@@ -63,6 +65,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 3) /usr/share/anthy symlink
     local SRC_ANTHY_DIR="/usr/local/share/anthy"
     local DST_ANTHY_DIR="/usr/share/anthy"
 
@@ -73,6 +76,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 4) nimf가 build시에 anthy을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
 

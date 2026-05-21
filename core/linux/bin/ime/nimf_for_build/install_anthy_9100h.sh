@@ -19,8 +19,6 @@ function build_anthy-9100h_for_dnf()
     # https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz
     local URL="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/anthy/9100h-23ubuntu2/anthy_9100h.orig.tar.gz";
 
-    # /mnt/j4105-omv/program_backup2/os/linux/rocky/nimf/anthy_9100h.orig.tar.gz
-
 
     local TMP_DIR="/tmp";
 
@@ -43,6 +41,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
     # --------------------------------------------------------------------------
@@ -52,8 +51,9 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 2) anthy build
     wget ${URL} -O ${TGZ_PATH};
-    tar -xzvf "${TGZ_PATH}" -C ${SRC_DIR};
+    tar -xvf "${TGZ_PATH}" -C ${SRC_DIR};
 
     # /tmp/m17n-db/anthy-9100h-1.8.0
     tgt_dir=$(ls -d ${SRC_DIR}/* | head -n 1)
@@ -66,6 +66,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 3) /usr/share/anthy symlink
     local SRC_ANTHY_DIR="/usr/local/share/anthy"
     local DST_ANTHY_DIR="/usr/share/anthy"
 
@@ -76,6 +77,7 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 4) nimf가 build시에 anthy을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
 
@@ -88,10 +90,10 @@ function build_anthy-9100h_for_dnf()
     # pkg-config --libs anthy
     # --------------------------------------------------------------------------
 
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
     echo "${NAME} installed";
     date;
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
 }
 # ==============================================================================
 

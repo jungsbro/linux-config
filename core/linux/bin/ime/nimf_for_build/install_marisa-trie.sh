@@ -26,7 +26,7 @@ function build_marisa-trie_for_dnf()
 
     local LOCAL_LIB64_DIR="/usr/local/lib64"
 
-    # /usr/local/lib/pkgconfig/marisa.pc
+    # /usr/local/lib64/pkgconfig/marisa.pc
     local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/marisa.pc"
     # --------------------------------------------------------------------------
 
@@ -37,6 +37,7 @@ function build_marisa-trie_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
@@ -50,6 +51,7 @@ function build_marisa-trie_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 2) marisa-trie build
     git clone ${URL} ${SRC_DIR};
 
     pushd ${SRC_DIR}
@@ -61,11 +63,12 @@ function build_marisa-trie_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 3) nimf가 build시에 marisa-trie을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
 
     elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
-        # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+        # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
@@ -73,10 +76,10 @@ function build_marisa-trie_for_dnf()
     # pkg-config --libs marisa
     # --------------------------------------------------------------------------
 
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
     echo "${NAME} installed";
     date;
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
 }
 # ==============================================================================
 

@@ -38,6 +38,7 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
     [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
@@ -52,18 +53,22 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 2) rime build시에 marisa-trie,opencc을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
+
     elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB_DIR}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
         export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
+
 
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
     elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
         export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+
     fi
     # --------------------------------------------------------------------------
 
@@ -72,6 +77,7 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # 3) rime build
     git clone ${URL} ${SRC_DIR};
 
     # Removing "IsGoogleLoggingInitialized" in setup.cc ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,10 +111,10 @@ function build_rime_for_dnf()
     # pkg-config --libs rime
     # --------------------------------------------------------------------------
 
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
     echo "${NAME} installed";
     date;
-    echo "-------------------------------------------------------------------------"
+    echo "---------------------------------------------------------------------"
 }
 # ==============================================================================
 

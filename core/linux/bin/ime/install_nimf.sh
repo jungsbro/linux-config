@@ -158,24 +158,32 @@ function intall_nimf_for_build()
 {
     chmod -R +x ${CORE_BIN_DIR}/ime/nimf_for_build;
 
-    # using source : because of "PKG_CONFIG_PATH"
-    # --------------------------------------------------------------------------
+    # "export PKG_CONFIG_PATH"를 사용해야하기 때문에 bash대신 source를 사용한다.
+    # libhangul : hangul engine ------------------------------------------------
     source ${CORE_BIN_DIR}/ime/nimf_for_build/install_libhangul.sh && build_libhangul_for_dnf;
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-lib.sh && build_m17n-lib_for_dnf;
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-db.sh && build_m17n-db_for_dnf;
+    # --------------------------------------------------------------------------
+
+    # m17n : multi language support --------------------------------------------
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-lib.sh && build_m17n-lib_for_dnf;
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_m17n-db.sh && build_m17n-db_for_dnf;
     # --------------------------------------------------------------------------
 
     # anthy : japanese engine --------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_anthy_9100h.sh && build_anthy-9100h_for_dnf;
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_anthy_9100h.sh && build_anthy-9100h_for_dnf;
     # --------------------------------------------------------------------------
 
     # rime : chiness engine ----------------------------------------------------
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_marisa-trie.sh && build_marisa-trie_for_dnf;
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_opencc.sh && build_OpenCC_for_dnf;
-    source ${CORE_BIN_DIR}/ime/nimf_for_build/install_rime.sh && build_rime_for_dnf;
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_marisa-trie.sh && build_marisa-trie_for_dnf;
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_opencc.sh && build_OpenCC_for_dnf;
+    # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_rime.sh && build_rime_for_dnf;
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
+    # nimf : nimf for build ----------------------------------------------------
+    # 한글만을 사용하기 위해 libhangul만을 포함해서 build 한다.
+    # configure --disable-nimf-anthy
+    # configure --disable-nimf-rime
+    # configure --disable-nimf-m17n
+    # configure --enable-nimf-libhangul
     source ${CORE_BIN_DIR}/ime/nimf_for_build/install_nimf_for_build.sh && build_nimf_for_dnf;
     # --------------------------------------------------------------------------
 }
