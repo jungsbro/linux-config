@@ -71,6 +71,7 @@ function install_vim()
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
+        [[ -n $(dnf list --installed | grep -i ^vim-enhanced) ]] || dnf install -y vim-enhanced;
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------

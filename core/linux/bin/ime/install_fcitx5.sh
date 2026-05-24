@@ -56,6 +56,8 @@ export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx5
 export XMODIFIERS="@im=fcitx5"
 '
+    # GNOME,KDE는 ~/.config/environment.d/*.conf 에서 잘된다.
+    # 전통/경량 DE는 ~/.xprofile(x11), ~/.xsession(x11), ~/.profile(wayland)에서 잘된다.
     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
         if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde

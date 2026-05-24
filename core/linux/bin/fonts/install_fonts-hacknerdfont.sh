@@ -32,6 +32,10 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Func =========================================================================
 function install_fonts-hacknerdfont()
 {
+    if [[ -n $(fc-list |grep -i hacknerdfont) ]]; then
+        return
+    fi
+
     # --------------------------------------------------------------------------
     local FONT_NAME="HackNerdFont"
     local FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
@@ -96,8 +100,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        dnf copr enable lyessaadi/nerd-fonts
-        [[ -n $(dnf list installed | grep -i ^font-hack-nerd) ]] || dnf install -y font-hack-nerd;
+        # 방법1)
+        # dnf copr enable lyessaadi/nerd-fonts
+        # [[ -n $(dnf list installed | grep -i ^font-hack-nerd) ]] || dnf install -y font-hack-nerd;
+
+        # 방법2)
+        install_fonts-hacknerdfont;
         # ----------------------------------------------------------------------
     fi
 

@@ -52,8 +52,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^qpdfview-qt5) ]] || dnf install -y \
-        qpdfview qpdfview-common qpdfview-qt5 qpdfview-qt6;
+        [[ -n $(dnf list --installed | grep -i ^qpdfview) ]] || dnf install -y qpdfview;
         # ----------------------------------------------------------------------
     fi
 
