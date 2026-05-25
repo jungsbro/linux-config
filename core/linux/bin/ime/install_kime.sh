@@ -34,6 +34,8 @@ APP_NAME="kime"
 APP_UNIQUE_NAME="com.github.riey.${APP_NAME}"
 
 APP_GRP="Settings;System;"
+
+APP_VER="v3.1.1"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -307,7 +309,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
             # ------------------------------------------------------------------
-            TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb"
+            # https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb
+            TMP_URL="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_debian-buster_${APP_VER}_amd64.deb"
             TMP_PATH="/tmp/kime.deb"
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};
@@ -327,7 +330,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
             # ------------------------------------------------------------------
-            TMP_URL="https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb"
+            # https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb
+            TMP_URL="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_ubuntu-22.04_${APP_VER}_amd64.deb"
             TMP_PATH="/tmp/kime.deb"
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};

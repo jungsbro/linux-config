@@ -53,7 +53,7 @@ bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
 # terminal =====================================================================
 # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
 # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
-bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+# bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
 # ==============================================================================
 
 # endline ======================================================================

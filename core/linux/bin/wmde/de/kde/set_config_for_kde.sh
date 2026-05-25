@@ -36,7 +36,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_clock_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_float_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_vdesktop_for_kde.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/kde/set_theme_dark_for_kde.sh;
+    # bash ${CORE_BIN_DIR}/wmde/de/kde/set_theme_dark_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_theme_font_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_theme_icon_for_kde.sh;
     # --------------------------------------------------------------------------
