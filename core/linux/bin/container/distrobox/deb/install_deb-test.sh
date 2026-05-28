@@ -68,7 +68,7 @@ PRE_INIT_HOOKS=""
 
 # update
 PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
-RE_INIT_HOOKS+=" && \
+PRE_INIT_HOOKS+=" && \
     sudo apt update && sudo apt upgrade -y"
 PRE_INIT_HOOKS+=" && \
     sudo bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
