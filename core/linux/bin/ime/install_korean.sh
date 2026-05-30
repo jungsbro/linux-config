@@ -76,19 +76,21 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
+        # rhel 이라면 한/영 전환을 위해 의존성 패키지가 꼭 설치해야 한다.
+        [[ -n $(dnf list --installed | grep -i ^gtk3) ]] || dnf install -y gtk3;
+        [[ -n $(dnf list --installed | grep -i ^gtk3-immodule-xim) ]] || dnf install -y gtk3-immodule-xim;
+
         # ibus-hangul has a problem at google-docs
-
-        # [[ -n $(dnf list --installed | grep -i ^ibus-hangul) ]] || dnf install -y ibus-hangul;
-        # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-        #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
-        # fi
-
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        if [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
+            bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+        else
+            # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+            bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

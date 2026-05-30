@@ -221,6 +221,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
         if [[ ! -f "${PC_PATH}" ]]; then
             # ------------------------------------------------------------------
+            # rhel 이라면 한/영 전환을 위해 의존성 패키지가 꼭 설치해야 한다.
+            [[ -n $(dnf list --installed | grep -i ^gtk3) ]] || dnf install -y gtk3;
+            [[ -n $(dnf list --installed | grep -i ^gtk3-immodule-xim) ]] || dnf install -y gtk3-immodule-xim;
+            # ------------------------------------------------------------------
             intall_nimf_for_build;
             # ------------------------------------------------------------------
             ENV_CONF_PATH="${HOME_DIR}/.xsession";
