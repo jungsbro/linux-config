@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/deb/install_deb-test.sh;
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/install_ubu-comfyui.sh;
 # ==============================================================================
 
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/container/distrobox/deb
+# /core/linux/bin/container/distrobox/dcc
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -29,12 +29,14 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CTR_NAME="deb-test"
+CTR_NAME="ubu-comfyui"
 
-IMAGE="docker.io/library/debian:latest"
-# IMAGE="docker.io/library/debian:bookworm"
+# ubuntu24.04에서 애러가 난다. >> Setting up existing user... Error: An error occurred
+# IMAGE="docker.io/library/ubuntu:latest"
+IMAGE="docker.io/library/ubuntu:24.04"
+# IMAGE="docker.io/library/ubuntu:22.04"
 
-# distrobox create --name "deb-test" --image "docker.io/library/debian:latest"
+# distrobox create --name "ubu-comfyui" --image "docker.io/library/debian:latest"
 CTR_ARGS=""
 
 # container 이름
@@ -67,9 +69,10 @@ fi
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
-PRE_INIT_HOOKS+=" && \
-    sudo apt update && sudo apt upgrade -y"
+# PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
+# PRE_INIT_HOOKS+=" && \
+#     sudo apt update && sudo apt upgrade -y"
+PRE_INIT_HOOKS+="sudo apt update && sudo apt upgrade -y"
 PRE_INIT_HOOKS+=" && \
     sudo bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
 
@@ -137,85 +140,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # --------------------------------------------------------------------------
-
-    # autokey ------------------------------------------------------------------
-    # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y autokey-gtk
-
-    # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
-
-    # # config
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
-    #     config_autokey ${CUR_USER} && \
-    #     set_autokey_autostart ${CUR_USER}"
-    # --------------------------------------------------------------------------
-
-    # redshift -----------------------------------------------------------------
-    # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y redshift-gtk geoclue-2.0
-
-    # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
-
-    # # config
-    # distrobox enter ${CTR_NAME} -- bash -c "\
-    #     source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
-    #     config_redshift ${CUR_USER} && \
-    #     set_redshift_autostart ${CUR_USER}"
-    # --------------------------------------------------------------------------
-
-    # chromium -----------------------------------------------------------------
-    # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y chromium
-
-    # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
-
-    # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-        set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium"
-    # --------------------------------------------------------------------------
-
-    # gimp ---------------------------------------------------------------------
-    # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y gimp
-
-    # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
-
-    # # config : photogimp
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
-    #     install_photogimp ${CUR_USER}"
-
-    # # config (with nvidia)
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} gimp"
-    # --------------------------------------------------------------------------
-
-    # freefilesync -------------------------------------------------------------
-    # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y freefilesync
-
-    # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
-
-    # # fix desktop
-    # # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/utilities/install_freefilesync_funcs.sh && \
-    #     fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
-
-    # # config (with nvidia)
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} freefilesync"
+    # comfyui -----------------------------------------------------------------
+    bash ${CUR_DIR}/add_comfyui.sh "${CTR_NAME}"
     # --------------------------------------------------------------------------
 
 fi

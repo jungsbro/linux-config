@@ -104,12 +104,13 @@ function add_resolve2033()
         return
     fi
 
-    # --------------------------------------------------------------------------
+    # 1) install_resolve.sh ----------------------------------------------------
     # cd /mnt/j4105-omv/core/linux/bin/cg/resolve/resolve2033
     # sudo bash ./install_resolve2033.sh
     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${DCC_PATH}"
+    # --------------------------------------------------------------------------
 
-
+    # 2) ~/.local/bin/resolve --------------------------------------------------
     # distrobox-export --bin /opt/resolve2033/bin/resolve
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
@@ -117,8 +118,9 @@ function add_resolve2033()
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} resolve"
+    # --------------------------------------------------------------------------
 
-
+    # 3) ~/.local/share/applications/resolve.desktop ---------------------------
     # distrobox-export --app resolve
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
 
@@ -149,3 +151,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     add_resolve2033;
 fi
 # ==============================================================================
+

@@ -1,14 +1,13 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/ubu/install_ubu-comfy.sh;
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/install_rkl9-ayon141.sh
 # ==============================================================================
-
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/container/distrobox/ubu
+# /core/linux/bin/container/distrobox/dcc
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -29,14 +28,13 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CTR_NAME="ubu-comfy"
+CTR_NAME="rkl9-ayon141"
 
-# ubuntu24.04에서 애러가 난다. >> Setting up existing user... Error: An error occurred
-# IMAGE="docker.io/library/ubuntu:latest"
-IMAGE="docker.io/library/ubuntu:24.04"
-# IMAGE="docker.io/library/ubuntu:22.04"
+# rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
+# rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
+IMAGE="docker.io/library/rockylinux:9.3"
 
-# distrobox create --name "ubu-comfy" --image "docker.io/library/debian:latest"
+# distrobox create --name "rkl9-ayon141" --image "docker.io/library/rockylinux:9.3"
 CTR_ARGS=""
 
 # container 이름
@@ -59,52 +57,50 @@ fi
 # Alsa장치 사용을 위해
 # CTR_ARGS+="--volume /dev/snd:/dev/snd "
 
+
+# vfx-dcc를 사용할때, --init 이 필요없다.
+# CTR_ARGS+="--init --additional-packages systemd "
+
 # container에서 호스트의 /opt/ayon 디렉토리를 /opt/ayon으로 마운트한다.
-# if [[ -d "/opt/ayon" ]]; then
-#     CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
-# fi
+if [[ -d "/opt/ayon" ]]; then
+    CTR_ARGS+="--volume /opt/ayon:/opt/ayon "
+fi
+
+# CTR_ARGS+="--volume /lib64/libOpenGL.so.0:/lib64/libOpenGL.so.0:ro "
+# CTR_ARGS+="--volume /lib64/libOpenGL.so:/lib64/libOpenGL.so:ro "
 # ------------------------------------------------------------------------------
+
 
 # ------------------------------------------------------------------------------
 PRE_INIT_HOOKS=""
 
-# update
-# PRE_INIT_HOOKS+="sudo sed -i 's/deb.debian.org/ftp.kr.debian.org/g' /etc/apt/sources.list.d/debian.sources"
-# PRE_INIT_HOOKS+=" && \
-#     sudo apt update && sudo apt upgrade -y"
-PRE_INIT_HOOKS+="sudo apt update && sudo apt upgrade -y"
+# "--init --additional-packages systemd" 사용할때는 아래처럼 해야 한다.
+# PRE_INIT_HOOKS+="sudo dnf upgrade -y --exclude=filesystem,setup"
+PRE_INIT_HOOKS+="sudo dnf upgrade -y"
 PRE_INIT_HOOKS+=" && \
     sudo bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y git wget curl"
+    sudo dnf install -y git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y vim-gtk3 xclip xsel"
+    sudo dnf install -y vim-X11 xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y ranger"
+    sudo dnf install -y ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y nnn"
-
-# host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
-PRE_INIT_HOOKS+=" && \
-    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-config-qt"
-# PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
-# PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
+#     sudo dnf install -y nnn"
 
 # gpu-driver (opengl,vulkan,vaapi,opencl)
 PRE_INIT_HOOKS+=" && \
     sudo bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER}"
 
 # vfx-dcc-dependencies for rocky8 or rocky9
-# PRE_INIT_HOOKS+=" && \
-#     sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
+PRE_INIT_HOOKS+=" && \
+    sudo bash ${CORE_BIN_DIR}/gpu/install_vfxdeps.sh"
 
 # gpu_top
 PRE_INIT_HOOKS+=" && \
@@ -112,9 +108,11 @@ PRE_INIT_HOOKS+=" && \
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y libpulse0"
+    sudo dnf install -y pulseaudio-libs"
 
 # bash 사용
+PRE_INIT_HOOKS+=" && \
+    sudo dnf install -y util-linux-user"
 PRE_INIT_HOOKS+=" && \
     sudo chsh -s /bin/bash ${CUR_USER}"
 # ------------------------------------------------------------------------------
@@ -141,19 +139,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+    # glxinfo | grep "OpenGL renderer"
+    # nvidi-smi
     # --------------------------------------------------------------------------
 
-    # chromium -----------------------------------------------------------------
-    # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y chromium-browser
-
-    # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium-browser
-
-    # # config (with nvidia)
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
-    #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium-browser"
+    # ayon141 (launcher) -------------------------------------------------------
+    bash ${CUR_DIR}/add_ayon141.sh "${CTR_NAME}"
     # --------------------------------------------------------------------------
 
 fi

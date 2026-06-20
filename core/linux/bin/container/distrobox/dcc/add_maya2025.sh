@@ -106,12 +106,13 @@ function add_maya2025()
         return
     fi
 
-    # --------------------------------------------------------------------------
+    # 1) install_maya.sh -------------------------------------------------------
     # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
     # sudo bash ./install_maya2025.sh
     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${DCC_PATH}"
+    # --------------------------------------------------------------------------
 
-
+    # 2) ~/.local/bin/maya -----------------------------------------------------
     # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
@@ -119,8 +120,9 @@ function add_maya2025()
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} maya"
+    # --------------------------------------------------------------------------
 
-
+    # 3) ~/.local/share/applications/maya.desktop ------------------------------
     # distrobox-export --app maya
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
 

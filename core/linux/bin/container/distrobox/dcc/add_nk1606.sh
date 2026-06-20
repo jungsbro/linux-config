@@ -104,12 +104,13 @@ function add_nk1606()
         return
     fi
 
-    # --------------------------------------------------------------------------
+    # 1) install nuke ----------------------------------------------------------
     # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
     # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${DCC_PATH}"
+    # --------------------------------------------------------------------------
 
-
+    # 2) ~/.local/bin/nuke -----------------------------------------------------
     # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
@@ -117,8 +118,9 @@ function add_nk1606()
     distrobox enter ${CTR_NAME} -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} nuke"
+    # --------------------------------------------------------------------------
 
-
+    # 3) ~/.local/share/applications/nuke.desktop ------------------------------
     # distrobox-export --app Nuke16.0v6
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
 
