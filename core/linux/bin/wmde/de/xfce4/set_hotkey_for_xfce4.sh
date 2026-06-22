@@ -253,6 +253,7 @@ function set_workspace_hotkey()
     # --------------------------------------------------------------------------
 
     # workspace : jump to workspace-number -------------------------------------
+    local cur_num="";
     local nums="1 2 3 4 5 6 7 8 9 10 11 12"
 
     for cur_num in ${nums};

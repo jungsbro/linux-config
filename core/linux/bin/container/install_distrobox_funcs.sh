@@ -65,6 +65,8 @@ function install_apps()
 
     # --------------------------------------------------------------------------
     # 2) export gui_bins (.desktop 파일 생성)
+    local gui_bin="";
+
     for gui_bin in ${gui_bins};
     do
         # echo ${gui_bin}
@@ -74,6 +76,8 @@ function install_apps()
 
     # --------------------------------------------------------------------------
     # 3) export cli_bins (심볼릭 링크 생성)
+    local cli_bin="";
+
     for cli_bin in ${cli_bins};
     do
         cli_cmd=$(distrobox enter ${ctr_name} -- bash -lc "command -v ${cli_bin}" 2>/dev/null)

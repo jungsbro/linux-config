@@ -148,6 +148,8 @@ function install_freefilesync_for_nix()
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "FreeFileSync" \
     "RealTimeSync" \

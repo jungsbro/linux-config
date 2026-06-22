@@ -64,10 +64,14 @@ function set_bin_with_nvidia()
     local home_dir=$(eval echo ~${cur_user});
     local dst_dir="${home_dir}/.local/bin"
 
+    local dst_path="";
+
     # /homt/jungs/.local/bin/maya
     # -iname : 대소문자 무시
     # local dst_path=$(find ${dst_dir} -iname "*${app_name}*" | tail -1 )
     local dst_paths=$(find ${dst_dir} -iname "*${app_name}*")
+    local src_cmd="";
+    local dst_cmd="";
 
     if [[ -z ${dst_paths} ]]; then
         return
@@ -86,12 +90,12 @@ function set_bin_with_nvidia()
         # ----------------------------------------------------------------------
         # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
         # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  --  '/usr/autodesk/maya2025/bin/maya'  "$@"
-        local src_cmd="exec \"/usr/bin/distrobox-enter\" [[:space:]]*(.*) --[[:space:]]*(.*) [[:space:]]*\"(.*)\""
+        src_cmd="exec \"/usr/bin/distrobox-enter\" [[:space:]]*(.*) --[[:space:]]*(.*) [[:space:]]*\"(.*)\""
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # exec "/usr/bin/distrobox-enter"  -n rkl9-ma2025  -- bash -c 'VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/autodesk/maya/bin/maya' "$@"
-        local dst_cmd="exec \"/usr/bin/distrobox-enter\" \1 -- bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \2 \3\""
+        dst_cmd="exec \"/usr/bin/distrobox-enter\" \1 -- bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \2 \3\""
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
@@ -129,10 +133,15 @@ function set_app_with_nvidia()
     local home_dir=$(eval echo ~${cur_user});
     local dst_dir="${home_dir}/.local/share/applications"
 
+    local dst_path="";
+
     # /homt/jungs/.local/share/applications/arch-main-chromium.desktop
     # -iname : 대소문자 무시
     # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
     local dst_paths=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop")
+
+    local src_cmd="";
+    local dst_cmd="";
 
     if [[ -z ${dst_paths} ]]; then
         return
@@ -151,12 +160,12 @@ function set_app_with_nvidia()
         # ----------------------------------------------------------------------
         # [[:space:]]*(.*) 캡쳐해서 "\1"로 보낸다.
         # Exec=/usr/bin/distrobox-enter -n arch-test  --   /usr/bin/chromium  %U
-        local src_cmd="Exec=/usr/bin/distrobox-enter  -n ${ctr_name}  --[[:space:]]*(.*)"
+        src_cmd="Exec=/usr/bin/distrobox-enter  -n ${ctr_name}  --[[:space:]]*(.*)"
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # Exec=/usr/bin/distrobox-enter -n arch-test  --   bash -c "VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=$HOME/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current /usr/bin/chromium  %U "
-        local dst_cmd="Exec=/usr/bin/distrobox-enter -n ${ctr_name}  --   bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \1\""
+        dst_cmd="Exec=/usr/bin/distrobox-enter -n ${ctr_name}  --   bash -c \"VK_ICD_FILENAMES=${home_dir}/.local/share/vulkan/icd.d/nvidia_icd.json OCL_ICD_VENDORS=${home_dir}/.local/share/OpenCL/vendors LD_LIBRARY_PATH=/usr/lib/nvidia-current \1\""
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------

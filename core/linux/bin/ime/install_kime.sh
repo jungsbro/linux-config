@@ -234,6 +234,8 @@ function install_kime_for_nix()
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "kime" \
     "kime-check" \

@@ -105,6 +105,8 @@ function install_lxappearance_for_nix()
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "lxappearance" \
     )

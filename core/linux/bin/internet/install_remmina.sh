@@ -74,6 +74,8 @@ function install_remmina_for_nix()
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "remmina" \
     "remmina-file-wrapper" \

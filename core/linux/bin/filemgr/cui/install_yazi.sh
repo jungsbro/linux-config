@@ -312,7 +312,10 @@ function copy_yazirc()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    local cur_fname="";
     local fname_list="flavors/ plugins/ init.lua keymap.toml package.toml theme.toml yazi.toml"
+    local src_path="";
+    local dst_path="";
 
     for cur_fname in ${fname_list};
     do

@@ -89,7 +89,7 @@ function add_dealine10()
     # --------------------------------------------------------------------------
 
     # 2) ~/.local/bin/deadline* ------------------------------------------------
-    local cur_name
+    local cur_name="";
 
     # DCC_BIN_NAMES="deadlinebalancer deadlinelauncher deadlinemonitor deadlinepulse deadlineworker";
     for cur_name in ${DCC_BIN_NAMES};

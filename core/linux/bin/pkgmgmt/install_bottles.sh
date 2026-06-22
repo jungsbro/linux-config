@@ -111,6 +111,8 @@ function install_bottles_for_nix()
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "bottles" \
     "bottles-cli" \

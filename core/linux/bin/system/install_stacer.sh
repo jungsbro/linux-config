@@ -111,6 +111,8 @@ function install_stacer_for_nix()   # it has error / not working / it's gnone on
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "stacer" \
     )

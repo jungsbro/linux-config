@@ -75,6 +75,8 @@ function install_xnviewmp_for_nix()     # it has error / not working
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "xnviewmp" \
     )

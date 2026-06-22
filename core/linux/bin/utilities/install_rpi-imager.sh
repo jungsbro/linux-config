@@ -88,6 +88,8 @@ function install_rpi-imager_for_nix()   # not working
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "rpi-imager" \
     )

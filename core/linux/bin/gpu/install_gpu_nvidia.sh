@@ -106,7 +106,9 @@ function set_nvidia-current_dir()
     # 4) fix ~/.bashrc ---------------------------------------------------------
     # .zshrc(for host)까지 수정하면 nix에서 애러가 나서 .bashrc(for container)만 수정했다.
     # local RC_LIST=".bashrc .zshrc"
+    local cur_rc="";
     local RC_LIST=".bashrc"
+    local rc_path="";
     local LIB_DIR_KWD="nvidia-current"
     local LIB_CMD='
 # ==============================================================================

@@ -161,6 +161,8 @@ function install_vscode_for_nix()   # it has error / not working
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
+    local cur_fname="";
+
     local FNAME_LIST=(\
     "vscode" \
     )

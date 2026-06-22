@@ -33,6 +33,8 @@ function fix_freefilesync_desktop()
     local home_dir=$(eval echo ~${cur_user});
     local dst_dir="${home_dir}/.local/share/applications"
 
+    local dst_path="";
+
     # /homt/jungs/.local/share/applications/deb-extra-FreeFileSync.desktop
     # -iname : 대소문자 무시
     # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
