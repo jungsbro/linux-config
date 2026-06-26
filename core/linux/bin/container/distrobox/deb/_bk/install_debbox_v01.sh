@@ -218,7 +218,7 @@ install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps
 # autokey
 
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
     config_autokey ${CUR_USER} && \
     set_autokey_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------

@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/install_xcape.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system
+# /core/linux/bin/hotkey
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."

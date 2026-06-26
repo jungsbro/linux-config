@@ -161,11 +161,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------
-    # installation (aur)
-    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
+    # # installation (aur)
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
 
-    # bin
-    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
+    # # bin
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------

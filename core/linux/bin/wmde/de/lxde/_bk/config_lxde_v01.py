@@ -244,7 +244,7 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-Tab 추가 : expose -------------------------------------------------------
-    add_hotkey("W-Tab", "skippy-xd")
+    add_hotkey("W-Tab", "/usr/bin/rofi -show window -show-icons")
     # --------------------------------------------------------------------------
 
     # A-Tab 추가 : next windows -------------------------------------------------
@@ -258,7 +258,7 @@ def config_hotkey(ns, dst_path):
     # W-r / A-F2 추가 : spotlight ----------------------------------------------
     add_hotkey("W-r", "/usr/bin/lxpanelctl run")    # alreay exists in lxde-rc.xml
 
-    add_hotkey("A-F2", "/usr/bin/rofi -show run -show-icons")
+    add_hotkey("A-F2", "/usr/bin/rofi -show drun -show-icons")
     # --------------------------------------------------------------------------
 
     # C-Escape / A-F1 추가 : lx menu --------------------------------------------

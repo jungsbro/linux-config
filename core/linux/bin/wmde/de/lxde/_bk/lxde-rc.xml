@@ -273,7 +273,7 @@
   </keybind>
   <keybind key="A-F2">
       <action name="Execute">
-          <command>rofi -show run -show-icons</command>
+          <command>rofi -show drun -show-icons</command>
       </action>
   </keybind>
 
@@ -314,7 +314,7 @@
   <!-- Keybindings for window switching -->
   <keybind key="W-Tab">
     <action name="Execute">
-      <command>skippy-xd</command>
+      <command>/usr/bin/rofi -show window -show-icons</command>
     </action>
   </keybind>
 

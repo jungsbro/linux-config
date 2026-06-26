@@ -1,0 +1,22 @@
+/* theme : Arc-Dark.rasi */
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+configuration {
+   modi: "window,drun,run";
+
+   /* 창 옆에 프로그램 아이콘 띄우기 */
+   show-icons: true;
+
+   /* 1. 전체 기본 폰트 크기 시원하게 키우기 (원하는 폰트명과 크기 지정) */
+   font: "Noto Sans CJK KR 16";
+
+   /* 2. 마우스 싱글 클릭으로 즉시 창 전환되게 만드는 마법의 꼼수 옵션 */
+   me-select-entry: "";
+   me-accept-entry: "MousePrimary";
+}
+
+/* 3. 만약 아이콘만 '독단적으로' 더 거대하게 키우고 싶다면 파일 맨 밑에 추가 */
+element-icon {
+   size: 1.5em; /* 기본값(보통 1~1.5em)보다 훨씬 큼직하게 아이콘 크기 강제 고정 */
+}
+

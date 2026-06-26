@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_for_xfce4.sh;
+# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_hotkey_for_xfwm4.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/wmde/de/xfce4
+# /core/linux/bin/wmde/de/lxqt
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -42,8 +42,9 @@ function set_focus_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Tab" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Tab" "string" "";
 
+    # sxhkdrc에서 설정
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/rofi -show window -show-icons"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'";
 
     # if [[ -f "/usr/bin/skippy-xd" ]]; then
     #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
@@ -75,14 +76,15 @@ function set_lock_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>l" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>l" "string" "";
 
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xfce4-screensaver-command --activate"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --activate";
-        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --lock";
-    else
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xscreensaver-command -lock"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xscreensaver-command -lock";
-    fi
+    # sxhkdrc에서 설정
+    # if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xfce4-screensaver-command --activate"
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --activate";
+    #     # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --lock";
+    # else
+    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xscreensaver-command -lock"
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xscreensaver-command -lock";
+    # fi
     # --------------------------------------------------------------------------
 }
 
@@ -95,8 +97,9 @@ function set_system_hotkey()
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>Escape" -t "string" -s ""
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
 
+        # sxhkdrc에서 설정
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
     fi
     # --------------------------------------------------------------------------
 
@@ -105,22 +108,25 @@ function set_system_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F1" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F1" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Escape" -t "string" -s "xfce4-popup-applicationsmenu"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Escape" "string" "xfce4-popup-applicationsmenu";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Escape" -t "string" -s "xfce4-popup-applicationsmenu"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Escape" "string" "xfce4-popup-applicationsmenu";
     # --------------------------------------------------------------------------
 
     # taskmanager --------------------------------------------------------------
     # ctrl+shift+esc (for mxlinux)
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary><Shift>Escape" -t "string" -s "xfce4-taskmanager"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Shift>Escape" "string" "xfce4-taskmanager";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary><Shift>Escape" -t "string" -s "xfce4-taskmanager"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Shift>Escape" "string" "xfce4-taskmanager";
     # --------------------------------------------------------------------------
 
     # settings -----------------------------------------------------------------
     # win+i
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>i" -t "string" -s "xfce4-settings-manager"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>i" "string" "xfce4-settings-manager";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>i" -t "string" -s "xfce4-settings-manager"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>i" "string" "xfce4-settings-manager";
     # --------------------------------------------------------------------------
 
     # xkill --------------------------------------------------------------------
@@ -128,8 +134,9 @@ function set_system_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary><Alt>Escape" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>Escape" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>x" -t "string" -s "/bin/xkill"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>x" "string" "/bin/xkill";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>x" -t "string" -s "/bin/xkill"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>x" "string" "/bin/xkill";
     # --------------------------------------------------------------------------
 }
 
@@ -141,11 +148,12 @@ function set_app_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F2" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>space" -t "string" -s "xfce4-appfinder"
-    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder --collapsed";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>space" -t "string" -s "xfce4-appfinder"
+    # # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>space" "string" "xfce4-appfinder --collapsed";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F2" -t "string" -s "xfce4-appfinder"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "xfce4-appfinder";
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F2" -t "string" -s "xfce4-appfinder"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F2" "string" "xfce4-appfinder";
     # --------------------------------------------------------------------------
 
     # spotlight2 ---------------------------------------------------------------
@@ -153,8 +161,9 @@ function set_app_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F3" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F3" -t "string" -s "xfce4-appfinder"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "xfce4-appfinder";
+    # sxhkdrc에서 설정
+    # # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Alt>F3" -t "string" -s "xfce4-appfinder"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Alt>F3" "string" "xfce4-appfinder";
     # --------------------------------------------------------------------------
 
     # terminal dropdown --------------------------------------------------------
@@ -310,7 +319,6 @@ function set_workspace_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Super>Right" -t "string" -s "right_workspace_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary><Super>Right" "string" "right_workspace_key";
     # --------------------------------------------------------------------------
-
 
     # workspace : jump to workspace-number -------------------------------------
     local cur_num="";

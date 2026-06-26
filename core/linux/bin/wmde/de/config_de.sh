@@ -5,6 +5,7 @@
 # ==============================================================================
 
 
+
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
 # /core/linux/bin/wmde/de
@@ -34,6 +35,7 @@ function install_pkgs_for_de()
 {
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
         # ----------------------------------------------------------------------
+        # screenshot
         # 방법1)
         bash ${CORE_BIN_DIR}/screenshot/install_gnome-screenshot.sh;
 
@@ -41,53 +43,80 @@ function install_pkgs_for_de()
         # bash ${CORE_BIN_DIR}/screenshot/install_xfce4-screenshooter.sh;
         # bash ${CORE_BIN_DIR}/screenshot/install_xfce4-clipman.sh;
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/system/install_xcape.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
+        # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # expose
+        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # hotkey
+        bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
+        bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/wmde/de/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
         # ----------------------------------------------------------------------
-
+        # control-center
+        bash ${CORE_BIN_DIR}/wmde/de/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/system/install_xcape.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
+        # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # expose
+        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # hotkey
+        # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
+        bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
         # ----------------------------------------------------------------------
-
+        # terminal
+        bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then                                         # mxlinux xfce4
-            bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
-        else
-            bash ${CORE_BIN_DIR}/system/install_xcape.sh ${CUR_USER};
             # ------------------------------------------------------------------
+            # screensaver
+            bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
+            # ------------------------------------------------------------------
+        else
+            # ------------------------------------------------------------------
+            # hotkey
+            bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+            # ------------------------------------------------------------------
+            # calculator
             # bash ${CORE_BIN_DIR}/calculator/install_galculator.sh ${CUR_USER}
             # bash ${CORE_BIN_DIR}/calculator/install_gnome-calculator.sh;
             bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
             # ------------------------------------------------------------------
+            # screensaver
             bash ${CORE_BIN_DIR}/screensaver/install_xscreensaver.sh;
+            # ------------------------------------------------------------------
+            # panel
             bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh ${CUR_USER};
+            # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
-        # ----------------------------------------------------------------------
+        # xfce4-apps
         bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;
 
         # 하드웨어 및 전원관리
@@ -104,16 +133,31 @@ function install_pkgs_for_de()
 
         # 고급 사용자용 확장 및 자동화
         bash ${CORE_BIN_DIR}/panel/install_xfce4-panel-profiles.sh;
+
+        # file-editor
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
         # ----------------------------------------------------------------------
-        # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
+        # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh
+        bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # expose
+        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # panel
+        # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # hotkey
+        # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh
+        # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
+        # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
@@ -121,18 +165,29 @@ function install_pkgs_for_de()
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
+        # task-manager
         bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
         # ----------------------------------------------------------------------
+        # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # expose
+        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # hotkey
+        # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
+        # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/wmde/de/install_mate-menu.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_caja.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
@@ -140,13 +195,15 @@ function install_pkgs_for_de()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
+        # launcher
+        # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_nautilus.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
@@ -154,21 +211,28 @@ function install_pkgs_for_de()
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
         # ----------------------------------------------------------------------
+        # launcher
+        # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_nemo.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
         # ----------------------------------------------------------------------
-        # bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        # launcher
+        # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
         # ----------------------------------------------------------------------
+        # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
+        # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_dolphin.sh;
         # ----------------------------------------------------------------------
     fi
@@ -189,7 +253,7 @@ function config_de()
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
         # ----------------------------------------------------------------------
-        echo "";
+        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4

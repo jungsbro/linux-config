@@ -41,6 +41,7 @@ function set_prop_value()
     # --------------------------------------------------------------------------
 
     # set property value (create and set) --------------------------------------
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" --create -t "string" -s "fill_window_key"
     # -n : --create
     # -t : type
     # -s : --set

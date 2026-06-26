@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+# source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
 # config_autokey ${CUR_USER} && \
 # set_autokey_autostart ${CUR_USER}
 # ==============================================================================

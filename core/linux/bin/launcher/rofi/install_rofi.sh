@@ -1,14 +1,17 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/launcher/install_rofi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
 
 # usage ------------------------------------------------------------------------
-# rofi -show run
-# rofi -show run -show-icons
+# rofi -show drun
+# rofi -show drun -show-icons
+# rofi -show drun -theme "~/.config/rofi/config.rasi"
 
 # rofi -show window -show-icons
 # rofi -show window -show-icons -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'
+# rofi -show window -theme "expose"
+# rofi -show window -theme "~/.config/rofi/expose.rasi"
 
 # rofi-theme-selector
 # ------------------------------------------------------------------------------
@@ -17,10 +20,10 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/launcher
+# /core/linux/bin/launcher/rofi
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -40,6 +43,13 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 APP_NAME="rofi"
 APP_GRP="System;Utility;"
+
+SRC_ROFI_CONF_DIR="${CUR_DIR}/config"
+
+# ~/.config/rofi
+DST_ROFI_CONF_DIR="${HOME_DIR}/.config/rofi"
+# ~/.config/rofi/config.rasi
+DST_ROFI_CONF_PATH="${DST_ROFI_CONF_DIR}/config.rasi"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -172,6 +182,68 @@ function install_rofi_for_nix()
     # ~/.nix-profile/share/rofi
     # --------------------------------------------------------------------------
 }
+
+function create_config()
+{
+    # --------------------------------------------------------------------------
+    if [[ -f ${DST_ROFI_CONF_PATH} ]]; then
+        return
+    fi
+    if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local config_cmd='
+/* theme : Arc-Dark.rasi */
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+configuration {
+    modi: "window,drun,run";
+
+    /* 창 옆에 프로그램 아이콘 띄우기 */
+    show-icons: true;
+
+    /* 1. 전체 기본 폰트 크기 시원하게 키우기 (원하는 폰트명과 크기 지정) */
+    font: "Noto Sans CJK KR 16";
+
+    /* 2. 마우스 싱글 클릭으로 즉시 창 전환되게 만드는 마법의 꼼수 옵션 */
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+}
+
+/* 3. 만약 아이콘만 '독단적으로' 더 거대하게 키우고 싶다면 파일 맨 밑에 추가 */
+element-icon {
+   size: 1.5em; /* 기본값(보통 1~1.5em)보다 훨씬 큼직하게 아이콘 크기 강제 고정 */
+}
+'
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # su - ${CUR_USER} -c "echo ${config_cmd} > ${DST_ROFI_CONF_PATH}";
+    printf '%b\n' "${config_cmd}" | sudo -u ${CUR_USER} tee ${DST_ROFI_CONF_PATH} > /dev/null;
+    # --------------------------------------------------------------------------
+}
+
+
+function copy_config_to_home()
+{
+    # --------------------------------------------------------------------------
+    if [[ ! -d ${SRC_ROFI_CONF_DIR} ]]; then
+        return
+    fi
+    if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # -r : recursive
+    # -u : update
+    su - ${CUR_USER} -c "cp -ru ${SRC_ROFI_CONF_DIR}/* ${DST_ROFI_CONF_DIR}/"
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
@@ -201,6 +273,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
         # ----------------------------------------------------------------------
     fi
+
+    # --------------------------------------------------------------------------
+    # create_config;
+    copy_config_to_home;
+    # --------------------------------------------------------------------------
 
 fi
 # ==============================================================================

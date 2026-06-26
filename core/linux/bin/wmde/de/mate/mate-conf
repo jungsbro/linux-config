@@ -48,7 +48,7 @@ icon-theme='menta'
 menus-have-icons=true
 
 [desktop/keybindings/custom0]
-action='skippy-xd'
+action='/usr/bin/rofi -show window -show-icons'
 binding='<Mod4>Tab'
 name='Expose'
 

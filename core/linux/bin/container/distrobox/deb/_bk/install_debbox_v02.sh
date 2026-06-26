@@ -121,7 +121,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
 
 # config
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
     config_autokey ${CUR_USER} && \
     set_autokey_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------

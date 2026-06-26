@@ -190,9 +190,9 @@ bindsym Mod1+F4 kill
 
 # win + r
 # alt + F2
-bindsym $mod+r exec rofi -show run -show-icons
-bindsym Mod1+F2 exec rofi -show run -show-icons
-# bindsym Mod1+F2 exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System SFNS Display 18"
+bindsym $mod+r exec rofi -show drun -show-icons
+bindsym Mod1+F2 exec rofi -show drun -show-icons
+# bindsym Mod1+F2 exec rofi -show drun -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System SFNS Display 18"
 # ------------------------------------------------------------------------------
 
 # 포커스 설정 ---------------------------------------------------------------------
@@ -216,9 +216,11 @@ bindsym Mod1+Tab focus next
 
 # 포커스 설정 (expose) -----------------------------------------------------------
 # win + tab
-# bindsym $mod+Tab exec "skipp-xd"
-bindsym $mod+Tab exec "rofi -show window -show-icons"
+# bindsym $mod+Tab exec "skippy-xd"
 # bindsym $mod+Tab exec "rofi -show window -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'"
+# bindsym $mod+Tab exec "rofi -show window -show-icons"
+
+bindsym $mod+Tab exec "/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'"
 
 # rofi theme 설정
 # rofi-theme-selector
@@ -227,7 +229,7 @@ bindsym $mod+Tab exec "rofi -show window -show-icons"
 # 타일링 (창이동) -----------------------------------------------------------------
 # win + left
 bindsym $mod+Left  move left
-# win + shit + left
+# win + shift + left
 bindsym $mod+Shift+Down  move down
 # win + shift + left
 bindsym $mod+Shift+Up    move up
@@ -302,6 +304,11 @@ bindsym Print exec /usr/bin/gnome-screenshot --interactive
 # bindsym $mod+e exec thunar
 bindsym $mod+e exec pcmanfm
 # bindsym $mod+e exec pcmanfm-qt
+# ------------------------------------------------------------------------------
+
+# taskmanager ------------------------------------------------------------------
+# ctrl + shift + esc
+bindsym Control+Shift+Escape exec xfce4-termianl -e htop
 # ------------------------------------------------------------------------------
 
 # 강제종료 -----------------------------------------------------------------------

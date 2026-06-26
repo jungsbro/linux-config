@@ -116,11 +116,11 @@ distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
 # ------------------------------------------------------------------------------
 
 # skippy-xd --------------------------------------------------------------------
-# installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
+# # installation (aur)
+# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
 
-# bin
-distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
+# # bin
+# distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
 # ------------------------------------------------------------------------------
 
 # autokey ----------------------------------------------------------------------
@@ -132,7 +132,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
 
 # config (sudo로 실행하면 password를 묻지 않는다.)
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
     config_autokey ${CUR_USER} && \
     set_autokey_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------

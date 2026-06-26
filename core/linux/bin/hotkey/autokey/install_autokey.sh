@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/install_autokey.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system
+# /core/linux/bin/hotkey/autokey
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -85,7 +85,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/system/install_autokey_funcs.sh && \
+    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
         config_autokey ${CUR_USER} && \
         set_autokey_autostart ${CUR_USER}
     # --------------------------------------------------------------------------

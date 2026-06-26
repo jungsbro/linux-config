@@ -93,7 +93,13 @@ function create_ayonhoudini()
         return
     fi
 
+    # 방법1)
+    # -e : enable interpretation of backslash escapes
     echo -e "${cmd}" > ${AYON_DCC_PATH}
+
+    # 방법2)
+    # printf '%b\n' "${cmd}" | sudo -u ${CUR_USER} tee ${AYON_DCC_PATH} > /dev/null
+
     chmod +x ${AYON_DCC_PATH}
     # --------------------------------------------------------------------------
 }
