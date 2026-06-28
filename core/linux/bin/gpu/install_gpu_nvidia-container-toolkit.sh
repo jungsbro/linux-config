@@ -282,7 +282,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         install_nvidia-container-toolkit_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_nvidia-container-toolkit_for_dnf;
         # ----------------------------------------------------------------------

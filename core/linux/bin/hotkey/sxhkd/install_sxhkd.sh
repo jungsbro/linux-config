@@ -43,15 +43,15 @@ function install_sxhkd()
         [[ -n $(apt list --installed | grep -i ^sxhkd) ]] || apt install -y sxhkd;
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^sxhkd) ]] || dnf install -y sxhkd;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         echo "sxhkd is not supported for RHEL"
         return 0
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^sxhkd) ]] || dnf install -y sxhkd;
         # ----------------------------------------------------------------------
     fi
 }
@@ -60,7 +60,8 @@ function install_sxhkd()
 function copy_sxhkdrc_to_home()
 {
     # --------------------------------------------------------------------------
-    local src_sxhkdrc_path="${CUR_DIR}/config/sxhkdrc";
+    local src_sxhkdrc_dir="${CUR_DIR}/config";
+    local src_sxhkdrc_path="${src_sxhkdrc_dir}/sxhkdrc";
 
     local dst_sxhkdrc_dir="${HOME_DIR}/.config/sxhkd";
     local dst_sxhkdrc_path="${dst_sxhkdrc_dir}/sxhkdrc";
@@ -76,8 +77,42 @@ function copy_sxhkdrc_to_home()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f ${src_sxhkdrc_path} ]]; then
-        cp -f ${src_sxhkdrc_path} ${dst_sxhkdrc_path}
+    # 1) copy templates to ~/.config/sxhkd
+    if [[ -d ${src_sxhkdrc_dir} ]]; then
+        su - ${CUR_USER} -c "cp -rf ${src_sxhkdrc_dir}/* ${dst_sxhkdrc_dir}"
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) copy sxhkdrc to ~/.config/sxhkd
+    local src_template_dir="${src_sxhkdrc_dir}/templates";
+
+    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
+        local src_template_path="${src_template_dir}/lxde_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
+        local src_template_path="${src_template_dir}/lxqt_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+        local src_template_path="${src_template_dir}/xfce4_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
+        local src_template_path="${src_template_dir}/mate_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
+        local src_template_path="${src_template_dir}/gnome_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
+        local src_template_path="${src_template_dir}/cinnamon_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        local src_template_path="${src_template_dir}/kde_sxhkdrc";
+    else
+        local src_template_path="${src_template_dir}/wm_sxhkdrc";
+    fi
+
+    if [[ -f ${src_template_path} ]]; then
+        su - ${CUR_USER} -c "cp -f ${src_template_path} ${dst_sxhkdrc_path}"
     fi
     # --------------------------------------------------------------------------
 }

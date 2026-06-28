@@ -29,7 +29,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function install_fonts-hacknerdfont()
 {
     if [[ -n $(fc-list |grep -i hacknerdfont) ]]; then
@@ -53,7 +53,7 @@ function install_fonts-hacknerdfont()
             return
         fi
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/${FONT_NAME}";
         if [[ -d "${FONT_DST_DIR}" ]]; then
             return
@@ -93,11 +93,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         install_fonts-hacknerdfont;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        install_fonts-hacknerdfont;
-        # ----------------------------------------------------------------------
-
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
@@ -105,6 +100,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(dnf list installed | grep -i ^font-hack-nerd) ]] || dnf install -y font-hack-nerd;
 
         # 방법2)
+        install_fonts-hacknerdfont;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
         install_fonts-hacknerdfont;
         # ----------------------------------------------------------------------
     fi

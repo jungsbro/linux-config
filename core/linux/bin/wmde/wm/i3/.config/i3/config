@@ -220,7 +220,7 @@ bindsym Mod1+Tab focus next
 # bindsym $mod+Tab exec "rofi -show window -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'"
 # bindsym $mod+Tab exec "rofi -show window -show-icons"
 
-bindsym $mod+Tab exec "/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'"
+bindsym $mod+Tab exec "/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
 
 # rofi theme 설정
 # rofi-theme-selector

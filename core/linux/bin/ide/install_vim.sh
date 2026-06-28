@@ -56,16 +56,6 @@ function install_vim()
         # apt install -y ctags;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
-        # ----------------------------------------------------------------------
-
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
@@ -73,6 +63,16 @@ function install_vim()
         [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
         [[ -n $(dnf list --installed | grep -i ^vim-enhanced) ]] || dnf install -y vim-enhanced;
         # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^vim-X11) ]] || dnf install -y vim-X11;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
         # ----------------------------------------------------------------------
     fi

@@ -352,6 +352,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # install_doublecmd_for_nix "multi";
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+            # qt5
+            [[ -n $(dnf list --installed | grep -i ^doublecmd-qt) ]] || dnf install -y doublecmd-qt;
+
+            # qt6
+            # [[ -n $(dnf list --installed | grep -i ^doublecmd-qt6) ]] || dnf install -y doublecmd-qt6;
+        else
+            [[ -n $(dnf list --installed | grep -i ^doublecmd-gtk) ]] || dnf install -y doublecmd-gtk;
+        fi
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
@@ -367,19 +380,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         #     install_dc_for_portable;
         #     # install_dc_for_appimg;
         # fi
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
-            # qt5
-            [[ -n $(dnf list --installed | grep -i ^doublecmd-qt) ]] || dnf install -y doublecmd-qt;
-
-            # qt6
-            # [[ -n $(dnf list --installed | grep -i ^doublecmd-qt6) ]] || dnf install -y doublecmd-qt6;
-        else
-            [[ -n $(dnf list --installed | grep -i ^doublecmd-gtk) ]] || dnf install -y doublecmd-gtk;
-        fi
         # ----------------------------------------------------------------------
     fi
 

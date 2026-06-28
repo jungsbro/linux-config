@@ -44,15 +44,15 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         qpdfview-djvu-plugin qpdfview-pdf-poppler-plugin qpdfview-ps-plugin qpdfview-translations;
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^qpdfview) ]] || dnf install -y qpdfview;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^qpdfview-qt5) ]] || dnf install -y qpdfview-qt5;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^qpdfview) ]] || dnf install -y qpdfview;
         # ----------------------------------------------------------------------
     fi
 

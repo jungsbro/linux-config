@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/screensaver/install_xscreensaver.sh;
+# bash ${CORE_BIN_DIR}/terminal/install_qterminal.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/screensaver
+# /core/linux/bin/terminal
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -29,28 +29,27 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func : x86_64, aarch64 =======================================================
+# Main : x86_64, i686, aarch64 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xscreensaver) ]] || pacman -S --needed --noconfirm xscreensaver;
+        [[ -n $(pacman -Q | grep -i ^qterminal) ]] || pacman -S --needed --noconfirm qterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xscreensaver) ]] || apt install -y xscreensaver;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xscreensaver) ]] || dnf install -y xscreensaver;
+        [[ -n $(apt list --installed | grep -i ^qterminal) ]] || apt install -y qterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xscreensaver) ]] || dnf install -y xscreensaver;
+        [[ -n $(dnf list --installed | grep -i ^qterminal) ]] || dnf install -y qterminal;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        echo "qterminal is not supported for RHEL"
         # ----------------------------------------------------------------------
     fi
 

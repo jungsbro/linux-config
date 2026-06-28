@@ -39,7 +39,7 @@ NEWLINE_CMD2="\n\n";
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function set_hotkey_for_restartsxhkd()
 {
     # 1) hotkey ----------------------------------------------------------------
@@ -66,7 +66,7 @@ function set_hoteky_for_expose()
 
     # --------------------------------------------------------------------------
     # local expose_cmd="/usr/bin/rofi -show window -show-icons";
-    local expose_cmd="/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'";
+    local expose_cmd="/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
@@ -164,7 +164,7 @@ function set_hotkey_for_startmenu()
         # ----------------------------------------------------------------------
         # fancy-menu cmd를 찾지 못했다.
         # 방법1)
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # 방법2)
         # SXHKDRC_CMD+="/usr/bin/xdotool key alt+F1"
         # ----------------------------------------------------------------------
@@ -176,19 +176,19 @@ function set_hotkey_for_startmenu()
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # start-menu cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # start-menu cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
@@ -201,17 +201,17 @@ function set_hotkey_for_startmenu()
     # 3) cmd for WM ------------------------------------------------------------
     if [[ -d "${HOME_DIR}/.icewm" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.config/i3" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -233,7 +233,7 @@ function set_hotkey_for_spotlight()
     # 2) cmd for DE ------------------------------------------------------------
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
@@ -248,19 +248,19 @@ function set_hotkey_for_spotlight()
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
@@ -277,17 +277,17 @@ function set_hotkey_for_spotlight()
     # 3) cmd for WM ------------------------------------------------------------
     if [[ -d "${HOME_DIR}/.icewm" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.config/i3" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -324,19 +324,19 @@ function set_hotkey_for_rundialog()
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
@@ -353,17 +353,17 @@ function set_hotkey_for_rundialog()
     # 3) cmd for WM ------------------------------------------------------------
     if [[ -d "${HOME_DIR}/.icewm" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.config/i3" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -384,7 +384,7 @@ function set_hotkey_for_searchdialog()
     # 2) cmd for DE ------------------------------------------------------------
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
@@ -399,19 +399,19 @@ function set_hotkey_for_searchdialog()
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
@@ -428,17 +428,17 @@ function set_hotkey_for_searchdialog()
     # 3) cmd for WM ------------------------------------------------------------
     if [[ -d "${HOME_DIR}/.icewm" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     if [[ -d "${HOME_DIR}/.config/i3" ]]; then
         # ----------------------------------------------------------------------
-        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/config.rasi'"
+        SXHKDRC_CMD+="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -447,6 +447,7 @@ function set_hotkey_for_searchdialog()
     SXHKDRC_CMD+="${NEWLINE_CMD2}"
     # --------------------------------------------------------------------------
 }
+
 
 
 function set_hotkey_for_logout()
@@ -458,11 +459,14 @@ function set_hotkey_for_logout()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 문자열 그대로 보존하기 위해서 ''를 사용했다.
-    local logout_cmd='[ "$(echo -e "No\\nYes" | /usr/bin/rofi -dmenu -p "logout 할까요?" -i)" = "Yes" ] && '
+    # [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] &&
+    local logout_cmd='[ "$(echo -e "No\\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && '
 
-    # \'을 사용하기 위해 $''를 사용했다.
-    local logout_cmd+=$'/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk \'\{print $1\}\')'
+    # /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '\{print $1\}')
+    # 방법1)
+    local logout_cmd+='/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '\''\{print $1\}'\'')'
+    # 방법2)
+    # local logout_cmd+=$'/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk \'\{print $1\}\')'
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
@@ -484,10 +488,10 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="/usr/bin/lxqt-leave"
 
         # logout 확인창
-        SXHKDRC_CMD+="/usr/bin/lxqt-leave --logout"
+        # SXHKDRC_CMD+="/usr/bin/lxqt-leave --logout"
 
         # 확인없이 바로 logout
-        # SXHKDRC_CMD+="${logout_cmd}"
+        SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
@@ -586,7 +590,7 @@ function set_hotkey_for_lockscreen()
 
     # --------------------------------------------------------------------------
     # 방법1) lock 확인창
-    # local lock_cmd='[ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "lock 할까요?" -i)" = "Yes" ] && '
+    # local lock_cmd='[ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "lock?" -i)" = "Yes" ] && '
     # local lock_cmd+='/usr/bin/loginctl lock-session'
 
     # 방법2) 확인없이 lock
@@ -792,8 +796,8 @@ function set_hotkey_for_screenshot()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
-        # gnome-screenshot을 폐기했다.
-        SXHKDRC_CMD+="/usr/bin/"
+        # gnome이 gnome-screenshot을 폐기했다.
+        SXHKDRC_CMD+="/usr/bin/gnome-screenshot -i"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
@@ -1130,8 +1134,11 @@ function set_hotkey_for_controlcenter()
     # 2) cmd for DE ------------------------------------------------------------
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
+        # control center
+        SXHKDRC_CMD+="/usr/bin/python3 ~/.local/bin/lxcc.py"
+
         # startmenu
-        SXHKDRC_CMD+="/usr/bin/lxpanelctl menu"
+        # SXHKDRC_CMD+="/usr/bin/lxpanelctl menu"
 
         # rundialog
         # SXHKDRC_CMD+="/usr/bin/lxpanelctl run"
@@ -1212,8 +1219,8 @@ function set_hotkey_for_terminal()
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
-        # SXHKDRC_CMD+="/usr/bin/qterminal"
-        SXHKDRC_CMD+="/usr/bin/xfce4-terminal"
+        SXHKDRC_CMD+="/usr/bin/qterminal"
+        # SXHKDRC_CMD+="/usr/bin/xfce4-terminal"
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then

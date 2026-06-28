@@ -1,0 +1,47 @@
+super + ctrl + r
+    /usr/bin/pkill -usr1 -x sxhkd
+
+super + Tab
+    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + Escape
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+alt + F2
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + r
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + s
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + alt + Delete
+    /usr/bin/gnome-session-quit --logout
+
+super + l
+    /usr/bin/loginctl lock-session
+    # /usr/bin/xdg-screensaver lock
+
+Print
+    /usr/bin/gnome-screenshot -i
+
+super + p
+    /usr/bin/gnome-control-center display
+
+ctrl + shift + Escape
+    /usr/bin/gnome-system-monitor
+
+super + e
+    /usr/bin/nautilus
+
+super + i
+    /usr/bin/gnome-control-center
+
+ctrl + alt + t
+    /usr/bin/gnome-terminal
+
+super + x
+    /usr/bin/xkill
+
+

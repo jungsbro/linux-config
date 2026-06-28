@@ -198,7 +198,7 @@ def config_hotkey(ns, dst_path):
 
     # W-Tab 추가 : expose -------------------------------------------------------
     # expose_cmd = "/usr/bin/rofi -show window -show-icons"
-    expose_cmd = """/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'
+    expose_cmd = """/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
 """
 
     add_hotkey("W-Tab", expose_cmd)

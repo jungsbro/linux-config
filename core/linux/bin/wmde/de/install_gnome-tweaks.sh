@@ -94,6 +94,31 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^gnome-extensions-app) ]] || dnf install -y gnome-extensions-app;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
+        [[ -n $(dnf list --installed | grep -i ^gnome-browser-connector) ]] || dnf install -y gnome-browser-connector;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || dnf install -y gnome-shell-extension-appindicator;
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || dnf install -y gnome-shell-extension-caffeine;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-desktop-icons) ]] || dnf install -y gnome-shell-extension-desktop-icons;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || dnf install -y gnome-shell-extension-do-not-disturb-button;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || dnf install -y gnome-shell-extension-drive-menu;
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-window-list) ]] || dnf install -y gnome-shell-extension-window-list;
+        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || dnf install -y gnome-shell-extension-user-theme;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || dnf install -y gnome-shell-extension-horizontal-workspaces;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || dnf install -y gnome-shell-extension-panel-favorites;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-topicons-plus) ]] || dnf install -y gnome-shell-extension-topicons-plus;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-top-icons) ]] || dnf install -y gnome-shell-extension-top-icons;
+        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
@@ -142,31 +167,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
             # ------------------------------------------------------------------
         fi
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-extensions-app) ]] || dnf install -y gnome-extensions-app;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
-        [[ -n $(dnf list --installed | grep -i ^gnome-browser-connector) ]] || dnf install -y gnome-browser-connector;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || dnf install -y gnome-shell-extension-appindicator;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || dnf install -y gnome-shell-extension-caffeine;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-desktop-icons) ]] || dnf install -y gnome-shell-extension-desktop-icons;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || dnf install -y gnome-shell-extension-do-not-disturb-button;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || dnf install -y gnome-shell-extension-drive-menu;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-window-list) ]] || dnf install -y gnome-shell-extension-window-list;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || dnf install -y gnome-shell-extension-user-theme;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || dnf install -y gnome-shell-extension-horizontal-workspaces;
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || dnf install -y gnome-shell-extension-panel-favorites;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-topicons-plus) ]] || dnf install -y gnome-shell-extension-topicons-plus;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-top-icons) ]] || dnf install -y gnome-shell-extension-top-icons;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
         # ----------------------------------------------------------------------
     fi
 

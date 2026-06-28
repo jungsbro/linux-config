@@ -21,7 +21,7 @@ function set_vendor()
     elif [[ *"${cur_ver}"* == *"debian.org"* ]] || [[ *"${cur_ver}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^pciutils) ]] || apt install -y pciutils;
 
-    elif [[ *"${cur_ver}"* == *"CentOS"* ]] || [[ *"${cur_ver}"* == *"rocky"* ]] || [[ *"${cur_ver}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^pciutils) ]] || dnf install -y pciutils;
     fi
     # --------------------------------------------------------------------------

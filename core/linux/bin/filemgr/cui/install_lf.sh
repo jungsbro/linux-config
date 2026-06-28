@@ -124,7 +124,7 @@ function install_dependency_for_lf()
         [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -135,6 +135,7 @@ function install_dependency_for_lf()
         # 폴더/파일
         [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
         [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+        [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
 
         # 이미지/문서
         [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
@@ -159,7 +160,7 @@ function install_dependency_for_lf()
         [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -170,7 +171,6 @@ function install_dependency_for_lf()
         # 폴더/파일
         [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
         [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-        [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
 
         # 이미지/문서
         [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
@@ -257,10 +257,10 @@ function install_lf()
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         install_lf_for_portable;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         install_lf_for_portable;
     fi
 }

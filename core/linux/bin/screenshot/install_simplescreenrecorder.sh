@@ -191,17 +191,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(apt list --installed | grep -i ^simplescreenrecorder) ]] || apt install -y simplescreenrecorder;
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^simplescreenrecorder) ]] || dnf install -y simplescreenrecorder;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "simplescreenrecorder is not supported in RHEL"
 
         install_simplescreenrecorder_for_nix "single";
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^simplescreenrecorder) ]] || dnf install -y simplescreenrecorder;
         # ----------------------------------------------------------------------
     fi
 

@@ -30,10 +30,13 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function install_pkgs_for_de()
 {
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
+        # ----------------------------------------------------------------------
+        # string edit
+        bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
         # ----------------------------------------------------------------------
         # screenshot
         # 방법1)
@@ -67,6 +70,13 @@ function install_pkgs_for_de()
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+        # ----------------------------------------------------------------------
+        # screensaver
+        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # editor
+        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
+        bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
@@ -109,12 +119,15 @@ function install_pkgs_for_de()
             bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
             # ------------------------------------------------------------------
             # screensaver
-            bash ${CORE_BIN_DIR}/screensaver/install_xscreensaver.sh;
+            bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
             # ------------------------------------------------------------------
             # panel
             bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh ${CUR_USER};
             # ------------------------------------------------------------------
         fi
+        # ----------------------------------------------------------------------
+        # string edit
+        bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
         # ----------------------------------------------------------------------
         # xfce4-apps
         bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;

@@ -73,16 +73,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # cp_toggle_fullscreen;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^wmctrl) ]] || dnf install -y wmctrl;
         [[ -n $(dnf list --installed | grep -i ^xdotool) ]] || dnf install -y xdotool;
         # ----------------------------------------------------------------------
         # cp_toggle_fullscreen;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^wmctrl) ]] || dnf install -y wmctrl;
         [[ -n $(dnf list --installed | grep -i ^xdotool) ]] || dnf install -y xdotool;
         # ----------------------------------------------------------------------

@@ -350,7 +350,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
             # ------------------------------------------------------------------
             install_kime_for_nix "single";

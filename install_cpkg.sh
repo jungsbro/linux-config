@@ -68,7 +68,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
     # --------------------------------------------------------------------------
@@ -91,7 +91,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
     # --------------------------------------------------------------------------
 fi
@@ -143,6 +143,24 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
     # --------------------------------------------------------------------------
 
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
+    [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
+    [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
+    [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
+    # --------------------------------------------------------------------------
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
@@ -160,24 +178,6 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
-    [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
-    [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
-    [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
-    # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
     # --------------------------------------------------------------------------
 fi
@@ -203,14 +203,6 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
-    [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
-    [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
-    [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
-    # --------------------------------------------------------------------------
-
 elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
@@ -218,6 +210,14 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
     [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
     [[ -n $(dnf list --installed | grep -i ^axel) ]] || dnf install -y axel;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
+    [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
+    [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
+    [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
@@ -249,6 +249,17 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
     # --------------------------------------------------------------------------
 
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
+    # --------------------------------------------------------------------------
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -258,17 +269,6 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
-    # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
-    # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
@@ -304,6 +304,19 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
     # --------------------------------------------------------------------------
 
+elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
+    # --------------------------------------------------------------------------
+
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -320,19 +333,6 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
     # --------------------------------------------------------------------------
-
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
@@ -343,6 +343,9 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
     [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
     [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm crudini";
+    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
@@ -350,6 +353,8 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
     [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
+    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
+    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
     # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
@@ -357,19 +362,23 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
-    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-    # --------------------------------------------------------------------------
-    # dnf install -y nyancat cmatrix tty-clock;
-    # --------------------------------------------------------------------------
-
 elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
     [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
+    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
+    # --------------------------------------------------------------------------
+    # dnf install -y nyancat cmatrix tty-clock;
+    # --------------------------------------------------------------------------
+
+elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
+    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------

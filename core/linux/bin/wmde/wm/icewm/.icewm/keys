@@ -9,7 +9,7 @@ key "Super+Shift+r" /usr/bin/icewm --restart
 # expose
 
 # key "Super+Tab" /usr/bin/rofi -show window -show-icons
-key "Super+Tab" /usr/bin/rofi -show window -theme "~/.config/rofi/config.rasi"
+key "Super+Tab" /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------

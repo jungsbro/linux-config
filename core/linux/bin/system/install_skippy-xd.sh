@@ -117,7 +117,7 @@ function install_skippy-xd_for_build()
 # ==============================================================================
 
 
-# func =========================================================================
+# Funcs ========================================================================
 function install_skippy-xd_for_nix()
 {
     # for x86_64 / i686 / aarch64
@@ -249,7 +249,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # install_skippy-xd_for_build;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "skippy-xd is not supported for RHEL and Fedora"

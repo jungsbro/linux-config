@@ -29,7 +29,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function install_clamav()
 {
 
@@ -52,15 +52,15 @@ function install_clamav()
         [[ -n $(apt list --installed | grep -i ^clamav-daemon) ]] || apt install -y clamav-daemon;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^clamav) ]] || dnf install -y clamav;
         [[ -n $(dnf list --installed | grep -i ^clamd) ]] || dnf install -y clamd;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^clamav) ]] || dnf install -y clamav;
         [[ -n $(dnf list --installed | grep -i ^clamd) ]] || dnf install -y clamd;
         # ----------------------------------------------------------------------
@@ -95,7 +95,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         install_clamav;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_clamav;
         # ----------------------------------------------------------------------

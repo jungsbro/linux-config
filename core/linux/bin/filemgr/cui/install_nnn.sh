@@ -98,35 +98,6 @@ function install_dependency_for_nnn()
         [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
-
-        # 폴더/파일
-        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
-        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-
-        # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-
-        # 미디어
-        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
-
-        # 압축/데이터
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
-
-        # 터미널 ui
-        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
-        # ----------------------------------------------------------------------
-
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
@@ -156,6 +127,35 @@ function install_dependency_for_nnn()
         # 터미널 ui
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
         # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
+        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+
+        # 폴더/파일
+        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
+        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+
+        # 이미지/문서
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+        [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
+        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+
+        # 미디어
+        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
+
+        # 압축/데이터
+        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+
+        # 터미널 ui
+        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+        # ----------------------------------------------------------------------
     fi
 }
 
@@ -167,10 +167,10 @@ function install_nnn()
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^nnn) ]] || apt install -y nnn;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
     fi
 }

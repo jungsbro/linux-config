@@ -36,7 +36,7 @@ CONFIG_DIR="${TMP_DIR}/zsh-config";
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function install_zsh()
 {
     # --------------------------------------------------------------------------
@@ -81,6 +81,23 @@ function install_zsh()
         [[ -n $(apt list --installed | grep -i ^mercurial) ]] || apt install -y mercurial;
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^zsh) ]] || dnf install -y zsh;
+        [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
+        [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
+        [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+        # ----------------------------------------------------------------------
+
+        # for ohmyzsh ----------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
@@ -116,23 +133,6 @@ function install_zsh()
 
         # for ohmyzsh ----------------------------------------------------------
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^zsh) ]] || dnf install -y zsh;
-        [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
-        [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
-        [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-        # ----------------------------------------------------------------------
-
-        # for ohmyzsh ----------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
     fi

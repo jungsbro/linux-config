@@ -54,7 +54,7 @@ APP_GRP="AudioVideo;Player"
 
 
 
-# func =========================================================================
+# Funcs ========================================================================
 function install_freetube_for_apt()
 {
     # --------------------------------------------------------------------------
@@ -264,7 +264,7 @@ function install_freetube_for_flatpak()
         [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
         # ----------------------------------------------------------------------
@@ -478,7 +478,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # install_freetube_for_appimg;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
             echo "freetube-i686 is not supported for RHEL"
             # install_freetube_for_nix "single"

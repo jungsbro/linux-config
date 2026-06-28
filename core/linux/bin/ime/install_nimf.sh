@@ -217,6 +217,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
+            # ------------------------------------------------------------------
+            wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
+            # ------------------------------------------------------------------
+            ENV_CONF_PATH="${HOME_DIR}/.xsession"
+            set_nimf_env;
+            # ------------------------------------------------------------------
+            # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
+            # set_nimf_autostart;
+            # ------------------------------------------------------------------
+        fi
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
         if [[ ! -f "${PC_PATH}" ]]; then
@@ -232,19 +245,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
             ICON_PATH="/usr/local/share/icons/hicolor/32x32/status/nimf-logo.png"
             set_nimf_autostart;
-            # ------------------------------------------------------------------
-        fi
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
-            # ------------------------------------------------------------------
-            wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
-            # ------------------------------------------------------------------
-            ENV_CONF_PATH="${HOME_DIR}/.xsession"
-            set_nimf_env;
-            # ------------------------------------------------------------------
-            # ICON_PATH="/usr/share/icons/hicolor/32x32/status/nimf-logo.png"
-            # set_nimf_autostart;
             # ------------------------------------------------------------------
         fi
     fi

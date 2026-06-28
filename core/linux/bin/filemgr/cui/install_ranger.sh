@@ -167,6 +167,57 @@ function install_dependency_for_ranger()
         [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # 필수엔진
+        [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 코드강조
+        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 이미지/비디오
+        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
+
+        [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+
+        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
+        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
+        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 문서/미디어 정보
+        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 압축관리
+        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
+        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 검색/이동
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
+        [[ -n $(dnf list --installed | grep -i ^plocate) ]] || dnf install -y plocate;
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # 기타
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
+        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
@@ -240,57 +291,6 @@ function install_dependency_for_ranger()
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
-
-        [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
-
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
-        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
-        [[ -n $(dnf list --installed | grep -i ^plocate) ]] || dnf install -y plocate;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 기타
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
-        # ----------------------------------------------------------------------
     fi
 }
 
@@ -308,11 +308,11 @@ function install_ranger()
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
     fi
 }

@@ -1,0 +1,47 @@
+super + ctrl + r
+    /usr/bin/pkill -usr1 -x sxhkd
+
+super + Tab
+    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + Escape
+    /usr/bin/xfce4-popup-whiskermenu
+
+alt + F2
+    /usr/bin/xfce4-appfinder
+
+super + r
+    /usr/bin/xfce4-appfinder
+
+super + s
+    /usr/bin/xfce4-appfinder
+
+ctrl + alt + Delete
+    /usr/bin/xfce4-session-logout
+
+super + l
+    /usr/bin/loginctl lock-session
+    # /usr/bin/xflock4
+
+Print
+    /usr/bin/xfce4-screenshooter
+
+super + p
+    /usr/bin/xfce4-display-settings -m
+
+ctrl + shift + Escape
+    /usr/bin/xfce4-taskmanager
+
+super + e
+    /usr/bin/thunar
+
+super + i
+    /usr/bin/xfce4-settings-manager
+
+ctrl + alt + t
+    /usr/bin/xfce4-terminal
+
+super + x
+    /usr/bin/xkill
+
+

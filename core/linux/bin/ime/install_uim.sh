@@ -176,9 +176,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         set_uim_autostart;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        echo "uim is not supported for RHEL"
-
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-m17n;
@@ -189,6 +186,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             [[ -n $(dnf list --installed | grep -i ^uim-gtk3) ]] || dnf install -y uim-gtk3;
         fi
         # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        echo "uim is not supported for RHEL"
     fi
 
 fi

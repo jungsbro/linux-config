@@ -29,7 +29,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 # ------------------------------------------------------------------------------
 # set_prop_value ${ch} ${prop} ${typ} ${val};
 source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
@@ -43,7 +43,7 @@ function set_focus_hotkey()
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Tab" "string" "";
 
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/rofi -show window -show-icons"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/config.rasi'";
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
 
     # if [[ -f "/usr/bin/skippy-xd" ]]; then
     #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
@@ -366,7 +366,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(apt list --installed | grep -i ^xfwm4) ]] && set_all_hotkey;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfwm4) ]] && set_all_hotkey;
         # ----------------------------------------------------------------------

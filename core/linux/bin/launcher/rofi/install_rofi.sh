@@ -6,7 +6,7 @@
 # usage ------------------------------------------------------------------------
 # rofi -show drun
 # rofi -show drun -show-icons
-# rofi -show drun -theme "~/.config/rofi/config.rasi"
+# /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 
 # rofi -show window -show-icons
 # rofi -show window -show-icons -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'
@@ -54,7 +54,7 @@ DST_ROFI_CONF_PATH="${DST_ROFI_CONF_DIR}/config.rasi"
 # ==============================================================================
 
 
-# func =========================================================================
+# Funcs ========================================================================
 function set_desktop()  # not used
 {
     # --------------------------------------------------------------------------
@@ -260,17 +260,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]] || apt install -y ${APP_NAME};
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "rofi is not supported for RHEL"
 
         install_rofi_for_nix "single";
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
         # ----------------------------------------------------------------------
     fi
 

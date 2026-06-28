@@ -1,0 +1,49 @@
+super + ctrl + r
+    /usr/bin/pkill -usr1 -x sxhkd
+
+super + Tab
+    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + Escape
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+alt + F2
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + r
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + s
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + alt + Delete
+    [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+    /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '\{print $1\}')
+
+super + l
+    /usr/bin/loginctl lock-session
+
+Print
+    /usr/bin/gnome-screenshot -i
+    # /usr/bin/flameshot gui
+
+super + p
+    /usr/bin/arandr
+
+ctrl + shift + Escape
+    /usr/bin/xfce4-terminal -e htop
+
+super + e
+    /usr/bin/pcmanfm
+    # /usr/bin/xfce4-terminal -e ranger
+
+super + i
+    /usr/bin/
+
+ctrl + alt + t
+    /usr/bin/xfce4-terminal
+
+super + x
+    /usr/bin/xkill
+
+

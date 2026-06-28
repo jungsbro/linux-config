@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/edit/install_shotcut.sh;
+# bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/edit
+# /core/linux/bin/screensaver/xscreensaver
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -28,65 +28,60 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
-
 # Funcs ========================================================================
-function install_shotcut_for_flatpak()
+function copy_config_to_home()
 {
     # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    local src_dir="${CUR_DIR}/config";
+    local src_path="${src_dir}/.xscreensaver";
+
+    local dst_dir="${HOME_DIR}";
+    local dst_path="${dst_dir}/.xscreensaver";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -f "${dst_path}" ]]; then
+        return;
+    fi
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
+    if [[ -f "${src_path}" ]]; then
+        su - ${CUR_USER} -c "cp -f ${src_path} ${dst_path}";
     fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i shotcut) ]] || flatpak install -y flathub org.shotcut.Shotcut;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
 
-# Main : x86_64, aarch64, i686 =================================================
+# Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^shotcut) ]] || pacman -S --needed --noconfirm shotcut;
+        [[ -n $(pacman -Q | grep -i ^xscreensaver) ]] || pacman -S --needed --noconfirm xscreensaver;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^shotcut) ]] || apt install -y shotcut;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        install_shotcut_for_flatpak;
+        [[ -n $(apt list --installed | grep -i ^xscreensaver) ]] || apt install -y xscreensaver;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^shotcut) ]] || dnf install -y shotcut;
+        [[ -n $(dnf list --installed | grep -i ^xscreensaver) ]] || dnf install -y xscreensaver;
+        # ----------------------------------------------------------------------
+
+    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^xscreensaver) ]] || dnf install -y xscreensaver;
         # ----------------------------------------------------------------------
     fi
 
+    copy_config_to_home;
 fi
 # ==============================================================================

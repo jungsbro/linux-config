@@ -1,0 +1,47 @@
+super + ctrl + r
+    /usr/bin/pkill -usr1 -x sxhkd
+
+super + Tab
+    /usr/bin/cinnamon-dbus-command ShowOverview
+
+ctrl + Escape
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+alt + F2
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + r
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+super + s
+    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+
+ctrl + alt + Delete
+    /usr/bin/cinnamon-session-quit --logout
+
+super + l
+    /usr/bin/loginctl lock-session
+    # /usr/bin/cinnamon-screensaver-command --lock
+
+Print
+    /usr/bin/gnome-screenshot -i
+
+super + p
+    /usr/bin/cinnamon-settings display
+
+ctrl + shift + Escape
+    /usr/bin/gnome-system-monitor
+
+super + e
+    /usr/bin/nemo
+
+super + i
+    /usr/bin/cinnamon-settings
+
+ctrl + alt + t
+    /usr/bin/gnome-terminal
+
+super + x
+    /usr/bin/xkill
+
+

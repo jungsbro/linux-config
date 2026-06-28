@@ -29,14 +29,14 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Func =========================================================================
+# Funcs ========================================================================
 function install_pkgs_for_wm()
 {
     if [[ -d "${HOME_DIR}/.icewm" ]]; then                                          # icewm
         # ----------------------------------------------------------------------
         # screensaver
         # 방법1)
-        bash ${CORE_BIN_DIR}/screensaver/install_xscreensaver.sh;
+        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
 
         # 방법2)
         # bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;

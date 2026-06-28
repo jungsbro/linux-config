@@ -70,6 +70,20 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        # fontconfig -----------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
+        # ----------------------------------------------------------------------
+
+        # ime ------------------------------------------------------------------
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # fontconfig -----------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
@@ -91,20 +105,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
             # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
         fi
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # fontconfig -----------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^fontconfig) ]] || dnf install -y fontconfig;
-        # ----------------------------------------------------------------------
-
-        # ime ------------------------------------------------------------------
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
-        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
         # ----------------------------------------------------------------------
     fi
 

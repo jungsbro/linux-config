@@ -23,7 +23,7 @@ Mod1 F2 :Exec rofi -show drun
 # expose -----------------------------------------------------------------------
 # Mod4 Tab :Exec /usr/bin/rofi -show window -show-icons
 
-Mod4 Tab :Exec /usr/bin/rofi -show window -theme "~/.config/rofi/config.rasi"
+Mod4 Tab :Exec /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
 # finder -----------------------------------------------------------------------

@@ -19,13 +19,13 @@ super + ctrl + r
 # ==============================================================================
 # expose -----------------------------------------------------------------------
 super + Tab
-    /usr/bin/rofi -show window -theme "~/.config/rofi/config.rasi"
+    /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
     # /usr/bin/rofi -show window -show-icons
-    # /usr/bin/rofi -show window -theme "~/.config/rofi/config.rasi"
+    # /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
     # /usr/bin/rofi -show window -theme "~/.config/rofi/expose.rasi"
     # --------------------------------------------------------------------------
 
@@ -46,12 +46,12 @@ super + Tab
 # ==============================================================================
 # startmenu --------------------------------------------------------------------
 ctrl + Escape
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -61,7 +61,7 @@ ctrl + Escape
 
     # --------------------------------------------------------------------------
     # lxqt
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -71,17 +71,17 @@ ctrl + Escape
 
     # --------------------------------------------------------------------------
     # mate
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # gnome
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # cinnamon
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -94,17 +94,17 @@ ctrl + Escape
 # ==============================================================================
 # launcher ---------------------------------------------------------------------
 alt + F2
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # lxde
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -119,17 +119,17 @@ alt + F2
 
     # --------------------------------------------------------------------------
     # mate
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # gnome
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # cinnamon
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -142,12 +142,12 @@ alt + F2
 # ==============================================================================
 # run dialog -------------------------------------------------------------------
 super + r
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -167,17 +167,17 @@ super + r
 
     # --------------------------------------------------------------------------
     # mate
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # gnome
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # cinnamon
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -190,17 +190,17 @@ super + r
 # ==============================================================================
 # search dialog ----------------------------------------------------------------
 super + s
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # lxde
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -215,17 +215,17 @@ super + s
 
     # --------------------------------------------------------------------------
     # mate
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # gnome
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # cinnamon
-    # /usr/bin/rofi -show drun -theme "~/.config/rofi/config.rasi"
+    # /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -238,14 +238,14 @@ super + s
 # ==============================================================================
 # logout -----------------------------------------------------------------------
 ctrl + alt + Delete
-    [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout 할까요?" -i)" = "Yes" ] && \
+    [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
     /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '\{print $1\}')
 # ------------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # all
     # /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
-    # [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout 원하세요?" -i)" = "Yes" ] && /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+    # [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -407,7 +407,7 @@ Print
     # /usr/bin/gnome-screenshot -a
     # /usr/bin/gnome-screenshot -a -c
     # --------------------------------------------------------------------------
-x
+
     # --------------------------------------------------------------------------
     # kde
     # /usr/bin/spectacle
@@ -590,6 +590,7 @@ super + i
 
     # --------------------------------------------------------------------------
     # lxde
+    # /usr/bin/python3 ~/.local/bin/lxcc.py
     # /usr/bin/lxpanelctl menu
     # /usr/bin/lxpanelctl run
     # --------------------------------------------------------------------------
