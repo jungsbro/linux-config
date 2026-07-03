@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER};
 
-# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}
+# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/wmde/de/lxqt
+# /core/linux/bin/wmde/de/lxde
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -31,31 +31,30 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-# Funcs ========================================================================
-
-# ==============================================================================
-
-
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
     # --------------------------------------------------------------------------
-    # xfwm4 hotkey with sxhkd
-    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_for_xfwm4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_theme_for_lxde.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_panel_for_lxqt.sh ${CUR_USER}
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_system_for_lxde.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_theme_for_lxqt.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_panel_for_lxde.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_hotkey_app_for_lxde.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_hotkey_window_for_lxde.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxde/set_hotkey_workspace_for_lxde.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    lxpanelctl restart
+    openbox --reconfigure
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 

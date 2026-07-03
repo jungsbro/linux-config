@@ -2,6 +2,8 @@
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER};
+
+# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}
 # ==============================================================================
 
 

@@ -2,6 +2,8 @@
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER};
+
+# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}
 # ==============================================================================
 
 

@@ -61,16 +61,32 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
     [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
     # --------------------------------------------------------------------------
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm crudini";
+    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
+    [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+    [[ -n $(pacman -Q | grep -i ^yq) ]] || pacman -S --needed --noconfirm yq;
+    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
+    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
+    [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
+    [[ -n $(apt list --installed | grep -i ^yq) ]] || apt install -y yq;
+    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
+    # --------------------------------------------------------------------------
+    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
+    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
+    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
@@ -343,9 +359,6 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
     [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
     [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm crudini";
-    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
@@ -353,8 +366,6 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
     [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
-    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
-    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
     # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
@@ -367,8 +378,6 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
     [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
-    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -377,8 +386,6 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
-    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -423,4 +430,3 @@ echo "-------------------------------------------------------------------------"
 # reboot =======================================================================
 #/usr/sbin/init 6;
 # ==============================================================================
-

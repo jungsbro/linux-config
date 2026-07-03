@@ -8,13 +8,13 @@ ctrl + Escape
     /usr/bin/lxpanelctl menu
 
 alt + F2
-    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+    /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 
 super + r
     /usr/bin/lxpanelctl run
 
 super + s
-    /usr/bin//usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+    /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 
 ctrl + alt + Delete
     /usr/bin/lxde-logout

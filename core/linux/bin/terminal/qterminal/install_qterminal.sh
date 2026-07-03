@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+# bash ${CORE_BIN_DIR}/terminal/install_qterminal.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -29,30 +29,55 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
+# Funcs ========================================================================
+function copy_config_to_home()
+{
+    # --------------------------------------------------------------------------
+    local src_dir="${CUR_DIR}/config";
+
+    local dst_dir="${HOME_DIR}/.config/qterminal.org";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -d "${src_dir}" ]]; then
+        su - ${CUR_USER} -c "cp -rf ${src_dir}/* ${dst_dir}/";
+    fi
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
 # Main : x86_64, i686, aarch64 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-terminal) ]] || pacman -S --needed --noconfirm xfce4-terminal;
+        [[ -n $(pacman -Q | grep -i ^qterminal) ]] || pacman -S --needed --noconfirm qterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-terminal) ]] || apt install -y xfce4-terminal;
+        [[ -n $(apt list --installed | grep -i ^qterminal) ]] || apt install -y qterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xfce4-terminal) ]] || dnf install -y xfce4-terminal;
+        [[ -n $(dnf list --installed | grep -i ^qterminal) ]] || dnf install -y qterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xfce4-terminal) ]] || dnf install -y xfce4-terminal;
+        echo "qterminal is not supported for RHEL"
         # ----------------------------------------------------------------------
     fi
+
+    copy_config_to_home;
 
 fi
 # ==============================================================================

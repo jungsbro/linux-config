@@ -65,7 +65,7 @@ function install_pkgs_for_wm()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # terminal
-        bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+        bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
         bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
@@ -112,7 +112,7 @@ function install_pkgs_for_wm()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # terminal
-        bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+        bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
         bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
@@ -159,7 +159,7 @@ function install_pkgs_for_wm()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # terminal
-        bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+        bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
         bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;

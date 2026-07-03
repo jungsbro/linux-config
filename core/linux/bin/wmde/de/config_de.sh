@@ -35,7 +35,11 @@ function install_pkgs_for_de()
 {
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
         # ----------------------------------------------------------------------
-        # string edit
+        # screensaver
+        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # editor
+        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
         bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
         # ----------------------------------------------------------------------
         # screenshot
@@ -57,13 +61,16 @@ function install_pkgs_for_de()
         # hotkey
         bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
         bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-        bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
+        # ----------------------------------------------------------------------
+        # terminal
+        bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # control-center
         bash ${CORE_BIN_DIR}/wmde/de/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
@@ -98,7 +105,8 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
         # ----------------------------------------------------------------------
         # terminal
-        bash ${CORE_BIN_DIR}/terminal/install_xfce4-terminal.sh;
+        bash ${CORE_BIN_DIR}/terminal/install_qterminal.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
@@ -126,7 +134,8 @@ function install_pkgs_for_de()
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------
-        # string edit
+        # editor
+        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
         bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
         # ----------------------------------------------------------------------
         # xfce4-apps
@@ -174,7 +183,9 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
-
+        # terminal
+        bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
@@ -261,7 +272,7 @@ function config_de()
 
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py ${CUR_USER}";
+        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
