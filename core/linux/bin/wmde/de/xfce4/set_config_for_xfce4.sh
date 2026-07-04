@@ -34,7 +34,12 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_for_xfce4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_app_for_xfce4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_window_for_xfce4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_workspace_for_xfce4.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_panel_for_xfce4.sh;
     # --------------------------------------------------------------------------
 

@@ -41,7 +41,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # --------------------------------------------------------------------------
     # xfwm4 hotkey with sxhkd
-    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_for_xfwm4.sh;
+    # bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_app_for_xfce4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_window_for_xfce4.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_workspace_for_xfce4.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

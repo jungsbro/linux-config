@@ -40,6 +40,40 @@ NEWLINE_CMD2="\n\n";
 
 
 # Funcs ========================================================================
+function set_hotkey_for_restartwm()
+{
+    # 3) cmd for WM ------------------------------------------------------------
+    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
+        # ----------------------------------------------------------------------
+        SXHKDRC_CMD+="super + shift + r"
+        SXHKDRC_CMD+="${NEWLINE_CMD1}"
+
+        SXHKDRC_CMD+="/usr/bin/openbox --reconfigure"
+        SXHKDRC_CMD+="${NEWLINE_CMD2}"
+        # ----------------------------------------------------------------------
+    fi
+    if [[ -d "${HOME_DIR}/.icewm" ]]; then
+        # ----------------------------------------------------------------------
+        SXHKDRC_CMD+="super + shift + r"
+        SXHKDRC_CMD+="${NEWLINE_CMD1}"
+
+        SXHKDRC_CMD+="/usr/bin/icewm --restart"
+        SXHKDRC_CMD+="${NEWLINE_CMD2}"
+        # ----------------------------------------------------------------------
+    fi
+    if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
+        # ----------------------------------------------------------------------
+        SXHKDRC_CMD+="super + shift + r"
+        SXHKDRC_CMD+="${NEWLINE_CMD1}"
+
+        SXHKDRC_CMD+="/usr/bin/fluxbox-remote restart"
+        SXHKDRC_CMD+="${NEWLINE_CMD2}"
+        # ----------------------------------------------------------------------
+    fi
+    # --------------------------------------------------------------------------
+}
+
+
 function set_hotkey_for_restartsxhkd()
 {
     # 1) hotkey ----------------------------------------------------------------
@@ -1310,6 +1344,7 @@ function create_sxhkdrc()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    set_hotkey_for_restartwm;
     set_hotkey_for_restartsxhkd;
     set_hoteky_for_expose;
     set_hotkey_for_startmenu;

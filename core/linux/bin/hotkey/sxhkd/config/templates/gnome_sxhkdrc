@@ -3,7 +3,7 @@ super + ctrl + r
 
 super + Tab
     /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
-
+    
 ctrl + Escape
     /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 

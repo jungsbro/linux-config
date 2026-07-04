@@ -61,10 +61,8 @@ function set_defualt_applications()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} <<"EOF"
-crudini --set ~/.config/mimeapps.list "Default Applications" "text/plain" "org.xfce.mousepad.desktop";
-crudini --set ~/.config/mimeapps.list "Added Associations" "text/plain" "org.xfce.mousepad.desktop";
-EOF
+    crudini --set "${HOME_DIR}/.config/mimeapps.list" "Default Applications" "text/plain" "org.xfce.mousepad.desktop";
+    crudini --set "${HOME_DIR}/.config/mimeapps.list" "Added Associations" "text/plain" "org.xfce.mousepad.desktop";
     # --------------------------------------------------------------------------
 }
 

@@ -27,17 +27,14 @@ function get_core_bin_dir_from_xfce4()
 }
 
 core_bin_dir=$(get_core_bin_dir_from_xfce4);
+
+# set_prop_value ${ch} ${prop} ${typ} ${val};
+source ${core_bin_dir}/wmde/de/xfce4/set_funcs_for_xfce4.sh
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-# ------------------------------------------------------------------------------
-# set_prop_value ${ch} ${prop} ${typ} ${val};
-source ${core_bin_dir}/wmde/de/xfce4/set_funcs_for_xfce4.sh
-# ------------------------------------------------------------------------------
-
-
 function set_theme()
 {
     if [[ -e "/usr/share/icons/Papirus" ]]; then

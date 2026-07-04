@@ -274,7 +274,7 @@ function set_hotkey_for_xkill()
     # --------------------------------------------------------------------------
 }
 
-function set_all_hotkey()
+function set_all_hotkey_for_app()
 {
     # --------------------------------------------------------------------------
     local comment=" ====================== My Custom App Shortcuts ====================== ";
@@ -309,17 +309,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^openbox) ]] && set_all_hotkey;
+        [[ -n $(pacman -Q | grep -i ^openbox) ]] && set_all_hotkey_for_app;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^openbox) ]] && set_all_hotkey;
+        [[ -n $(apt list --installed | grep -i ^openbox) ]] && set_all_hotkey_for_app;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^openbox) ]] && set_all_hotkey;
+        [[ -n $(dnf list --installed | grep -i ^openbox) ]] && set_all_hotkey_for_app;
         # ----------------------------------------------------------------------
     fi
 

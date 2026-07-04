@@ -103,7 +103,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
         # ----------------------------------------------------------------------
         # terminal
-        bash ${CORE_BIN_DIR}/terminal/install_qterminal.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh ${CUR_USER};
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
@@ -165,7 +165,7 @@ function install_pkgs_for_de()
         # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # hotkey
-        # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh
+        # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh;
         # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
         # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};

@@ -90,7 +90,7 @@ function set_hotkey_for_window-switching()
 }
 
 
-function set_hotkey_for_filling_window()
+function set_hotkey_for_filling-window()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-Up";
@@ -104,7 +104,7 @@ function set_hotkey_for_filling_window()
 }
 
 
-function set_hotkey_for_restoring_window()
+function set_hotkey_for_restoring-window()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-Down";
@@ -259,8 +259,8 @@ function set_all_hotkey_for_window()
     set_hotkey_for_showdesktop;
     set_hotkey_for_window-switching;
 
-    set_hotkey_for_filling_window;
-    set_hotkey_for_restoring_window;
+    set_hotkey_for_filling-window;
+    set_hotkey_for_restoring-window;
 
     # set_hotkey_for_tile-window-to-top
     # set_hotkey_for_tile-window-to-bottom

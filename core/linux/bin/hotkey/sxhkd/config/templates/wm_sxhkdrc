@@ -1,3 +1,8 @@
+super + shift + r
+    /usr/bin/icewm --restart
+    # /usr/bin/fluxbox-remote restart
+    # /usr/bin/jwm-restart
+
 super + ctrl + r
     /usr/bin/pkill -usr1 -x sxhkd
 

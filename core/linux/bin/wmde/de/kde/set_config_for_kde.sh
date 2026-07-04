@@ -34,7 +34,12 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/kde/set_hotkey_for_kde.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/kde/set_hotkey_app_for_kde.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/kde/set_hotkey_window_for_kde.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/kde/set_hotkey_workspace_for_kde.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_clock_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_float_for_kde.sh;
     bash ${CORE_BIN_DIR}/wmde/de/kde/set_panel_vdesktop_for_kde.sh;

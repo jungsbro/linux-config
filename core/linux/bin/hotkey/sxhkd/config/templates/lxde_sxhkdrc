@@ -1,3 +1,6 @@
+super + shift + r
+    /usr/bin/openbox --reconfigure
+
 super + ctrl + r
     /usr/bin/pkill -usr1 -x sxhkd
 

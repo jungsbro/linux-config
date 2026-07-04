@@ -58,6 +58,7 @@ function set_focus_hotkey()
     # --------------------------------------------------------------------------
 }
 
+
 function set_lock_hotkey()
 {
     # --------------------------------------------------------------------------
@@ -74,6 +75,7 @@ function set_lock_hotkey()
     kwriteconfig6 --file kglobalshortcutsrc --group "ksmserver" --key "Lock Session" $'Meta+L\tScreensaver,Meta+L\tScreensaver,Lock Session'
     # --------------------------------------------------------------------------
 }
+
 
 function set_system_hotkey()
 {
@@ -113,6 +115,7 @@ function set_system_hotkey()
     # --------------------------------------------------------------------------
 }
 
+
 function set_display_hotkey()
 {
     # --------------------------------------------------------------------------
@@ -129,6 +132,7 @@ function set_display_hotkey()
     kwriteconfig6 --file kglobalshortcutsrc --group "systemsettings.desktop" --key "kcm-kscreen" "Meta+Shift+P,Display Configuration,Display Configuration"
     # --------------------------------------------------------------------------
 }
+
 
 function set_app_hotkey()
 {
@@ -172,6 +176,7 @@ function set_app_hotkey()
     # kwriteconfig6 --file kglobalshortcutsrc --group "xfce4-terminal.desktop" --key "_launch" "Ctrl+Alt+T,xfce4-terminal,xfce4-terminal"
     # --------------------------------------------------------------------------
 }
+
 
 function set_tiling_hotkey()
 {
@@ -224,6 +229,7 @@ function set_tiling_hotkey()
     kwriteconfig6 --file kglobalshortcutsrc --group "kwin" --key "Window to Next Screen" "Meta+Shift+Right,Meta+Shift+Right,Move Window to Next Screen"
     # --------------------------------------------------------------------------
 }
+
 
 function set_workspace_hotkey()
 {

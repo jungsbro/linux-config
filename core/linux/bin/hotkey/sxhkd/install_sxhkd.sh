@@ -107,6 +107,7 @@ function copy_sxhkdrc_to_home()
 
     elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
         local src_template_path="${src_template_dir}/kde_sxhkdrc";
+        
     else
         local src_template_path="${src_template_dir}/wm_sxhkdrc";
     fi

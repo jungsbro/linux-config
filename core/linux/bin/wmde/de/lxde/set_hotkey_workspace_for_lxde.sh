@@ -50,7 +50,7 @@ fi
 
 
 # Funcs ========================================================================
-function set_hotkey_for_ws_left_movement()
+function set_hotkey_for_left-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-C-Left";
@@ -64,7 +64,7 @@ function set_hotkey_for_ws_left_movement()
 }
 
 
-function set_hotkey_for_ws_right_movement()
+function set_hotkey_for_right-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-C-Right";
@@ -78,7 +78,7 @@ function set_hotkey_for_ws_right_movement()
 }
 
 
-function set_hotkey_for_ws_up_movement()
+function set_hotkey_for_up-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-C-Up";
@@ -92,7 +92,7 @@ function set_hotkey_for_ws_up_movement()
 }
 
 
-function set_hotkey_for_ws_down_movement()
+function set_hotkey_for_down-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-C-Down";
@@ -106,7 +106,7 @@ function set_hotkey_for_ws_down_movement()
 }
 
 
-function set_hotkey_for_ws_f1_movement()
+function set_hotkey_for_f1-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-F1";
@@ -120,7 +120,7 @@ function set_hotkey_for_ws_f1_movement()
 }
 
 
-function set_hotkey_for_ws_f2_movement()
+function set_hotkey_for_f2-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-F2";
@@ -134,7 +134,7 @@ function set_hotkey_for_ws_f2_movement()
 }
 
 
-function set_hotkey_for_ws_f3_movement()
+function set_hotkey_for_f3-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-F3";
@@ -148,7 +148,7 @@ function set_hotkey_for_ws_f3_movement()
 }
 
 
-function set_hotkey_for_ws_f4_movement()
+function set_hotkey_for_f4-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-F4";
@@ -162,7 +162,7 @@ function set_hotkey_for_ws_f4_movement()
 }
 
 
-function set_hotkey_for_app_to_left-ws()
+function set_hotkey_for_app-to-left-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Left";
@@ -176,7 +176,7 @@ function set_hotkey_for_app_to_left-ws()
 }
 
 
-function set_hotkey_for_app_to_right-ws()
+function set_hotkey_for_app-to-right-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Right";
@@ -190,7 +190,7 @@ function set_hotkey_for_app_to_right-ws()
 }
 
 
-function set_hotkey_for_app_to_up-ws()
+function set_hotkey_for_app-to-up-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Up";
@@ -204,7 +204,7 @@ function set_hotkey_for_app_to_up-ws()
 }
 
 
-function set_hotkey_for_app_to_down-ws()
+function set_hotkey_for_app-to-down-ws()
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Down";
@@ -228,20 +228,20 @@ function set_all_hotkey_for_workspace()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_left_movement;
-    set_hotkey_for_ws_right_movement;
-    set_hotkey_for_ws_up_movement;
-    set_hotkey_for_ws_down_movement;
+    set_hotkey_for_left-ws;
+    set_hotkey_for_right-ws;
+    set_hotkey_for_up-ws;
+    set_hotkey_for_down-ws;
 
-    set_hotkey_for_ws_f1_movement;
-    set_hotkey_for_ws_f2_movement;
-    set_hotkey_for_ws_f3_movement;
-    set_hotkey_for_ws_f4_movement;
+    set_hotkey_for_f1-ws;
+    set_hotkey_for_f2-ws;
+    set_hotkey_for_f3-ws;
+    set_hotkey_for_f4-ws;
 
-    set_hotkey_for_app_to_left-ws;
-    set_hotkey_for_app_to_right-ws;
-    set_hotkey_for_app_to_up-ws;
-    set_hotkey_for_app_to_down-ws;
+    set_hotkey_for_app-to-left-ws;
+    set_hotkey_for_app-to-right-ws;
+    set_hotkey_for_app-to-up-ws;
+    set_hotkey_for_app-to-down-ws;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
