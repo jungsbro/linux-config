@@ -50,21 +50,21 @@ fi
 
 
 # Funcs ========================================================================
-function set_defualt_editor()
+function set_defualt_applications()
 {
     # --------------------------------------------------------------------------
-    local dst_path="${HOME_DIR}/.config/mimeapps.list";
+    # [Default Applications]
+    # text/plain=org.xfce.mousepad.desktop
 
-    local cmd='[Default Applications]
-text/plain=org.xfce.mousepad.desktop
-
-[Added Associations]
-text/plain=org.xfce.mousepad.desktop;
-'
+    # [Added Associations]
+    # text/plain=org.xfce.mousepad.desktop;
     # --------------------------------------------------------------------------
-    if [[ ! -f ${dst_path} ]]; then
-        echo "${cmd}" > ${dst_path};
-    fi
+
+    # --------------------------------------------------------------------------
+    su - ${CUR_USER} <<"EOF"
+crudini --set ~/.config/mimeapps.list "Default Applications" "text/plain" "org.xfce.mousepad.desktop";
+crudini --set ~/.config/mimeapps.list "Added Associations" "text/plain" "org.xfce.mousepad.desktop";
+EOF
     # --------------------------------------------------------------------------
 }
 
@@ -137,7 +137,7 @@ function set_mouse_alt_drag()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
-    set_defualt_editor;
+    set_defualt_applications;
     set_mouse_double_click;
     set_mouse_alt_drag;
     # --------------------------------------------------------------------------

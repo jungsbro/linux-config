@@ -7,10 +7,10 @@
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/terminal
+# /core/linux/bin/terminal/lxterminal
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"

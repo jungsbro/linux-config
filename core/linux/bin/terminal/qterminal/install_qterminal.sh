@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/terminal/install_qterminal.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/terminal
+# /core/linux/bin/terminal/qterminal
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"

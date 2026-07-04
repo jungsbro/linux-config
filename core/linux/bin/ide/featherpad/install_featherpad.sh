@@ -41,9 +41,9 @@ function copy_config_to_home()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${dst_path}" ]]; then
-        return;
-    fi
+    # if [[ -f "${dst_path}" ]]; then
+    #     return;
+    # fi
     if [[ ! -d "${dst_dir}" ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
     fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+# bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -29,6 +29,60 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
+
+# Funcs ========================================================================
+function set_mousepad_settings()
+{
+    # --------------------------------------------------------------------------
+    # gsettings list-recursively org.xfce.mousepad
+    su - ${CUR_USER} <<"EOF"
+# view
+gsettings set org.xfce.mousepad.preferences.view show-line-numbers true;
+gsettings set org.xfce.mousepad.preferences.view show-whitespace true;
+gsettings set org.xfce.mousepad.preferences.view show-line-endings true;
+gsettings set org.xfce.mousepad.preferences.view show-right-margin true
+gsettings set org.xfce.mousepad.preferences.view right-margin-position 'uint32 80';
+gsettings set org.xfce.mousepad.preferences.view highlight-current-line true;
+gsettings set org.xfce.mousepad.preferences.view match-braces true;
+gsettings set org.xfce.mousepad.preferences.view word-wrap false;
+gsettings set org.xfce.mousepad.preferences.view use-default-monospace-font false;
+gsettings set org.xfce.mousepad.preferences.view font-name 'Monospace 14';
+gsettings set org.xfce.mousepad.preferences.view color-scheme 'oblivion';
+
+# Editor
+gsettings set org.xfce.mousepad.preferences.view tab-width 'uint32 4';
+gsettings set org.xfce.mousepad.preferences.view insert-spaces true;
+gsettings set org.xfce.mousepad.preferences.view auto-indent true;
+
+# Window
+gsettings set org.xfce.mousepad.preferences.window toolbar-visible true;
+gsettings set org.xfce.mousepad.preferences.window toolbar-style 'icons';
+gsettings set org.xfce.mousepad.preferences.window toolbar-icon-size 'small-toolbar';
+EOF
+    # --------------------------------------------------------------------------
+}
+
+function set_mousepad_association()
+{
+    # --------------------------------------------------------------------------
+    # [Default Applications]
+    # text/plain=org.xfce.mousepad.desktop
+
+    # [Added Associations]
+    # text/plain=org.xfce.mousepad.desktop;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    su - ${CUR_USER} <<"EOF"
+crudini --set ~/.config/mimeapps.list "Default Applications" "text/plain" "org.xfce.mousepad.desktop";
+crudini --set ~/.config/mimeapps.list "Added Associations" "text/plain" "org.xfce.mousepad.desktop";
+EOF
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+
 # Main : x86_64, i686, aarch64 =================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
@@ -53,6 +107,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^mousepad) ]] || dnf install -y mousepad;
         # ----------------------------------------------------------------------
     fi
+
+    set_mousepad_settings;
+    set_mousepad_association;
 
 fi
 # ==============================================================================

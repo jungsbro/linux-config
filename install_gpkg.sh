@@ -128,7 +128,7 @@ bash ${CORE_BIN_DIR}/security/install_gnome-keyring.sh;
 # ==============================================================================
 
 # ide ==========================================================================
-# bash ${CORE_BIN_DIR}/ide/install_geany.sh;
+# bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh ${CUR_USER};
 bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
 # ==============================================================================
 

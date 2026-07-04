@@ -33,14 +33,16 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Funcs ========================================================================
 function install_pkgs_for_de()
 {
+    # --------------------------------------------------------------------------
+    # editor
+    bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
+    bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
+    # --------------------------------------------------------------------------
+
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
         # ----------------------------------------------------------------------
         # screensaver
         bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
-        # editor
-        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
-        bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
         # ----------------------------------------------------------------------
         # screenshot
         # 방법1)
@@ -80,10 +82,6 @@ function install_pkgs_for_de()
         # ----------------------------------------------------------------------
         # screensaver
         bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
-        # ----------------------------------------------------------------------
-        # editor
-        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
-        bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
@@ -134,10 +132,6 @@ function install_pkgs_for_de()
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------
-        # editor
-        bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
-        bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
-        # ----------------------------------------------------------------------
         # xfce4-apps
         bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;
 
@@ -157,7 +151,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/panel/install_xfce4-panel-profiles.sh;
 
         # file-editor
-        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # launcher
         # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};

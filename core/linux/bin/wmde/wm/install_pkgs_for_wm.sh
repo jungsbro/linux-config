@@ -68,7 +68,7 @@ function install_pkgs_for_wm()
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
-        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # task-manager
         # bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
@@ -115,7 +115,7 @@ function install_pkgs_for_wm()
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
-        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # task-manager
         # bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
@@ -162,7 +162,7 @@ function install_pkgs_for_wm()
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # file-editor
-        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh;
+        bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # task-manager
         # bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
