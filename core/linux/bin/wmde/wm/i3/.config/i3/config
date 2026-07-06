@@ -166,7 +166,7 @@ tiling_drag modifier titlebar
 
 
 # Hotkey =======================================================================
-# 터미널 열기 --------------------------------------------------------------------
+# terminal ---------------------------------------------------------------------
 # ctrl + alt + t
 # bindsym Control+Mod1+t exec i3-sensible-terminal
 bindsym Control+Mod1+t exec xfce4-terminal
@@ -189,9 +189,11 @@ bindsym Mod1+F4 kill
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # win + r
+# win + s
 # alt + F2
-bindsym $mod+r exec rofi -show drun -show-icons
-bindsym Mod1+F2 exec rofi -show drun -show-icons
+bindsym $mod+r exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym $mod+s exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym Mod1+F2 exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
 # bindsym Mod1+F2 exec rofi -show drun -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System SFNS Display 18"
 # ------------------------------------------------------------------------------
 
@@ -284,13 +286,14 @@ bindsym $mod+space floating toggle
 # bindsym $mod+Control+Shift+v split v
 # ------------------------------------------------------------------------------
 
-# screenlock ------------------------------------------------------------------
+# lock screen ------------------------------------------------------------------
 # win + l
 # bindsym $mod+l exec i3lock
-bindsym $mod+l exec i3lock --color "$bg-color"
+# bindsym $mod+l exec i3lock --color "$bg-color"
+bindsym $mod+l exec /usr/bin/loginctl lock-session
 # ------------------------------------------------------------------------------
 
-# printscreen ------------------------------------------------------------------
+# screen shot ------------------------------------------------------------------
 # print
 # 방법1)
 bindsym Print exec /usr/bin/gnome-screenshot --interactive
@@ -299,24 +302,24 @@ bindsym Print exec /usr/bin/gnome-screenshot --interactive
 # bindsym Print exec /usr/bin/xfce4-screenshooter
 # ------------------------------------------------------------------------------
 
-# 탐색기 -------------------------------------------------------------------------
+# file manager -----------------------------------------------------------------
 # win + e
 # bindsym $mod+e exec thunar
 bindsym $mod+e exec pcmanfm
 # bindsym $mod+e exec pcmanfm-qt
 # ------------------------------------------------------------------------------
 
-# taskmanager ------------------------------------------------------------------
+# task manager -----------------------------------------------------------------
 # ctrl + shift + esc
 bindsym Control+Shift+Escape exec xfce4-termianl -e htop
 # ------------------------------------------------------------------------------
 
-# 강제종료 -----------------------------------------------------------------------
+# xkill ------------------------------------------------------------------------
 # win + x
 bindsym $mod+x exec /usr/bin/xkill
 # ------------------------------------------------------------------------------
 
-# 설정 재시작 --------------------------------------------------------------------
+# restart settings -------------------------------------------------------------
 # i3 설정 파일 새로고침 (Restart i3 inplace)
 # win + shift + c
 # bindsym $mod+Shift+c reload
@@ -332,6 +335,19 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i
 
 # control + alt + delete
 bindsym Mod1+Control+Delete exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# bindsym Mod1+Control+Delete exec [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+# /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+# ------------------------------------------------------------------------------
+
+# dispaly settings -------------------------------------------------------------
+# win + p
+bindsym $mod+p exec /usr/bin/arandr
+# ------------------------------------------------------------------------------
+
+# control center  --------------------------------------------------------------
+# win + i
+# not yet
 # ------------------------------------------------------------------------------
 
 # workspace---------------------------------------------------------------------

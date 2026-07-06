@@ -21,23 +21,38 @@ key "Super+Tab" /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launc
 # ------------------------------------------------------------------------------
 # launcher
 
-key "Super+r" /usr/bin/rofi -show drun -show-icons
-key "Ctrl+Space" /usr/bin/rofi -show drun -show-icons
-key "Alt+F2" /usr/bin/rofi -show drun -show-icons
+key "Alt+F2" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Ctrl+Space" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Super+r" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Super+s" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# logout
+
+# 방법1) logout 확인창
+[ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+
+# 방법2) 확인없이 바로 logout
+# key "Ctrl+Alt+Delete" /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # lock screen
 
 # 방법1)
-key "Super+l" /usr/bin/xscreensaver-command -lock
+key "Super+l" /usr/bin/loginctl lock-session
 
 # 방법2)
+# key "Super+l" /usr/bin/xscreensaver-command -lock
+
+# 방법3)
 # key "Super+l" /usr/bin/xfce4-screensaver-command --lock
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# print screen
+# screen shot
 
 key "Print" /usr/bin/gnome-screenshot --interactive
 # ------------------------------------------------------------------------------
@@ -45,13 +60,13 @@ key "Print" /usr/bin/gnome-screenshot --interactive
 # ------------------------------------------------------------------------------
 # resoltion settings
 
-# key "Super+p" /usr/bin/arandr
+key "Super+p" /usr/bin/arandr
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # taskmanager
 
-# key "Ctrl+Shift+Esc" /usr/bin/xfce4-terminal -e htop
+key "Ctrl+Shift+Esc" /usr/bin/xfce4-terminal -e htop
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -79,6 +94,7 @@ key "Alt+Ctrl+t" /usr/bin/xfce4-terminal
 
 key "Super+x" /usr/bin/xkill
 # ------------------------------------------------------------------------------
+
 
 # ------------------------------------------------------------------------------
 # show desktop (~/.icewm/preferences)
