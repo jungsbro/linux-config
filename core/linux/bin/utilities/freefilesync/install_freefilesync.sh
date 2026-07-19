@@ -104,127 +104,6 @@ function install_freefilesync()
 }
 
 
-# function install_freefilesync_for_nix()
-# {
-#     # --------------------------------------------------------------------------
-#     # for x86_64 / aarch64
-#     if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-#         return
-#     fi
-
-#     if [[ -z ${CUR_USER} ]]; then
-#         return
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     # 1) env-vars settings -----------------------------------------------------
-#     local APP_NAME="freefilesync"
-
-#     local mod=${1}  # multi / single
-
-#     if [[ *"${mod}"* == *"multi"* ]]; then
-#         # multi-user
-#         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
-#     else
-#         # single-user
-#         local nix_env_path="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     # 2) install nix -----------------------------------------------------------
-#     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
-#     # --------------------------------------------------------------------------
-
-#     # 3) install_freefilesync --------------------------------------------------
-#     # https://search.nixos.org/packages
-#     # nix-env -iA nixpkgs.freefilesync
-#     # nix profile add nixpkgs#freefilesync
-#     su - ${CUR_USER} -c "source ${nix_env_path} && \
-#     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
-#     nix profile add nixpkgs#${APP_NAME}"
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     if [[ *"${mod}"* == *"multi"* ]]; then
-#         return
-#     fi
-#     return
-#     # --------------------------------------------------------------------------
-
-#     # 4) bins settings ---------------------------------------------------------
-#     local cur_name="";
-
-#     local src_dir="${HOME_DIR}/.nix-profile/bin"
-
-#     local dst_dir="${HOME_DIR}/.local/bin"
-#     if [[ ! -d ${dst_dir} ]]; then
-#         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
-#     fi
-
-#     for cur_name in $(ls ${src_dir});
-#     do
-#         src_path="${src_dir}/${cur_name}";
-#         if [[ ! -f ${src_path} ]]; then
-#             continue
-#         fi
-
-#         dst_path="${dst_dir}/${cur_name}";
-#         if [[ -f ${dst_path} ]]; then
-#             continue
-#         fi
-
-#         su - ${CUR_USER} -c "ln -s ${src_path} ${dst_path}";
-#     done
-#     # --------------------------------------------------------------------------
-
-#     # 5) icon settngs ----------------------------------------------------------
-#     local name_list="icons pixmaps";
-#     local cur_name="";
-#     local src_dir="";
-#     local dst_dir="";
-
-#     for cur_name in ${name_list};
-#     do
-#         src_dir="${HOME_DIR}/.nix-profile/share/${cur_name}"
-#         dst_dir="${HOME_DIR}/.local/share/${cur_name}"
-
-#         if [[ -d ${src_dir} ]]; then
-#             su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
-
-#             # ------------------------------------------------------------------
-#             # -r : recursive
-#             # -u : update
-#             cp -ru ${src_dir}/* "${dst_dir}/"
-#             chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
-#             chmod -R 755 ${dst_dir}
-#             # ------------------------------------------------------------------
-
-#             gtk-update-icon-cache "${dst_dir}" 2>/dev/null
-#         fi
-#     done
-#     # --------------------------------------------------------------------------
-
-#     # 6) desktop settings ------------------------------------------------------
-#     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-#     local dst_dir="${HOME_DIR}/.local/share/applications"
-
-#     if [[ -d ${src_dir} ]]; then
-#         su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
-
-#         # ----------------------------------------------------------------------
-#         # -u : update
-#         # -L : dereference
-#         cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-#         chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
-#         chmod -R 744 ${dst_dir}
-#         # ----------------------------------------------------------------------
-
-#         update-desktop-database "${dst_dir}"
-#     fi
-#     # --------------------------------------------------------------------------
-# }
-
-
 function install_freefilesync_for_flatpak()
 {
     # --------------------------------------------------------------------------
@@ -294,7 +173,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^freefilesync) ]] || apt install -y freefilesync;
 
-        # install_freefilesync_for_nix "multi";
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         # ----------------------------------------------------------------------
@@ -307,7 +185,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         if [[ *"${cur_arch}"* == *"i686"* ]]; then
             return
         fi
-        # install_freefilesync_for_nix "single";
+
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------

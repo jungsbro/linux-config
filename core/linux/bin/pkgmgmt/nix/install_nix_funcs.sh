@@ -162,18 +162,6 @@ function install_nixpkg()
         update-desktop-database "${dst_dir}"
     fi
     # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # mkdir -p ~/.local/share/applications && \
-
-    # rm -f ~/.local/share/applications/nix-* && \
-
-    # for f in ~/.nix-profile/share/applications/*.desktop;
-    # do
-    #     [ -e "$f" ] || break; name=$(basename "$f");
-    #     sed "s|^Exec=\([^/]\)|Exec=$HOME/.nix-profile/bin/\1|g" "$f" > ~/.local/share/applications/nix-"$name";
-    # done
-    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
