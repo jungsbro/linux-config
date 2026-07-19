@@ -17,13 +17,13 @@
 
 # ==============================================================================
 # settings restart -------------------------------------------------------------
-Mod4 Shift r :Exec /usr/bin/fluxbox-remote restart
+Mod4 Shift r :Exec fluxbox-remote restart
 # ------------------------------------------------------------------------------
 
 # expose -----------------------------------------------------------------------
-# Mod4 Tab :Exec /usr/bin/rofi -show window -show-icons
+# Mod4 Tab :Exec rofi -show window -show-icons
 
-Mod4 Tab :Exec /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
+Mod4 Tab :Exec skippy-xd --expose --desktop -1
 # ------------------------------------------------------------------------------
 
 # menu -------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Mod4 Tab :Exec /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launch
 # ------------------------------------------------------------------------------
 
 # RMB --------------------------------------------------------------------------
-Mod4 Escape :Exec /usr/bin/fluxbox-remote RootMenu
+Mod4 Escape :Exec fluxbox-remote RootMenu
 # ------------------------------------------------------------------------------
 
 # launcher ---------------------------------------------------------------------
@@ -47,25 +47,25 @@ Mod4 s :Exec rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
 # screen-shot ------------------------------------------------------------------
-none Print :Exec /usr/bin/xfce4-screenshooter
-# none Print :Exec /usr/bin/gnome-screenshot --interactive
+none Print :Exec xfce4-screenshooter
+# none Print :Exec gnome-screenshot --interactive
 # ------------------------------------------------------------------------------
 
 # logout -----------------------------------------------------------------------
-Ctrl Mod1 Delete :Exec [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
-/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+Ctrl Mod1 Delete :Exec [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
 # ------------------------------------------------------------------------------
 
 # lock-screen ------------------------------------------------------------------
-Mod4 l :Exec /usr/bin/loginctl lock-session
+Mod4 l :Exec loginctl lock-session
 # ------------------------------------------------------------------------------
 
 # display-settings -------------------------------------------------------------
-Mod4 p :Exec /usr/bin/arandr
+Mod4 p :Exec arandr
 # ------------------------------------------------------------------------------
 
 # task-manager -----------------------------------------------------------------
-Ctrl Shift Escape :Exec /usr/bin/xfce4-terminal -e htop
+Ctrl Shift Escape :Exec xfce4-terminal -e htop
 # ------------------------------------------------------------------------------
 
 # file-manager -----------------------------------------------------------------
@@ -73,15 +73,15 @@ Mod4 e :Exec thunar /home/$USER
 # ------------------------------------------------------------------------------
 
 # control-center ---------------------------------------------------------------
-Mod4 i :Exec /usr/bin/custom-toolbox /etc/custom-toolbox/mxfb-settings.list
+Mod4 i :Exec custom-toolbox /etc/custom-toolbox/mxfb-settings.list
 # ------------------------------------------------------------------------------
 
 # terminal ---------------------------------------------------------------------
-Ctrl Mod1 t :Exec /usr/bin/xfce4-terminal
+Ctrl Mod1 t :Exec xfce4-terminal
 # ------------------------------------------------------------------------------
 
 # xkill ------------------------------------------------------------------------
-Mod4 x :Exec /usr/bin/xkill
+Mod4 x :Exec xkill
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

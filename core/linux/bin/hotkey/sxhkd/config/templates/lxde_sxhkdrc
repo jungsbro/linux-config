@@ -1,50 +1,50 @@
 super + shift + r
-    /usr/bin/openbox --reconfigure
+    openbox --reconfigure
 
 super + ctrl + r
-    /usr/bin/pkill -usr1 -x sxhkd
+    pkill -usr1 -x sxhkd
 
 super + Tab
-    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+    skippy-xd --expose --desktop -1
 
 ctrl + Escape
-    /usr/bin/lxpanelctl menu
+    lxpanelctl menu
 
 alt + F2
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+    rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 
 super + r
-    /usr/bin/lxpanelctl run
+    lxpanelctl run
 
 super + s
-    /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+    rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 
 ctrl + alt + Delete
-    /usr/bin/lxde-logout
+    lxde-logout
 
 super + l
-    /usr/bin/loginctl lock-session
-    # /usr/bin/lxlock
+    loginctl lock-session
+    # lxlock
 
 Print
-    /usr/bin/gnome-screenshot -i
+    gnome-screenshot -i
 
 super + p
-    /usr/bin/lxrandr
+    lxrandr
 
 ctrl + shift + Escape
-    /usr/bin/lxtask
+    lxtask
 
 super + e
-    /usr/bin/pcmanfm
+    pcmanfm
 
 super + i
-    /usr/bin/python3 ~/.local/bin/lxcc.py
+    python3 ~/.local/bin/lxcc.py
 
 ctrl + alt + t
-    /usr/bin/lxterminal
+    lxterminal
 
 super + x
-    /usr/bin/xkill
+    xkill
 
 

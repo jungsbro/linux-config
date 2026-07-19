@@ -68,7 +68,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-terminal) ]] || apt install -y xfce4-terminal;
+        [[ -n $(apt list --installed | grep -i ^xfce4-terminal) ]] || apt install -y --no-install-recommends xfce4-terminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

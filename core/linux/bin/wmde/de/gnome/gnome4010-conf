@@ -98,12 +98,12 @@ search=['<Super>f']
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom0]
 binding='<Shift><Control>Escape'
-command='/usr/bin/gnome-system-monitor'
+command='gnome-system-monitor'
 name='System-monitor'
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom1]
 binding='<Control><Alt>t'
-command='/usr/bin/gnome-terminal'
+command='gnome-terminal'
 name='Terminal'
 
 [shell]

@@ -1,47 +1,47 @@
 super + ctrl + r
-    /usr/bin/pkill -usr1 -x sxhkd
+    pkill -usr1 -x sxhkd
 
 super + Tab
-    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+    skippy-xd --expose --desktop -1
 
 ctrl + Escape
-    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+    rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 
 alt + F2
-    /usr/bin/lxqt-runner
+    lxqt-runner
 
 super + r
-    /usr/bin/lxqt-runner
+    lxqt-runner
 
 super + s
-    /usr/bin/lxqt-runner
+    lxqt-runner
 
 ctrl + alt + Delete
-    /usr/bin/lxqt-leave --logout
+    lxqt-leave --logout
 
 super + l
-    /usr/bin/loginctl lock-session
-    # /usr/bin/loginctl lock-session
+    loginctl lock-session
+    # loginctl lock-session
 
 Print
-    /usr/bin/screengrab
+    screengrab
 
 super + p
-    /usr/bin/lxqt-config-monitor
+    lxqt-config-monitor
 
 ctrl + shift + Escape
-    /usr/bin/qps
+    qps
 
 super + e
-    /usr/bin/pcmanfm-qt
+    pcmanfm-qt
 
 super + i
-    /usr/bin/lxqt-config
+    lxqt-config
 
 ctrl + alt + t
-    /usr/bin/qterminal
+    qterminal
 
 super + x
-    /usr/bin/xkill
+    xkill
 
 

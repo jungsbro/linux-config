@@ -96,13 +96,13 @@ xfce4-screensaver &
 xfce4-power-manager &
 
 # fcitx5
-/usr/bin/fcitx5 &
+fcitx5 &
 
 # Super_L >> ctrl+escape
 xcape -e 'Super_L=Control_L|Escape'
 
 # redshift
-/usr/bin/redshift-gtk &
+redshift-gtk &
 
 ### for optional use with the fluxbox toolbar ###
 #cbatticon &

@@ -26,121 +26,134 @@ CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="pinta"
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_pinta_for_nix()
-{
-    # for x86_64 / i686 / aarch64
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+# function install_pinta_for_nix()
+# {
+#     # for x86_64 / i686 / aarch64
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # 1) env-vars settings -----------------------------------------------------
-    local APP_NAME="pinta"
+#     # 1) env-vars settings -----------------------------------------------------
+#     local APP_NAME="pinta"
 
-    local mod=${1}  # multi / single
+#     local mod=${1}  # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        # multi-user
-        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
-    else
-        # single-user
-        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
-    fi
-    # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         # multi-user
+#         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+#     else
+#         # single-user
+#         local nix_env_path="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # 2) install nix -----------------------------------------------------------
-    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
-    # --------------------------------------------------------------------------
+#     # 2) install nix -----------------------------------------------------------
+#     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+#     # --------------------------------------------------------------------------
 
-    # 3) install_pinta --------------------------------------------------
-    # https://search.nixos.org/packages
-    # nix-env -iA nixpkgs.pinta
-    # nix profile add nixpkgs#pinta
-    su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
-    nix profile add nixpkgs#${APP_NAME}"
-    # --------------------------------------------------------------------------
+#     # 3) install_pinta --------------------------------------------------
+#     # https://search.nixos.org/packages
+#     # nix-env -iA nixpkgs.pinta
+#     # nix profile add nixpkgs#pinta
+#     su - ${CUR_USER} -c "source ${nix_env_path} && \
+#     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
+#     nix profile add nixpkgs#${APP_NAME}"
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
-    # return
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         return
+#     fi
+#     return
+#     # --------------------------------------------------------------------------
 
-    # 4) bins settings ---------------------------------------------------------
-    local cur_fname="";
+#     # 4) bins settings ---------------------------------------------------------
+#     local cur_fname="";
 
-    local FNAME_LIST=(\
-    "pinta" \
-    )
+#     local FNAME_LIST=(\
+#     "pinta" \
+#     )
 
-    local src_dir="${HOME_DIR}/.nix-profile/bin"
-    local dst_dir="${HOME_DIR}/.local/bin"
+#     local src_dir="${HOME_DIR}/.nix-profile/bin"
 
-    for cur_fname in "${FNAME_LIST[@]}";
-    do
-        src_path="${src_dir}/${cur_fname}";
-        if [[ ! -f ${src_path} ]]; then
-            continue
-        fi
+#     local dst_dir="${HOME_DIR}/.local/bin"
+#     if [[ ! -d ${dst_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+#     fi
 
-        dst_path="${dst_dir}/${cur_fname}";
-        if [[ -f ${dst_path} ]]; then
-            continue
-        fi
+#     for cur_fname in "${FNAME_LIST[@]}";
+#     do
+#         src_path="${src_dir}/${cur_fname}";
+#         if [[ ! -f ${src_path} ]]; then
+#             continue
+#         fi
 
-        ln -s ${src_path} ${dst_path};
-    done
-    # --------------------------------------------------------------------------
+#         dst_path="${dst_dir}/${cur_fname}";
+#         if [[ -f ${dst_path} ]]; then
+#             continue
+#         fi
 
-    # 5) icon settngs1 ---------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
-    local dst_dir="/usr/share/icons"
+#         ln -s ${src_path} ${dst_path};
+#     done
+#     # --------------------------------------------------------------------------
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -r : recursive
-        # -u : update
-        cp -ru ${src_dir}/* "${dst_dir}/"
+#     # 5) icon settngs1 ---------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+#     local dst_dir="/usr/share/icons"
 
-        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
-    fi
-    # --------------------------------------------------------------------------
+#     if [[ -d ${src_dir} ]]; then
+#         mkdir -p "${dst_dir}"
+#         # -r : recursive
+#         # -u : update
+#         cp -ru ${src_dir}/* "${dst_dir}/"
 
-    # 5) icon settngs2 ---------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/pixmaps"
-    local dst_dir="/usr/share/pixmaps"
+#         gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+#     fi
+#     # --------------------------------------------------------------------------
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -r : recursive
-        # -u : update
-        cp -ru ${src_dir}/* "${dst_dir}/"
+#     # 5) icon settngs2 ---------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/pixmaps"
+#     local dst_dir="/usr/share/pixmaps"
 
-        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
-    fi
-    # --------------------------------------------------------------------------
+#     if [[ -d ${src_dir} ]]; then
+#         mkdir -p "${dst_dir}"
+#         # -r : recursive
+#         # -u : update
+#         cp -ru ${src_dir}/* "${dst_dir}/"
 
-    # 6) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="${HOME_DIR}/.local/share/applications"
+#         gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+#     fi
+#     # --------------------------------------------------------------------------
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -u : update
-        # -L : dereference
-        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#     # 6) desktop settings ------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+#     local dst_dir="${HOME_DIR}/.local/share/applications"
 
-        update-desktop-database "${dst_dir}"
-    fi
-    # --------------------------------------------------------------------------
-}
+#     if [[ -d ${src_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
+
+#         # ----------------------------------------------------------------------
+#         # -u : update
+#         # -L : dereference
+#         cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#         chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
+#         chmod -R 744 ${dst_dir}
+#         # ----------------------------------------------------------------------
+
+#         update-desktop-database "${dst_dir}"
+#     fi
+#     # --------------------------------------------------------------------------
+# }
 
 
 function install_pinta_for_flatpak()
@@ -191,7 +204,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # distrobox를 사용한다.
         # echo "pinta is not supported for Debian"
 
-        install_pinta_for_nix "multi";
+        # install_pinta_for_nix "multi";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
+        install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+
         # install_pinta_for_flatpak;
         # ----------------------------------------------------------------------
 
@@ -210,7 +226,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # distrobox를 사용한다.
         # echo "pinta is not supported for RHEL"
 
-        install_pinta_for_nix "single";
+        # install_pinta_for_nix "single";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
+        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+
         # install_pinta_for_flatpak;
         # ----------------------------------------------------------------------
     fi

@@ -118,19 +118,18 @@ function set_hotkey_for_restoring-window()
 }
 
 
-function set_hotkey_for_tile-window-to-top()    # not used because of error
+function set_hotkey_for_tile-window-to-top()
 {
     # --------------------------------------------------------------------------
     # <openbox_config xmlns="http://openbox.org/3.4/rc">
     #     <keyboard>
     #         <keybind key="W-S-Up">
     #             <action name="UnmaximizeFull"/>
-    #             <action name="MaximizeHorz"/>
     #             <action name="MoveResizeTo">
-    #                 <width>50%</width>
-    #             </action>
-    #             <action name="MoveToEdge">
-    #                 <direction>north</direction>
+    #                 <x>+0</x>
+    #                 <y>+0</y>
+    #                 <width>100/100</width>
+    #                 <height>50/100</height>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -140,29 +139,31 @@ function set_hotkey_for_tile-window-to-top()    # not used because of error
     # --------------------------------------------------------------------------
     local hotkey="W-S-Up";
     local comment="";
-    local action2="MaximizeHorz";
-    local value4="north";
+    local value1="+0";
+    local value2="+0";
+    local value3="100/100";
+    local value4="50/100";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${action2}" "${value4}" "${LXDERC_PATH}";
+    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${value1}" "${value2}" "${value3}" "${value4}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_tile-window-to-bottom()    # not used because of error
+function set_hotkey_for_tile-window-to-bottom()
 {
     # --------------------------------------------------------------------------
     # <openbox_config xmlns="http://openbox.org/3.4/rc">
     #     <keyboard>
-    #         <keybind key="W-Left">
+    #         <keybind key="W-Down">
+    #             <action name="Unmaximize"/>
     #             <action name="UnmaximizeFull"/>
-    #             <action name="MaximizeHorz"/>
     #             <action name="MoveResizeTo">
-    #                 <width>50%</width>
-    #             </action>
-    #             <action name="MoveToEdge">
-    #                 <direction>south</direction>
+    #                 <x>-0</x>
+    #                 <y>-0</y>
+    #                 <width>100/100</width>
+    #                 <height>50/100</height>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -172,12 +173,14 @@ function set_hotkey_for_tile-window-to-bottom()    # not used because of error
     # --------------------------------------------------------------------------
     local hotkey="W-Down";
     local comment="";
-    local action2="MaximizeHorz";
-    local value4="south";
+    local value1="-0";
+    local value2="-0";
+    local value3="100/100";
+    local value4="50/100";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${action2}" "${value4}" "${LXDERC_PATH}";
+    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${value1}" "${value2}" "${value3}" "${value4}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -189,12 +192,11 @@ function set_hotkey_for_tile-window-to-left()
     #     <keyboard>
     #         <keybind key="W-Left">
     #             <action name="UnmaximizeFull"/>
-    #             <action name="MaximizeVert"/>
     #             <action name="MoveResizeTo">
-    #                 <width>50%</width>
-    #             </action>
-    #             <action name="MoveToEdge">
-    #                 <direction>west</direction>
+    #                 <x>+0</x>
+    #                 <y>+0</y>
+    #                 <width>50/100</width>
+    #                 <height>100/100</height>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -204,12 +206,14 @@ function set_hotkey_for_tile-window-to-left()
     # --------------------------------------------------------------------------
     local hotkey="W-Left";
     local comment="";
-    local action2="MaximizeVert";
-    local value4="west";
+    local value1="+0";
+    local value2="+0";
+    local value3="50/100";
+    local value4="100/100";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${action2}" "${value4}" "${LXDERC_PATH}";
+    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${value1}" "${value2}" "${value3}" "${value4}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -221,12 +225,11 @@ function set_hotkey_for_tile-window-to-right()
     #     <keyboard>
     #         <keybind key="W-Right">
     #             <action name="UnmaximizeFull"/>
-    #             <action name="MaximizeVert"/>
     #             <action name="MoveResizeTo">
-    #                 <width>50%</width>
-    #             </action>
-    #             <action name="MoveToEdge">
-    #                 <direction>east</direction>
+    #                 <x>-0</x>
+    #                 <y>+0</y>
+    #                 <width>50/100</width>
+    #                 <height>100/100</height>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -236,12 +239,14 @@ function set_hotkey_for_tile-window-to-right()
     # --------------------------------------------------------------------------
     local hotkey="W-Right";
     local comment="";
-    local action2="MaximizeVert";
-    local value4="east";
+    local value1="-0";
+    local value2="+0";
+    local value3="50/100";
+    local value4="100/100";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${action2}" "${value4}" "${LXDERC_PATH}";
+    set_hotkey_for_half-window "${LXDE_NS}" "${hotkey}" "${comment}" "${value1}" "${value2}" "${value3}" "${value4}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -260,12 +265,12 @@ function set_all_hotkey_for_window()
     set_hotkey_for_window-switching;
 
     set_hotkey_for_filling-window;
-    set_hotkey_for_restoring-window;
+    # set_hotkey_for_restoring-window;
 
-    # set_hotkey_for_tile-window-to-top
-    # set_hotkey_for_tile-window-to-bottom
-    set_hotkey_for_tile-window-to-left
-    set_hotkey_for_tile-window-to-right
+    set_hotkey_for_tile-window-to-top;
+    set_hotkey_for_tile-window-to-bottom;
+    set_hotkey_for_tile-window-to-left;
+    set_hotkey_for_tile-window-to-right;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -182,7 +182,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # fix desktop
     # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/utilities/install_freefilesync_funcs.sh && \
+    #     source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && \
     #     fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
 
     # # config (with nvidia)

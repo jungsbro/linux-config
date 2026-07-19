@@ -1,48 +1,48 @@
 super + ctrl + r
-    /usr/bin/pkill -usr1 -x sxhkd
+    pkill -usr1 -x sxhkd
 
 super + Tab
-    /usr/bin/qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut 'Overview'
+    qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut 'Overview'
 
 ctrl + Escape
-    /usr/bin/qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.activateLauncherMenu
+    qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.activateLauncherMenu
 
 alt + F2
-    /usr/bin/krunner
+    krunner
 
 super + r
-    /usr/bin/krunner
+    krunner
 
 super + s
-    /usr/bin/krunner
+    krunner
 
 ctrl + alt + Delete
-    /usr/bin/qdbus6 org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptLogout
+    qdbus6 org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptLogout
 
 super + l
-    /usr/bin/loginctl lock-session
+    loginctl lock-session
     # /usr/libexec/kscreenlocker_greet --testing
     # /usr/lib/x86_64-linux-gnu/libexec/kscreenlocker_greet --testing
 
 Print
-    /usr/bin/spectacle
+    spectacle
 
 super + p
-    /usr/bin/systemsettings kcm_kscreen
+    systemsettings kcm_kscreen
 
 ctrl + shift + Escape
-    /usr/bin/plasma-systemmonitor
+    plasma-systemmonitor
 
 super + e
-    /usr/bin/dolphin
+    dolphin
 
 super + i
-    /usr/bin/systemsettings
+    systemsettings
 
 ctrl + alt + t
-    /usr/bin/konsole
+    konsole
 
 super + x
-    /usr/bin/xkill
+    xkill
 
 

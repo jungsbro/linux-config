@@ -48,17 +48,17 @@ icon-theme='menta'
 menus-have-icons=true
 
 [desktop/keybindings/custom0]
-action='/usr/bin/rofi -show window -show-icons'
+action='rofi -show window -show-icons'
 binding='<Mod4>Tab'
 name='Expose'
 
 [desktop/keybindings/custom1]
-action='/usr/bin/gnome-system-monitor'
+action='gnome-system-monitor'
 binding='<Primary><Shift>Escape'
 name='System-monitor'
 
 [desktop/keybindings/custom2]
-action='/usr/bin/mate-control-center'
+action='mate-control-center'
 binding='<Mod4>i'
 name='System Settings'
 

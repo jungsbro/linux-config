@@ -2,6 +2,12 @@
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
+
+# ------------------------------------------------------------------------------
+# xfce4-screensaver &
+# xfconf-query -c xfce4-screensaver -p /lock/enabled -t "bool" -s "true"
+# /usr/bin/xfce4-screensaver-command --lock
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -43,7 +49,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             echo "xfce4-screensaver is not supported for Debian";
             return 0
         fi
-        [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y xfce4-screensaver;
+        [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y --no-install-recommends xfce4-screensaver;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

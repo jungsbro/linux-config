@@ -56,7 +56,7 @@ function set_hotkey_for_restarting()
     local hotkey="W-S-r";
     local comment="Keybindings for restarting-settings";
     local action="Execute";
-    local cmd="/usr/bin/openbox --reconfigure";
+    local cmd="openbox --reconfigure";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -71,7 +71,8 @@ function set_hotkey_for_expose()
     local hotkey="W-Tab";
     local comment="Keybindings for window-switching";
     local action="Execute";
-    local cmd="/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    # local cmd="rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    local cmd="skippy-xd --expose --desktop -1";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -86,7 +87,7 @@ function set_hotkey_for_menu()
     local hotkey="C-Escape";
     local comment="Keybindings for menu";
     local action="Execute";
-    local cmd="/usr/bin/lxpanelctl menu";
+    local cmd="lxpanelctl menu";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -101,7 +102,7 @@ function set_hotkey_for_launcher()
     local hotkey="A-F2";
     local comment="Keybindings for launcher";
     local action="Execute";
-    local cmd="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    local cmd="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -116,7 +117,7 @@ function set_hotkey_for_rundialog()
     local hotkey="W-r";
     local comment="";
     local action="Execute";
-    local cmd="/usr/bin/lxpanelctl run";
+    local cmd="lxpanelctl run";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -131,7 +132,7 @@ function set_hotkey_for_searchdialog()
     local hotkey="W-s";
     local comment="";
     local action="Execute";
-    local cmd="/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    local cmd="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -146,7 +147,7 @@ function set_hotkey_for_logout()
     local hotkey="A-C-Delete";
     local comment="Keybindings for logout";
     local action="Execute";
-    local cmd="/usr/bin/lxde-logout";
+    local cmd="lxde-logout";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -161,7 +162,7 @@ function set_hotkey_for_lock()
     local hotkey="W-l";
     local comment="Keybindings for lock";
     local action="Execute";
-    local cmd="/usr/bin/lxlock";
+    local cmd="lxlock";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -176,7 +177,7 @@ function set_hotkey_for_screenshot()
     local hotkey="Print";
     local comment="Keybindings for screenshot";
     local action="Execute";
-    local cmd="/usr/bin/gnome-screenshot -i";
+    local cmd="gnome-screenshot -i";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -191,7 +192,7 @@ function set_hotkey_for_displaysettings()
     local hotkey="W-p";
     local comment="Keybindings for display-settings";
     local action="Execute";
-    local cmd="/usr/bin/lxrandr";
+    local cmd="lxrandr";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -206,7 +207,7 @@ function set_hotkey_for_taskmanager()
     local hotkey="S-C-Escape";
     local comment="Keybindings for taskmanager";
     local action="Execute";
-    local cmd="/usr/bin/lxtask";
+    local cmd="lxtask";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -221,7 +222,7 @@ function set_hotkey_for_filemanager()
     local hotkey="W-e";
     local comment="Keybindings for file-manager";
     local action="Execute";
-    local cmd="/usr/bin/pcmanfm";
+    local cmd="pcmanfm";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -236,7 +237,7 @@ function set_hotkey_for_controlcenter()
     local hotkey="W-i";
     local comment="Keybindings for control-center";
     local action="Execute";
-    local cmd="/usr/bin/python3 ~/.local/bin/lxcc.py";
+    local cmd="python3 ~/.local/bin/lxcc.py";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -251,7 +252,7 @@ function set_hotkey_for_terminal()
     local hotkey="C-A-t";
     local comment="Keybindings for set_hotkey_for_terminal";
     local action="Execute";
-    local cmd="/usr/bin/lxterminal";
+    local cmd="lxterminal";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -266,7 +267,7 @@ function set_hotkey_for_xkill()
     local hotkey="W-x";
     local comment="Keybindings for set_hotkey_for_xkill";
     local action="Execute";
-    local cmd="/usr/bin/xkill";
+    local cmd="xkill";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

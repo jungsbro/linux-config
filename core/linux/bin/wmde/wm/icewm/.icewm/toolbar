@@ -9,11 +9,11 @@
 # prog    "WWW" ! x-www-browser
 
 # ------------------------------------------------------------------------------
-prog "Google Chrome" "google-chrome" /usr/bin/google-chrome
-prog "Firefox" "firefox-esr" /usr/bin/firefox
-prog "Doubelcmd" "doublecmd" /usr/bin/doublecmd
-prog "Terminal" "org.xfce.terminal" /usr/bin/xfce4-terminal
-prog "Mousepad" "org.xfce.mousepad" /usr/bin/mousepad
-prog "VSCode" "vscode" /usr/bin/code
-prog "Drawing" "com.github.maoschanz.drawing" /usr/bin/drawing
+prog "Google Chrome" "google-chrome" google-chrome
+prog "Firefox" "firefox-esr" firefox
+prog "Doubelcmd" "doublecmd" doublecmd
+prog "Terminal" "org.xfce.terminal" xfce4-terminal
+prog "Mousepad" "org.xfce.mousepad" mousepad
+prog "VSCode" "vscode" code
+prog "Drawing" "com.github.maoschanz.drawing" drawing
 # ------------------------------------------------------------------------------

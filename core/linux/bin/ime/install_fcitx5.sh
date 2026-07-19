@@ -33,99 +33,109 @@ APP_NAME="fcitx5"
 # org.fcitx.Fcitx5
 APP_UNIQUE_NAME="org.fcitx.${APP_NAME}"
 
-APP_GRP="Settings;System;"
+APP_CAT="Settings;System;"
+
+APP_HIDDEN="false"
+
+IME_ENV_CMD='
+# ------------------------------------------------------------------------------
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx5
+export XMODIFIERS="@im=fcitx5"
+# ------------------------------------------------------------------------------
+'
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_fcitx5_env()
-{
-    # args ---------------------------------------------------------------------
-    # ${ENV_CONF_PATH}
-    # --------------------------------------------------------------------------
+# function set_fcitx5_env()
+# {
+#     # args ---------------------------------------------------------------------
+#     # ${ENV_CONF_PATH}
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # local ENV_CONF_PATH="${HOME_DIR}/.xprofile";
-    # local ENV_CONF_PATH="${HOME_DIR}/.xsession";
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     # local ENV_CONF_PATH="${HOME_DIR}/.xprofile";
+#     # local ENV_CONF_PATH="${HOME_DIR}/.xsession";
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    local CONF_CMD='#!/bin/bash
-export GTK_IM_MODULE=fcitx5
-export QT_IM_MODULE=fcitx5
-export XMODIFIERS="@im=fcitx5"
-'
-    # GNOME,KDE는 ~/.config/environment.d/*.conf 에서 잘된다.
-    # 전통/경량 DE는 ~/.xprofile(x11), ~/.xsession(x11), ~/.profile(wayland)에서 잘된다.
-    if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
+#     # --------------------------------------------------------------------------
+#     local CONF_CMD='#!/bin/bash
+# export GTK_IM_MODULE=fcitx5
+# export QT_IM_MODULE=fcitx5
+# export XMODIFIERS="@im=fcitx5"
+# '
+#     # GNOME,KDE는 ~/.config/environment.d/*.conf 에서 잘된다.
+#     # 전통/경량 DE는 ~/.xprofile(x11), ~/.xsession(x11), ~/.profile(wayland)에서 잘된다.
+#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
-        if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
-            CONF_CMD="${CONF_CMD}exec startlxde"
+#         if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
+#             CONF_CMD="${CONF_CMD}exec startlxde"
 
-        elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
-            CONF_CMD="${CONF_CMD}exec startlxqt"
+#         elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+#             CONF_CMD="${CONF_CMD}exec startlxqt"
 
-        elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
-            CONF_CMD="${CONF_CMD}exec startxfce4"
+#         elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
+#             CONF_CMD="${CONF_CMD}exec startxfce4"
 
-        elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
-            CONF_CMD="${CONF_CMD}exec mate-session"
+#         elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
+#             CONF_CMD="${CONF_CMD}exec mate-session"
 
-        elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
-            CONF_CMD="${CONF_CMD}exec gnome-session"
+#         elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
+#             CONF_CMD="${CONF_CMD}exec gnome-session"
 
-        elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
-            CONF_CMD="${CONF_CMD}exec cinnamon-session"
+#         elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
+#             CONF_CMD="${CONF_CMD}exec cinnamon-session"
 
-        elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
-            CONF_CMD="${CONF_CMD}exec startplasma-x11"
-        fi
-    fi
-    # --------------------------------------------------------------------------
+#         elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+#             CONF_CMD="${CONF_CMD}exec startplasma-x11"
+#         fi
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo \"${CONF_CMD}\" > ${ENV_CONF_PATH}";
+#     # --------------------------------------------------------------------------
+#     su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo \"${CONF_CMD}\" > ${ENV_CONF_PATH}";
 
-    if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
-        su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
-    fi
-    # --------------------------------------------------------------------------
-}
+#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
+#         su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
+#     fi
+#     # --------------------------------------------------------------------------
+# }
 
-function set_desktop()
-{
-    # args ---------------------------------------------------------------------
-    # ${CUR_USER}
-    # ${APP_NAME}
-    # ${EXEC_PATH}
-    # ${ICON_PATH}
-    # ${APP_GRP}
-    # ${DESKTOP_PATH}
-    # --------------------------------------------------------------------------
+# function set_desktop()
+# {
+#     # args ---------------------------------------------------------------------
+#     # ${CUR_USER}
+#     # ${APP_NAME}
+#     # ${EXEC_PATH}
+#     # ${ICON_PATH}
+#     # ${APP_CAT}
+#     # ${DESKTOP_PATH}
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
 
-    local DESKTOP_CMD="[Desktop Entry]
-Type=Application
-Name=${APP_NAME}
-Exec=${EXEC_PATH}
-Icon=${ICON_PATH}
-Categories=${APP_GRP}
-Terminal=false"
+#     local DESKTOP_CMD="[Desktop Entry]
+# Type=Application
+# Name=${APP_NAME}
+# Exec=${EXEC_PATH}
+# Icon=${ICON_PATH}
+# Categories=${APP_CAT}
+# Terminal=false"
 
-    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/fcitx5.desktop
-        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-    else
-        # /usr/share/applications/fcitx5.desktop
-        echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-    fi
-}
+#     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
+#         # ~/.local/share/applications/fcitx5.desktop
+#         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
+#     else
+#         # /usr/share/applications/fcitx5.desktop
+#         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
+#     fi
+# }
 
 function set_fcitx5_autostart()
 {
@@ -136,17 +146,20 @@ function set_fcitx5_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local EXEC_PATH="${APP_NAME}"
-    local ICON_PATH="/usr/share/icons/hicolor/128x128/apps/${APP_UNIQUE_NAME}.png"
+    local exec_path="${APP_NAME}"
 
-    local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
+    # local icon_path="/usr/share/icons/hicolor/128x128/apps/${APP_UNIQUE_NAME}.png"
+    local icon_path="${APP_UNIQUE_NAME}"
 
-    local DESKTOP_PATH="${DESKTOP_DIR}/${APP_NAME}.desktop"
+    local desktop_dir="${HOME_DIR}/.config/autostart"
+    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+
+    local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_desktop;
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
+    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -160,9 +173,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
-            [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-qt;
+            [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm \
+            fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-qt;
         else
-            [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk;
+            [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm \
+            fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk;
         fi
 
         # 방법2)
@@ -181,9 +196,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
         # 방법3)
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-qt* fcitx5-module-dbus;
+            [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y \
+            fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-qt* fcitx5-module-dbus;
         else
-            [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-module-dbus;
+            [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y \
+            fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-module-dbus;
         fi
 
         # ----------------------------------------------------------------------
@@ -202,8 +219,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     # --------------------------------------------------------------------------
-    ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    set_fcitx5_env;
+    # ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+    # set_fcitx5_env;
+    source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     set_fcitx5_autostart;
     # --------------------------------------------------------------------------

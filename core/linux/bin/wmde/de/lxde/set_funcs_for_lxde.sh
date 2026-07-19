@@ -10,11 +10,11 @@
 
 # for window
 # set_hotkey_for_window ${ns} ${hotkey} ${comment} ${action} ${dst_path};
-# set_hotkey_for_half-window ${ns} ${hotkey} ${comment} ${action2} ${value4} ${dst_path};
+# set_hotkey_for_half-window ${ns} ${hotkey} ${comment} ${value1} ${value2} ${value3} ${value4} ${dst_path};
 
 # for workspace
-# set_hotkey_for_ws_akey_movement ${ns} ${hotkey} ${comment} ${action} ${dst_path}
-# set_hotkey_for_ws_fkey_movement ${ns} ${hotkey} ${comment} ${ws_num} ${dst_path}
+# set_hotkey_for_ws ${ns} ${hotkey} ${comment} ${action} ${key1} ${value1} ${dst_path}
+# set_hotkey_for_going-to-desktop ${ns} ${hotkey} ${comment} ${ws_num} ${dst_path}
 
 # for app
 # set_hotkey_for_app ${ns} ${hotkey} ${comment} ${action} ${cmd} ${dst_path};
@@ -25,14 +25,14 @@
 
 # for window
 # set_hotkey_for_window "http://openbox.org/3.4/rc" "A-Tab" "Keybindings for window switching" "NextWindow" "" "${HOME}/.config/openbox/lxde-rc.xml";
-# set_hotkey_for_half-window "http://openbox.org/3.4/rc" "S-Left" "Keybindings for lrud-window" "Maximizevert" "west" "${HOME}/.config/openbox/lxde-rc.xml";
+# set_hotkey_for_half-window "http://openbox.org/3.4/rc" "W-Left" "Keybindings for window-tiling" "+0" "+0" "50/100" "100/100" "${HOME}/.config/openbox/lxde-rc.xml";
 
 # for workspace
-# set_hotkey_for_ws_akey_movement "http://openbox.org/3.4/rc" "W-C-Left" "Keybindings for akey-workspace" "DesktopLeft" "${HOME}/.config/openbox/lxde-rc.xml";
-# set_hotkey_for_ws_fkey_movement "http://openbox.org/3.4/rc" "W-F1" "Keybindings for fkey-workspace" "1" "${HOME}/.config/openbox/lxde-rc.xml";
+# set_hotkey_for_ws "http://openbox.org/3.4/rc" "W-C-Left" "Keybindings for akey-workspace" "DesktopLeft" "dialog" "no" "${HOME}/.config/openbox/lxde-rc.xml";
+# set_hotkey_for_going-to-desktop "http://openbox.org/3.4/rc" "W-F1" "Keybindings for fkey-workspace" "1" "${HOME}/.config/openbox/lxde-rc.xml";
 
 # for app
-# set_hotkey_for_app "http://openbox.org/3.4/rc" "C-A-t" "Keybindings for terminal" "Execute" "/usr/bin/lxterminal" "${HOME}/.config/openbox/lxde-rc.xml";
+# set_hotkey_for_app "http://openbox.org/3.4/rc" "C-A-t" "Keybindings for terminal" "Execute" "lxterminal" "${HOME}/.config/openbox/lxde-rc.xml";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -142,12 +142,11 @@ function set_hotkey_for_half-window()
     #     <keyboard>
     #         <keybind key="W-Left">
     #             <action name="UnmaximizeFull"/>
-    #             <action name="MaximizeVert"/>
     #             <action name="MoveResizeTo">
-    #                 <width>50%</width>
-    #             </action>
-    #             <action name="MoveToEdge">
-    #                 <direction>west</direction>
+    #                 <x>+0</x>
+    #                 <y>+0</y>
+    #                 <width>50/100</width>
+    #                 <height>100/100</height>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -155,26 +154,27 @@ function set_hotkey_for_half-window()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # W-Left / W-Right
+    # W-S-Up / W-Dwon / W-Left / W-Right
     local ns=${1}
     local hotkey=${2};
     local comment=${3};
 
     local action1="UnmaximizeFull";
 
-    # MaximizeVert / MaximizeHorz
-    local action2=${4};
+    local action2="MoveResizeTo";
+    local key1="x";
+    local value1=${4};
 
-    local action3="MoveResizeTo";
+    local key2="y";
+    local value2=${5};
+
     local key3="width";
-    local value3='50%';
+    local value3=${6};
 
-    local action4="MoveToEdge";
-    local key4="direction";
-    # west / east / north / south
-    local value4=${5};
+    local key4="height";
+    local value4=${7};
 
-    local dst_path=${6}
+    local dst_path=${8}
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -219,37 +219,23 @@ function set_hotkey_for_half-window()
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]" \
     -t elem -n "action" -v "" "${dst_path}";
 
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t attr -n "name" -v "MaximizeVert" ./lxde-rc.xml
-    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t attr -n "name" -v "${action2}" "${dst_path}";
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # 3) 방금 만든 <keybind> 밑에 <action> 생성3
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]" -t elem -n "action" -v "" ./lxde-rc.xml
-    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]" \
-    -t elem -n "action" -v "" "${dst_path}";
-
     # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t attr -n "name" -v "MoveResizeTo" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t attr -n "name" -v "${action3}" "${dst_path}";
+    -t attr -n "name" -v "${action2}" "${dst_path}";
 
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "width" -v '50%' ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "x" -v '+0' ./lxde-rc.xml
+    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
+    -t elem -n "${key1}" -v "${value1}" "${dst_path}";
+
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "y" -v '+0' ./lxde-rc.xml
+    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
+    -t elem -n "${key2}" -v "${value2}" "${dst_path}";
+
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "width" -v '50/100' ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
     -t elem -n "${key3}" -v "${value3}" "${dst_path}";
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # 3) 방금 만든 <keybind> 밑에 <action> 생성4
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]" -t elem -n "action" -v "" ./lxde-rc.xml
-    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]" \
-    -t elem -n "action" -v "" "${dst_path}";
-
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t attr -n "name" -v "MoveToEdge" ./lxde-rc.xml
-    xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t attr -n "name" -v "${action4}" "${dst_path}";
-
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "direction" -v "west" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "height" -v '100/100' ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
     -t elem -n "${key4}" -v "${value4}" "${dst_path}";
     # --------------------------------------------------------------------------
@@ -259,7 +245,7 @@ function set_hotkey_for_half-window()
 
 
 # Funcs for workspace ==========================================================
-function set_hotkey_for_ws_akey_movement()
+function set_hotkey_for_ws()
 {
     # --------------------------------------------------------------------------
     # workspace movement with arrow-keys
@@ -277,7 +263,7 @@ function set_hotkey_for_ws_akey_movement()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # app to workspace
+    # app to workspace with arrow-keys
     #
     # <openbox_config xmlns="http://openbox.org/3.4/rc">
     #     <keyboard>
@@ -291,12 +277,29 @@ function set_hotkey_for_ws_akey_movement()
     # </openbox_config>
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # app to workspace with function-keys
+    #
+    # <openbox_config xmlns="http://openbox.org/3.4/rc">
+    #     <keyboard>
+    #         <keybind key="W-S-F1">
+    #             <action name="SendToDesktop">
+    #                 <to>1</to>
+    #                 <wrap>no</wrap>
+    #             </action>
+    #         </keybind>
+    #     </keyboard>
+    # </openbox_config>
+    # --------------------------------------------------------------------------
+
     # env ----------------------------------------------------------------------
     local ns=${1}
     local hotkey=${2}
     local comment=${3}
     local action=${4}
-    local dst_path=${5}
+    local key1=${5}
+    local value1=${6}
+    local dst_path=${7}
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -344,19 +347,19 @@ function set_hotkey_for_ws_akey_movement()
     -t attr -n "name" -v "${action}" "${dst_path}"
 
     # 5) 방금 만든 <action> 밑에, dialog 주입
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "dialog" -v "/usr/bin/lxterminal" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "dialog" -v "no" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t elem -n "dialog" -v "no" "${dst_path}"
+    -t elem -n "${key1}" -v "${value1}" "${dst_path}"
 
     # 6) 방금 만든 <action> 밑에, wrap 주입
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "wrap" -v "/usr/bin/lxterminal" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "wrap" -v "no" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
     -t elem -n "wrap" -v "no" "${dst_path}"
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_ws_fkey_movement()
+function set_hotkey_for_going-to-desktop()
 {
     # --------------------------------------------------------------------------
     # workspace movement with function-keys
@@ -364,8 +367,8 @@ function set_hotkey_for_ws_fkey_movement()
     # <openbox_config xmlns="http://openbox.org/3.4/rc">
     #     <keyboard>
     #         <keybind key="W-F1">
-    #             <action name="Desktop">
-    #                 <desktop>1</desktop>
+    #             <action name="GoToDesktop">
+    #                 <to>1</to>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -416,14 +419,14 @@ function set_hotkey_for_ws_fkey_movement()
     -t elem -n "action" -v "" "${dst_path}"
 
     # 4) 방금 만든 <action> 밑에, name 주입
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t attr -n "name" -v "Desktop" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t attr -n "name" -v "GoToDesktop" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t attr -n "name" -v "Desktop" "${dst_path}"
+    -t attr -n "name" -v "GoToDesktop" "${dst_path}"
 
     # 5) 방금 만든 <action> 밑에, workspace number 주입
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "desktop" -v "1" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "to" -v "1" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
-    -t elem -n "desktop" -v "${ws_num}" "${dst_path}"
+    -t elem -n "to" -v "${ws_num}" "${dst_path}"
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -439,7 +442,7 @@ function set_hotkey_for_app()
     #         <!-- Keybindings for terminal -->
     #         <keybind key="C-A-t">
     #             <action name="Execute">
-    #                 <command>/usr/bin/lxterminal</command>
+    #                 <command>lxterminal</command>
     #             </action>
     #         </keybind>
     #     </keyboard>
@@ -511,7 +514,7 @@ function set_hotkey_for_app()
     -t attr -n "name" -v "${action}" "${dst_path}"
 
     # 5) 방금 만든 <action> 밑에, command 주입
-    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "command" -v "/usr/bin/lxterminal" ./lxde-rc.xml
+    # xmlstarlet ed -L -N x="http://openbox.org/3.4/rc" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" -t elem -n "command" -v "lxterminal" ./lxde-rc.xml
     xmlstarlet ed -L -N x="${ns}" -s "//x:keyboard/x:keybind[last()]/x:action[last()]" \
     -t elem -n "command" -v "${cmd}" "${dst_path}"
     # --------------------------------------------------------------------------

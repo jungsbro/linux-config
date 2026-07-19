@@ -39,7 +39,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^mate-calc) ]] || apt install -y mate-calc;
+        [[ -n $(apt list --installed | grep -i ^mate-calc) ]] || apt install -y --no-install-recommends mate-calc;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

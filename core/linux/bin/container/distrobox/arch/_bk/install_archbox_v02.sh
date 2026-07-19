@@ -146,7 +146,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
 # config (sudo로 실행하면 password를 묻지 않는다.)
 distrobox enter ${CTR_NAME} -- bash -c "\
-    source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+    source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
     config_redshift ${CUR_USER} && \
     set_redshift_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
 # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
 distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
+    source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
     install_photogimp ${CUR_USER}"
 # ------------------------------------------------------------------------------
 

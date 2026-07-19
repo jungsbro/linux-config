@@ -33,99 +33,110 @@ APP_NAME="kime"
 # com.github.riey.kime
 APP_UNIQUE_NAME="com.github.riey.${APP_NAME}"
 
-APP_GRP="Settings;System;"
+APP_CAT="Settings;System;"
+
+APP_HIDDEN="false";
 
 APP_VER="v3.1.1"
+
+IME_ENV_CMD='
+# ------------------------------------------------------------------------------
+export GTK_IM_MODULE=xim
+export QT_IM_MODULE=xim
+export XMODIFIERS="@im=kime"
+# ------------------------------------------------------------------------------
+'
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Func : x86_64, i686, aarch64 =================================================
-function set_kime_env()
-{
-    # args ---------------------------------------------------------------------
-    # ${ENV_CONF_PATH}
-    # --------------------------------------------------------------------------
+# function set_kime_env()
+# {
+#     # args ---------------------------------------------------------------------
+#     # ${ENV_CONF_PATH}
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # local ENV_CONF_PATH="${HOME_DIR}/.xprofile";
-    # local ENV_CONF_PATH="${HOME_DIR}/.xsession";
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     # local ENV_CONF_PATH="${HOME_DIR}/.xprofile";
+#     # local ENV_CONF_PATH="${HOME_DIR}/.xsession";
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    local CONF_CMD='#!/bin/bash
-export GTK_IM_MODULE=xim
-export QT_IM_MODULE=xim
-export XMODIFIERS="@im=kime"
-'
-    if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
+#     # --------------------------------------------------------------------------
+#     local CONF_CMD='#!/bin/bash
+# export GTK_IM_MODULE=xim
+# export QT_IM_MODULE=xim
+# export XMODIFIERS="@im=kime"
+# '
+#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
 
-        if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
-            CONF_CMD="${CONF_CMD}exec startlxde"
+#         if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
+#             CONF_CMD="${CONF_CMD}exec startlxde"
 
-        elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
-            CONF_CMD="${CONF_CMD}exec startlxqt"
+#         elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+#             CONF_CMD="${CONF_CMD}exec startlxqt"
 
-        elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
-            CONF_CMD="${CONF_CMD}exec startxfce4"
+#         elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
+#             CONF_CMD="${CONF_CMD}exec startxfce4"
 
-        elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
-            CONF_CMD="${CONF_CMD}exec mate-session"
+#         elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
+#             CONF_CMD="${CONF_CMD}exec mate-session"
 
-        elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
-            CONF_CMD="${CONF_CMD}exec gnome-session"
+#         elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
+#             CONF_CMD="${CONF_CMD}exec gnome-session"
 
-        elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
-            CONF_CMD="${CONF_CMD}exec cinnamon-session"
+#         elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
+#             CONF_CMD="${CONF_CMD}exec cinnamon-session"
 
-        elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
-            CONF_CMD="${CONF_CMD}exec startplasma-x11"
-        fi
-    fi
-    # --------------------------------------------------------------------------
+#         elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+#             CONF_CMD="${CONF_CMD}exec startplasma-x11"
+#         fi
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo '${CONF_CMD}' > ${ENV_CONF_PATH}";
+#     # --------------------------------------------------------------------------
+#     su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo '${CONF_CMD}' > ${ENV_CONF_PATH}";
 
-    if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
-        su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
-    fi
-    # --------------------------------------------------------------------------
-}
+#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
+#         su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
+#     fi
+#     # --------------------------------------------------------------------------
+# }
 
-function set_desktop()
-{
-    # args ---------------------------------------------------------------------
-    # ${CUR_USER}
-    # ${APP_NAME}
-    # ${EXEC_PATH}
-    # ${ICON_PATH}
-    # ${APP_GRP}
-    # ${DESKTOP_PATH}
-    # --------------------------------------------------------------------------
+# function set_desktop()
+# {
+#     # args ---------------------------------------------------------------------
+#     # ${CUR_USER}
+#     # ${APP_NAME}
+#     # ${EXEC_PATH}
+#     # ${ICON_PATH}
+#     # ${APP_CAT}
+#     # ${DESKTOP_PATH}
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
 
-    local DESKTOP_CMD="[Desktop Entry]
-Type=Application
-Name=${APP_NAME}
-Exec=${EXEC_PATH}
-Icon=${ICON_PATH}
-Categories=${APP_GRP}
-Terminal=false"
+#     local DESKTOP_CMD="[Desktop Entry]
+# Type=Application
+# Name=${APP_NAME}
+# Exec=${EXEC_PATH}
+# Icon=${ICON_PATH}
+# Categories=${APP_CAT}
+# Terminal=false"
 
-    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/kime.desktop
-        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-    else
-        # /usr/share/applications/kime.desktop
-        echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-    fi
-}
+#     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
+#         # ~/.local/share/applications/kime.desktop
+#         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
+#     else
+#         # /usr/share/applications/kime.desktop
+#         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
+#     fi
+# }
+
 
 function set_kime_autostart()
 {
@@ -140,18 +151,21 @@ function set_kime_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local EXEC_PATH="sh -c 'kime-xdg-autostart'"
-    # local ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-    # local ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+    local exec_path="sh -c 'kime-xdg-autostart'"
 
-    local DESKTOP_DIR="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${DESKTOP_DIR} ]] || mkdir -p ${DESKTOP_DIR}";
+    # local icon_path="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+    # local icon_path="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
+    local icon_path="kime-hangul-black";
 
-    local DESKTOP_PATH="${DESKTOP_DIR}/${APP_NAME}.desktop"
+    local desktop_dir="${HOME_DIR}/.config/autostart"
+    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+
+    local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_desktop;
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
+    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -172,9 +186,9 @@ function set_kime_hotkey()
     # local SRC_HOTKEY_PATH="~/.nix-profile/share/doc/kime/default_config.yaml";
 
     # ~/.config/kime/config.yaml
-    local DST_HOTKEY_DIR="${HOME_DIR}/.config/kime";
-    local DST_HOTKEY_PATH="${DST_HOTKEY_DIR}/config.yaml";
-    local TMP_HOTKEY_PATH="${DST_HOTKEY_DIR}/tmp.yaml";
+    local dst_hotkey_dir="${HOME_DIR}/.config/kime";
+    local dst_hotkey_path="${dst_hotkey_dir}/config.yaml";
+    local tmp_hotkey_path="${dst_hotkey_dir}/tmp.yaml";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -182,116 +196,125 @@ function set_kime_hotkey()
         return
     fi
 
-    su - ${CUR_USER} -c "[[ -d ${DST_HOTKEY_DIR} ]] || mkdir -p ${DST_HOTKEY_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${DST_HOTKEY_PATH} ]] || cp -f ${SRC_HOTKEY_PATH} ${DST_HOTKEY_PATH}";
+    su - ${CUR_USER} -c "[[ -d ${dst_hotkey_dir} ]] || mkdir -p ${dst_hotkey_dir}";
+    su - ${CUR_USER} -c "[[ -f ${dst_hotkey_path} ]] || cp -f ${SRC_HOTKEY_PATH} ${dst_hotkey_path}";
 
-    su - ${CUR_USER} -c "sed 's/Super-Space/S-Space/g' ${DST_HOTKEY_PATH} > ${TMP_HOTKEY_PATH}";
-    su - ${CUR_USER} -c "mv -f ${TMP_HOTKEY_PATH} ${DST_HOTKEY_PATH}";
+    su - ${CUR_USER} -c "sed 's/Super-Space/S-Space/g' ${dst_hotkey_path} > ${tmp_hotkey_path}";
+    su - ${CUR_USER} -c "mv -f ${tmp_hotkey_path} ${dst_hotkey_path}";
     # --------------------------------------------------------------------------
 }
 
-function install_kime_for_nix()
-{
-    # for x86_64 / i686 / aarch64
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+# function install_kime_for_nix()
+# {
+#     # for x86_64 / i686 / aarch64
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # 1) env-vars settings -----------------------------------------------------
-    local APP_NAME="kime"
+#     # 1) env-vars settings -----------------------------------------------------
+#     local APP_NAME="kime"
 
-    local mod=${1}  # multi / single
+#     local mod=${1}  # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        # multi-user
-        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
-    else
-        # single-user
-        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
-    fi
-    # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         # multi-user
+#         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+#     else
+#         # single-user
+#         local nix_env_path="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # 2) install nix -----------------------------------------------------------
-    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
-    # --------------------------------------------------------------------------
+#     # 2) install nix -----------------------------------------------------------
+#     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+#     # --------------------------------------------------------------------------
 
-    # 3) install_kime ----------------------------------------------------------
-    # https://search.nixos.org/packages
-    # nix-env -iA nixpkgs.kime
-    # nix profile add nixpkgs#kime
-    su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
-    nix profile add nixpkgs#${APP_NAME}"
-    # --------------------------------------------------------------------------
+#     # 3) install_kime ----------------------------------------------------------
+#     # https://search.nixos.org/packages
+#     # nix-env -iA nixpkgs.kime
+#     # nix profile add nixpkgs#kime
+#     su - ${CUR_USER} -c "source ${nix_env_path} && \
+#     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
+#     nix profile add nixpkgs#${APP_NAME}"
+#     # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
-    # return
-    # --------------------------------------------------------------------------
+#     # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         return
+#     fi
+#     return
+#     # --------------------------------------------------------------------------
 
-    # 4) bins settings ---------------------------------------------------------
-    local cur_fname="";
+#     # 4) bins settings ---------------------------------------------------------
+#     local cur_fname="";
 
-    local FNAME_LIST=(\
-    "kime" \
-    "kime-check" \
-    "kime-indicator" \
-    "kime-wayland" \
-    "kime-xdg-autostart" \
-    "kime-xim" \
-    )
+#     local FNAME_LIST=(\
+#     "kime" \
+#     "kime-check" \
+#     "kime-indicator" \
+#     "kime-wayland" \
+#     "kime-xdg-autostart" \
+#     "kime-xim" \
+#     )
 
-    local src_dir="${HOME_DIR}/.nix-profile/bin"
-    local dst_dir="${HOME_DIR}/.local/bin"
+#     local src_dir="${HOME_DIR}/.nix-profile/bin"
 
-    for cur_fname in "${FNAME_LIST[@]}";
-    do
-        src_path="${src_dir}/${cur_fname}";
-        if [[ ! -f ${src_path} ]]; then
-            continue
-        fi
+#     local dst_dir="${HOME_DIR}/.local/bin"
+#     if [[ ! -d ${dst_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+#     fi
 
-        dst_path="${dst_dir}/${cur_fname}";
-        if [[ -f ${dst_path} ]]; then
-            continue
-        fi
+#     for cur_fname in "${FNAME_LIST[@]}";
+#     do
+#         src_path="${src_dir}/${cur_fname}";
+#         if [[ ! -f ${src_path} ]]; then
+#             continue
+#         fi
 
-        ln -s ${src_path} ${dst_path};
-    done
-    # --------------------------------------------------------------------------
+#         dst_path="${dst_dir}/${cur_fname}";
+#         if [[ -f ${dst_path} ]]; then
+#             continue
+#         fi
 
-    # 5) icon settngs ----------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
-    local dst_dir="/usr/share/icons"
+#         ln -s ${src_path} ${dst_path};
+#     done
+#     # --------------------------------------------------------------------------
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -r : recursive
-        # -u : update
-        cp -ru ${src_dir}/* "${dst_dir}/"
+#     # 5) icon settngs ----------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+#     local dst_dir="/usr/share/icons"
 
-        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
-    fi
-    # --------------------------------------------------------------------------
+#     if [[ -d ${src_dir} ]]; then
+#         mkdir -p "${dst_dir}"
+#         # -r : recursive
+#         # -u : update
+#         cp -ru ${src_dir}/* "${dst_dir}/"
 
-    # 6) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="${HOME_DIR}/.local/share/applications"
+#         gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+#     fi
+#     # --------------------------------------------------------------------------
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -u : update
-        # -L : dereference
-        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#     # 6) desktop settings ------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+#     local dst_dir="${HOME_DIR}/.local/share/applications"
 
-        update-desktop-database "${dst_dir}"
-    fi
-    # --------------------------------------------------------------------------
-}
+#     if [[ -d ${src_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
+
+#         # ----------------------------------------------------------------------
+#         # -u : update
+#         # -L : dereference
+#         cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#         chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
+#         chmod -R 744 ${dst_dir}
+#         # ----------------------------------------------------------------------
+
+#         update-desktop-database "${dst_dir}"
+#     fi
+#     # --------------------------------------------------------------------------
+# }
 # ==============================================================================
 
 
@@ -317,11 +340,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};
             # ------------------------------------------------------------------
-            ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-            set_kime_env;
+            # ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+            # set_kime_env;
+            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-            ICON_PATH="kime-hangul-black.png";
+            # ICON_PATH="kime-hangul-black.png";
             set_kime_autostart;
             # ------------------------------------------------------------------
             SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
@@ -338,11 +362,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};
             # ------------------------------------------------------------------
-            ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-            set_kime_env;
+            # ENV_CONF_PATH="${HOME_DIR}/.xprofile"
+            # set_kime_env;
+            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-            ICON_PATH="kime-hangul-black.png";
+            # ICON_PATH="kime-hangul-black.png";
             set_kime_autostart;
             # ------------------------------------------------------------------
             SRC_HOTKEY_PATH="/usr/share/doc/kime/default_config.yaml";
@@ -353,13 +378,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
             # ------------------------------------------------------------------
-            install_kime_for_nix "single";
+            # install_kime_for_nix "single";
+            source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
+            install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
             # ------------------------------------------------------------------
-            ENV_CONF_PATH="${HOME_DIR}/.xsession"
-            set_kime_env;
+            # ENV_CONF_PATH="${HOME_DIR}/.xsession"
+            # set_kime_env;
+            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
-            ICON_PATH="kime-hangul-black.png";
+            # ICON_PATH="kime-hangul-black.png";
             set_kime_autostart;
             # ------------------------------------------------------------------
             SRC_HOTKEY_PATH="${HOME_DIR}/.nix-profile/share/doc/kime/default_config.yaml";
@@ -370,3 +398,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
 fi
 # ==============================================================================
+

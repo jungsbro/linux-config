@@ -34,9 +34,18 @@ CUR_WMDE=$(ls /usr/bin/*session);
 function install_pkgs_for_de()
 {
     # --------------------------------------------------------------------------
-    # editor
-    bash ${CORE_BIN_DIR}/stredit/install_crudini.sh;
-    bash ${CORE_BIN_DIR}/stredit/install_xmlstarlet.sh;
+    # develop
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+    bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
+
+    bash ${CORE_BIN_DIR}/develop/install_glib2.sh;
+    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
+
+    bash ${CORE_BIN_DIR}/develop/install_yad.sh;
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
+    bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # launcher
     # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
@@ -55,10 +64,10 @@ function install_pkgs_for_de()
 
         # 방법2)
         # bash ${CORE_BIN_DIR}/screenshot/install_xfce4-screenshooter.sh;
-        # bash ${CORE_BIN_DIR}/screenshot/install_xfce4-clipman.sh;
+        # bash ${CORE_BIN_DIR}/clipboard/install_xfce4-clipman.sh;
         # ----------------------------------------------------------------------
         # expose
-        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # hotkey
         bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
@@ -66,11 +75,11 @@ function install_pkgs_for_de()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # theme
-        bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
+        bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
-        bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
+        bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # terminal
         bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh ${CUR_USER};
@@ -85,7 +94,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # expose
-        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # hotkey
         # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
@@ -96,7 +105,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
-        bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh;
+        bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # terminal
         bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh ${CUR_USER};
@@ -132,7 +141,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;
 
         # 하드웨어 및 전원관리
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-pulseaudio-plugin.sh;
+        bash ${CORE_BIN_DIR}/audio/install_xfce4-pulseaudio-plugin.sh;
 
         # 시스템 모니터링
         bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
@@ -150,7 +159,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # expose
-        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # panel
         # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
@@ -162,7 +171,7 @@ function install_pkgs_for_de()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # theme
-        bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
+        bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
@@ -179,7 +188,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
         # ----------------------------------------------------------------------
         # expose
-        # bash ${CORE_BIN_DIR}/system/install_skippy-xd.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # hotkey
         # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
@@ -187,7 +196,7 @@ function install_pkgs_for_de()
         # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # theme
-        bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
+        bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_mate-menu.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
@@ -201,7 +210,7 @@ function install_pkgs_for_de()
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         # theme
-        bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
+        bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
@@ -213,7 +222,7 @@ function install_pkgs_for_de()
     elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
         # ----------------------------------------------------------------------
         # theme
-        bash ${CORE_BIN_DIR}/wmde/de/install_dconf.sh;
+        bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
@@ -239,6 +248,14 @@ function config_de()
     if [[ -z ${CUR_USER} ]]; then
         return
     fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # only working for fedora and rhel
+    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && fix_lightdm-xsession;
+
+    # only working for lightdm
+    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && set_lightdm_enable;
     # --------------------------------------------------------------------------
 
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
@@ -325,3 +342,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     config_de;
 fi
 # ==============================================================================
+

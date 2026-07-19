@@ -68,7 +68,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^lxterminal) ]] || apt install -y lxterminal;
+        [[ -n $(apt list --installed | grep -i ^lxterminal) ]] || apt install -y --no-install-recommends lxterminal;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then

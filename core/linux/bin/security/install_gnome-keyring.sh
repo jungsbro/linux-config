@@ -39,7 +39,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^gnome-keyring) ]] || apt install -y gnome-keyring;
+        [[ -n $(apt list --installed | grep -i ^gnome-keyring) ]] || apt install -y --no-install-recommends gnome-keyring;
         [[ -n $(apt list --installed | grep -i ^libsecret) ]] || apt install -y libsecret-1-0 libsecret-1-dev;
         # ----------------------------------------------------------------------
 

@@ -39,7 +39,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-taskmanager) ]] || apt install -y xfce4-taskmanager;
+        [[ -n $(apt list --installed | grep -i ^xfce4-taskmanager) ]] || apt install -y --no-install-recommends xfce4-taskmanager;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
@@ -56,3 +56,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
 fi
 # ==============================================================================
+

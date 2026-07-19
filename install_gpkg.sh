@@ -82,7 +82,7 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # nix ==========================================================================
-# bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
 # ==============================================================================
 
 # bottles ======================================================================
@@ -90,7 +90,7 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # monitoring ===================================================================
-# bash ${CORE_BIN_DIR}/system/install_conky.sh;
+# bash ${CORE_BIN_DIR}/monitoring/install_conky.sh;
 # ==============================================================================
 
 # autohotkey ===================================================================
@@ -99,7 +99,7 @@ bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh ${CUR_USER};
 
 # bluelight ====================================================================
 if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* != *"plasma"* ]]; then
-    bash ${CORE_BIN_DIR}/system/install_redshift.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh ${CUR_USER};
 fi
 # ==============================================================================
 
@@ -172,7 +172,7 @@ bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/install_gimp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh ${CUR_USER};
 if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
     bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
 else
@@ -197,7 +197,7 @@ fi
 # ==============================================================================
 
 # filesync =====================================================================
-bash ${CORE_BIN_DIR}/utilities/install_freefilesync.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh ${CUR_USER};
 # ==============================================================================
 
 # simplescreenrecorder =========================================================

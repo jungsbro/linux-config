@@ -231,7 +231,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
 # config
 distrobox enter ${CTR_NAME} -- bash -c "\
-    source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+    source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
     config_redshift ${CUR_USER} && \
     set_redshift_autostart ${CUR_USER}"
 # ------------------------------------------------------------------------------
@@ -348,7 +348,7 @@ distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview-qt5
 
 # # config : photogimp
 # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-#     source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
+#     source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
 #     install_photogimp ${CUR_USER}"
 # ------------------------------------------------------------------------------
 

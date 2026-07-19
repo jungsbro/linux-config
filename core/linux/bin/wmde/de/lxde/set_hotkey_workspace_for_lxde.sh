@@ -56,10 +56,12 @@ function set_hotkey_for_left-ws()
     local hotkey="W-C-Left";
     local comment="Keybinding for workspace movement1";
     local action="DesktopLeft";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -70,10 +72,12 @@ function set_hotkey_for_right-ws()
     local hotkey="W-C-Right";
     local comment="";
     local action="DesktopRight";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -84,10 +88,12 @@ function set_hotkey_for_up-ws()
     local hotkey="W-C-Up";
     local comment="";
     local action="DesktopUp";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -98,122 +104,123 @@ function set_hotkey_for_down-ws()
     local hotkey="W-C-Down";
     local comment="";
     local action="DesktopDown";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_f1-ws()
+function set_hotkey_for_fkey-ws()
 {
-    # --------------------------------------------------------------------------
-    local hotkey="W-F1";
-    local comment="Keybinding for workspace movement2";
-    local ws_num="1";
-    # --------------------------------------------------------------------------
+    # workspace : jump to workspace-number -------------------------------------
+    local cur_num="";
+    local nums="1 2 3 4"
 
-    # --------------------------------------------------------------------------
-    set_hotkey_for_ws_fkey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${ws_num}" "${LXDERC_PATH}";
-    # --------------------------------------------------------------------------
-}
-
-
-function set_hotkey_for_f2-ws()
-{
-    # --------------------------------------------------------------------------
-    local hotkey="W-F2";
+    local hotkey="";
     local comment="";
-    local ws_num="2";
-    # --------------------------------------------------------------------------
+    local ws_num="";
 
-    # --------------------------------------------------------------------------
-    set_hotkey_for_ws_fkey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${ws_num}" "${LXDERC_PATH}";
+    for cur_num in ${nums};
+    do
+        # workspace : jump to worksapce-number (with f-keys) -------------------
+        hotkey="W-F${cur_num}";
+        ws_num="${cur_num}";
+        set_hotkey_for_going-to-desktop "${LXDE_NS}" "${hotkey}" "${comment}" "${ws_num}" "${LXDERC_PATH}";
+        # ----------------------------------------------------------------------
+    done
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_f3-ws()
+function set_hotkey_for_app-to-ws()
 {
-    # --------------------------------------------------------------------------
-    local hotkey="W-F3";
-    local comment="";
-    local ws_num="3";
-    # --------------------------------------------------------------------------
+    # workspace : jump to workspace-number -------------------------------------
+    local cur_num="";
+    local nums="1 2 3 4"
 
-    # --------------------------------------------------------------------------
-    set_hotkey_for_ws_fkey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${ws_num}" "${LXDERC_PATH}";
+    local hotkey="";
+    local comment="";
+    local action="SendToDesktop";
+    local key1="to";
+    local value1="";
+
+    for cur_num in ${nums};
+    do
+        # workspace : move window to worksapce-number --------------------------
+        hotkey="W-S-F${cur_num}";
+        value1="${cur_num}";
+
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
+        # ----------------------------------------------------------------------
+    done
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_f4-ws()
-{
-    # --------------------------------------------------------------------------
-    local hotkey="W-F4";
-    local comment="";
-    local ws_num="4";
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    set_hotkey_for_ws_fkey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${ws_num}" "${LXDERC_PATH}";
-    # --------------------------------------------------------------------------
-}
-
-
-function set_hotkey_for_app-to-left-ws()
+function set_hotkey_for_app-to-left-ws()    # W-S-Left를 이미 사용했기때문에 사용하지 않는다.
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Left";
     local comment="Keybinding for app-to-workspace";
     local action="SendToDesktopLeft";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_app-to-right-ws()
+function set_hotkey_for_app-to-right-ws()    # W-S-Right를 이미 사용했기때문에 사용하지 않는다.
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Right";
     local comment="";
     local action="SendToDesktopRight";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_app-to-up-ws()
+function set_hotkey_for_app-to-up-ws()    # W-S-Up을 이미 사용했기때문에 사용하지 않는다.
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Up";
     local comment="";
     local action="SendToDesktopUp";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
 
-function set_hotkey_for_app-to-down-ws()
+function set_hotkey_for_app-to-down-ws()    # W-S-Down을 이미 사용했기때문에 사용하지 않는다.
 {
     # --------------------------------------------------------------------------
     local hotkey="W-S-Down";
     local comment="";
     local action="SendToDesktopDown";
+    local key1="dialog";
+    local value1="no";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    set_hotkey_for_ws_akey_movement "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${LXDERC_PATH}";
+    set_hotkey_for_ws "${LXDE_NS}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${LXDERC_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -233,15 +240,14 @@ function set_all_hotkey_for_workspace()
     set_hotkey_for_up-ws;
     set_hotkey_for_down-ws;
 
-    set_hotkey_for_f1-ws;
-    set_hotkey_for_f2-ws;
-    set_hotkey_for_f3-ws;
-    set_hotkey_for_f4-ws;
+    set_hotkey_for_fkey-ws;
 
-    set_hotkey_for_app-to-left-ws;
-    set_hotkey_for_app-to-right-ws;
-    set_hotkey_for_app-to-up-ws;
-    set_hotkey_for_app-to-down-ws;
+    set_hotkey_for_app-to-ws;
+
+    # set_hotkey_for_app-to-left-ws;
+    # set_hotkey_for_app-to-right-ws;
+    # set_hotkey_for_app-to-up-ws;
+    # set_hotkey_for_app-to-down-ws;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

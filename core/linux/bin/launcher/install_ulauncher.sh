@@ -32,7 +32,7 @@ APP_NAME="ulauncher"
 
 APP_UNIQUE_NAME="${APP_NAME}"
 
-APP_GRP="GNOME;GTK;Utility;"
+APP_CAT="GNOME;GTK;Utility;"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -104,137 +104,117 @@ function install_ulauncher_for_apt()
     # --------------------------------------------------------------------------
 }
 
+# function install_ulauncher_for_nix()
+# {
+#     # for x86_64 / i686 / aarch64
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
 
-function set_desktop()  # not used
-{
-    # args ---------------------------------------------------------------------
-    # ${CUR_USER}
-    # ${APP_NAME}
-    # ${EXEC_PATH}
-    # ${ICON_PATH}
-    # ${APP_GRP}
-    # ${DESKTOP_PATH}
-    # --------------------------------------------------------------------------
+#     # 1) env-vars settings -----------------------------------------------------
+#     local APP_NAME="ulauncher"
 
-    local DESKTOP_CMD="[Desktop Entry]
-Type=Application
-Name=${APP_NAME}
-Exec=${EXEC_PATH}
-Icon=${ICON_PATH}
-Categories=${APP_GRP}";
+#     local mod=${1}  # multi / single
 
-    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/ulauncher.desktop
-        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-    else
-        # /usr/share/applications/ulauncher.desktop
-        echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-    fi
-}
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         # multi-user
+#         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+#     else
+#         # single-user
+#         local nix_env_path="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+#     fi
+#     # --------------------------------------------------------------------------
 
+#     # 2) install nix -----------------------------------------------------------
+#     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+#     # --------------------------------------------------------------------------
 
-function install_ulauncher_for_nix()
-{
-    # for x86_64 / i686 / aarch64
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
+#     # 3) install_ulauncher -----------------------------------------------------
+#     # https://search.nixos.org/packages
+#     # nix-env -iA nixpkgs.ulauncher
+#     # nix profile add nixpkgs#ulauncher
+#     su - ${CUR_USER} -c "source ${nix_env_path} && \
+#     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
+#     nix profile add nixpkgs#${APP_NAME}"
+#     # --------------------------------------------------------------------------
 
-    # 1) env-vars settings -----------------------------------------------------
-    local APP_NAME="ulauncher"
+#     # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         return
+#     fi
+#     return
+#     # --------------------------------------------------------------------------
 
-    local mod=${1}  # multi / single
+#     # 4) bins settings ---------------------------------------------------------
+#     local cur_fname="";
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        # multi-user
-        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
-    else
-        # single-user
-        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
-    fi
-    # --------------------------------------------------------------------------
+#     local FNAME_LIST=(\
+#     "ulauncher" \
+#     "ulauncher-toggle" \
+#     )
 
-    # 2) install nix -----------------------------------------------------------
-    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
-    # --------------------------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/bin"
 
-    # 3) install_ulauncher -----------------------------------------------------
-    # https://search.nixos.org/packages
-    # nix-env -iA nixpkgs.ulauncher
-    # nix profile add nixpkgs#ulauncher
-    su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
-    nix profile add nixpkgs#${APP_NAME}"
-    # --------------------------------------------------------------------------
+#     local dst_dir="${HOME_DIR}/.local/bin"
+#     if [[ ! -d ${dst_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+#     fi
 
-    # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
-    # return
-    # --------------------------------------------------------------------------
+#     for cur_fname in "${FNAME_LIST[@]}";
+#     do
+#         src_path="${src_dir}/${cur_fname}";
+#         if [[ ! -f ${src_path} ]]; then
+#             continue
+#         fi
 
-    # 4) bins settings ---------------------------------------------------------
-    local cur_fname="";
+#         dst_path="${dst_dir}/${cur_fname}";
+#         if [[ -f ${dst_path} ]]; then
+#             continue
+#         fi
 
-    local FNAME_LIST=(\
-    "ulauncher" \
-    "ulauncher-toggle" \
-    )
+#         ln -s ${src_path} ${dst_path};
+#     done
+#     # --------------------------------------------------------------------------
 
-    local src_dir="${HOME_DIR}/.nix-profile/bin"
-    local dst_dir="${HOME_DIR}/.local/bin"
+#     # 5) icon settngs ----------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+#     local dst_dir="/usr/share/icons"
 
-    for cur_fname in "${FNAME_LIST[@]}";
-    do
-        src_path="${src_dir}/${cur_fname}";
-        if [[ ! -f ${src_path} ]]; then
-            continue
-        fi
+#     if [[ -d ${src_dir} ]]; then
+#         mkdir -p "${dst_dir}"
+#         # -r : recursive
+#         # -u : update
+#         cp -ru ${src_dir}/* "${dst_dir}/"
 
-        dst_path="${dst_dir}/${cur_fname}";
-        if [[ -f ${dst_path} ]]; then
-            continue
-        fi
+#         gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+#     fi
+#     # --------------------------------------------------------------------------
 
-        ln -s ${src_path} ${dst_path};
-    done
-    # --------------------------------------------------------------------------
+#     # 6) desktop settings ------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+#     local dst_dir="${HOME_DIR}/.local/share/applications"
 
-    # 5) icon settngs ----------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
-    local dst_dir="/usr/share/icons"
+#     if [[ -d ${src_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
 
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -r : recursive
-        # -u : update
-        cp -ru ${src_dir}/* "${dst_dir}/"
+#         # ----------------------------------------------------------------------
+#         # -u : update
+#         # -L : dereference
+#         cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#         chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
+#         chmod -R 744 ${dst_dir}
+#         # ----------------------------------------------------------------------
 
-        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
-    fi
-    # --------------------------------------------------------------------------
+#         update-desktop-database "${dst_dir}"
+#     fi
+#     # --------------------------------------------------------------------------
 
-    # 6) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="${HOME_DIR}/.local/share/applications"
-
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -u : update
-        # -L : dereference
-        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-
-        update-desktop-database "${dst_dir}"
-    fi
-    # --------------------------------------------------------------------------
-
-    # 7) etc -------------------------------------------------------------------
-    # ~/.nix-profile/share/ulauncher
-    # --------------------------------------------------------------------------
-}
+#     # 7) etc -------------------------------------------------------------------
+#     # ~/.nix-profile/share/ulauncher
+#     # --------------------------------------------------------------------------
+# }
 # ==============================================================================
 
 
@@ -263,7 +243,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # distrobox를 사용한다.
         # echo "ulauncher is not supported for RHEL"
 
-        install_ulauncher_for_nix "single";
+        # install_ulauncher_for_nix "single";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
+        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------
         #     ** (ulauncher:3579): WARNING **: 23:52:10.794: Binding '<Primary>space' failed!
         # XPCOMGlueLoad error for file /opt/firefox/libmozgtk.so:

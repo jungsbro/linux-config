@@ -17,22 +17,22 @@ search='<Super>f'
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom2]
 binding='<Super>x'
-command='/usr/bin/xkill'
+command='xkill'
 name='xkill'
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom1]
 binding='<Primary><Alt>t'
-command='/usr/bin/gnome-terminal'
+command='gnome-terminal'
 name='Terminal'
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom0]
 binding='<Primary><Shift>Escape'
-command='/usr/bin/gnome-system-monitor'
+command='gnome-system-monitor'
 name='System-monitor'
 
 [settings-daemon/plugins/media-keys/custom-keybindings/custom3]
 binding='<Shift><Super>p'
-command='/usr/bin/gnome-control-center display'
+command='gnome-control-center display'
 name='Display-settings'
 
 [settings-daemon/plugins/xsettings]

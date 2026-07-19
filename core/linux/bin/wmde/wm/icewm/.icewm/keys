@@ -2,14 +2,14 @@
 # ------------------------------------------------------------------------------
 # restart settings
 
-key "Super+Shift+r" /usr/bin/icewm --restart
+key "Super+Shift+r" icewm --restart
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # expose
 
-# key "Super+Tab" /usr/bin/rofi -show window -show-icons
-key "Super+Tab" /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
+# key "Super+Tab" rofi -show window -show-icons
+key "Super+Tab" skippy-xd --expose --desktop -1
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -21,59 +21,59 @@ key "Super+Tab" /usr/bin/rofi -show window -theme "~/.config/rofi/themes/j_launc
 # ------------------------------------------------------------------------------
 # launcher
 
-key "Alt+F2" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
-key "Ctrl+Space" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
-key "Super+r" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
-key "Super+s" /usr/bin/rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Alt+F2" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Ctrl+Space" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Super+r" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+key "Super+s" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # logout
 
 # 방법1) logout 확인창
-[ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
-/usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+[ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
 
 # 방법2) 확인없이 바로 logout
-# key "Ctrl+Alt+Delete" /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+# key "Ctrl+Alt+Delete" loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # lock screen
 
 # 방법1)
-key "Super+l" /usr/bin/loginctl lock-session
+key "Super+l" loginctl lock-session
 
 # 방법2)
-# key "Super+l" /usr/bin/xscreensaver-command -lock
+# key "Super+l" xscreensaver-command -lock
 
 # 방법3)
-# key "Super+l" /usr/bin/xfce4-screensaver-command --lock
+# key "Super+l" xfce4-screensaver-command --lock
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # screen shot
 
-key "Print" /usr/bin/gnome-screenshot --interactive
+key "Print" gnome-screenshot --interactive
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # resoltion settings
 
-key "Super+p" /usr/bin/arandr
+key "Super+p" arandr
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # taskmanager
 
-key "Ctrl+Shift+Esc" /usr/bin/xfce4-terminal -e htop
+key "Ctrl+Shift+Esc" xfce4-terminal -e htop
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # finder
 
-# key "Super+e" /usr/bin/thunar
-key "Super+e" /usr/bin/pcmanfm
+# key "Super+e" thunar
+key "Super+e" pcmanfm
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -86,13 +86,13 @@ key "Super+e" /usr/bin/pcmanfm
 # ------------------------------------------------------------------------------
 # terminal
 
-key "Alt+Ctrl+t" /usr/bin/xfce4-terminal
+key "Alt+Ctrl+t" xfce4-terminal
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # xkill
 
-key "Super+x" /usr/bin/xkill
+key "Super+x" xkill
 # ------------------------------------------------------------------------------
 
 

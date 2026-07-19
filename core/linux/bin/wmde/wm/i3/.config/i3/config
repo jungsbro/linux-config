@@ -191,9 +191,9 @@ bindsym Mod1+F4 kill
 # win + r
 # win + s
 # alt + F2
-bindsym $mod+r exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
-bindsym $mod+s exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
-bindsym Mod1+F2 exec "/usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym $mod+r exec "rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym $mod+s exec "rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym Mod1+F2 exec "rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
 # bindsym Mod1+F2 exec rofi -show drun -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System SFNS Display 18"
 # ------------------------------------------------------------------------------
 
@@ -222,7 +222,7 @@ bindsym Mod1+Tab focus next
 # bindsym $mod+Tab exec "rofi -show window -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'"
 # bindsym $mod+Tab exec "rofi -show window -show-icons"
 
-bindsym $mod+Tab exec "/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
+bindsym $mod+Tab exec "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
 
 # rofi theme 설정
 # rofi-theme-selector
@@ -290,16 +290,16 @@ bindsym $mod+space floating toggle
 # win + l
 # bindsym $mod+l exec i3lock
 # bindsym $mod+l exec i3lock --color "$bg-color"
-bindsym $mod+l exec /usr/bin/loginctl lock-session
+bindsym $mod+l exec loginctl lock-session
 # ------------------------------------------------------------------------------
 
 # screen shot ------------------------------------------------------------------
 # print
 # 방법1)
-bindsym Print exec /usr/bin/gnome-screenshot --interactive
+bindsym Print exec gnome-screenshot --interactive
 
 # 방법2)
-# bindsym Print exec /usr/bin/xfce4-screenshooter
+# bindsym Print exec xfce4-screenshooter
 # ------------------------------------------------------------------------------
 
 # file manager -----------------------------------------------------------------
@@ -316,7 +316,7 @@ bindsym Control+Shift+Escape exec xfce4-termianl -e htop
 
 # xkill ------------------------------------------------------------------------
 # win + x
-bindsym $mod+x exec /usr/bin/xkill
+bindsym $mod+x exec xkill
 # ------------------------------------------------------------------------------
 
 # restart settings -------------------------------------------------------------
@@ -336,13 +336,13 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i
 # control + alt + delete
 bindsym Mod1+Control+Delete exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-# bindsym Mod1+Control+Delete exec [ "$(echo -e "No\nYes" | /usr/bin/rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
-# /usr/bin/loginctl terminate-session $(/usr/bin/loginctl list-sessions | grep $USER | awk '{print $1}')
+# bindsym Mod1+Control+Delete exec [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+# loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
 # ------------------------------------------------------------------------------
 
 # dispaly settings -------------------------------------------------------------
 # win + p
-bindsym $mod+p exec /usr/bin/arandr
+bindsym $mod+p exec arandr
 # ------------------------------------------------------------------------------
 
 # control center  --------------------------------------------------------------
@@ -422,13 +422,13 @@ set $wallpaper_path "/home/jungs/Pictures/wallpaper/dkidd_light.jpg"
 # ------------------------------------------------------------------------------
 
 # 부팅시 workspace에 app 자동 실행 -------------------------------------------------
-# exec i3-msg 'workspace $ws1; exec /usr/bin/google-chrome'
-# exec i3-msg 'workspace $ws1; exec /usr/bin/chromium'
-# exec i3-msg 'workspace $ws2; exec /usr/bin/mousepad'
+# exec i3-msg 'workspace $ws1; exec google-chrome'
+# exec i3-msg 'workspace $ws1; exec chromium'
+# exec i3-msg 'workspace $ws2; exec mousepad'
 # ------------------------------------------------------------------------------
 
 # IME --------------------------------------------------------------------------
-exec --no-startup-id /usr/bin/fcitx5
+exec --no-startup-id fcitx5
 # ------------------------------------------------------------------------------
 
 # clipboard --------------------------------------------------------------------

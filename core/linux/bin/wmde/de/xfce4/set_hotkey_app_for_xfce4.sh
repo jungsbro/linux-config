@@ -46,15 +46,15 @@ function set_hotkey_for_expose()
     # --------------------------------------------------------------------------
 
     # using rofi ---------------------------------------------------------------
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/rofi -show window -show-icons"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" \
-    "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "rofi -show window -show-icons"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
     # --------------------------------------------------------------------------
 
     # using skippy-xd ----------------------------------------------------------
-    # if [[ -f "/usr/bin/skippy-xd" ]]; then
-    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
-    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/skippy-xd";
+    # if [[ -f "skippy-xd" ]]; then
+    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "skippy-xd"
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd";
 
     # elif [[ -f "/usr/local/bin/skippy-xd" ]]; then
     #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/local/bin/skippy-xd"
@@ -82,9 +82,9 @@ function set_hotkey_for_menu()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>Escape" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "xfce4-popup-whiskermenu"
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" \
-    "string" "/usr/bin/xfce4-popup-whiskermenu";
+    "string" "xfce4-popup-whiskermenu";
     # --------------------------------------------------------------------------
 }
 
@@ -189,27 +189,27 @@ function set_hotkey_for_lock()
 
     if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
         # ----------------------------------------------------------------------
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xfce4-screensaver-command --activate"
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xfce4-screensaver-command --activate"
 
         # 방법1)
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" \
-        "string" "/usr/bin/xfce4-screensaver-command --activate";
+        "string" "xfce4-screensaver-command --activate";
 
         # 방법2)
         # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" \
-        # "string" "/usr/bin/xfce4-screensaver-command --lock";
+        # "string" "xfce4-screensaver-command --lock";
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # 방법1)
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xscreensaver-command -lock"
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xscreensaver-command -lock"
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" \
-        "string" "/usr/bin/xscreensaver-command -lock";
+        "string" "xscreensaver-command -lock";
 
         # 방법2)
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xflock4"
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xflock4"
         # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" \
-        # "string" "/usr/bin/xflock4";
+        # "string" "xflock4";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

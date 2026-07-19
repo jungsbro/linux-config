@@ -42,7 +42,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 # ------------------------------------------------------------------------------
 APP_NAME="rofi"
-APP_GRP="System;Utility;"
+APP_CAT="System;Utility;"
 
 SRC_ROFI_CONF_DIR="${CUR_DIR}/config"
 
@@ -55,133 +55,178 @@ DST_ROFI_CONF_PATH="${DST_ROFI_CONF_DIR}/config.rasi"
 
 
 # Funcs ========================================================================
-function set_desktop()  # not used
+# function install_rofi_for_nix()
+# {
+#     # for x86_64 / i686 / aarch64
+#     # --------------------------------------------------------------------------
+#     if [[ -z ${CUR_USER} ]]; then
+#         return
+#     fi
+#     # --------------------------------------------------------------------------
+
+#     # 1) env-vars_settings -----------------------------------------------------
+#     local APP_NAME="rofi"
+
+#     local mod=${1}  # multi / single
+
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         # multi-user
+#         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
+#     else
+#         # single-user
+#         local nix_env_path="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
+#     fi
+#     # --------------------------------------------------------------------------
+
+#     # 2) install nix -----------------------------------------------------------
+#     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+#     # --------------------------------------------------------------------------
+
+#     # 3) install_rofi ----------------------------------------------------------
+#     # https://search.nixos.org/packages
+#     # nix-env -iA nixpkgs.rofi
+#     # nix profile add nixpkgs#rofi
+#     su - ${CUR_USER} -c "source ${nix_env_path} && \
+#     nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
+#     nix profile add nixpkgs#${APP_NAME}"
+#     # --------------------------------------------------------------------------
+
+#     # --------------------------------------------------------------------------
+#     if [[ *"${mod}"* == *"multi"* ]]; then
+#         return
+#     fi
+#     return
+#     # --------------------------------------------------------------------------
+
+#     # 4) bins settings ---------------------------------------------------------
+#     local cur_fname="";
+
+#     local FNAME_LIST=(\
+#     "rofi" \
+#     "rofi-sensible-terminal" \
+#     "rofi-theme-selector" \
+#     )
+
+#     local src_dir="${HOME_DIR}/.nix-profile/bin"
+
+#     local dst_dir="${HOME_DIR}/.local/bin"
+#     if [[ ! -d ${dst_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+#     fi
+
+#     for cur_fname in "${FNAME_LIST[@]}";
+#     do
+#         src_path="${src_dir}/${cur_fname}";
+#         if [[ ! -f ${src_path} ]]; then
+#             continue
+#         fi
+
+#         dst_path="${dst_dir}/${cur_fname}";
+#         if [[ -f ${dst_path} ]]; then
+#             continue
+#         fi
+
+#         ln -s ${src_path} ${dst_path};
+#     done
+#     # --------------------------------------------------------------------------
+
+#     # 5) icon settngs ----------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/icons"
+#     local dst_dir="/usr/share/icons"
+
+#     if [[ -d ${src_dir} ]]; then
+#         mkdir -p "${dst_dir}"
+#         # -r : recursive
+#         # -u : update
+#         cp -ru ${src_dir}/* "${dst_dir}/"
+
+#         gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+#     fi
+#     # --------------------------------------------------------------------------
+
+#     # 6) desktop settings ------------------------------------------------------
+#     local src_dir="${HOME_DIR}/.nix-profile/share/applications"
+#     local dst_dir="${HOME_DIR}/.local/share/applications"
+
+#     if [[ -d ${src_dir} ]]; then
+#         su - ${CUR_USER} -c "mkdir -p \"${dst_dir}\""
+
+#         # ----------------------------------------------------------------------
+#         # -u : update
+#         # -L : dereference
+#         cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
+#         chown -R ${CUR_USER}:${CUR_USER} "${dst_dir}"
+#         chmod -R 744 ${dst_dir}
+#         # ----------------------------------------------------------------------
+
+#         update-desktop-database "${dst_dir}"
+#     fi
+#     # --------------------------------------------------------------------------
+
+#     # 7) etc -------------------------------------------------------------------
+#     # ~/.nix-profile/share/rofi
+#     # --------------------------------------------------------------------------
+# }
+
+function create_scripts_for_obrc()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    local DESKTOP_CMD="[Desktop Entry]
-Type=Application
-Name=${APP_NAME}
-Exec=${EXEC_PATH}
-Icon=${ICON_PATH}
-Categories=${APP_GRP}
-Terminal=false"
-
-    if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-        # ~/.local/share/applications/com.github.maoschanz.rofi.desktop
-        su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-    else
-        # /usr/share/applications/com.github.maoschanz.rofi.desktop
-        echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-    fi
-}
-
-
-function install_rofi_for_nix()
-{
-    # for x86_64 / i686 / aarch64
-    # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
-        return
-    fi
-    # --------------------------------------------------------------------------
-
-    # 1) env-vars_settings -----------------------------------------------------
-    local APP_NAME="rofi"
-
-    local mod=${1}  # multi / single
-
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        # multi-user
-        local DST_PATH="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
-    else
-        # single-user
-        local DST_PATH="${HOME_DIR}/.nix-profile/etc/profile.d/nix.sh";
-    fi
-    # --------------------------------------------------------------------------
-
-    # 2) install nix -----------------------------------------------------------
-    bash ${CORE_BIN_DIR}/pkgmgmt/install_nix.sh ${CUR_USER};
-    # --------------------------------------------------------------------------
-
-    # 3) install_rofi ----------------------------------------------------------
-    # https://search.nixos.org/packages
-    # nix-env -iA nixpkgs.rofi
-    # nix profile add nixpkgs#rofi
-    su - ${CUR_USER} -c "source ${DST_PATH} && \
-    nix profile list 2>/dev/null | grep -iq ${APP_NAME} || \
-    nix profile add nixpkgs#${APP_NAME}"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
-    fi
-    # return
-    # --------------------------------------------------------------------------
-
-    # 4) bins settings ---------------------------------------------------------
-    local cur_fname="";
-
-    local FNAME_LIST=(\
-    "rofi" \
-    )
-
-    local src_dir="${HOME_DIR}/.nix-profile/bin"
     local dst_dir="${HOME_DIR}/.local/bin"
+    local expose_path="${dst_dir}/expose.sh"
+    local launcher_path="${dst_dir}/launcher.sh"
 
-    for cur_fname in "${FNAME_LIST[@]}";
-    do
-        src_path="${src_dir}/${cur_fname}";
-        if [[ ! -f ${src_path} ]]; then
-            continue
-        fi
-
-        dst_path="${dst_dir}/${cur_fname}";
-        if [[ -f ${dst_path} ]]; then
-            continue
-        fi
-
-        ln -s ${src_path} ${dst_path};
-    done
-    # --------------------------------------------------------------------------
-
-    # 5) icon settngs ----------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/icons"
-    local dst_dir="/usr/share/icons"
-
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -r : recursive
-        # -u : update
-        cp -ru ${src_dir}/* "${dst_dir}/"
-
-        gtk-update-icon-cache "${dst_dir}" 2>/dev/null
+    if [[ ! -d ${dst_dir} ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+    fi
+    if [[ -f ${expose_path} ]]; then
+        return
+    fi
+    if [[ -f ${launcher_path} ]]; then
+        return
     fi
     # --------------------------------------------------------------------------
 
-    # 6) desktop settings ------------------------------------------------------
-    local src_dir="${HOME_DIR}/.nix-profile/share/applications"
-    local dst_dir="${HOME_DIR}/.local/share/applications"
-
-    if [[ -d ${src_dir} ]]; then
-        mkdir -p "${dst_dir}"
-        # -u : update
-        # -L : dereference
-        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-
-        update-desktop-database "${dst_dir}"
-    fi
     # --------------------------------------------------------------------------
+    local expose_cmd='#!/bin/bash
+export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive && rofi -show window -theme "~/.config/rofi/themes/j_launcher.rasi"
+'
+    local launcher_cmd='#!/bin/bash
+export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive && rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
+'
+    su - ${CUR_USER} -c "echo \"${expose_cmd}\" > ${expose_path}";
+    su - ${CUR_USER} -c "echo \"${launcher_cmd}\" > ${launcher_path}";
 
-    # 7) etc -------------------------------------------------------------------
-    # ~/.nix-profile/share/rofi
+    chmod +x ${expose_path};
+    chmod +x ${launcher_path};
     # --------------------------------------------------------------------------
 }
+
+
+function fix_paths_for_obrc()
+{
+    # --------------------------------------------------------------------------
+    local dst_dir="${HOME_DIR}/.config/openbox"
+    local obrc_path="${dst_dir}/rc.xml"
+
+    if [[ ! -f ${obrc_path} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local src_expose_cmd="rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
+    # ${HOME_DIR}/.local/bin/expose.sh
+    local dst_expose_cmd="expose.sh"
+
+    local src_launcher_cmd="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
+    # ${HOME_DIR}/.local/bin/launcher.sh
+    local dst_launcher_cmd="launcher.sh"
+
+    sed -i "s|${src_expose_cmd}|${dst_expose_cmd}|g" "${obrc_path}"
+    sed -i "s|${src_launcher_cmd}|${dst_launcher_cmd}|g" "${obrc_path}"
+    # --------------------------------------------------------------------------
+}
+
 
 function create_config()
 {
@@ -270,7 +315,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # distrobox를 사용한다.
         # echo "rofi is not supported for RHEL"
 
-        install_rofi_for_nix "single";
+        # install_rofi_for_nix "single";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
+        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+
+        # rofi_for_nix needs glibc-locales
+        # export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
+        bash ${CORE_BIN_DIR}/fonts/install_glibc-locales.sh ${CUR_USER};
         # ----------------------------------------------------------------------
     fi
 

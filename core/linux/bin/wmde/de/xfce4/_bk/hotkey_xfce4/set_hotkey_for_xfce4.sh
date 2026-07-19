@@ -42,12 +42,13 @@ function set_focus_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Tab" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Tab" "string" "";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/rofi -show window -show-icons"
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "rofi -show window -show-icons"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
 
-    # if [[ -f "/usr/bin/skippy-xd" ]]; then
-    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/bin/skippy-xd"
-    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/bin/skippy-xd";
+    # if [[ -f "skippy-xd" ]]; then
+    #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "skippy-xd"
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd";
     # elif [[ -f "/usr/local/bin/skippy-xd" ]]; then
     #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "/usr/local/bin/skippy-xd"
     #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "/usr/local/bin/skippy-xd";
@@ -76,12 +77,12 @@ function set_lock_hotkey()
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>l" "string" "";
 
     if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xfce4-screensaver-command --activate"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --activate";
-        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xfce4-screensaver-command --lock";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xfce4-screensaver-command --activate"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --activate";
+        # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --lock";
     else
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "/usr/bin/xscreensaver-command -lock"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "/usr/bin/xscreensaver-command -lock";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xscreensaver-command -lock"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xscreensaver-command -lock";
     fi
     # --------------------------------------------------------------------------
 }
@@ -95,8 +96,8 @@ function set_system_hotkey()
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>Escape" -t "string" -s ""
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
 
-        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "/usr/bin/xfce4-popup-whiskermenu"
-        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "/usr/bin/xfce4-popup-whiskermenu";
+        # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "xfce4-popup-whiskermenu"
+        set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary>Escape" "string" "xfce4-popup-whiskermenu";
     fi
     # --------------------------------------------------------------------------
 

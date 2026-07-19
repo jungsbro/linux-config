@@ -373,10 +373,10 @@ def set_shortcuts():
     prop_dict["commands/custom/<Super>l"] = {"name":"", "type":"string", "value":""}
 
     if IS_MXLINUX:
-        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --activate"}
-        # prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xfce4-screensaver-command --lock"}
+        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"xfce4-screensaver-command --activate"}
+        # prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"xfce4-screensaver-command --lock"}
     else:
-        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"/usr/bin/xscreensaver-command -lock"}
+        prop_dict["commands/custom/<Super>l"] = {"name":"<Super>l", "type":"string", "value":"xscreensaver-command -lock"}
     # --------------------------------------------------------------------------
 
     # terminal dropdown --------------------------------------------------------

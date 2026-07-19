@@ -181,7 +181,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # config
     # distrobox enter ${CTR_NAME} -- bash -c "\
-    #     source ${CORE_BIN_DIR}/system/install_redshift_funcs.sh && \
+    #     source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
     #     config_redshift ${CUR_USER} && \
     #     set_redshift_autostart ${CUR_USER}"
     # --------------------------------------------------------------------------
@@ -318,7 +318,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # # config : photogimp
     # distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    #     source ${CORE_BIN_DIR}/graphics/install_gimp_funcs.sh && \
+    #     source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
     #     install_photogimp ${CUR_USER}"
 
     # # config (with nvidia)

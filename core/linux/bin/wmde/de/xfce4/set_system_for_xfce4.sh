@@ -162,6 +162,7 @@ function fix_sound_disabled()
     systemctl --user enable pipewire;
     systemctl --user enable pipewire-pulse;
     systemctl --user enable wireplumber;
+    
     systemctl --user restart pipewire;
     systemctl --user restart pipewire-pulse;
     systemctl --user restart wireplumber;

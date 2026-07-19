@@ -1,47 +1,47 @@
 super + ctrl + r
-    /usr/bin/pkill -usr1 -x sxhkd
+    pkill -usr1 -x sxhkd
 
 super + Tab
-    /usr/bin/rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'
+    skippy-xd --expose --desktop -1
 
 ctrl + Escape
-    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+    rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 
 alt + F2
-    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+    rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 
 super + r
-    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+    rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 
 super + s
-    /usr/bin/rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
+    rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'
 
 ctrl + alt + Delete
-    /usr/bin/mate-session-save --logout-dialog
+    mate-session-save --logout-dialog
 
 super + l
-    /usr/bin/loginctl lock-session
-    # /usr/bin/mate-screensaver-command --lock
+    loginctl lock-session
+    # mate-screensaver-command --lock
 
 Print
-    /usr/bin/mate-screenshot --interactive
+    mate-screenshot --interactive
 
 super + p
-    /usr/bin/mate-display-properties
+    mate-display-properties
 
 ctrl + shift + Escape
-    /usr/bin/mate-system-monitor
+    mate-system-monitor
 
 super + e
-    /usr/bin/caja
+    caja
 
 super + i
-    /usr/bin/mate-control-center
+    mate-control-center
 
 ctrl + alt + t
-    /usr/bin/mate-terminal
+    mate-terminal
 
 super + x
-    /usr/bin/xkill
+    xkill
 
 

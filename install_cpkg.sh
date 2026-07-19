@@ -404,9 +404,9 @@ bash ${CORE_BIN_DIR}/system/install_tmux.sh ${CUR_USER};
 
 # file-manager =================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/install_mc.sh;
-# bash ${CORE_BIN_DIR}/filemgr/cui/install_nnn.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh ${CUR_USER};
 bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/filemgr/cui/install_yazi.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh ${CUR_USER};
 # ==============================================================================
 
 # zsh ==========================================================================
