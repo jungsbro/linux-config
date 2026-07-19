@@ -57,28 +57,6 @@ APP_HIDDEN="false"
 
 
 # file-manager : x86_64, aarch64, i686 (portable, appimage) ====================
-# function set_desktop()
-# {
-#     # args ---------------------------------------------------------------------
-#     # ${APP_NAME}
-#     # ${EXEC_PATH}
-#     # ${ICON_PATH}
-#     # ${APP_CAT}
-#     # ${DESKTOP_PATH}
-#     # --------------------------------------------------------------------------
-#     local DESKTOP_CMD="[Desktop Entry]
-# Type=Application
-# Name=${APP_NAME}
-# Exec=${EXEC_PATH}
-# Icon=${ICON_PATH}
-# Categories=${APP_CAT}
-# Terminal=false
-# Encoding=UTF-8
-# Comment=${APP_NAME}";
-
-#     echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-# }
-
 function install_dc_for_portable()
 {
     # --------------------------------------------------------------------------

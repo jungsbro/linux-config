@@ -103,39 +103,7 @@ export XMODIFIERS="@im=fcitx5"
 #     # --------------------------------------------------------------------------
 # }
 
-# function set_desktop()
-# {
-#     # args ---------------------------------------------------------------------
-#     # ${CUR_USER}
-#     # ${APP_NAME}
-#     # ${EXEC_PATH}
-#     # ${ICON_PATH}
-#     # ${APP_CAT}
-#     # ${DESKTOP_PATH}
-#     # --------------------------------------------------------------------------
 
-#     # --------------------------------------------------------------------------
-#     if [[ -z ${CUR_USER} ]]; then
-#         return
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     local DESKTOP_CMD="[Desktop Entry]
-# Type=Application
-# Name=${APP_NAME}
-# Exec=${EXEC_PATH}
-# Icon=${ICON_PATH}
-# Categories=${APP_CAT}
-# Terminal=false"
-
-#     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-#         # ~/.local/share/applications/fcitx5.desktop
-#         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-#     else
-#         # /usr/share/applications/fcitx5.desktop
-#         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-#     fi
-# }
 
 function set_fcitx5_autostart()
 {

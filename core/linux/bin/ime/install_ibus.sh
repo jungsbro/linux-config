@@ -103,33 +103,6 @@ export XMODIFIERS="@im=ibus"
 #     # --------------------------------------------------------------------------
 # }
 
-# function set_desktop()
-# {
-#     # --------------------------------------------------------------------------
-#     if [[ -z ${CUR_USER} ]]; then
-#         return
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     local DESKTOP_CMD="[Desktop Entry]
-# Type=Application
-# Name=${APP_NAME}
-# Exec=${EXEC_PATH}
-# Icon=${ICON_PATH}
-# Categories=${APP_CAT}
-# Terminal=false
-# Hidden=false
-# NoDisplay=false
-# X-GNOME-Autostart-enabled=true"
-
-#     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-#         # ~/.local/share/applications/ibus.desktop
-#         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-#     else
-#         # /usr/share/applications/ibus.desktop
-#         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-#     fi
-# }
 
 function set_ibus_autostart()
 {

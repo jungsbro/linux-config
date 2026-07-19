@@ -38,47 +38,6 @@ APP_HIDDEN="false"
 
 
 # Func for build ===============================================================
-# function set_desktop()
-# {
-#     # --------------------------------------------------------------------------
-#     local app_name=${1}
-#     local app_exec_cmd=${2}
-#     local icon_path=${3}
-#     local app_cat=${4}
-#     local hidden=${5}
-#     local desktop_path=${6}
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     local desktop_cmd="[Desktop Entry]
-# Type=Application
-# Name=${app_name}
-# Exec=${app_exec_cmd}
-# Icon=${icon_path}
-# Categories=${app_cat}
-# Hidden=${hidden}";
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     if [[ -f "${desktop_path}" ]]; then
-#         return
-#     fi
-
-#     local desktop_dir=$(dirname ${desktop_path});
-#     su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     if [[ *"${desktop_path}"* == *"home"* ]]; then
-#         # ~/.local/share/applications/galculator.desktop
-#         su - ${CUR_USER} -c "echo \"${desktop_cmd}\" > ${desktop_path}";
-#     else
-#         # /usr/share/applications/galculator.desktop
-#         echo "${desktop_cmd}" > ${desktop_path};
-#     fi
-#     # --------------------------------------------------------------------------
-# }
-
 
 function install_dep_for_apt()
 {

@@ -292,29 +292,6 @@ function install_freetube_for_flatpak()
 
 
 # appimage, portable-zip : x86_64, aarch64 =====================================
-# function set_desktop()
-# {
-#     # args ---------------------------------------------------------------------
-#     # ${APP_NAME}
-#     # ${EXEC_PATH}
-#     # ${ICON_PATH}
-#     # ${APP_CAT}
-#     # ${DESKTOP_PATH}
-#     # --------------------------------------------------------------------------
-
-#     local DESKTOP_CMD="[Desktop Entry]
-# Type=Application
-# Name=${APP_NAME}
-# Exec=${EXEC_PATH}
-# Icon=${ICON_PATH}
-# Categories=${APP_CAT}
-# Terminal=false
-# Encoding=UTF-8
-# Comment=Watch YouTube videos without ads and tracking";
-
-#     echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-# }
-
 
 function install_freetube_for_portable()
 {

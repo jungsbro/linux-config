@@ -44,41 +44,6 @@ APP_HIDDEN="false";
 
 
 # Funcs ========================================================================
-# function set_desktop()
-# {
-#     # args ---------------------------------------------------------------------
-#     # ${CUR_USER}
-#     # ${DESKTOP_NAME}
-#     # ${EXEC_PATH}
-#     # ${ICON_PATH}
-#     # ${APP_CAT}
-#     # ${DESKTOP_PATH}
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     if [[ -z ${CUR_USER} ]]; then
-#         return
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     local DESKTOP_CMD="[Desktop Entry]
-# Type=Application
-# Name=${DESKTOP_NAME}
-# Exec=${EXEC_PATH}
-# Icon=${ICON_PATH}
-# Categories=${APP_CAT}
-# Terminal=false"
-
-#     if [[ *"${DESKTOP_PATH}"* == *"home"* ]]; then
-#         # ~/.local/share/applications/xcape.desktop
-#         su - ${CUR_USER} -c "echo \"${DESKTOP_CMD}\" > ${DESKTOP_PATH}";
-#     else
-#         # /usr/share/applications/xcape.desktop
-#         echo "${DESKTOP_CMD}" > ${DESKTOP_PATH};
-#     fi
-# }
-
-
 function set_xcape_autostart()
 {
     # --------------------------------------------------------------------------
