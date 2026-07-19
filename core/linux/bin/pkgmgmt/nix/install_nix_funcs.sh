@@ -85,7 +85,9 @@ function install_nixpkg()
     if [[ *"${mod}"* == *"multi"* ]]; then
         return
     fi
-    # return
+
+    # both of multi-user and single-user
+    return
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------

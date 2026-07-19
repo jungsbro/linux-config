@@ -32,8 +32,8 @@
 
 xfce4-power-manager &
 
-# x11)
-xfce4-clipman &
+# x11) autostart에서 xfce4-clipman가 제어된다
+# xfce4-clipman &
 
 # clipboard)
 # wl-paste --watch cliphist store &

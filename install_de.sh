@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_de.sh jungs;
+# sudo bash ./install_de.sh "${CUR_USER}";
 # ==============================================================================
 
 # ENV ==========================================================================
@@ -15,7 +15,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=$1;
-while [[ -z ${CUR_USER} ]]
+while [[ -z "${CUR_USER}" ]]
 do
     echo "${CUR_USER} not found";
     read -p "Please input username : " CUR_USER;
@@ -24,7 +24,7 @@ done
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -40,14 +40,14 @@ bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 # ==============================================================================
 
 # WM / DE ======================================================================
-# bash ${CORE_BIN_DIR}/wmde/wm/install_pkgs_for_wm.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/wm/install_pkgs_for_wm.sh "${CUR_USER}";
 
-bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/wmde/de/config_de.sh "${CUR_USER}";
 # ==============================================================================
 
 # korean =======================================================================
-bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
 # ==============================================================================
 
 # terminal =====================================================================
@@ -56,9 +56,7 @@ bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
 # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
 # ==============================================================================
 
-# endline ======================================================================
-echo "-----------------------------------------------------------------"
-date;
-echo "-----------------------------------------------------------------"
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
 # ==============================================================================
 

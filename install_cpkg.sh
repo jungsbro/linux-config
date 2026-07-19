@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_cpkg.sh jungs;
+# sudo bash ./install_cpkg.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -16,7 +16,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=$1;
-while [[ -z ${CUR_USER} ]]
+while [[ -z "${CUR_USER}" ]]
 do
     echo "${CUR_USER} not found";
     read -p "Please input username : " CUR_USER;
@@ -25,7 +25,7 @@ done
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -62,7 +62,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm crudini";
+    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm crudini";
     [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
     [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
     [[ -n $(pacman -Q | grep -i ^yq) ]] || pacman -S --needed --noconfirm yq;
@@ -134,7 +134,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^rpcbind) ]] || pacman -S --needed --noconfirm rpcbind;
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^autofs) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autofs";
+    [[ -n $(yay -Q | grep -i ^autofs) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm autofs";
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
     # --------------------------------------------------------------------------
@@ -391,26 +391,26 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # --------------------------------------------------------------------------
 fi
 
-bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
 # ==============================================================================
 
 # vim ==========================================================================
-bash ${CORE_BIN_DIR}/ide/install_vim.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
 # ==============================================================================
 
 # tmux =========================================================================
-bash ${CORE_BIN_DIR}/system/install_tmux.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
 # ==============================================================================
 
 # file-manager =================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/install_mc.sh;
-# bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh "${CUR_USER}";
 # ==============================================================================
 
 # zsh ==========================================================================
-bash ${CORE_BIN_DIR}/system/install_zsh.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/system/install_zsh.sh "${CUR_USER}";
 # ==============================================================================
 
 # swap =========================================================================
@@ -421,11 +421,10 @@ bash ${CORE_BIN_DIR}/system/config_swap.sh;
 bash ${CORE_BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
 
-# endline ======================================================================
-echo "-------------------------------------------------------------------------"
-date;
-echo "-------------------------------------------------------------------------"
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
 # ==============================================================================
+
 
 # reboot =======================================================================
 #/usr/sbin/init 6;

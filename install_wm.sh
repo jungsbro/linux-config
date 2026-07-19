@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_wm.sh ${CUR_WM} ${CUR_USER};
+# sudo bash ./install_wm.sh "${CUR_WM}" "${CUR_USER}";
 # ==============================================================================
 
 # ENV ==========================================================================
@@ -15,7 +15,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=${2};
-while [[ -z ${CUR_USER} ]]
+while [[ -z "${CUR_USER}" ]]
 do
     echo "${CUR_USER} not found";
     read -p "Please input username : " CUR_USER;
@@ -24,7 +24,7 @@ done
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -75,16 +75,16 @@ function install_wm()
     # --------------------------------------------------------------------------
     # wm
     if [[ *"${CUR_WM}"* == *"icewm"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/icewm/install_icewm.sh ${CUR_USER}
+        bash ${CORE_BIN_DIR}/wmde/wm/icewm/install_icewm.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"fluxbox"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/fluxbox/install_fluxbox.sh ${CUR_USER}
+        bash ${CORE_BIN_DIR}/wmde/wm/fluxbox/install_fluxbox.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"openbox"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh ${CUR_USER}
+        bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"i3"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3wm.sh ${CUR_USER}
+        bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3wm.sh "${CUR_USER}"
 
     else
         return
@@ -110,10 +110,10 @@ function install_panel()
     # if [[ -d "${HOME_DIR}/.config/openbox" ]]; then
 
     if [[ *"${CUR_WM}"* == *"fluxbox"* ]] || [[ *"${CUR_WM}"* == *"openbox"* ]]; then
-        # bash ${CORE_BIN_DIR}/panel/install_i3blocks.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/panel/install_i3blocks.sh "${CUR_USER}";
 
-        bash ${CORE_BIN_DIR}/panel/tint2/install_tint2.sh ${CUR_USER};
-        bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/panel/tint2/install_tint2.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh "${CUR_USER}";
     fi
     # --------------------------------------------------------------------------
 }
@@ -122,7 +122,7 @@ function install_panel()
 function install_terminal()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
     # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
     # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
@@ -134,10 +134,10 @@ function install_launcher()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/launcher/install_xfce4-appfinder.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/launcher/install_xfce4-appfinder.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -146,10 +146,10 @@ function install_expose()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh "${CUR_USER}";
 
     # 방법2)
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -157,9 +157,9 @@ function install_expose()
 function install_hotkey()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -167,15 +167,15 @@ function install_hotkey()
 function install_ime()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
-    # bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
 function install_display-manager()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_arandr.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/gpu/install_arandr.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -183,7 +183,7 @@ function install_display-manager()
 function install_compositor()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_picom.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/gpu/install_picom.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -203,13 +203,13 @@ function install_power-manager()
 function install_audio()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
 
     # 방법1)
-    bash ${CORE_BIN_DIR}/audio/install_volumeicon.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/audio/install_volumeicon.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/audio/install_pasystray.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/audio/install_pasystray.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -226,7 +226,7 @@ function install_file-manager()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh "${CUR_USER}";
 
     # 방법2)
     # bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
@@ -251,7 +251,7 @@ function install_screensaver()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    # bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
 
     # 방법2) xfce4-screensaver & 필요
     bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
@@ -263,10 +263,10 @@ function install_wallpaper()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    bash ${CORE_BIN_DIR}/graphics/install_feh.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/graphics/install_feh.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/graphics/install_nitrogen.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/graphics/install_nitrogen.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -275,7 +275,7 @@ function install_task-manager()
 {
     # --------------------------------------------------------------------------
     # 방법1) xfce4-terminal -e htop
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
 
     # 방법2)
     # bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
@@ -286,12 +286,12 @@ function install_ide()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/ide/install_mousepad.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh "${CUR_USER}";
 
-    # bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -315,7 +315,7 @@ function install_notification()
     bash ${CORE_BIN_DIR}/notification/install_libnotify.sh;
 
     # 방법1)
-    bash ${CORE_BIN_DIR}/notification/install_dunst.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/notification/install_dunst.sh "${CUR_USER}";
 
     # 방법2)
     # bash ${CORE_BIN_DIR}/notification/install_xfce4-notifyd.sh;
@@ -335,7 +335,7 @@ function install_clipboard()
 function install_theme()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/theme/install_lxappearance.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/theme/install_lxappearance.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
 }
@@ -402,3 +402,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 fi
 # ==============================================================================
 
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+# ==============================================================================

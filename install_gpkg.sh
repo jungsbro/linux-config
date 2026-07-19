@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage ========================================================================
-# sudo bash ./install_gpkg.sh jungs;
+# sudo bash ./install_gpkg.sh "${CUR_USER}";
 # ==============================================================================
 
 # checking pkg-ver =============================================================
@@ -30,7 +30,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
 CUR_USER=$1;
-while [[ -z ${CUR_USER} ]]
+while [[ -z "${CUR_USER}" ]]
 do
     echo "${CUR_USER} not found";
     read -p "Please input username : " CUR_USER;
@@ -39,7 +39,7 @@ done
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -82,11 +82,11 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # nix ==========================================================================
-# bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh "${CUR_USER}";
 # ==============================================================================
 
 # bottles ======================================================================
-# bash ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/pkgmgmt/install_bottles.sh "${CUR_USER}";
 # ==============================================================================
 
 # monitoring ===================================================================
@@ -94,12 +94,12 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # autohotkey ===================================================================
-bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh "${CUR_USER}";
 # ==============================================================================
 
 # bluelight ====================================================================
 if [[ *"${CUR_WMDE}"* != *"gnome"* ]] && [[ *"${CUR_WMDE}"* != *"plasma"* ]]; then
-    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
 fi
 # ==============================================================================
 
@@ -108,7 +108,7 @@ fi
 # ==============================================================================
 
 # cleaner ======================================================================
-# bash ${CORE_BIN_DIR}/system/install_stacer.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_stacer.sh "${CUR_USER}";
 # ==============================================================================
 
 # snapshot =====================================================================
@@ -128,12 +128,12 @@ bash ${CORE_BIN_DIR}/security/install_gnome-keyring.sh;
 # ==============================================================================
 
 # ide ==========================================================================
-# bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/ide/install_vscode.sh "${CUR_USER}";
 # ==============================================================================
 
 # file-manager =================================================================
-bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh "${CUR_USER}";
 # ==============================================================================
 
 # web browser ==================================================================
@@ -159,7 +159,7 @@ bash ${CORE_BIN_DIR}/internet/install_firefox.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
-bash ${CORE_BIN_DIR}/internet/install_remmina.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/internet/install_remmina.sh "${CUR_USER}";
 # ==============================================================================
 
 # anydesk ======================================================================
@@ -172,23 +172,23 @@ bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
 # ==============================================================================
 
 # paint ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh "${CUR_USER}";
 if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
     bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
 else
-    bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/graphics/install_drawing.sh "${CUR_USER}";
 fi
 # bash ${CORE_BIN_DIR}/graphics/install_inkscape.sh;
-# bash ${CORE_BIN_DIR}/graphics/install_pinta.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_pinta.sh "${CUR_USER}";
 # ==============================================================================
 
 # xnview =======================================================================
-# bash ${CORE_BIN_DIR}/graphics/install_xnviewmp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/install_xnviewmp.sh "${CUR_USER}";
 # ==============================================================================
 
 # multimedia ===================================================================
-# bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
-# bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh "${CUR_USER}";
 # ==============================================================================
 
 # edit =========================================================================
@@ -197,18 +197,17 @@ fi
 # ==============================================================================
 
 # filesync =====================================================================
-bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh ${CUR_USER};
+bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh "${CUR_USER}";
 # ==============================================================================
 
 # simplescreenrecorder =========================================================
-# bash ${CORE_BIN_DIR}/screenshot/install_simplescreenrecorder.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/screenshot/install_simplescreenrecorder.sh "${CUR_USER}";
 # ==============================================================================
 
-# endline ======================================================================
-echo "-------------------------------------------------------------------------"
-date;
-echo "-------------------------------------------------------------------------"
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
 # ==============================================================================
+
 
 
 
