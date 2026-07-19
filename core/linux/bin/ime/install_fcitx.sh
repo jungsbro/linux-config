@@ -49,60 +49,6 @@ export XMODIFIERS="@im=fcitx"
 
 
 # Funcs ========================================================================
-# function set_fcitx_env()
-# {
-#     # args ---------------------------------------------------------------------
-#     # ${ENV_CONF_PATH}
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     # local ENV_CONF_PATH="${HOME_DIR}/.xprofile";
-#     # local ENV_CONF_PATH="${HOME_DIR}/.xsession";
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     local CONF_CMD='#!/bin/bash
-# export GTK_IM_MODULE=fcitx
-# export QT_IM_MODULE=fcitx
-# export XMODIFIERS="@im=fcitx"
-# '
-#     # GNOME,KDE는 ~/.config/environment.d/*.conf 에서 잘된다.
-#     # 전통/경량 DE는 ~/.xprofile(x11,rhel), ~/.xsession(x11,debian), ~/.profile(wayland)에서 잘된다.
-#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
-
-#         if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
-#             CONF_CMD="${CONF_CMD}exec startlxde"
-
-#         elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
-#             CONF_CMD="${CONF_CMD}exec startlxqt"
-
-#         elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
-#             CONF_CMD="${CONF_CMD}exec startxfce4"
-
-#         elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
-#             CONF_CMD="${CONF_CMD}exec mate-session"
-
-#         elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then  # gnome
-#             CONF_CMD="${CONF_CMD}exec gnome-session"
-
-#         elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                        # cinnamon
-#             CONF_CMD="${CONF_CMD}exec cinnamon-session"
-
-#         elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
-#             CONF_CMD="${CONF_CMD}exec startplasma-x11"
-#         fi
-#     fi
-#     # --------------------------------------------------------------------------
-
-#     # --------------------------------------------------------------------------
-#     su - ${CUR_USER} -c "[[ -f ${ENV_CONF_PATH} ]] || echo \"${CONF_CMD}\" > ${ENV_CONF_PATH}";
-
-#     if [[ *"${ENV_CONF_PATH}"* == *".xsession"* ]]; then
-#         su - ${CUR_USER} -c "chmod +x ${ENV_CONF_PATH}";
-#     fi
-#     # --------------------------------------------------------------------------
-# }
-
 
 function set_fcitx_autostart()
 {
@@ -166,8 +112,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     # --------------------------------------------------------------------------
-    # ENV_CONF_PATH="${HOME_DIR}/.xprofile"
-    # set_fcitx_env;
     source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
     # --------------------------------------------------------------------------
 
