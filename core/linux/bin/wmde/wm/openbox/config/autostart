@@ -21,7 +21,8 @@
 # 1) polkit
 
 # 방법1)
-/usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+# /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+/usr/libexec/polkit-mate-authentication-agent-1 &
 
 # 방법2)
 # /usr/bin/lxqt-policykit-agent &
@@ -32,8 +33,8 @@
 
 xfce4-power-manager &
 
-# x11) autostart에서 xfce4-clipman가 제어된다
-# xfce4-clipman &
+# x11) xfce4-screenshooter에서 xfce4-clipman가 필요하다.
+xfce4-clipman &
 
 # clipboard)
 # wl-paste --watch cliphist store &
@@ -52,7 +53,7 @@ dunst &
 # ------------------------------------------------------------------------------
 # 4) ime
 
-fcitx5 -d &
+# fcitx5 -d &
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -109,5 +110,5 @@ xfce4-screensaver &
 # ------------------------------------------------------------------------------
 # 11) compositor
 
-picom &
+# picom &
 # ------------------------------------------------------------------------------

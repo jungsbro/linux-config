@@ -156,18 +156,20 @@ function set_nix_env()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local mod=${1}  # multi / single
+    local mod=${1}      # multi / single
 
     if [[ *"${mod}"* == *"multi"* ]]; then
-        local env_cmd='
+        local kwd="nix-daemon.sh"
+        local cmd='
 # ------------------------------------------------------------------------------
 if [ -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
     source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 fi
 # ------------------------------------------------------------------------------
 '
-    else
-        local env_cmd='
+    else                # single
+        local kwd="nix.sh"
+        local cmd='
 # ------------------------------------------------------------------------------
 if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
     source "$HOME/.nix-profile/etc/profile.d/nix.sh"
@@ -178,26 +180,7 @@ fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        local env_path="${HOME_DIR}/.xprofile";
-
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        local env_path="${HOME_DIR}/.xsessionrc";
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        local env_path="${HOME_DIR}/.xprofile";
-    fi
-
-    if [[ -f ${env_path} ]]; then
-        if [[ $(grep -i "nix-daemon.sh" ${env_path}) ]] || [[ $(grep -i "nix.sh" ${env_path}) ]]; then
-            return
-        fi
-
-        su - ${CUR_USER} -c "echo \"${env_cmd}\" >> ${env_path}";
-    else
-        su - ${CUR_USER} -c "echo '#!/bin/bash' > ${env_path}";
-        su - ${CUR_USER} -c "echo \"${env_cmd}\" >> ${env_path}";
-    fi
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && set_env "${kwd}" "${cmd}" "${CUR_USER}"
     # --------------------------------------------------------------------------
 }
 

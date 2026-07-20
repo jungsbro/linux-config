@@ -55,7 +55,7 @@ DST_ROFI_CONF_PATH="${DST_ROFI_CONF_DIR}/config.rasi"
 
 
 # Funcs ========================================================================
-function create_scripts_for_obrc()
+function create_scripts_for_obrc()   # not used
 {
     # --------------------------------------------------------------------------
     local dst_dir="${HOME_DIR}/.local/bin"
@@ -89,7 +89,7 @@ export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive && rofi -show
 }
 
 
-function fix_paths_for_obrc()
+function fix_paths_for_obrc()   # not used
 {
     # --------------------------------------------------------------------------
     local dst_dir="${HOME_DIR}/.config/openbox"
@@ -112,6 +112,30 @@ function fix_paths_for_obrc()
     sed -i "s|${src_expose_cmd}|${dst_expose_cmd}|g" "${obrc_path}"
     sed -i "s|${src_launcher_cmd}|${dst_launcher_cmd}|g" "${obrc_path}"
     # --------------------------------------------------------------------------
+}
+
+
+function fix_themes_for_nix()
+{
+    local src_theme_path="/usr/share/rofi/themes/Arc-Dark.rasi"
+    local dst_theme_path="${HOME_DIR}/.nix-profile/share/rofi/themes/Arc-Dark.rasi"
+
+    local dst_config_dir="${HOME_DIR}/.config/rofi/themes"
+    local dst_config_path="${dst_config_dir}/j_launcher.rasi"
+
+    if [[ ! -f ${dst_theme_path} ]]; then
+        return
+    fi
+    if [[ ! -f ${dst_config_path} ]]; then
+        return
+    fi
+    # grep "/usr/share/rofi/themes/Arc-Dark.rasi" "${HOME}/.config/rofi/themes/j_launcher.rasi"
+    if [[ -z $(grep "${src_theme_path}" "${dst_config_path}") ]]; then
+        return
+    fi
+
+    sed -i "s|${src_theme_path}|${dst_theme_path}|g" "${dst_config_path}";
+    chown ${CUR_USER}:${CUR_USER} ${dst_config_path};
 }
 
 
@@ -208,11 +232,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # "rofi for nix" needs glibc-locales
         # export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
         bash ${CORE_BIN_DIR}/fonts/install_glibc-locales.sh ${CUR_USER};
+
+        fix_themes_for_nix;
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
+    # 방법1)
     # create_config;
+
+    # 방법2)
     copy_config_to_home;
     # --------------------------------------------------------------------------
 

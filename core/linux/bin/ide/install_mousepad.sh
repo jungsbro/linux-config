@@ -29,13 +29,24 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
-
 # Funcs ========================================================================
 function set_mousepad_settings()
 {
     # --------------------------------------------------------------------------
     # gsettings list-recursively org.xfce.mousepad
+
+    # :0.0
+    # echo $DISPLAY
+
+    # unix:path=/run/user/1000/bus
+    # echo $DBUS_SESSION_BUS_ADDRESS
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     su - ${CUR_USER} <<"EOF"
+export DISPLAY=:0
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u ${USER})/bus"
+
 # view
 gsettings set org.xfce.mousepad.preferences.view show-line-numbers true;
 gsettings set org.xfce.mousepad.preferences.view show-whitespace true;

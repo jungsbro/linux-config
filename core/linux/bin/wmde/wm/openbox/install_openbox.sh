@@ -33,15 +33,19 @@ CUR_WMDE=$(ls /usr/bin/*session);
 function copy_config_to_home()
 {
     # --------------------------------------------------------------------------
+    # /etc/xrdp/openbox/
+
     local src_dir="${CUR_DIR}/config";
 
     local dst_dir="${HOME_DIR}/.config/openbox";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -d "${dst_dir}" ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ -d "${dst_dir}" ]]; then
+        return;
     fi
+
+    su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -51,12 +55,49 @@ function copy_config_to_home()
     # --------------------------------------------------------------------------
 }
 
+
 function set_hotkeys()
 {
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_app_for_ob.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_window_for_ob.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_workspace_for_ob.sh ${CUR_USER};
 }
+
+
+function fix_xrdp-startwm_for_ob()
+{
+    # --------------------------------------------------------------------------
+    local dst_path="/usr/libexec/xrdp/startwm-bash.sh"
+
+    local search_str='#!/usr/bin/bash -l'
+    local append_str='exec /usr/bin/openbox-session'
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ ! -f "${dst_path}" ]]; then
+        return
+    fi
+    if [[ -z $(grep -i "${search_str}" "${dst_path}") ]]; then
+        return
+    fi
+    if [[ -n $(grep -i "${append_str}" "${dst_path}") ]]; then
+        return
+    fi
+
+    sed -i "\|${search_str}|a ${append_str}" ${dst_path};
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+        if systemctl list-unit-files | grep -iq xrdp; then
+            systemctl restart xrdp
+        fi
+    else    # sysVinit
+        return
+    fi
+    # --------------------------------------------------------------------------
+}
+
 # ==============================================================================
 
 
@@ -99,6 +140,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_system_for_ob.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # xrdp for openbox
+    fix_xrdp-startwm_for_ob;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 

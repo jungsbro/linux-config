@@ -43,33 +43,20 @@ function set_locale_archive_env()
     fi
     # --------------------------------------------------------------------------
 
-    local env_cmd='
+    # --------------------------------------------------------------------------
+    local kwd="locale-archive";
+    # --------------------------------------------------------------------------
+
+    local cmd='
 # ------------------------------------------------------------------------------
 if [ -e "$HOME/.nix-profile/lib/locale/locale-archive" ]; then
     export LOCALE_ARCHIVE="$HOME/.nix-profile/lib/locale/locale-archive"
 fi
 # ------------------------------------------------------------------------------
 '
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-        local env_path="${HOME_DIR}/.xprofile";
-
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-        local env_path="${HOME_DIR}/.xsessionrc";
-
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        local env_path="${HOME_DIR}/.xprofile";
-    fi
-
-    if [[ -f ${env_path} ]]; then
-        if [[ $(grep -i "locale-archive" ${env_path}) ]]; then
-            return
-        fi
-
-        su - ${CUR_USER} -c "echo \"${env_cmd}\" >> ${env_path}";
-    else
-        su - ${CUR_USER} -c "echo '#!/bin/bash' > ${env_path}";
-        su - ${CUR_USER} -c "echo \"${env_cmd}\" >> ${env_path}";
-    fi
+    # --------------------------------------------------------------------------
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && set_env "${kwd}" "${cmd}" "${CUR_USER}"
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

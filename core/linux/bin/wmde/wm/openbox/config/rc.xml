@@ -324,10 +324,10 @@
     <!--> Keybindings for logout </!-->
     <keybind key="A-C-Delete">
       <action name="Execute">
-        <command>yad --center --undecoreated --skip-taskbar \
---button="Reboot:reboot" \
---button="Shutdown:shutdonw" \
---button="Logtout:pkill openbox" \
+        <command>yad --center --undecorated --skip-taskbar \
+--button="Reboot!system-reboot:/usr/local/bin/my-reboot.sh" \
+--button="Shutdown!system-shutdown:/usr/local/bin/my-shutdown.sh" \
+--button="Logout:pkill openbox" \
 --button="Cancel:1"</command>
       </action>
     </keybind>

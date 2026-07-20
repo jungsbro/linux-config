@@ -29,7 +29,10 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 # ------------------------------------------------------------------------------
 APP_NAME="sxhkd"
+
 APP_CAT="System;Utility;Development"
+
+APP_HIDDEN="false"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -95,7 +98,10 @@ function copy_sxhkdrc_to_home()
     # 2) copy sxhkdrc to ~/.config/sxhkd
     local src_template_dir="${src_sxhkdrc_dir}/templates";
 
-    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
+    if [[ *"${CUR_WMDE}"* != *"lxsession"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then
+        local src_template_path="${src_template_dir}/wm_sxhkdrc";
+
+    elif [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         local src_template_path="${src_template_dir}/lxde_sxhkdrc";
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
@@ -127,7 +133,7 @@ function copy_sxhkdrc_to_home()
 }
 
 
-function create_desktop_for_sxhkd()
+function create_desktop_for_sxhkd()     # deprecated
 {
     local autostart_dir="${HOME_DIR}/.config/autostart";
     local autostart_path="${autostart_dir}/sxhkd.desktop";
@@ -154,7 +160,7 @@ X-LXQt-X11-Only=true
 }
 
 
-function set_autostart_for_sxhkd()
+function set_autostart_for_sxhkd()      # deprecated
 {
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         create_desktop_for_sxhkd;
@@ -188,6 +194,32 @@ function set_autostart_for_sxhkd()
         echo ""
     fi
 }
+
+
+function set_sxhkd_autostart()
+{
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local exec_path="${APP_NAME}"
+
+    local icon_path=""
+
+    local desktop_dir="${HOME_DIR}/.config/autostart"
+    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+
+    local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
+    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
@@ -215,7 +247,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # --------------------------------------------------------------------------
     # 3) ~/.config/autostart/sxhkd.desktop
-    set_autostart_for_sxhkd;
+    # set_autostart_for_sxhkd;
+    set_sxhkd_autostart
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

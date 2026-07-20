@@ -38,19 +38,32 @@ APP_CAT="Settings;System;"
 APP_HIDDEN="false";
 
 APP_VER="v3.1.1"
+# ------------------------------------------------------------------------------
+# ==============================================================================
 
-IME_ENV_CMD='
+
+# Funcs ========================================================================
+function set_kime_env()
+{
+    # --------------------------------------------------------------------------
+    if [[ -z ${CUR_USER} ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    local cmd='
 # ------------------------------------------------------------------------------
 export GTK_IM_MODULE=xim
 export QT_IM_MODULE=xim
 export XMODIFIERS="@im=kime"
 # ------------------------------------------------------------------------------
 '
-# ------------------------------------------------------------------------------
-# ==============================================================================
+    # --------------------------------------------------------------------------
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && set_env "${APP_NAME}" "${cmd}" "${CUR_USER}"
+    # --------------------------------------------------------------------------
+}
 
 
-# Funcs ========================================================================
 function set_kime_autostart()
 {
     # args ---------------------------------------------------------------------
@@ -141,7 +154,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};
             # ------------------------------------------------------------------
-            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
+            set_kime_env
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
             # ICON_PATH="kime-hangul-black.png";
@@ -161,7 +174,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             wget "${TMP_URL}" -O "${TMP_PATH}";
             apt install -y ${TMP_PATH};
             # ------------------------------------------------------------------
-            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
+            set_kime_env
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
             # ICON_PATH="kime-hangul-black.png";
@@ -178,7 +191,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
             # ------------------------------------------------------------------
-            source ${CORE_BIN_DIR}/ime/install_ime_funcs.sh && set_ime-env "${APP_NAME}" "${IME_ENV_CMD}" "${CUR_USER}";
+            set_kime_env
             # ------------------------------------------------------------------
             # ICON_PATH="/usr/local/share/icons/hicolor/64x64/apps/kime-hangul-black.png";
             # ICON_PATH="kime-hangul-black.png";

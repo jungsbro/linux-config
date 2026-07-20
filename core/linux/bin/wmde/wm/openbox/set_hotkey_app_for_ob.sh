@@ -137,7 +137,7 @@ function set_hotkey_for_logout()
     local action="Execute";
     local cmd='yad --center --undecoreated --skip-taskbar \
 --button="Reboot:reboot" \
---button="Shutdown:shutdonw" \
+--button="Shutdown:shutdown" \
 --button="Logtout:pkill openbox" \
 --button="Cancel:1"';
     # --------------------------------------------------------------------------
