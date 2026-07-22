@@ -155,15 +155,15 @@ bash ${CORE_BIN_DIR}/internet/install_firefox.sh;
 # ==============================================================================
 
 # ftp ==========================================================================
-# bash ${CORE_BIN_DIR}/internet/install_filezilla.sh;
+# bash ${CORE_BIN_DIR}/remote/gui/install_filezilla.sh;
 # ==============================================================================
 
 # rdp ==========================================================================
-bash ${CORE_BIN_DIR}/internet/install_remmina.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/remote/gui/install_remmina.sh "${CUR_USER}";
 # ==============================================================================
 
 # anydesk ======================================================================
-# bash ${CORE_BIN_DIR}/internet/install_anydesk.sh;
+# bash ${CORE_BIN_DIR}/remote/gui/install_anydesk.sh;
 # ==============================================================================
 
 # office =======================================================================
@@ -205,7 +205,7 @@ bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh "${CUR_USER}
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
 
 

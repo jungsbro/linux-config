@@ -79,7 +79,6 @@ function install_display-server()
 
     else
         echo "wayland"
-
     fi
 }
 
@@ -92,17 +91,32 @@ function install_wm()
         bash ${CORE_BIN_DIR}/wmde/wm/icewm/install_icewm.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"fluxbox"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/fluxbox/install_fluxbox.sh "${CUR_USER}"
+        bash ${CORE_BIN_DIR}/wmde/wm/fluxbox/fb/install_fluxbox.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"openbox"* ]]; then
         bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh "${CUR_USER}"
 
     elif [[ *"${CUR_WM}"* == *"i3"* ]]; then
-        bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3wm.sh "${CUR_USER}"
+        bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3.sh "${CUR_USER}"
 
     else
         return
     fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # for autostart (~/.config/autostart/*.desktop)
+    bash ${CORE_BIN_DIR}/system/install_dex.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # fix xrdp-settings for wm
+
+    # /usr/libexec/xrdp/startwm-bash.sh
+    source ${CORE_BIN_DIR}/remote/gui/xrdp/install_xrdp_funcs.sh && fix_startwm_for_xsession;
+
+    # ~/.xsession, ~/.Xclients
+    source ${CORE_BIN_DIR}/remote/gui/xrdp/install_xrdp_funcs.sh && set_xsession "${CUR_WM}" "${CUR_USER}"
     # --------------------------------------------------------------------------
 }
 
@@ -123,11 +137,18 @@ function install_panel()
     # if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
     # if [[ -d "${HOME_DIR}/.config/openbox" ]]; then
 
-    if [[ *"${CUR_WM}"* == *"fluxbox"* ]] || [[ *"${CUR_WM}"* == *"openbox"* ]]; then
-        # bash ${CORE_BIN_DIR}/panel/install_i3blocks.sh "${CUR_USER}";
+    if [[ *"${CUR_WM}"* == *"icewm"* ]]; then
+        echo "";
 
+    elif [[ *"${CUR_WM}"* == *"fluxbox"* ]] || [[ *"${CUR_WM}"* == *"openbox"* ]]; then
         bash ${CORE_BIN_DIR}/panel/tint2/install_tint2.sh "${CUR_USER}";
         bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh "${CUR_USER}";
+
+    elif [[ *"${CUR_WM}"* == *"i3"* ]]; then
+        bash ${CORE_BIN_DIR}/panel/install_i3blocks.sh "${CUR_USER}";
+
+    else
+        return
     fi
     # --------------------------------------------------------------------------
 }
@@ -381,6 +402,28 @@ function install_calculator()
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    # --------------------------------------------------------------------------
+    # if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    #     # "icewm, fluxbox, openbox, i3" are avaliable
+    #     echo ""
+
+    # elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    #     # "icewm, fluxbox, openbox, i3" are avaliable
+    #     echo ""
+
+    # elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    #     # "icewm, fluxbox, openbox, i3" are avaliable
+    #     echo ""
+
+    # elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    #     # "icewm, openbox, i3" are avaliable
+
+    #     if [[ *"${CUR_WM}"* == *"fluxbox"* ]]; then
+    #         echo "fluxbox is not supported in RHEL";
+    #         return
+    #     fi
+    # fi
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     install_utils;
@@ -414,10 +457,10 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     install_polkit;
     install_calculator;
     # --------------------------------------------------------------------------
-
 fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
+

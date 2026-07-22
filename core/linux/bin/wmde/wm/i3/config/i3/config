@@ -219,10 +219,11 @@ bindsym Mod1+Tab focus next
 # 포커스 설정 (expose) -----------------------------------------------------------
 # win + tab
 # bindsym $mod+Tab exec "skippy-xd"
+bindsym $mod+Tab exec "skippy-xd --expose --desktop -1"
+
 # bindsym $mod+Tab exec "rofi -show window -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'"
 # bindsym $mod+Tab exec "rofi -show window -show-icons"
-
-bindsym $mod+Tab exec "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
+# bindsym $mod+Tab exec "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'"
 
 # rofi theme 설정
 # rofi-theme-selector
@@ -289,17 +290,17 @@ bindsym $mod+space floating toggle
 # lock screen ------------------------------------------------------------------
 # win + l
 # bindsym $mod+l exec i3lock
-# bindsym $mod+l exec i3lock --color "$bg-color"
-bindsym $mod+l exec loginctl lock-session
+bindsym $mod+l exec i3lock --color "$bg-color"
+# bindsym $mod+l exec loginctl lock-session
 # ------------------------------------------------------------------------------
 
 # screen shot ------------------------------------------------------------------
 # print
 # 방법1)
-bindsym Print exec gnome-screenshot --interactive
+# bindsym Print exec gnome-screenshot --interactive
 
 # 방법2)
-# bindsym Print exec xfce4-screenshooter
+bindsym Print exec xfce4-screenshooter
 # ------------------------------------------------------------------------------
 
 # file manager -----------------------------------------------------------------
@@ -403,35 +404,120 @@ bindsym Control+$mod+Right workspace next
 
 
 # Autostart ====================================================================
-# compositor -------------------------------------------------------------------
-# exec --no-startup-id compton
-# exec --no-startup-id compton -f
-
-# exec --no-startup-id picom --backend xrender -b -f
-# exec --no-startup-id picom --backend glx -b -f
 # ------------------------------------------------------------------------------
-
-# wallpapers -------------------------------------------------------------------
-# set $wallpaper_path "/home/jungs/Pictures/wallpaper/aaronphs_indonesia.jpg"
-set $wallpaper_path "/home/jungs/Pictures/wallpaper/dkidd_light.jpg"
-# exec_always --no-startup-id feh --bg-scale $wallpaper_path
-# ------------------------------------------------------------------------------
-
-# resolution -------------------------------------------------------------------
-# exec_always --no-startup-id xrandr --output eDP-1 --primary --mode 1368x768 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off
-# ------------------------------------------------------------------------------
-
-# 부팅시 workspace에 app 자동 실행 -------------------------------------------------
+# 부팅시 workspace에 app 자동 실행
 # exec i3-msg 'workspace $ws1; exec google-chrome'
 # exec i3-msg 'workspace $ws1; exec chromium'
 # exec i3-msg 'workspace $ws2; exec mousepad'
 # ------------------------------------------------------------------------------
 
-# IME --------------------------------------------------------------------------
-exec --no-startup-id fcitx5
+# ------------------------------------------------------------------------------
+# 1) xdg autostart (~/.config/autostart/*.desktop)
+
+exec --no-startup-id /usr/local/bin/autostart-runner.sh &
 # ------------------------------------------------------------------------------
 
-# clipboard --------------------------------------------------------------------
-# exec --no-startup-id xfce4-clipman &
+# ------------------------------------------------------------------------------
+# 2) polkit
+
+# 방법1)
+# exec --no-startup-id /usr/lib/mate-polkit/polkit-mate-authentication-agent-1 &
+exec --no-startup-id /usr/libexec/polkit-mate-authentication-agent-1 &
+
+# 방법2)
+# exec --no-startup-id /usr/bin/lxqt-policykit-agent &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 3) power-manager
+
+exec --no-startup-id xfce4-power-manager &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 4) clipboard
+
+# x11) xfce4-screenshooter에서 xfce4-clipman가 필요하다.
+exec --no-startup-id xfce4-clipman &
+
+# clipboard)
+# exec --no-startup-id wl-paste --watch cliphist store &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 5) notification
+
+# x11)
+exec --no-startup-id dunst &
+
+# wayland)
+# exec --no-startup-id mako &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 6) ime
+# exec --no-startup-id fcitx5 -d &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 7) panel
+
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 8) wallpaper
+
+# 방법0)
+# set $wallpaper_path "/home/jungs/Pictures/wallpaper/aaronphs_indonesia.jpg"
+# set $wallpaper_path "/home/jungs/Pictures/wallpaper/dkidd_light.jpg"
+
+# 방법1)
+# exec_always --no-startup-id feh --bg-scale /path/to/wallpaper.jpg &
+# (sleep 1 && feh --bg-fill /usr/share/backgrounds/1.jpg) &
+# exec_always --no-startup-id feh --bg-scale $wallpaper_path
+
+# 방법2)
+# nitrogen --restore &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 9) resolution
+
+# 방법1)
+# exec_always --no-startup-id xrandr -s 1920x1080 &
+
+# 방법2)
+# exec_always --no-startup-id xrandr --output eDP-1 --primary --mode 1368x768 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 10) volume
+
+# 방법1)
+# exec --no-startup-id pasystray &
+
+# 방법2)
+exec --no-startup-id (sleep 1; volumeicon) &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 11) network
+
+exec --no-startup-id nm-applet &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 12) screen-saver & lock
+
+exec --no-startup-id xfce4-screensaver &
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 13) compoistor
+# exec --no-startup-id compton
+# exec --no-startup-id compton -f
+
+# exec --no-startup-id picom --backend xrender -b -f
+# exec --no-startup-id picom --backend glx -b -f
 # ------------------------------------------------------------------------------
 # ==============================================================================

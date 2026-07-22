@@ -232,8 +232,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # "rofi for nix" needs glibc-locales
         # export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
         bash ${CORE_BIN_DIR}/fonts/install_glibc-locales.sh ${CUR_USER};
-
-        fix_themes_for_nix;
         # ----------------------------------------------------------------------
     fi
 
@@ -245,9 +243,16 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     copy_config_to_home;
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    if [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        fix_themes_for_nix;
+    fi
+    # --------------------------------------------------------------------------
+
 fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
+

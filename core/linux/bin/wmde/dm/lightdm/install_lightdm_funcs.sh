@@ -65,7 +65,11 @@ function fix_lightdm-xsession()
 
     # SWITCHDESKPATH=/usr/share/switchdesk
     local search_str='SWITCHDESKPATH='
+
     local tmp_path="/tmp/xsession_snippet.txt"
+    if [[ -f "${tmp_path}" ]]; then
+        rm -f "${tmp_path}"
+    fi
 
     cat << 'EOF' > ${tmp_path}
 # ------------------------------------------------------------------------------

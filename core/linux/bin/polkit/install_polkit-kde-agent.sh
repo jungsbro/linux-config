@@ -45,6 +45,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^polkit-kde-agent-1) ]] || apt install -y --no-install-recommends polkit-kde-agent-1;
+        [[ -n $(apt list --installed | grep -i ^pkexec) ]] || apt install -y pkexec;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
@@ -60,5 +61,5 @@ fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================

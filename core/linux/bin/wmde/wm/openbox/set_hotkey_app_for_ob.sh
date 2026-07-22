@@ -136,8 +136,8 @@ function set_hotkey_for_logout()
     local comment="Keybindings for logout";
     local action="Execute";
     local cmd='yad --center --undecoreated --skip-taskbar \
---button="Reboot:reboot" \
---button="Shutdown:shutdown" \
+--button="Reboot!system-reboot:/usr/local/bin/my-reboot.sh" \
+--button="Shutdown!system-shutdown:/usr/local/bin/my-shutdown.sh" \
 --button="Logtout:pkill openbox" \
 --button="Cancel:1"';
     # --------------------------------------------------------------------------
@@ -320,5 +320,5 @@ fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================

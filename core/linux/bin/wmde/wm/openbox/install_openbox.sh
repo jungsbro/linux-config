@@ -26,6 +26,10 @@ CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="openbox"
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -35,8 +39,10 @@ function copy_config_to_home()
     # --------------------------------------------------------------------------
     # /etc/xrdp/openbox/
 
-    local src_dir="${CUR_DIR}/config";
+    # ./config/openbox
+    local src_dir="${CUR_DIR}/config/openbox";
 
+    # ~/.config/openbox/*
     local dst_dir="${HOME_DIR}/.config/openbox";
     # --------------------------------------------------------------------------
 
@@ -50,6 +56,7 @@ function copy_config_to_home()
 
     # --------------------------------------------------------------------------
     if [[ -d "${src_dir}" ]]; then
+        # cp -rf ./config/openbox/* ~/.config/openbox
         su - ${CUR_USER} -c "cp -rf ${src_dir}/* ${dst_dir}/";
     fi
     # --------------------------------------------------------------------------
@@ -64,7 +71,7 @@ function set_hotkeys()
 }
 
 
-function fix_xrdp-startwm_for_ob()
+function fix_startwm_for_openbox()  # deprecated
 {
     # --------------------------------------------------------------------------
     local dst_path="/usr/libexec/xrdp/startwm-bash.sh"
@@ -88,13 +95,7 @@ function fix_xrdp-startwm_for_ob()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl list-unit-files | grep -iq xrdp; then
-            systemctl restart xrdp
-        fi
-    else    # sysVinit
-        return
-    fi
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && restart_sv "xrdp";
     # --------------------------------------------------------------------------
 }
 
@@ -139,17 +140,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # set_hotkeys;
     # bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_system_for_ob.sh ${CUR_USER};
     # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # xrdp for openbox
-    fix_xrdp-startwm_for_ob;
-    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
-
-
-

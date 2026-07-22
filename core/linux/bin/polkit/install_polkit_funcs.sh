@@ -29,7 +29,7 @@ function create_my-reboot()
     local cmd='#!/bin/bash
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
-pkexec reboot
+pkexec /usr/sbin/reboot
 '
     # --------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ function create_my-shutdown()
     local cmd='#!/bin/bash
 export DISPLAY=:0
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
-pkexec poweroff
+pkexec /usr/sbin/poweroff
 '
     # --------------------------------------------------------------------------
     if [[ -f "${dst_path}" ]]; then

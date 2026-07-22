@@ -116,6 +116,8 @@ fi
 
 # security =====================================================================
 bash ${CORE_BIN_DIR}/security/install_clamav.sh;
+
+bash ${CORE_BIN_DIR}/network/install_firewall.sh;
 # ==============================================================================
 
 
@@ -422,7 +424,7 @@ bash ${CORE_BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
 
 

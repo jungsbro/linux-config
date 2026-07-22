@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/internet/install_remmina.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/remote/cui/install_ssh.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/internet
+# /core/linux/bin/remote/cui
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -28,42 +28,53 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="remmina"
+PROTOCOL="tcp";
+
+PORT="2222";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_remmina_for_flatpak()
+function fix_ssh-port()
 {
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    local dst_path="/etc/ssh/sshd_config";
+
+    # local search_str='^#?\s*Port\s+[0-9]+'
+    local search_str='^#Port 22'
+
+    local replace_str="Port ${PORT}"
+
+
+    if [[ ! -f ${dst_path} ]]; then
         return
     fi
-    # --------------------------------------------------------------------------
+    if [[ -z $(grep "${search_str}" "${dst_path}") ]]; then
+        return
+    fi
 
-    # --------------------------------------------------------------------------
+    # sed -i "s|^#Port 22|Port 2222|" "/etc/ssh/sshd_config";
+    sed -i "s|${search_str}|${replace_str}|" "${dst_path}";
+}
+
+
+function restart_sshd()
+{
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv sshd && restart_sv sshd;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv ssh && restart_sv ssh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv sshd && restart_sv sshd;
         # ----------------------------------------------------------------------
     fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i remmina) ]] || flatpak install -y flathub org.remmina.Remmina;
-    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
@@ -71,50 +82,35 @@ function install_remmina_for_flatpak()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    # for x86_64, i686, aarch64
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^remmina) ]] || pacman -S --needed --noconfirm remmina freerdp;
+        [[ -n $(pacman -Q | grep -i ^openssh) ]] || pacman -S --needed --noconfirm openssh;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina remmina-plugin-rdp;
-        # ----------------------------------------------------------------------
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
-        # install_remmina_for_flatpak
+        [[ -n $(apt list --installed | grep -i ^openssh-server) ]] || apt install -y openssh-server;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
-        # ----------------------------------------------------------------------
-
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # remmina needs gnome-keyring
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
-        # ----------------------------------------------------------------------
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
-        # install_remmina_for_flatpak
+        [[ -n $(dnf list --installed | grep -i ^openssh-server) ]] || dnf install -y openssh-server;
         # ----------------------------------------------------------------------
     fi
 
+    # --------------------------------------------------------------------------
+    # allow ssh-port
+    fix_ssh-port;
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && allow_sv-port_for_firewall "${PROTOCOL}" "${PORT}";
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && allow_sv-port_for_selinux "ssh_port" "${PROTOCOL}" "${PORT}";
+
+    # restart sshd
+    restart_sshd;
+    # --------------------------------------------------------------------------
 fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================

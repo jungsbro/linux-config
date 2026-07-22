@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/internet/install_filezilla.sh;
+# bash ${CORE_BIN_DIR}/network/install_firewall.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/internet
+# /core/linux/bin/network
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -29,28 +29,37 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ==============================================================================
 
 
+# Funcs ========================================================================
+
+# ==============================================================================
+
+
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^filezilla) ]] || pacman -S --needed --noconfirm filezilla;
+        # [[ -n $(pacman -Q | grep -i ^nftables) ]] || pacman -S --needed --noconfirm nftables;
+
+        [[ -n $(pacman -Q | grep -i ^ufw) ]] || pacman -S --needed --noconfirm ufw;
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv ufw && restart_sv ufw;
+
+        # [[ -n $(pacman -Q | grep -i ^firewalld) ]] || pacman -S --needed --noconfirm firewalld;
+        # source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv firewalld && restart_sv firewalld;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^filezilla) ]] || apt install -y filezilla;
+        [[ -n $(apt list --installed | grep -i ^ufw) ]] || apt install -y ufw;
+
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv ufw && restart_sv ufw;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^filezilla) ]] || dnf install -y filezilla;
-        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^firewalld) ]] || dnf install -y firewalld;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^filezilla) ]] || dnf install -y filezilla;
+        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv firewalld && restart_sv firewalld;
         # ----------------------------------------------------------------------
     fi
 
@@ -58,5 +67,7 @@ fi
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
+
+

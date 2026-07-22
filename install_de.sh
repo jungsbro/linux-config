@@ -57,6 +57,6 @@ bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
 # ==============================================================================
 
 # EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && display_msg "";
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
 

@@ -21,8 +21,8 @@ key "Super+Tab" skippy-xd --expose --desktop -1
 # ------------------------------------------------------------------------------
 # launcher
 
+# key "Ctrl+Space" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 key "Alt+F2" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
-key "Ctrl+Space" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 key "Super+r" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 key "Super+s" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
@@ -30,9 +30,9 @@ key "Super+s" rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 # ------------------------------------------------------------------------------
 # logout
 
-# 방법1) logout 확인창
-[ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
-loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
+# 방법1) logout 확인창 (default로 지원한다.)
+# key "Ctrl+Alt+Delete" [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
+# loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
 
 # 방법2) 확인없이 바로 logout
 # key "Ctrl+Alt+Delete" loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
@@ -54,7 +54,7 @@ key "Super+l" loginctl lock-session
 # ------------------------------------------------------------------------------
 # screen shot
 
-key "Print" gnome-screenshot --interactive
+key "Print" xfce4-screenshooter
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
