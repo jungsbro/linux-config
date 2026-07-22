@@ -42,7 +42,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(pacman -Q | grep -i ^nftables) ]] || pacman -S --needed --noconfirm nftables;
 
         [[ -n $(pacman -Q | grep -i ^ufw) ]] || pacman -S --needed --noconfirm ufw;
-        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv ufw && restart_sv ufw;
+        ufw enable;
 
         # [[ -n $(pacman -Q | grep -i ^firewalld) ]] || pacman -S --needed --noconfirm firewalld;
         # source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv firewalld && restart_sv firewalld;
@@ -51,14 +51,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^ufw) ]] || apt install -y ufw;
-
-        source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv ufw && restart_sv ufw;
+        ufw enable;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^firewalld) ]] || dnf install -y firewalld;
-
         source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv firewalld && restart_sv firewalld;
         # ----------------------------------------------------------------------
     fi

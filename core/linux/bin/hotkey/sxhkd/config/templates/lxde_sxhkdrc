@@ -27,7 +27,7 @@ super + l
     # lxlock
 
 Print
-    gnome-screenshot -i
+    xfce4-screenshooter
 
 super + p
     lxrandr

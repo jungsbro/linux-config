@@ -60,11 +60,11 @@ function install_pkgs_for_de()
         # ----------------------------------------------------------------------
         # screenshot
         # 방법1)
-        bash ${CORE_BIN_DIR}/screenshot/install_gnome-screenshot.sh;
+        # bash ${CORE_BIN_DIR}/screenshot/install_gnome-screenshot.sh;
 
         # 방법2)
-        # bash ${CORE_BIN_DIR}/screenshot/install_xfce4-screenshooter.sh;
-        # bash ${CORE_BIN_DIR}/clipboard/install_xfce4-clipman.sh;
+        bash ${CORE_BIN_DIR}/screenshot/install_xfce4-screenshooter.sh;
+        bash ${CORE_BIN_DIR}/clipboard/install_xfce4-clipman.sh;
         # ----------------------------------------------------------------------
         # expose
         bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};

@@ -402,28 +402,6 @@ function install_calculator()
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    # --------------------------------------------------------------------------
-    # if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
-    #     # "icewm, fluxbox, openbox, i3" are avaliable
-    #     echo ""
-
-    # elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
-    #     # "icewm, fluxbox, openbox, i3" are avaliable
-    #     echo ""
-
-    # elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
-    #     # "icewm, fluxbox, openbox, i3" are avaliable
-    #     echo ""
-
-    # elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
-    #     # "icewm, openbox, i3" are avaliable
-
-    #     if [[ *"${CUR_WM}"* == *"fluxbox"* ]]; then
-    #         echo "fluxbox is not supported in RHEL";
-    #         return
-    #     fi
-    # fi
-    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     install_utils;

@@ -115,9 +115,11 @@ fi
 
 
 # security =====================================================================
-bash ${CORE_BIN_DIR}/security/install_clamav.sh;
-
 bash ${CORE_BIN_DIR}/network/install_firewall.sh;
+
+bash ${CORE_BIN_DIR}/remote/cui/install_ssh.sh;
+
+bash ${CORE_BIN_DIR}/security/install_clamav.sh;
 # ==============================================================================
 
 

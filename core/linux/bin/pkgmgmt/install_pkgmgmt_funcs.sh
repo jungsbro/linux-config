@@ -158,6 +158,14 @@ function enable_sv()
 {
     local sv_name=${1}
 
+    # --------------------------------------------------------------------------
+    if [[ *"${sv_name}"* == *"ufw"* ]]; then
+        ufw enable
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl list-unit-files | grep -iq ${sv_name}; then
             systemctl enable --now ${sv_name}
@@ -165,6 +173,7 @@ function enable_sv()
     else    # sysVinit
         return
     fi
+    # --------------------------------------------------------------------------
 }
 
 
@@ -172,6 +181,7 @@ function restart_sv()
 {
     local sv_name=${1}
 
+    # --------------------------------------------------------------------------
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl list-unit-files | grep -iq ${sv_name}; then
             systemctl restart ${sv_name}
@@ -179,6 +189,7 @@ function restart_sv()
     else    # sysVinit
         return
     fi
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

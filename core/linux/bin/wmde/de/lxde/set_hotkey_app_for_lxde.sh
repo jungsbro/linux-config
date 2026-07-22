@@ -177,7 +177,7 @@ function set_hotkey_for_screenshot()
     local hotkey="Print";
     local comment="Keybindings for screenshot";
     local action="Execute";
-    local cmd="gnome-screenshot -i";
+    local cmd="xfce4-screenshooter";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

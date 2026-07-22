@@ -69,36 +69,6 @@ function set_hotkeys()
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_window_for_ob.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_workspace_for_ob.sh ${CUR_USER};
 }
-
-
-function fix_startwm_for_openbox()  # deprecated
-{
-    # --------------------------------------------------------------------------
-    local dst_path="/usr/libexec/xrdp/startwm-bash.sh"
-
-    local search_str='#!/usr/bin/bash -l'
-    local append_str='exec /usr/bin/openbox-session'
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ ! -f "${dst_path}" ]]; then
-        return
-    fi
-    if [[ -z $(grep -i "${search_str}" "${dst_path}") ]]; then
-        return
-    fi
-    if [[ -n $(grep -i "${append_str}" "${dst_path}") ]]; then
-        return
-    fi
-
-    sed -i "\|${search_str}|a ${append_str}" ${dst_path};
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && restart_sv "xrdp";
-    # --------------------------------------------------------------------------
-}
-
 # ==============================================================================
 
 
