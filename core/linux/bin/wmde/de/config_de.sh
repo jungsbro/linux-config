@@ -251,11 +251,7 @@ function config_de()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # only working for fedora and rhel
-    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && fix_lightdm-xsession;
-
-    # only working for lightdm
-    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && set_lightdm_enable;
+    source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
     # --------------------------------------------------------------------------
 
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde

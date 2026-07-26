@@ -1,16 +1,15 @@
 #!/bin/bash
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm.sh;
+# bash ${CORE_BIN_DIR}/network/install_nmtui.sh;
 # ==============================================================================
-
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/wmde/dm/lightdm
+# /core/linux/bin/network
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -28,36 +27,25 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
-# Funcs ========================================================================
-
-# ==============================================================================
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^lightdm) ]] || pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter;
+        [[ -n $(pacman -Q | grep -i ^networkmanager) ]] || pacman -S --needed --noconfirm networkmanager;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^lightdm) ]] || apt install -y lightdm;
+        [[ -n $(apt list --installed | grep -i ^network-manager) ]] || apt install -y network-manager;
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^lightdm) ]] || dnf install -y lightdm lightdm-gtk;
+        [[ -n $(dnf list --installed | grep -i ^NetworkManager-tui) ]] || dnf install -y NetworkManager-tui;
         # ----------------------------------------------------------------------
     fi
-
-    # --------------------------------------------------------------------------
-    # only working for fedora and rhel
-    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && fix_lightdm-xsession;
-
-    # only working for lightdm
-    source ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm_funcs.sh && set_lightdm_enable;
-    # --------------------------------------------------------------------------
 
 fi
 # ==============================================================================
@@ -65,6 +53,5 @@ fi
 # EOF ==========================================================================
 source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
-
 
 

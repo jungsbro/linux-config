@@ -124,7 +124,7 @@ function install_wm()
 function install_dm()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/dm/lightdm/install_lightdm.sh;
+    bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
     # --------------------------------------------------------------------------
 }
 
