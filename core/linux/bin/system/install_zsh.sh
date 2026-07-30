@@ -59,7 +59,7 @@ function install_zsh()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
         [[ -n $(pacman -Q | grep -i ^fd-find) ]] || pacman -S --needed --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --needed --noconfirm fasd;
+        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
         # for ohmyzsh ----------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^mercurial) ]] || pacman -S --needed --noconfirm mercurial;
         # ----------------------------------------------------------------------
@@ -72,9 +72,10 @@ function install_zsh()
         [[ -n $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
         [[ -n $(apt list --installed | grep -i ^fonts-powerline) ]] || apt install -y fonts-powerline;
         [[ -n $(apt list --installed | grep -i ^autojump) ]] || apt install -y autojump;
+        # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
         [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-        [[ -n $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
+        [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------
@@ -89,9 +90,10 @@ function install_zsh()
         [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
         [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
+        # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
         [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------
@@ -119,16 +121,8 @@ function install_zsh()
         # ----------------------------------------------------------------------
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
+        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
         # ----------------------------------------------------------------------
 
         # for ohmyzsh ----------------------------------------------------------

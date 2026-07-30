@@ -61,32 +61,16 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
     [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
     # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm crudini";
-    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
-    [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
-    [[ -n $(pacman -Q | grep -i ^yq) ]] || pacman -S --needed --noconfirm yq;
-    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
-    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
-    [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
-    [[ -n $(apt list --installed | grep -i ^yq) ]] || apt install -y yq;
-    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
-    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
-    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
-    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================
@@ -360,16 +344,55 @@ fi
 # etc ==========================================================================
 if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
-    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+    # 검색 / 이동
+    [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+    [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+    [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
+    [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
+    # --------------------------------------------------------------------------
+    # 폴더 / 파일
+    [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
+    [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
     [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+    # --------------------------------------------------------------------------
+    # 압축
+    [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+    # --------------------------------------------------------------------------
+    # 데이터 수정
+    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm crudini";
+    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
+    [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+    [[ -n $(pacman -Q | grep -i ^yq) ]] || pacman -S --needed --noconfirm yq;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-    [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+    # 검색 / 이동
+    [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
+    [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
+    [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
+    [[ -n $(apt list --installed | grep -i ^ripgrep) ]] || apt install -y ripgrep;
+    # --------------------------------------------------------------------------
+    # 폴더 / 파일
+    [[ -n $(apt list --installed | grep -i ^eza) ]] || apt install -y eza;
+    [[ -n $(apt list --installed | grep -i ^tree) ]] || apt install -y tree;
+    # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
+    su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
+    su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+    # --------------------------------------------------------------------------
+    [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+    # --------------------------------------------------------------------------
+    # 압축
+    [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+    # --------------------------------------------------------------------------
+    # 데이터 수정
+    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
+    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
+    [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
+    [[ -n $(apt list --installed | grep -i ^yq) ]] || apt install -y yq;
     # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
@@ -379,17 +402,49 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
 
 elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
-    [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
+    # 검색 / 이동
+    [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+    [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
+    [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+    [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+    # --------------------------------------------------------------------------
+    # 폴더 / 파일
+    [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+    [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
+    # --------------------------------------------------------------------------
+    # 압축
+    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    # --------------------------------------------------------------------------
+    # 데이터 수정
+    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
+    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
+    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    # 검색 / 이동
+    [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+    [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
+    [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+    [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+    # --------------------------------------------------------------------------
+    # 폴더 / 파일
+    [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
     [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+    # --------------------------------------------------------------------------
+    # 압축
+    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    # --------------------------------------------------------------------------
+    # 데이터 수정
+    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
+    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
+    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -433,3 +488,4 @@ source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # reboot =======================================================================
 #/usr/sbin/init 6;
 # ==============================================================================
+

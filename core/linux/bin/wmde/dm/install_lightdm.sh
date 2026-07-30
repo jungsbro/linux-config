@@ -28,8 +28,9 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
+
 # Funcs ========================================================================
-function fix_lightdm-xsession()     # deprecated
+function fix_lightdm-xsession()     # not used
 {
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
@@ -106,6 +107,43 @@ EOF
 }
 
 
+function set_logind-check-graphical_enable()
+{
+    # suspend후, 먹통되는것을 개선한다.
+
+    # --------------------------------------------------------------------------
+    # only working for fedora and rhel
+    if [[ *"${CUR_VER}"* != *"Fedora"* ]] && [[ *"${CUR_VER}"* != *"CentOS"* ]] && [[ *"${CUR_VER}"* != *"rocky"* ]]; then
+        return
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local dst_path="/etc/lightdm/lightdm.conf"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 1) key = value  >>  key=value
+
+    # source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && remove_space_for_ini "${dst_path}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) ^logind-check-graphical=true
+
+    # grep -E '^logind-check-graphical=true' /etc/lightdm/lightdm.conf
+    if [[ -n $(grep -E '^logind-check-graphical=true' "${dst_path}") ]]; then
+        return
+    fi
+
+    # crudini --set /etc/lightdm/lightdm.conf "Seat:*" "logind-check-graphical" "true";
+    # [Seat:*]
+    # logind-check-graphical=true
+    crudini --ini-options=nospace --set ${dst_path} "Seat:*" "logind-check-graphical" "true";
+    # --------------------------------------------------------------------------
+}
+
+
 function set_lightdm_enable()
 {
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
@@ -142,6 +180,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
     source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # only working for fedora and rhel
+    set_logind-check-graphical_enable;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
