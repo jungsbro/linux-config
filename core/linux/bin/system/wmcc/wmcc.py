@@ -23,13 +23,19 @@ UI_WIDTH = 1000
 UI_HEIGHT = 600
 # ------------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------------
 BTN_COL_NUM = 4
 BTN_GAP = 10
 
 # Desktop >> Categories
-DESKTOP_KWD = "Settings"
+CAT_KWD = "Settings"
 
-CONF_PATH = os.path.expanduser('~/.config/lxcontrolcenter.json')
+APP_CONFIG_DIR = os.path.expanduser('~/.config/wmcc')
+if not os.path.isdir(APP_CONFIG_DIR):
+    os.makedirs(APP_CONFIG_DIR)
+
+JSON_PATH = f"{APP_CONFIG_DIR}/app.json"
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 def get_dictlist_from_dirlist(kwd):
@@ -134,10 +140,10 @@ class Interface(tk.Tk):
     def create_btns(self):
         self.btn_list = []
 
-        if os.path.isfile(CONF_PATH):
+        if os.path.isfile(JSON_PATH):
             self.load_conf()
         else:
-            self.conf_list = get_dictlist_from_dirlist(DESKTOP_KWD)
+            self.conf_list = get_dictlist_from_dirlist(CAT_KWD)
 
             if not self.conf_list: return
             self.save_conf()
@@ -171,15 +177,15 @@ class Interface(tk.Tk):
     # --------------------------------------------------------------------------
 
     def load_conf(self):
-        if not os.path.isfile(CONF_PATH): return
+        if not os.path.isfile(JSON_PATH): return
 
-        f = open(CONF_PATH, 'r')
+        f = open(JSON_PATH, 'r')
         self.conf_list = json.load(f, object_pairs_hook=OrderedDict)
         f.close()
     # --------------------------------------------------------------------------
 
     def save_conf(self):
-        f = open(CONF_PATH, 'w')
+        f = open(JSON_PATH, 'w')
         json.dump(self.conf_list, f, indent=4)
         f.close()
     # --------------------------------------------------------------------------
