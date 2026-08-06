@@ -359,13 +359,6 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     # 압축
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
     # --------------------------------------------------------------------------
-    # 데이터 수정
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^crudini) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm crudini";
-    [[ -n $(pacman -Q | grep -i ^xmlstarlet) ]] || pacman -S --needed --noconfirm xmlstarlet;
-    [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
-    [[ -n $(pacman -Q | grep -i ^yq) ]] || pacman -S --needed --noconfirm yq;
-    # --------------------------------------------------------------------------
 
 elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
@@ -387,12 +380,6 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     # --------------------------------------------------------------------------
     # 압축
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-    # --------------------------------------------------------------------------
-    # 데이터 수정
-    [[ -n $(apt list --installed | grep -i ^crudini) ]] || apt install -y crudini;
-    [[ -n $(apt list --installed | grep -i ^xmlstarlet) ]] || apt install -y xmlstarlet;
-    [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
-    [[ -n $(apt list --installed | grep -i ^yq) ]] || apt install -y yq;
     # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
@@ -416,12 +403,6 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # 압축
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
     # --------------------------------------------------------------------------
-    # 데이터 수정
-    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
-    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
-    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
-    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
-    # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
 
@@ -440,26 +421,34 @@ elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; th
     # 압축
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
     # --------------------------------------------------------------------------
-    # 데이터 수정
-    [[ -n $(dnf list --installed | grep -i ^crudini) ]] || dnf install -y crudini;
-    [[ -n $(dnf list --installed | grep -i ^xmlstarlet) ]] || dnf install -y xmlstarlet;
-    [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
-    [[ -n $(dnf list --installed | grep -i ^yq) ]] || dnf install -y yq;
-    # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
 fi
 
+# ------------------------------------------------------------------------------
+# 데이터 수정
+bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
+bash ${CORE_BIN_DIR}/develop/install_jq.sh;
+bash ${CORE_BIN_DIR}/develop/install_yq.sh;
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# nerd-font
 bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
+# ------------------------------------------------------------------------------
 # ==============================================================================
+
 
 # vim ==========================================================================
 bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
 # ==============================================================================
 
+
 # tmux =========================================================================
 bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
 # ==============================================================================
+
 
 # file-manager =================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/install_mc.sh;
@@ -468,17 +457,21 @@ bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh "${CUR_USER}";
 bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh "${CUR_USER}";
 # ==============================================================================
 
+
 # zsh ==========================================================================
 bash ${CORE_BIN_DIR}/system/install_zsh.sh "${CUR_USER}";
 # ==============================================================================
+
 
 # swap =========================================================================
 bash ${CORE_BIN_DIR}/system/config_swap.sh;
 # ==============================================================================
 
+
 # fstab ========================================================================
 bash ${CORE_BIN_DIR}/system/config_fstab.sh;
 # ==============================================================================
+
 
 # EOF ==========================================================================
 source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";

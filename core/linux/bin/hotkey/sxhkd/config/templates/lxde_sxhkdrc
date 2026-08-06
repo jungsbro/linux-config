@@ -39,7 +39,7 @@ super + e
     pcmanfm
 
 super + i
-    python3 ~/.local/bin/lxcc.py
+    python3 ~/.local/bin/wmcc.py
 
 ctrl + alt + t
     lxterminal

@@ -47,7 +47,7 @@ super + e
     # xfce4-terminal -e ranger
 
 super + i
-    /usr/bin
+    python3 ~/.local/bin/wmcc.py
 
 ctrl + alt + t
     xfce4-terminal

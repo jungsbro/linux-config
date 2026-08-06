@@ -1,3 +1,9 @@
+# usage ========================================================================
+# python3 wmcc.py
+
+# python3 ~/.local/bin/wmcc.py
+# ==============================================================================
+
 import os
 import configparser
 import subprocess
@@ -13,7 +19,7 @@ TITLE = "LXDE Control Center"
 
 # ------------------------------------------------------------------------------
 # not used
-UI_WIDTH = 800
+UI_WIDTH = 1000
 UI_HEIGHT = 600
 # ------------------------------------------------------------------------------
 
@@ -105,7 +111,8 @@ class Interface(tk.Tk):
         # ui_height = UI_HEIGHT
 
         BTN_ROW_NUM = self.row + 1
-        ui_width = (self.btn_width * BTN_COL_NUM) + (BTN_GAP * (BTN_COL_NUM+1)) + (45 * BTN_COL_NUM)
+        ui_width = (self.btn_width * BTN_COL_NUM) + (BTN_GAP * (BTN_COL_NUM+1)) + (45 * BTN_COL_NUM) + 80
+
         ui_height = (self.btn_height * BTN_ROW_NUM) + (BTN_GAP * (BTN_ROW_NUM+1)) + (10 * BTN_ROW_NUM)
         # print(ui_width, ui_height, self.row)
         # ----------------------------------------------------------------------

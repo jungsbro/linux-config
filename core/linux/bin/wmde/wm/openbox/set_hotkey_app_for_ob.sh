@@ -229,7 +229,7 @@ function set_hotkey_for_controlcenter()
     local hotkey="W-i";
     local comment="Keybindings for control-center";
     local action="Execute";
-    local cmd="python3 ~/.local/bin/lxcc.py";
+    local cmd="python3 ~/.local/bin/wmcc.py";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -289,7 +289,7 @@ function set_all_hotkey_for_app()
     set_hotkey_for_displaysettings
     set_hotkey_for_taskmanager;
     set_hotkey_for_filemanager
-    # set_hotkey_for_controlcenter
+    set_hotkey_for_controlcenter
     set_hotkey_for_terminal;
     set_hotkey_for_xkill;
     # --------------------------------------------------------------------------

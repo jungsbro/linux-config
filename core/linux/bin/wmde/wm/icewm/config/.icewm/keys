@@ -79,7 +79,7 @@ key "Super+e" pcmanfm
 # ------------------------------------------------------------------------------
 # control center
 
-# key "Super+i" /usr/bin/
+key "Super+i" python3 ~/.local/bin/wmcc.py
 # key "Super+Shift+i" /usr/bin/
 # ------------------------------------------------------------------------------
 

@@ -37,6 +37,8 @@ function install_pkgs_for_de()
     # develop
     bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
+    bash ${CORE_BIN_DIR}/develop/install_jq.sh;
+    bash ${CORE_BIN_DIR}/develop/install_yq.sh;
 
     bash ${CORE_BIN_DIR}/develop/install_glib2.sh;
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
@@ -85,7 +87,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # control-center
-        bash ${CORE_BIN_DIR}/wmde/de/lxde/install_lxcc/install_lxcc.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER}
         # ----------------------------------------------------------------------
 
     elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt

@@ -60,6 +60,8 @@ function install_utils()
 
     bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
+    bash ${CORE_BIN_DIR}/develop/install_jq.sh;
+    bash ${CORE_BIN_DIR}/develop/install_yq.sh;
 
     bash ${CORE_BIN_DIR}/develop/install_glib2.sh;
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
@@ -397,6 +399,14 @@ function install_calculator()
     bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
     # --------------------------------------------------------------------------
 }
+
+
+function install_wmcc()
+{
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER};
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
@@ -434,6 +444,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     install_theme;
     install_polkit;
     install_calculator;
+    install_wmcc;
     # --------------------------------------------------------------------------
 fi
 # ==============================================================================

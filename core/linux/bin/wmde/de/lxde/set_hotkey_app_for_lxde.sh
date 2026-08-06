@@ -237,7 +237,7 @@ function set_hotkey_for_controlcenter()
     local hotkey="W-i";
     local comment="Keybindings for control-center";
     local action="Execute";
-    local cmd="python3 ~/.local/bin/lxcc.py";
+    local cmd="python3 ~/.local/bin/wmcc.py";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

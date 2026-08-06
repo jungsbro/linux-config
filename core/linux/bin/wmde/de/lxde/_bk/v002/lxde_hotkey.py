@@ -226,8 +226,8 @@ def config_hotkey(ns, dst_path):
     # --------------------------------------------------------------------------
 
     # W-i 추가 lx settings ------------------------------------------------------
-    lxcc_path = f"{HOME_DIR}/.local/bin/lxcc.py"
-    add_hotkey("W-i", f"/usr/bin/python3 {lxcc_path}")
+    wmcc_path = f"{HOME_DIR}/.local/bin/wmcc.py"
+    add_hotkey("W-i", f"/usr/bin/python3 {wmcc_path}")
     # --------------------------------------------------------------------------
 
     # A-F11 추가 : toggle fullscreen -------------------------------------------

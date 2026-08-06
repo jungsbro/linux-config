@@ -1170,7 +1170,7 @@ function set_hotkey_for_controlcenter()
     if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # control center
-        SXHKDRC_CMD+="python3 ~/.local/bin/lxcc.py"
+        SXHKDRC_CMD+="python3 ~/.local/bin/wmcc.py"
 
         # startmenu
         # SXHKDRC_CMD+="lxpanelctl menu"
