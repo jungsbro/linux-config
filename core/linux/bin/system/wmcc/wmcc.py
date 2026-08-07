@@ -105,6 +105,7 @@ class Interface(tk.Tk):
         self.setInitValues()
     # --------------------------------------------------------------------------
 
+
     def centerOnScreen(self):
         # ----------------------------------------------------------------------
         scrn_width = self.winfo_screenwidth()     # 1920
@@ -137,6 +138,113 @@ class Interface(tk.Tk):
         # ----------------------------------------------------------------------
     # --------------------------------------------------------------------------
 
+
+    def set_text_with_emoji(self, text):
+        if [ kwd for kwd in ["about", "user", "group", "account", "session", "client", "acessibility"] if kwd in text.lower()]:
+            emoji = "👤 "
+
+        elif [ kwd for kwd in ["network", "remmina", "rdp", "vnc", "remote", "ssh"] if kwd in text.lower()]:
+            emoji = "🌐 "
+
+        elif [ kwd for kwd in ["package","application"] if kwd in text.lower()]:
+            emoji = "📦 "
+
+        elif [ kwd for kwd in ["desktop","monitor", "gpu", "nvidia", "amd", "display"] if kwd in text.lower()]:
+            emoji = "🖥️ "
+
+        elif [ kwd for kwd in ["look", "feel", "appearance", "color"] if kwd in text.lower()]:
+            emoji = "🎨 "
+
+        elif [ kwd for kwd in ["password", "keys"] if kwd in text.lower()]:
+            emoji = "🔑 "
+
+        elif [ kwd for kwd in ["fcitx", "ibus", "uim", "nimf", "input method", "keyboard", "language"] if kwd in text.lower()]:
+            emoji = "🇰 "
+
+        elif [ kwd for kwd in ["workspace", "thunar", "pcmanfm", "folder", "file", "disk", "mount", "storage", "drive"] if kwd in text.lower()]:
+            emoji = "🗂️ "
+
+        elif [ kwd for kwd in ["media", "bluetooth"] if kwd in text.lower()]:
+            emoji = "🎵 "
+
+        elif [ kwd for kwd in ["adapter", "plugin", "connect"] if kwd in text.lower()]:
+            emoji = "🔌 "
+
+        elif [ kwd for kwd in ["power", "tlp", "performance"] if kwd in text.lower()]:
+            emoji = "⚡ "
+
+        elif [ kwd for kwd in ["booster", "startup", "launch"] if kwd in text.lower()]:
+            emoji = "🚀 "
+
+        elif [ kwd for kwd in ["terminal", "console", "tty"] if kwd in text.lower()]:
+            emoji = "📟 "
+
+        elif [ kwd for kwd in ["mouse", "touchpad"] if kwd in text.lower()]:
+            emoji = "🖱️ "
+
+        elif [ kwd for kwd in ["screensaver", "zzz", "idle"] if kwd in text.lower()]:
+            emoji = "💤 "
+
+        elif [ kwd for kwd in ["share", "link"] if kwd in text.lower()]:
+            emoji = "🔗 "
+
+        elif [ kwd for kwd in ["search", "find", "magnify"] if kwd in text.lower()]:
+            emoji = "🔍 "
+
+        elif [ kwd for kwd in ["clean", "wipe", "wash"] if kwd in text.lower()]:
+            emoji = "🧹 "
+
+        elif [ kwd for kwd in ["update", "upgrade", "upload"] if kwd in text.lower()]:
+            emoji = "🆙 "
+
+        elif [ kwd for kwd in ["time", "date"] if kwd in text.lower()]:
+            emoji = "⏱️ "
+
+        elif "clipboard" in text.lower():
+            emoji = "📋 "
+
+        elif "save" in text.lower():
+            emoji = "💾 "
+
+        elif "volume" in text.lower():
+            emoji = "🔊 "
+
+        elif "panel" in text.lower():
+            emoji = "📺 "
+
+        elif "typing" in text.lower():
+            emoji = "🖋️ "
+
+        elif "window" in text.lower():
+            emoji = "🖼️ "
+
+        elif "notification" in text.lower():
+            emoji = "🔔 "
+
+        elif "dashboard" in text.lower():
+            emoji = "📊 "
+
+        elif "saver" in text.lower():
+            emoji = "🌃 "
+
+        elif "firewall" in text.lower():
+            emoji = "🔥 "
+
+        elif "print" in text.lower():
+            emoji = "🖨️ "
+
+        elif [ kwd for kwd in ["setup", "setting", "preference", "control", "manager", "profile"] if kwd in text.lower()]:
+            emoji = "⚙️ "
+
+        elif "editor" in text.lower():
+            emoji = "📝 "
+
+        else:
+            emoji = ""
+
+        return emoji + text
+    # --------------------------------------------------------------------------
+
     def create_btns(self):
         self.btn_list = []
 
@@ -152,7 +260,10 @@ class Interface(tk.Tk):
 
         for idx, cur_dict in enumerate(self.conf_list):
             cur_name = cur_dict["name"]
+            cur_name = self.set_text_with_emoji(cur_name)
+
             cur_exec = cur_dict["exec"]
+
             cur_icon = cur_dict["icon"]
 
             btn = tk.Button(self, text=cur_name, command=lambda c=cur_exec: self.on_click(c))

@@ -46,7 +46,7 @@ function install_zsh()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
         # ----------------------------------------------------------------------
@@ -64,7 +64,7 @@ function install_zsh()
         [[ -n $(pacman -Q | grep -i ^mercurial) ]] || pacman -S --needed --noconfirm mercurial;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
         # ----------------------------------------------------------------------
@@ -82,7 +82,7 @@ function install_zsh()
         [[ -n $(apt list --installed | grep -i ^mercurial) ]] || apt install -y mercurial;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------
@@ -100,7 +100,7 @@ function install_zsh()
         [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
         # ----------------------------------------------------------------------

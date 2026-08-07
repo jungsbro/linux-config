@@ -162,14 +162,14 @@ function add_nvidia_repo_for_apt()  # not used
     local PKG_PATH="${TMP_DIR}/${PKG_NAME}"
 
 
-    if [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
+    if [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # 12
         local DISTRO_VER=${VERSION_ID}
 
         # https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
         local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/debian${DISTRO_VER}/x86_64/${PKG_NAME}";
 
-    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # 24.04 >> 2404
         local DISTRO_VER=echo "$(echo $VERSION_ID | cut -d "." -f 1)$(echo $VERSION_ID | cut -d "." -f 2)"
 
@@ -262,10 +262,10 @@ function add_nvidia_repo_for_dnf()
     # --------------------------------------------------------------------------
     # 저장소 리스트 추가
 
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         echo ""
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
         dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel$(rpm -E %rhel)/x86_64/cuda-rhel$(rpm -E %rhel).repo
     fi
@@ -384,7 +384,7 @@ function install_nvidia_for_apt()
         # nvidia driver 설치 유무 확인
         if [[ ! -f "/proc/driver/nvidia/version" ]]; then
             [[ -n $(apt list --installed | grep -i ^nvidia-driver) ]] || apt install -y nvidia-driver;
-            if [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
+            if [[ "${CUR_VER}" == *"debian.org"* ]]; then
                 # nvidia-driver를 설치후, nvidia-smi가 빠져서 추가로 설치
                 [[ -n $(apt list --installed | grep -i ^nvidia-smi) ]] || apt install -y nvidia-smi;
             fi
@@ -478,11 +478,11 @@ function install_nvidia_for_dnf()
         # nvidia driver 설치 유무 확인
         if [[ ! -f "/proc/driver/nvidia/version" ]]; then
 
-            if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+            if [[ "${CUR_VER}" == *"Fedora"* ]]; then
                 # --------------------------------------------------------------
                 [[ -n $(dnf list --installed | grep -i ^akmod-nvidia) ]] || dnf install -y akmod-nvidia;
                 # --------------------------------------------------------------
-            elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+            elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
                 # --------------------------------------------------------------
                 # nvidia-repo 추가
                 add_nvidia_repo_for_dnf
@@ -529,11 +529,11 @@ function install_nvidia_for_dnf()
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ "${CUR_VER}" == *"Fedora"* ]]; then
             # ------------------------------------------------------------------
             [[ -n $(dnf list --installed | grep -i ^xorg-x11-drv-nvidia-cuda) ]] || dnf install -y xorg-x11-drv-nvidia-cuda;
             # ------------------------------------------------------------------
-        elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
             # ------------------------------------------------------------------
             [[ -n $(dnf list --installed | grep -i ^nvidia-driver-cuda) ]] || dnf install -y nvidia-driver-cuda;
             # ------------------------------------------------------------------
@@ -566,17 +566,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         install_nvidia_for_pacman
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_nvidia_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_nvidia_for_dnf;
         # ----------------------------------------------------------------------

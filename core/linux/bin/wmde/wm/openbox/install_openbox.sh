@@ -75,28 +75,28 @@ function set_hotkeys()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^openbox) ]] || pacman -S --needed --noconfirm openbox;
         [[ -n $(pacman -Q | grep -i ^lxappearance-obconf) ]] || pacman -S --needed --noconfirm lxappearance-obconf;
         # [[ -n $(pacman -Q | grep -i ^obconf-qt) ]] || pacman -S --needed --noconfirm obconf-qt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^openbox) ]] || apt install -y openbox;
         [[ -n $(apt list --installed | grep -i ^obconf) ]] || apt install -y obconf;
         # [[ -n $(apt list --installed | grep -i ^obconf-qt) ]] || apt install -y obconf-qt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^openbox) ]] || dnf install -y openbox;
         [[ -n $(dnf list --installed | grep -i ^obconf) ]] || dnf install -y obconf;
         # [[ -n $(dnf list --installed | grep -i ^obconf-qt) ]] || dnf install -y obconf-qt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^openbox) ]] || dnf install -y openbox;
         # ----------------------------------------------------------------------

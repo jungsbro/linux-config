@@ -140,6 +140,146 @@ function create_db()
 }
 
 
+function set_text_with_emoji()
+{
+    # --------------------------------------------------------------------------
+    local text=${1}
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ "${text,,}" == *"about"* ]] || [[ "${text,,}" == *"user"* ]] || \
+        [[ "${text,,}" == *"group"* ]] || [[ "${text,,}" == *"account"* ]] || \
+        [[ "${text,,}" == *"session"* ]] || [[ "${text,,}" == *"client"* ]] || \
+        [[ "${text,,}" == *"accessibility"* ]]; then
+        emoji="👤 "
+
+    elif [[ "${text,,}" == *"network"* ]] || [[ "${text,,}" == *"remmina"* ]] || \
+        [[ "${text,,}" == *"rdp"* ]] || [[ "${text,,}" == *"vnc"* ]] || \
+        [[ "${text,,}" == *"remote"* ]] || [[ "${text,,}" == *"ssh"* ]]; then
+        emoji="🌐 "
+
+    elif [[ "${text,,}" == *"package"* ]] || [[ "${text,,}" == *"application"* ]]; then
+        emoji="📦 "
+
+    elif [[ "${text,,}" == *"desktop"* ]] || [[ "${text,,}" == *"monitor"* ]] || \
+        [[ "${text,,}" == *"gpu"* ]] || [[ "${text,,}" == *"nvidia"* ]] || \
+        [[ "${text,,}" == *"amd"* ]] || [[ "${text,,}" == *"display"* ]]; then
+        emoji="🖥️ "
+
+    elif [[ "${text,,}" == *"look"* ]] || [[ "${text,,}" == *"feel"* ]] || \
+        [[ "${text,,}" == *"appearance"* ]] || [[ "${text,,}" == *"color"* ]]; then
+        emoji="🎨 "
+
+    elif [[ "${text,,}" == *"password"* ]] || [[ "${text,,}" == *"keys"* ]];then
+        emoji="🔑 "
+
+    elif [[ "${text,,}" == *"fcitx"* ]] || [[ "${text,,}" == *"ibus"* ]] || \
+        [[ "${text,,}" == *"uim"* ]] || [[ "${text,,}" == *"nimf"* ]] || \
+        [[ "${text,,}" == *"input method"* ]] || [[ "${text,,}" == *"keyboard"* ]] || \
+        [[ "${text,,}" == *"language"* ]]; then
+        emoji="🇰 "
+
+    elif [[ "${text,,}" == *"workspace"* ]] || [[ "${text,,}" == *"thunar"* ]] || \
+        [[ "${text,,}" == *"pcmanfm"* ]] || [[ "${text,,}" == *"folder"* ]] || \
+        [[ "${text,,}" == *"input file"* ]] || [[ "${text,,}" == *"disk"* ]] || \
+        [[ "${text,,}" == *"mount"* ]] || [[ "${text,,}" == *"storage"* ]] || \
+        [[ "${text,,}" == *"drive"* ]];then
+        emoji="🗂️ "
+
+    elif [[ "${text,,}" == *"media"* ]] || [[ "${text,,}" == *"bluetooth"* ]];then
+        emoji="🎵 "
+
+    elif [[ "${text,,}" == *"adapter"* ]] || [[ "${text,,}" == *"plugin"* ]] || \
+        [[ "${text,,}" == *"connect"* ]];then
+        emoji="🔌 "
+
+    elif [[ "${text,,}" == *"power"* ]] || [[ "${text,,}" == *"tlp"* ]] || \
+        [[ "${text,,}" == *"performance"* ]];then
+        emoji="⚡ "
+
+    elif [[ "${text,,}" == *"booster"* ]] || [[ "${text,,}" == *"startup"* ]] || \
+        [[ "${text,,}" == *"launch"* ]];then
+        emoji="🚀 "
+
+    elif [[ "${text,,}" == *"terminal"* ]] || [[ "${text,,}" == *"console"* ]] || \
+        [[ "${text,,}" == *"tty"* ]];then
+        emoji="📟 "
+
+    elif [[ "${text,,}" == *"mouse"* ]] || [[ "${text,,}" == *"touchpad"* ]];then
+        emoji="🖱️ "
+
+    elif [[ "${text,,}" == *"screensaver"* ]] || [[ "${text,,}" == *"zzz"* ]] || \
+        [[ "${text,,}" == *"idle"* ]];then
+        emoji="💤 "
+
+    elif [[ "${text,,}" == *"share"* ]] || [[ "${text,,}" == *"link"* ]];then
+        emoji="🔗 "
+
+    elif [[ "${text,,}" == *"search"* ]] || [[ "${text,,}" == *"find"* ]] || \
+        [[ "${text,,}" == *"magnify"* ]];then
+        emoji="🔍 "
+
+    elif [[ "${text,,}" == *"clean"* ]] || [[ "${text,,}" == *"wipe"* ]] || \
+        [[ "${text,,}" == *"wash"* ]];then
+        emoji="🧹 "
+
+    elif [[ "${text,,}" == *"update"* ]] || [[ "${text,,}" == *"upgrade"* ]] || \
+        [[ "${text,,}" == *"upload"* ]];then
+        emoji="🆙 "
+
+    elif [[ "${text,,}" == *"time"* ]] || [[ "${text,,}" == *"date"* ]];then
+        emoji="⏱️ "
+
+    elif [[ "${text,,}" == *"clipboard"* ]]; then
+        emoji="📋 "
+
+    elif [[ "${text,,}" == *"save"* ]]; then
+        emoji="💾 "
+
+    elif [[ "${text,,}" == *"volume"* ]]; then
+        emoji="🔊 "
+
+    elif [[ "${text,,}" == *"panel"* ]]; then
+        emoji="📺 "
+
+    elif [[ "${text,,}" == *"typing"* ]]; then
+        emoji="🖋️ "
+
+    elif [[ "${text,,}" == *"window"* ]]; then
+        emoji="🖼️ "
+
+    elif [[ "${text,,}" == *"notification"* ]]; then
+        emoji="🔔 "
+
+    elif [[ "${text,,}" == *"dashboard"* ]]; then
+        emoji="📊 "
+
+    elif [[ "${text,,}" == *"saver"* ]]; then
+        emoji="🌃 "
+
+    elif [[ "${text,,}" == *"firewall"* ]]; then
+        emoji="🔥 "
+
+    elif [[ "${text,,}" == *"print"* ]]; then
+        emoji="🖨️ "
+
+    elif [[ "${text,,}" == *"setup"* ]] || [[ "${text,,}" == *"setting"* ]] || \
+        [[ "${text,,}" == *"preference"* ]] || [[ "${text,,}" == *"control"* ]] || \
+        [[ "${text,,}" == *"manager"* ]] || [[ "${text,,}" == *"profile"* ]]; then
+        emoji="⚙️ "
+
+    elif [[ "${text,,}" == *"editor"* ]]; then
+        emoji="📝 "
+
+    else:
+        emoji=""
+    fi
+    # --------------------------------------------------------------------------
+
+    echo  "${emoji}${text}"
+}
+
+
 function show_ui()
 {
     # --------------------------------------------------------------------------
@@ -170,13 +310,24 @@ function show_ui()
     # 3) JSON_PATH(db)를 사용해서 ui만들기
     while read -r item;
     do
+        # ----------------------------------------------------------------------
         cur_name=$(echo "${item}" | jq -r '.name')
+
+        if [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+            cur_name=$(set_text_with_emoji "${cur_name}")
+        fi
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
         cur_exec=$(echo "${item}" | jq -r '.exec')
         cur_icon=$(echo "${item}" | jq -r '.icon')
         cur_cat=$(echo "${item}" | jq -r '.cat')
+        # ----------------------------------------------------------------------
 
+        # ----------------------------------------------------------------------
         # echo "${cur_name}"
         yad_cmd+=" --field=\"${cur_name}!${cur_icon}:BTN\" \"${cur_exec}\""
+        # ----------------------------------------------------------------------
     done < <(jq -c 'sort_by(.name)[]' "${JSON_PATH}")
 
     yad_cmd+=" --buttons-layout=edge --button=\"Remove DB:${rm_db_cmd}\""

@@ -109,7 +109,7 @@ function install_vfxdeps_for_dnf()
 
     # Rocky Linux 9은 보안상의 이유로 구형 암호화 방식(libcrypt.so.1)을 기본적으로 지원하지 않는데
     # 이 구형 라이브러리가 없으면 실행 직후 튕기는 경우가 매우 많습니다.
-    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+    if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
         [[ -n $(dnf list --installed | grep -i ^libxcrypt) ]] || dnf install -y libxcrypt
     else                                                    # rocky9, ...
         [[ -n $(dnf list --installed | grep -i ^libxcrypt-compat) ]] || dnf install -y libxcrypt-compat
@@ -130,22 +130,22 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not supported for Arch"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not supported for Debian/Ubuntu"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not supported for Fedora"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # for rocky8 or rocky9
         install_vfxdeps_for_dnf;

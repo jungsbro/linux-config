@@ -47,7 +47,7 @@ APP_VER="v26.1.22";
 function install_dependency_for_yazi()
 {
     # 확장기능을 사용하기 위한 의존성
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
@@ -68,7 +68,7 @@ function install_dependency_for_yazi()
         [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -89,7 +89,7 @@ function install_dependency_for_yazi()
         [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -111,7 +111,7 @@ function install_dependency_for_yazi()
         [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -201,7 +201,7 @@ function install_yazi_for_portable()
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-musl.zip
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.zip
 
-        if [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
             local FNAME="yazi-aarch64-unknown-linux-musl";
 
         else
@@ -217,7 +217,7 @@ function install_yazi_for_portable()
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-musl.zip
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
 
-        if [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
             local FNAME="yazi-x86_64-unknown-linux-musl";
         else
             local FNAME="yazi-x86_64-unknown-linux-gnu";
@@ -276,20 +276,20 @@ function install_yazi_for_portable()
 
 function install_yazi()
 {
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --needed --noconfirm yazi;
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
             install_yazi_for_portable;
         else
             install_yazi_for_apt;
         fi
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         install_yazi_for_portable;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         install_yazi_for_portable;
     fi
 }

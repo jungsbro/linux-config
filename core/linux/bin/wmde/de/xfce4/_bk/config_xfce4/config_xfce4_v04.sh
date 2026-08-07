@@ -70,7 +70,7 @@ function set_prop_value()
 function set_shortcuts()
 {
     # whiskermenu --------------------------------------------------------------
-    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+    if [[ "${CUR_VER}" != *"ID=MX"* ]]; then  # not mxlinux
         # ctrl+esc
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Primary>Escape"" -t "string" -s "xfce4-popup-whiskermenu"
@@ -123,7 +123,7 @@ function set_shortcuts()
     # --------------------------------------------------------------------------
 
     # window to left/right screen ----------------------------------------------
-    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+    if [[ "${CUR_VER}" != *"ID=MX"* ]]; then  # not mxlinux
         # ----------------------------------------------------------------------
         # shift+win+left
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "";
@@ -226,7 +226,7 @@ function set_shortcuts()
     # ctrl+alt+l >> win+l
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>l" "string" "";
 
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xfce4-screensaver-command --activate"
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --activate";
         # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --lock";
@@ -238,7 +238,7 @@ function set_shortcuts()
 
     # terminal dropdown --------------------------------------------------------
     # f4 >> removed
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         #       <property name="F4" type="string" value="xfce4-terminal --drop-down"/>
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/F4" "string" "";
     fi
@@ -314,7 +314,7 @@ function set_workspace()
 
 function set_panel_clock()
 {
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         sel_plugin="plugin-1"
     else
         sel_plugin="plugin-12"
@@ -515,7 +515,7 @@ function main()
     set_noti;
     set_screensaver_lock;
 
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         set_desktop;
         set_thunar;
     else
@@ -523,7 +523,7 @@ function main()
         # set_default_app;
     fi
 
-    if [[ *"${CUR_VER}"* == *"Rocky"* ]]; then  # rocky
+    if [[ "${CUR_VER}" == *"Rocky"* ]]; then  # rocky
         # fix_sound_disabled;
         echo ""
     fi

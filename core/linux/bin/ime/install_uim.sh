@@ -94,7 +94,7 @@ function set_uim_autostart()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for cinnamon, mate, xfce, lxde
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         [[ -n $(pacman -Q | grep -i ^uim) ]] || pacman -S --needed --noconfirm uim uim-byeoru;
@@ -105,12 +105,12 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm uim";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-m17n;
 
@@ -121,7 +121,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         echo "uim is not supported for RHEL"
         return
     fi

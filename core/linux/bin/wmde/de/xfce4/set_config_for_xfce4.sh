@@ -50,7 +50,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         source ${CORE_BIN_DIR}/wmde/de/xfce4/set_theme_for_xfce4.sh && set_desktop;
         source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_thunar;
     else
@@ -60,7 +60,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"Rocky"* ]]; then  # rocky
+    if [[ "${CUR_VER}" == *"Rocky"* ]]; then  # rocky
         # source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && fix_sound_disabled;
         echo ""
     fi

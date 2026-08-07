@@ -30,22 +30,22 @@ CUR_WMDE=$(ls /usr/bin/*session);
 
 
 # Main =========================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^firefox) ]] || pacman -S --needed --noconfirm firefox;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^firefox) ]] || apt install -y firefox-esr;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^firefox) ]] || apt install -y firefox;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^firefox) ]] || dnf install -y firefox;
     # --------------------------------------------------------------------------

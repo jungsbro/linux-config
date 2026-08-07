@@ -136,7 +136,7 @@ function set_kime_hotkey()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for gnome, cinnamon, mate, xfce, lxde
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
@@ -145,7 +145,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
             # ------------------------------------------------------------------
             # https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb
@@ -165,7 +165,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
-    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^kime) ]]; then
             # ------------------------------------------------------------------
             # https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb
@@ -185,7 +185,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         if [[ -z $(nix-env -q | grep -i ^${APP_NAME}) ]]; then
             # ------------------------------------------------------------------
             source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \

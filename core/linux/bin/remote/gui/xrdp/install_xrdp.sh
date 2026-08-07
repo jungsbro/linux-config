@@ -47,7 +47,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^xrdp) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm xrdp";
@@ -56,19 +56,19 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(pacman -Q | grep -i ^xorgxrdp) ]] || pacman -S --needed --noconfirm xorgxrdp;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xrdp) ]] || apt install -y xrdp;
         [[ -n $(apt list --installed | grep -i ^xorgxrdp) ]] || apt install -y xorgxrdp;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xrdp) ]] || dnf install -y xrdp;
         [[ -n $(dnf list --installed | grep -i ^xorgxrdp) ]] || dnf install -y xorgxrdp;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^xrdp) ]] || dnf install -y xrdp;

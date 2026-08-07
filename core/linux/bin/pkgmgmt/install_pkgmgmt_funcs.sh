@@ -79,13 +79,13 @@ function set_env()
     path_list+=" ";
 
     # 2) gui (wm, de)
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         local path_list+="${HOME_DIR}/.xprofile";
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         local path_list+="${HOME_DIR}/.xsessionrc";
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         local path_list+="${HOME_DIR}/.xprofile";
     else
         return
@@ -179,7 +179,6 @@ function remove_space_for_ini()
     sed -i 's/[[:space:]]*=[[:space:]]*/=/g' "${ini_path}"
     # --------------------------------------------------------------------------
 }
-
 # ==============================================================================
 
 
@@ -280,19 +279,19 @@ function allow_sv-port_for_firewall()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^ufw) ]] && allow_sv-port_for_ufw ${protocol} ${port};
         [[ -n $(pacman -Q | grep -i ^firewalld) ]] && allow_sv-port_for_firewalld ${protocol} ${port};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^ufw) ]] && allow_sv-port_for_ufw ${protocol} ${port};
         [[ -n $(apt list --installed | grep -i ^firewalld) ]] && allow_sv-port_for_firewalld ${protocol} ${port};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^ufw) ]] && allow_sv-port_for_ufw ${protocol} ${port};
         [[ -n $(dnf list --installed | grep -i ^firewalld) ]] && allow_sv-port_for_firewalld ${protocol} ${port};
@@ -318,7 +317,7 @@ function allow_sv-port_for_selinux()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* != *"Fedora"* ]] && [[ *"${CUR_VER}"* != *"CentOS"* ]] && [[ *"${CUR_VER}"* != *"rocky"* ]]; then
+    if [[ "${CUR_VER}" != *"Fedora"* ]] && [[ "${CUR_VER}" != *"CentOS"* ]] && [[ "${CUR_VER}" != *"rocky"* ]]; then
         return
     fi
     if [[ -z $(dnf list --installed | grep -i semanage) ]]; then

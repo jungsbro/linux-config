@@ -46,7 +46,7 @@ function set_pavucontrol_enable()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^pipewire) ]] || pacman -S --needed --noconfirm pipewire;
         [[ -n $(pacman -Q | grep -i ^pipewire-alsa) ]] || pacman -S --needed --noconfirm pipewire-alsa;
@@ -61,7 +61,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(pacman -Q | grep -i ^wireplumber) ]] || pacman -S --needed --noconfirm wireplumber;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^pipewire) ]] || apt install -y pipewire;
         [[ -n $(apt list --installed | grep -i ^pipewire-alsa) ]] || apt install -y pipewire-alsa;
@@ -77,7 +77,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(apt list --installed | grep -i ^wireplumber) ]] || apt install -y wireplumber;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^pipewire) ]] || dnf install -y pipewire;
         [[ -n $(dnf list --installed | grep -i ^pipewire-alsa) ]] || dnf install -y pipewire-alsa;
@@ -92,7 +92,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^wireplumber) ]] || dnf install -y wireplumber;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # ----------------------------------------------------------------------

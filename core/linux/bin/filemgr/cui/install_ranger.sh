@@ -71,7 +71,7 @@ function install_dependency_for_ranger()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         pacman -S --needed --noconfirm python;
@@ -119,7 +119,7 @@ function install_dependency_for_ranger()
         [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --needed --noconfirm mpv;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         apt install -y python3;
@@ -167,7 +167,7 @@ function install_dependency_for_ranger()
         [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
@@ -218,7 +218,7 @@ function install_dependency_for_ranger()
         [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
         [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
@@ -302,16 +302,16 @@ function install_ranger()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --needed --noconfirm ranger;
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
     fi

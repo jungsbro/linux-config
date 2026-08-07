@@ -134,7 +134,7 @@ function intall_nimf_for_build()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # for gnome, cinnamon, mate, xfce, lxde
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
@@ -144,7 +144,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^nimf) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm nimf";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
             # ------------------------------------------------------------------
             wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
@@ -153,7 +153,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         if [[ -z $(apt list --installed | grep -i ^nimf) ]]; then
             # ------------------------------------------------------------------
             wget -qO- https://raw.githubusercontent.com/hamonikr/nimf/master/install | sudo -E bash -
@@ -162,7 +162,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             # ------------------------------------------------------------------
         fi
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # if [[ -z $(find /usr/local/lib -name nimf) ]]; then
         if [[ ! -f "${PC_PATH}" ]]; then
             # ------------------------------------------------------------------

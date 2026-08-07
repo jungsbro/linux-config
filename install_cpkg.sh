@@ -56,19 +56,19 @@ bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
 
 # development ==================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
     [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
     apt install -y python3-pip python3-dev python3-setuptools;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
     dnf install -y python3 python3-libs python3-pip python3-setuptools;
     # --------------------------------------------------------------------------
@@ -77,12 +77,12 @@ fi
 
 
 # maintenance ==================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --needed --noconfirm rsync;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
     [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
@@ -91,7 +91,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
     # --------------------------------------------------------------------------
 fi
@@ -108,7 +108,7 @@ bash ${CORE_BIN_DIR}/security/install_clamav.sh;
 
 
 # storage ======================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^samba) ]] || pacman -S --needed --noconfirm samba;
     [[ -n $(pacman -Q | grep -i ^cifs-utils) ]] || pacman -S --needed --noconfirm cifs-utils;
@@ -127,7 +127,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
     [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
@@ -147,7 +147,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
     [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
@@ -165,7 +165,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
     [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
@@ -189,7 +189,7 @@ fi
 
 
 # network ======================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^net-tools) ]] || pacman -S --needed --noconfirm net-tools;
     [[ -n $(pacman -Q | grep -i ^whois) ]] || pacman -S --needed --noconfirm whois;
@@ -198,7 +198,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --needed --noconfirm axel;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
     [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
@@ -207,7 +207,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
     [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
@@ -216,7 +216,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^axel) ]] || dnf install -y axel;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
     [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
@@ -228,7 +228,7 @@ fi
 
 
 # info =========================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^fastfetch) ]] || pacman -S --needed --noconfirm fastfetch;
     # --------------------------------------------------------------------------
@@ -239,7 +239,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --needed --noconfirm procps-ng;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     if [[ -n $(apt list | grep -i ^neofetch) ]]; then
         [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
@@ -253,7 +253,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
     # --------------------------------------------------------------------------
@@ -264,7 +264,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
@@ -282,7 +282,7 @@ fi
 
 
 # monitoring ===================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(pacman -Q | grep -i ^htop) ]] || pacman -S --needed --noconfirm htop;
     # --------------------------------------------------------------------------
@@ -295,7 +295,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --needed --noconfirm powertop;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
     # --------------------------------------------------------------------------
@@ -308,7 +308,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
     # --------------------------------------------------------------------------
@@ -321,7 +321,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
@@ -342,7 +342,7 @@ fi
 
 
 # etc ==========================================================================
-if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     # 검색 / 이동
     [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
@@ -360,7 +360,7 @@ if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
     # --------------------------------------------------------------------------
     # 검색 / 이동
     [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -387,7 +387,7 @@ elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]
     # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     # 검색 / 이동
     [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -406,7 +406,7 @@ elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
 
-elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     # 검색 / 이동
     [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;

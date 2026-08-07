@@ -180,7 +180,7 @@ function set_hotkey_for_tile-window-to-right()
 function set_hotkey_for_left-screen()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         return
     fi
     # --------------------------------------------------------------------------
@@ -206,7 +206,7 @@ function set_hotkey_for_left-screen()
 function set_hotkey_for_right-screen()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         return
     fi
     # --------------------------------------------------------------------------
@@ -255,17 +255,17 @@ function set_all_hotkey_for_window()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------

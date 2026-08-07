@@ -716,14 +716,14 @@ function set_hotkey_for_lockscreen()
 
         # 시스템 어딘가 숨어있는 kscreenlocker_greet의 진짜 좌표 탐색
         # find /usr -name "kscreenlocker_greet" 2>/dev/null
-        if [[ *"${CUR_VER}"* == *"archlinux"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]] || [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+        if [[ "${CUR_VER}" == *"archlinux"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]] || [[ "${CUR_VER}" == *"Fedora"* ]]; then
             # 방법1)
             # SXHKDRC_CMD+="/usr/libexec/kscreenlocker_greet"
 
             # 방법2)
             SXHKDRC_CMD+="/usr/libexec/kscreenlocker_greet --testing"
 
-        elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
             # 방법1)
             # SXHKDRC_CMD+="/usr/lib/x86_64-linux-gnu/libexec/kscreenlocker_greet"
 

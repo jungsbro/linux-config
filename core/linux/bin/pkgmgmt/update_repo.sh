@@ -40,7 +40,7 @@ function add_aur_for_yay()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
 
         git clone https://aur.archlinux.org/yay.git /tmp/yay
@@ -138,14 +138,14 @@ function add_rpmfusion_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # rpmfusion-free-release
         dnf install -y "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
 
         # rpmfusion-nonfree-release
         dnf install -y "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # rpmfusion-free-release
         # dnf install -y rpmfusion-free-release;
         dnf install -y "https://download1.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm"
@@ -177,7 +177,7 @@ function set_crb_enabled_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+    if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
         # powertools
         sudo dnf install -y dnf-plugins-core
         dnf config-manager --set-enabled powertools
@@ -208,10 +208,10 @@ function add_remi_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         dnf install -y https://rpms.remirepo.net/fedora/remi-release-$(rpm -E %fedora).rpm
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         dnf install -y https://rpms.remirepo.net/enterprise/remi-release-$(rpm -E %rhel).rpm
     fi
     # --------------------------------------------------------------------------
@@ -236,10 +236,10 @@ function add_elrepo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         echo ""
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
         # dnf install -y https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
         dnf install -y https://www.elrepo.org/elrepo-release-$(rpm -E %rhel).el$(rpm -E %rhel).elrepo.noarch.rpm
@@ -265,10 +265,10 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         echo ""
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         dnf install -y https://repo.ius.io/ius-release-el$(rpm -E %rhel).rpm
         dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
     fi
@@ -286,28 +286,28 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         add_aur_for_yay;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         add_contrib_repo_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         add_universe_repo_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         add_rpmfusion_repo_for_dnf;
         add_remi_repo_for_dnf;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         add_epel_repo_for_dnf;
         add_rpmfusion_repo_for_dnf;

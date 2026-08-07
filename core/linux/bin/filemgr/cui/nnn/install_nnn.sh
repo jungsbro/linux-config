@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Funcs ========================================================================
 function install_dependency_for_nnn()
 {
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
@@ -63,7 +63,7 @@ function install_dependency_for_nnn()
         [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -98,7 +98,7 @@ function install_dependency_for_nnn()
         [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -128,7 +128,7 @@ function install_dependency_for_nnn()
         [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -161,16 +161,16 @@ function install_dependency_for_nnn()
 
 function install_nnn()
 {
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^nnn) ]] || pacman -S --needed --noconfirm nnn;
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^nnn) ]] || apt install -y nnn;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^nnn) ]] || dnf install -y nnn;
     fi
 }

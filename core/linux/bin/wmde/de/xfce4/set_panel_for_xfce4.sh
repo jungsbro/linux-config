@@ -61,7 +61,7 @@ function set_workspace()
 
 function set_panel_clock()
 {
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         local sel_plugin="plugin-1"
     else
         local sel_plugin="plugin-12"

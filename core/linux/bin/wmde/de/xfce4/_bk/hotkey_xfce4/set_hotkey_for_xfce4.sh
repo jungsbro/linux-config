@@ -76,7 +76,7 @@ function set_lock_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>l" -t "string" -s ""
     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Primary><Alt>l" "string" "";
 
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>l" -t "string" -s "xfce4-screensaver-command --activate"
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --activate";
         # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>l" "string" "xfce4-screensaver-command --lock";
@@ -91,7 +91,7 @@ function set_lock_hotkey()
 function set_system_hotkey()
 {
     # whiskermenu --------------------------------------------------------------
-    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+    if [[ "${CUR_VER}" != *"ID=MX"* ]]; then  # not mxlinux
         # ctrl+esc
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Primary><Alt>Escape" -t "string" -s ""
         set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Primary>Escape" "string" "";
@@ -160,7 +160,7 @@ function set_app_hotkey()
 
     # terminal dropdown --------------------------------------------------------
     # f4 >> removed
-    if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
         #       <property name="F4" type="string" value="xfce4-terminal --drop-down"/>
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/F4" -t "string" -s ""
         set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/F4" "string" "";
@@ -233,7 +233,7 @@ function set_tiling_hotkey()
     # --------------------------------------------------------------------------
 
     # window to left/right screen ----------------------------------------------
-    if [[ *"${CUR_VER}"* != *"ID=MX"* ]]; then  # not mxlinux
+    if [[ "${CUR_VER}" != *"ID=MX"* ]]; then  # not mxlinux
         # ----------------------------------------------------------------------
         # shift+win+left
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Left" -t "string" -s ""
@@ -357,17 +357,17 @@ function set_all_hotkey()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^xfwm4) ]] && set_all_hotkey;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfwm4) ]] && set_all_hotkey;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfwm4) ]] && set_all_hotkey;
         # ----------------------------------------------------------------------

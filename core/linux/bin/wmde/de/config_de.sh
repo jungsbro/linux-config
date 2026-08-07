@@ -116,7 +116,7 @@ function install_pkgs_for_de()
 
     elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"ID=MX"* ]]; then                                         # mxlinux xfce4
+        if [[ "${CUR_VER}" == *"ID=MX"* ]]; then                                         # mxlinux xfce4
             # ------------------------------------------------------------------
             # screensaver
             bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
@@ -280,7 +280,7 @@ function config_de()
 
     elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+        if [[ "${CUR_VER}" == *"archlinux"* ]]; then
             # ------------------------------------------------------------------
             echo ""
             # su - ${CUR_USER} -c \
@@ -288,9 +288,9 @@ function config_de()
             # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # ------------------------------------------------------------------
 
-        elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+        elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
             # ------------------------------------------------------------------
-            # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
+            # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
             # fi
             # ------------------------------------------------------------------
             su - ${CUR_USER} -c \
@@ -298,9 +298,9 @@ function config_de()
             dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # ------------------------------------------------------------------
 
-        elif [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+        elif [[ "${CUR_VER}" == *"rocky"* ]]; then
             # ------------------------------------------------------------------
-            # if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+            # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
             #     su - ${CUR_USER} -c \
             #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
             #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";

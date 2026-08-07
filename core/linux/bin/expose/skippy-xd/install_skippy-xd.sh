@@ -100,7 +100,7 @@ function install_skippy-xd_for_build()
     # --------------------------------------------------------------------------
 
     # checking "Development Tools" ---------------------------------------------
-    if [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    if [[ "${CUR_VER}" == *"rocky"* ]]; then
         local GRP_LIST=$(dnf grouplist --installed);
         local GRP_NAME="Development Tools";
 
@@ -186,13 +186,13 @@ function set_skippy-xd_autostart()
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(yay -Q | grep -i ^skippy-xd) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm skippy-xd-git";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "skippy-xd is not supported for Debian and Ubuntu"
@@ -204,7 +204,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # install_skippy-xd_for_build;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # distrobox를 사용한다.
         # echo "skippy-xd is not supported for RHEL and Fedora"

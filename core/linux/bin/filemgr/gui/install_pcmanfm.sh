@@ -42,7 +42,7 @@ APP_CAT="System;FileTools;Utility;Core;GTK;FileManager;Development"
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
             [[ -n $(pacman -Q | grep -i ^pcmanfm-qt$) ]] || pacman -S --needed --noconfirm pcmanfm-qt;
@@ -51,7 +51,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^pcmanfm-qt$) ]] || apt install -y pcmanfm-qt;
@@ -60,7 +60,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
             [[ -n $(dnf list --installed | grep -i ^pcmanfm-qt$) ]] || dnf install -y pcmanfm-qt;
@@ -69,7 +69,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "pcmanfm is not supported for RHEL"
         # return 0

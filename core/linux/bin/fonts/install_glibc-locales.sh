@@ -64,7 +64,7 @@ fi
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^glibc-locales) ]] || pacman -S --needed --noconfirm glibc-locales;
 
@@ -73,7 +73,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # set_locale_archive_env;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # [[ -n $(apt list --installed | grep -i ^glibc-locales) ]] || apt install -y glibc-locales;
 
@@ -82,7 +82,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         set_locale_archive_env;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "glibcLocales is not supported for RHEL and Fedora"
 

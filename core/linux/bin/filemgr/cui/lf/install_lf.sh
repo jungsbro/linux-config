@@ -46,7 +46,7 @@ APP_VER="r41";
 function install_dependency_for_lf()
 {
     # 확장기능을 사용하기 위한 의존성
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
@@ -83,7 +83,7 @@ function install_dependency_for_lf()
         [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
@@ -124,7 +124,7 @@ function install_dependency_for_lf()
         [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -160,7 +160,7 @@ function install_dependency_for_lf()
         [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
         [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
@@ -251,16 +251,16 @@ function install_lf_for_portable()
 
 function install_lf()
 {
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --needed --noconfirm lf;
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         install_lf_for_portable;
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         install_lf_for_portable;
     fi
 }

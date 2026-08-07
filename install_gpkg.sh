@@ -73,10 +73,10 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 # ==============================================================================
 
 # snap =========================================================================
-# if [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+# if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
 #     echo "";
 
-# elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+# elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
 #     bash ${CORE_BIN_DIR}/pkgmgmt/install_snap.sh;
 # fi
 # ==============================================================================

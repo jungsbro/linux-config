@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^gnome-tweaks) ]] || pacman -S --needed --noconfirm gnome-tweaks;
         # ----------------------------------------------------------------------
@@ -63,7 +63,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(yay -Q | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-windowoverlay-icons";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^gnome-tweaks) ]] || apt install -y gnome-tweaks;
         [[ -n $(apt list --installed | grep -i ^gnome-shell-extensions) ]] || apt install -y gnome-shell-extensions;
@@ -74,7 +74,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         # [[ -n $(apt list --installed | grep -i ^gnome-shell-extensions-prefs) ]] || apt install -y gnome-shell-extensions-prefs;
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"VERSION_ID=\"12"* ]]; then    # deb12
+        if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12
             [[ -n $(apt list --installed | grep -i ^gnome-shell) ]] || apt install -y gnome-shell;
             [[ -n $(apt list --installed | grep -i ^chrome-gnome-shell) ]] || apt install -y chrome-gnome-shell;
             # ------------------------------------------------------------------
@@ -94,7 +94,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
         # ----------------------------------------------------------------------
@@ -119,17 +119,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
             echo "";
         else                                                    # rocky9, ...
             [[ -n $(dnf list --installed | grep -i ^gnome-extensions-app) ]] || dnf install -y gnome-extensions-app;
         fi
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_VER}"* == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
             [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
             [[ -n $(dnf list --installed | grep -i ^chrome-gnome-shell) ]] || dnf install -y chrome-gnome-shell;
             # ------------------------------------------------------------------
@@ -148,7 +148,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
             # ------------------------------------------------------------------
 
-        elif  [[ *"${CUR_VER}"* == *"VERSION_ID=\"9"* ]]; then  # rocky9
+        elif  [[ "${CUR_VER}" == *"VERSION_ID=\"9"* ]]; then  # rocky9
             [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
             [[ -n $(dnf list --installed | grep -i ^chrome-gnome-shell) ]] || dnf install -y chrome-gnome-shell;
             # ------------------------------------------------------------------

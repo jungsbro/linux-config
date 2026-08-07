@@ -147,7 +147,7 @@ function install_radeon_for_dnf()
 
     # --------------------------------------------------------------------------
     # OpenCL
-    if [[ *"${CUR_VER}"* == *"Fedora"* ]]; then
+    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         [[ -n $(dnf list --installed | grep -i ^mesa-libOpenCL) ]] || dnf install -y mesa-libOpenCL;
@@ -155,7 +155,7 @@ function install_radeon_for_dnf()
         # 방법2)
         # [[ -n $(dnf list --installed | grep -i ^rocm-opencl) ]] || dnf install -y rocm-opencl;
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         # [[ -n $(dnf list --installed | grep -i ^mesa-libOpenCL) ]] || dnf install -y mesa-libOpenCL;
@@ -185,17 +185,17 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_pacman
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_dnf;
         # ----------------------------------------------------------------------

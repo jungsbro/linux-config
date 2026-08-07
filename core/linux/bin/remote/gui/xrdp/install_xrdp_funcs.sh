@@ -56,7 +56,7 @@ function fix_startwm_for_xsession()
     # 2) tmp_path, append_kwd, append_str
     local tmp_path="/tmp/startwm_snippet.txt"
 
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         local append_kwd="Xclients";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ if [ -r ~/.Xclients ]; then
 fi
 # ------------------------------------------------------------------------------
 '
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         local append_kwd="xsession";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ if [ -r ~/.xsession ]; then
 fi
 # ------------------------------------------------------------------------------
 '
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         local append_kwd="Xclients";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -174,13 +174,13 @@ function set_xsession()
 
     # --------------------------------------------------------------------------
     # 3) cur_path
-    if [[ *"${CUR_VER}"* == *"archlinux"* ]]; then
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         local cur_path="${HOME_DIR}/.Xclients";
 
-    elif [[ *"${CUR_VER}"* == *"debian.org"* ]] || [[ *"${CUR_VER}"* == *"ubuntu"* ]]; then
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         local cur_path="${HOME_DIR}/.xsession";
 
-    elif [[ *"${CUR_VER}"* == *"Fedora"* ]] || [[ *"${CUR_VER}"* == *"CentOS"* ]] || [[ *"${CUR_VER}"* == *"rocky"* ]]; then
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         local cur_path="${HOME_DIR}/.Xclients";
     else
         return
