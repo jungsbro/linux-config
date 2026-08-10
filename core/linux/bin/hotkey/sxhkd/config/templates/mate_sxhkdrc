@@ -2,7 +2,8 @@ super + ctrl + r
     pkill -usr1 -x sxhkd
 
 super + Tab
-    skippy-xd --expose --desktop -1
+    skippy-xd --desktop -1
+    # skippy-xd --expose --desktop -1
 
 ctrl + Escape
     rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'

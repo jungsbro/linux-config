@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ function set_uim_env()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ function set_uim_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -114,7 +115,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-m17n;
 
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(dnf list --installed | grep -i ^uim-qt) ]] || dnf install -y uim-qt;
         else
             [[ -n $(dnf list --installed | grep -i ^uim-gtk3) ]] || dnf install -y uim-gtk3;
@@ -123,7 +124,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         echo "uim is not supported for RHEL"
-        return
+        exit 0
     fi
 
     # --------------------------------------------------------------------------

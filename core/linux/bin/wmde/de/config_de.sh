@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
@@ -25,7 +26,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -35,7 +36,7 @@ function install_pkgs_for_de()
 {
     # --------------------------------------------------------------------------
     # develop
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
     bash ${CORE_BIN_DIR}/develop/install_jq.sh;
     bash ${CORE_BIN_DIR}/develop/install_yq.sh;
@@ -55,7 +56,7 @@ function install_pkgs_for_de()
     bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                     # lxde
+    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then                                     # lxde
         # ----------------------------------------------------------------------
         # screensaver
         bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
@@ -90,10 +91,13 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER}
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then                                            # lxqt
         # ----------------------------------------------------------------------
         # screensaver
         bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+        # ----------------------------------------------------------------------
+        # file-editor
+        bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # expose
         bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
@@ -114,7 +118,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                          # xfce4
+    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then                                          # xfce4
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"ID=MX"* ]]; then                                         # mxlinux xfce4
             # ------------------------------------------------------------------
@@ -140,7 +144,7 @@ function install_pkgs_for_de()
         fi
         # ----------------------------------------------------------------------
         # xfce4-apps
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh;
+        bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
 
         # 하드웨어 및 전원관리
         bash ${CORE_BIN_DIR}/audio/install_xfce4-pulseaudio-plugin.sh;
@@ -184,7 +188,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                           # mate
+    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then                                           # mate
         # ----------------------------------------------------------------------
         # task-manager
         bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
@@ -200,7 +204,7 @@ function install_pkgs_for_de()
         # theme
         bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
         bash ${CORE_BIN_DIR}/wmde/de/install_mate-menu.sh;
-        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
+        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
@@ -209,11 +213,11 @@ function install_pkgs_for_de()
         # ----------------------------------------------------------------------
 
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
+    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         # theme
         bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
+        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
@@ -221,11 +225,11 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                         # cinnamon(mint)
+    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then                                         # cinnamon(mint)
         # ----------------------------------------------------------------------
         # theme
         bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh;
+        bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
         # ----------------------------------------------------------------------
         # file-manager
@@ -233,7 +237,7 @@ function install_pkgs_for_de()
         bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then                                          # kde
         # ----------------------------------------------------------------------
         # theme
         bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
@@ -248,7 +252,7 @@ function config_de()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -256,29 +260,29 @@ function config_de()
     source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
     # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then                                         # lxde
+    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then                                         # lxde
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then                                            # lxqt
+    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then                                            # lxqt
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then                                            # xfce4
+    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then                                            # xfce4
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then                                             # mate
+    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then                                             # mate
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
         dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
+    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"archlinux"* ]]; then
             # ------------------------------------------------------------------
@@ -316,14 +320,14 @@ function config_de()
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then                                       # cinnamon(mint)
+    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then                                       # cinnamon(mint)
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c \
         "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
         dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then                                          # kde
+    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then                                          # kde
         # ----------------------------------------------------------------------
         su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------

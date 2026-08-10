@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -89,13 +90,13 @@ function install_skippy-xd_for_build()
 {
     # --------------------------------------------------------------------------
     if [[ -e "/usr/bin/skippy-xd" ]]; then
-        return
+        return 0
     fi
     if [[ -e "/usr/local/bin/skippy-xd" ]]; then
-        return
+        return 0
     fi
     if [[ -e "${HOME_DIR}/.nix-profile/bin/skippy-xd" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -104,7 +105,7 @@ function install_skippy-xd_for_build()
         local GRP_LIST=$(dnf grouplist --installed);
         local GRP_NAME="Development Tools";
 
-        [[ *"${GRP_LIST}"* == *"${GRP_NAME}"* ]] || dnf groupinstall -y "${GRP_NAME}";
+        [[ "${GRP_LIST}" == *"${GRP_NAME}"* ]] || dnf groupinstall -y "${GRP_NAME}";
     fi
     # --------------------------------------------------------------------------
 
@@ -126,7 +127,7 @@ function install_skippy-xd_for_build()
 
 
 # Funcs ========================================================================
-function copy_config_to_home()
+function copy_config_to_home()  # not used
 {
     # --------------------------------------------------------------------------
     local src_dir="${CUR_DIR}/config";
@@ -138,7 +139,7 @@ function copy_config_to_home()
 
     # --------------------------------------------------------------------------
     if [[ -f "${dst_path}" ]]; then
-        return;
+        return 0
     fi
     if [[ ! -d "${dst_dir}" ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
@@ -153,11 +154,11 @@ function copy_config_to_home()
 }
 
 
-function set_skippy-xd_autostart()
+function set_skippy-xd_autostart()  # not used, becuase of bug (freezing)
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -218,9 +219,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     # --------------------------------------------------------------------------
-    copy_config_to_home;
+    # copy_config_to_home;
 
-    set_skippy-xd_autostart;
+    # set_skippy-xd_autostart;
     # --------------------------------------------------------------------------
 
 fi

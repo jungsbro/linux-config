@@ -3,8 +3,7 @@ set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# set_prop_value ${ch} ${prop} ${typ} ${val};
-# source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
+# source ${CORE_BIN_DIR}/panel/tint2/install_tint2_funcs.sh && fix_logout_for_tint2 ${CUR_WM} ${CUR_USER};
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -15,39 +14,40 @@ set -e
 
 
 # Funcs ========================================================================
-function set_prop_value()
+function fix_logout_for_tint2()
 {
-    # env ----------------------------------------------------------------------
-    local ch=${1}
-    local prop=${2}
-    local typ=${3}
-    local val=${4}
-
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up"
-    # -c : --chanel
-    # -p : --property
-    local cmd="xfconf-query -c ${ch} -p ${prop}"
     # --------------------------------------------------------------------------
+    # fluxbox
+    local cur_wm="${1}"
 
-    # reset property (remove property) -----------------------------------------
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -r
-    # -r : --reset
-    `${cmd} -r`
+    # jungs
+    local cur_user="${2}"
+
+    local src_kwd="Logout:pkill openbox"
+    local dst_kwd="Logout:pkill ${cur_wm}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${val} ]]; then
+    local home_dir=$(eval echo ~${cur_user});
+
+    # /homt/jungs/.config/tint2/tint2rc
+    local dst_path="${home_dir}/.config/tint2/tint2rc";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ ! -f "${dst_path}" ]]; then
+        return 0
+    fi
+    if [[ -z $(grep "${src_kwd}" "${dst_path}") ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
-    # set property value (create and set) --------------------------------------
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" --create -t "string" -s "fill_window_key"
-    # -n : --create
-    # -t : type
-    # -s : --set
-    `${cmd} -n -t ${typ} -s "${val}"`
-    echo "${cmd} -n -t \"${typ}\" -s \"${val}\""
+    # --------------------------------------------------------------------------
+    # sed -i 's|Logout:pkill openbox|Logout:pkill fluxobx|g' "/homt/jungs/.config/tint2/tint2rc";
+    sed -i "s|${src_kwd}|${dst_kwd}|g" "${dst_path}";
+
+    chown "${cur_user}":"${cur_user}" "${dst_path}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_ayon141.sh ${CTR_NAME};
@@ -35,7 +36,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -62,7 +63,7 @@ DCC_APP="${HOME_DIR}/.local/share/AYON/shim/ayon.desktop"
 CTR_NAME="${1}"
 if [[ -z "${CTR_NAME}" ]]; then
     echo "Usage: bash ${BASH_SOURCE[0]} '${CTR_NAME}'"
-    return 0
+    exit 0
 fi
 # ------------------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ LOCAL_DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${CTR_NAME}-${DCC_NAME
 function create_desktop()
 {
     if [[ -f ${LOCAL_ICON_PATH} ]]; then
-        return
+        return 0
     fi
 
     local desktop_cmd="[Desktop Entry]
@@ -97,7 +98,7 @@ Icon=${LOCAL_ICON_PATH}
 function add_ayon()
 {
     if [[ ! -f ${DCC_PATH} ]]; then
-        return
+        return 0
     fi
 
     # 1) install_ayon ----------------------------------------------------------

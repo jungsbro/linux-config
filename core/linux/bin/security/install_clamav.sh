@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/security/install_clamav.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -35,8 +36,8 @@ function install_clamav()
 
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -69,13 +70,13 @@ function install_clamav()
 
     # --------------------------------------------------------------------------
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl list-unit-files | grep -iq clamav-daemon; then
+        if systemctl list-unit-files clamav-daemon.service &>/dev/null; then
             # To stop and disable clamav-daemon service:
             systemctl stop clamav-daemon
             systemctl disable clamav-daemon
         fi
     else    # sysVinit
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 }

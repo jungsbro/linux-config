@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -42,7 +43,7 @@ function install_gvfs_for_pacman()
 {
     [[ -n $(pacman -Q | grep -i ^gvfs) ]] || pacman -S --needed --noconfirm gvfs gvfs-smb;
 
-    if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+    if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         [[ -n $(pacman -Q | grep -i ^thunar-volman) ]] || pacman -S --needed --noconfirm thunar-volman;
     fi
 
@@ -55,7 +56,7 @@ function install_gvfs_for_apt()
 {
     [[ -n $(apt list --installed | grep -i ^gvfs$) ]] || apt install -y gvfs gvfs-backends gvfs-fuse;
 
-    if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+    if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         [[ -n $(apt list --installed | grep -i ^thunar-volman) ]] || apt install -y thunar-volman;
     fi
 
@@ -67,7 +68,7 @@ function install_gvfs_for_dnf()
 {
     [[ -n $(dnf list --installed | grep -i ^gvfs$) ]] || dnf install -y gvfs gvfs-smb gvfs-fuse;
 
-    if [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+    if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^thunar-volman) ]] || dnf install -y thunar-volman;
     fi
 

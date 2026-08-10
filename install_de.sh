@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # sudo bash ./install_de.sh "${CUR_USER}";
@@ -14,13 +15,15 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER=$1;
+CUR_USER="${1}"
+
 while [[ -z "${CUR_USER}" ]]
 do
-    echo "${CUR_USER} not found";
-    read -p "Please input username : " CUR_USER;
+    echo "Username not provided."
+    read -p "Please input username : " CUR_USER
 done
-# echo "your name : ${CUR_USER}";
+
+# echo "User selected: ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -30,7 +33,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

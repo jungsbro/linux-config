@@ -9,7 +9,8 @@ key "Super+Shift+r" icewm --restart
 # expose
 
 # key "Super+Tab" rofi -show window -show-icons
-key "Super+Tab" skippy-xd --expose --desktop -1
+# key "Super+Tab" skippy-xd --expose --desktop -1
+key "Super+Tab" skippy-xd --desktop -1
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ key "Ctrl+Shift+Esc" xfce4-terminal -e htop
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# finder
+# filemanager
 
 # key "Super+e" thunar
 key "Super+e" pcmanfm
@@ -79,7 +80,8 @@ key "Super+e" pcmanfm
 # ------------------------------------------------------------------------------
 # control center
 
-key "Super+i" python3 ~/.local/bin/wmcc.py
+key "Super+i" sh -c "python3 $HOME/.local/bin/wmcc.py"
+# key "Super+i" sh -c "bash $HOME/.local/bin/wmcc.sh"
 # key "Super+Shift+i" /usr/bin/
 # ------------------------------------------------------------------------------
 

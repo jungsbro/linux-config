@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/remote/cui/install_ssh.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -47,10 +48,10 @@ function fix_ssh-port()
 
 
     if [[ ! -f ${dst_path} ]]; then
-        return
+        return 0
     fi
     if [[ -z $(grep "${search_str}" "${dst_path}") ]]; then
-        return
+        return 0
     fi
 
     # sed -i "s|^#Port 22|Port 2222|" "/etc/ssh/sshd_config";

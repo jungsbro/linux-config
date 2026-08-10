@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
@@ -20,7 +21,7 @@ function set_autokey_autostart()
     local cur_user=${1}
 
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -59,7 +60,7 @@ function config_autokey()
     local cur_user=${1}
 
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -72,7 +73,7 @@ function config_autokey()
     local config_dir="${tmp_dir}/autohotkey-config";
 
     if [[ -d ${config_dir} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

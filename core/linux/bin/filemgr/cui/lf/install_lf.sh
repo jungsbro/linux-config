@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/lf/install_lf.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -200,15 +201,15 @@ function install_dependency_for_lf()
 function install_lf_for_portable()
 {
     if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
-        return
+        return 0
     fi
 
     # 1) SRC_URL ---------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-arm64.tar.gz
         local FNAME="lf-linux-arm64.tar.gz";
 
-    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-386.tar.gz
         local FNAME="lf-linux-386.tar.gz";
 
@@ -238,7 +239,7 @@ function install_lf_for_portable()
     # 3) LOCAL_BIN_DIR ---------------------------------------------------------
     # /usr/local/bin
     if [[ ! -d "${LOCAL_BIN_DIR}" ]]; then
-        return
+        return 0
     fi
 
     # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/local/bin;
@@ -270,7 +271,7 @@ function copy_lfrc()
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/lf/config/lfrc"
     if [[ ! -f ${src_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # sudo bash ./install_gpkg.sh "${CUR_USER}";
@@ -29,13 +30,15 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER=$1;
+CUR_USER="${1}"
+
 while [[ -z "${CUR_USER}" ]]
 do
-    echo "${CUR_USER} not found";
-    read -p "Please input username : " CUR_USER;
+    echo "Username not provided."
+    read -p "Please input username : " CUR_USER
 done
-# echo "your name : ${CUR_USER}";
+
+# echo "User selected: ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +48,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ${CORE_BIN_DIR}/ -------------------------------------------------------------
@@ -77,7 +80,7 @@ bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
 #     echo "";
 
 # elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-#     bash ${CORE_BIN_DIR}/pkgmgmt/install_snap.sh;
+#     bash ${CORE_BIN_DIR}/pkgmgmt/install_snap.sh "${CUR_USER}";
 # fi
 # ==============================================================================
 
@@ -137,17 +140,17 @@ bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh "${CUR_USER}";
 # ==============================================================================
 
 # web browser ==================================================================
-if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
     # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
-elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
     # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
     # --------------------------------------------------------------------------
 else
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh;
+    bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 fi
 
@@ -163,17 +166,17 @@ bash ${CORE_BIN_DIR}/remote/gui/install_remmina.sh "${CUR_USER}";
 # ==============================================================================
 
 # anydesk ======================================================================
-# bash ${CORE_BIN_DIR}/remote/gui/install_anydesk.sh;
+# bash ${CORE_BIN_DIR}/remote/gui/install_anydesk.sh "${CUR_USER}";
 # ==============================================================================
 
 # office =======================================================================
 bash ${CORE_BIN_DIR}/office/install_libreoffice.sh;
-bash ${CORE_BIN_DIR}/office/install_qpdfview.sh;
+bash ${CORE_BIN_DIR}/office/install_qpdfview.sh "${CUR_USER}";
 # ==============================================================================
 
 # paint ========================================================================
 # bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh "${CUR_USER}";
-if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
     bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
 else
     bash ${CORE_BIN_DIR}/graphics/install_drawing.sh "${CUR_USER}";

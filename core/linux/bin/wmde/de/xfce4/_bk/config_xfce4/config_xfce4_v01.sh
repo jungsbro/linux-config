@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 SRC_PATH="/home/jungs/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml_"
 TITLE="tile_up_key"

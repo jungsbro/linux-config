@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia-container-toolkit.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -41,15 +42,15 @@ function add_nvidia-container-toolkit_repo_for_apt()
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) container에서는 nvidia repo가 필요없다.
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -61,12 +62,12 @@ function add_nvidia-container-toolkit_repo_for_apt()
 
     # 방법1)
     if [[ -n $(apt list --installed | grep -i ^${REPO_KWD}) ]]; then
-        return
+        return 0
     fi
 
     # 방법2)
     # if [[ $(apt-cache policy | grep -i "${kweyring}") ]]; then
-    #     return
+    #     return 0
     # fi
     # --------------------------------------------------------------------------
 
@@ -95,15 +96,15 @@ function add_nvidia-container-toolkit_repo_for_dnf()
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) container에서는 nvidia repo가 필요없다.
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -112,7 +113,7 @@ function add_nvidia-container-toolkit_repo_for_dnf()
 
     local REPO_KWD="nvidia-container-toolkit"
     if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -150,7 +151,7 @@ function add_nvidia-container-toolkit_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -165,15 +166,15 @@ function install_nvidia-container-toolkit_for_pacman()
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # nvidia-container-toolkit for only host
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -189,15 +190,15 @@ function install_nvidia-container-toolkit_for_apt()
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) nvidia-container-toolkit for only host
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -228,15 +229,15 @@ function install_nvidia-container-toolkit_for_dnf()
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) nvidia-container-toolkit for only host
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -266,8 +267,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        exit 0
     fi
     # --------------------------------------------------------------------------
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_nimf_for_build.sh && build_nimf_for_dnf;
@@ -34,7 +35,7 @@ function build_nimf_for_dnf()
 
     # --------------------------------------------------------------------------
     if [[ -f "${PC_PATH}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

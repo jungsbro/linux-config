@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
@@ -10,7 +11,7 @@
 # /core/linux/bin/ide/featherpad
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -42,7 +43,7 @@ function copy_config_to_home()
 
     # --------------------------------------------------------------------------
     # if [[ -f "${dst_path}" ]]; then
-    #     return;
+    #     return 0
     # fi
     if [[ ! -d "${dst_dir}" ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}";

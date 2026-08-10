@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ function set_fcitx5_env()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ function set_fcitx5_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -97,7 +98,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm \
             fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-qt;
         else
@@ -120,7 +121,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2;
 
         # 방법3)
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^fcitx5) ]] || apt install -y \
             fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-qt* fcitx5-module-dbus;
         else
@@ -139,7 +140,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         echo "fcitx5 is not supported for RHEL"
-        return 0
+        exit 0
         # ----------------------------------------------------------------------
     fi
 

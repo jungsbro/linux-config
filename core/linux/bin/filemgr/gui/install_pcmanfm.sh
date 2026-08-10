@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(pacman -Q | grep -i ^pcmanfm-qt$) ]] || pacman -S --needed --noconfirm pcmanfm-qt;
         else
             [[ -n $(pacman -Q | grep -i ^pcmanfm$) ]] || pacman -S --needed --noconfirm pcmanfm;
@@ -53,7 +54,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^pcmanfm-qt$) ]] || apt install -y pcmanfm-qt;
         else
             [[ -n $(apt list --installed | grep -i ^pcmanfm$) ]] || apt install -y pcmanfm;
@@ -62,7 +63,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(dnf list --installed | grep -i ^pcmanfm-qt$) ]] || dnf install -y pcmanfm-qt;
         else
             [[ -n $(dnf list --installed | grep -i ^pcmanfm$) ]] || dnf install -y pcmanfm;
@@ -72,7 +73,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "pcmanfm is not supported for RHEL"
-        # return 0
+        # exit 0
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"

@@ -1,7 +1,13 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
-# sudo bash ./install_wm.sh "${CUR_WM}" "${CUR_USER}";
+# bash ./install_wm.sh "${CUR_WM}" "${CUR_USER}";
+
+# bash ./install_wm.sh "icewm" "${CUR_USER}";
+# bash ./install_wm.sh "fluxbox" "${CUR_USER}";
+# bash ./install_wm.sh "openbox" "${CUR_USER}";
+# bash ./install_wm.sh "i3" "${CUR_USER}";
 # ==============================================================================
 
 # ENV ==========================================================================
@@ -46,7 +52,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -57,8 +63,11 @@ function install_utils()
 {
     # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    # --------------------------------------------------------------------------
 
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+    # --------------------------------------------------------------------------
+    # develop
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
     bash ${CORE_BIN_DIR}/develop/install_jq.sh;
     bash ${CORE_BIN_DIR}/develop/install_yq.sh;
@@ -75,8 +84,8 @@ function install_utils()
 
 function install_display-server()
 {
-    if [[ *"${CUR_WM}"* == *"icewm"* ]] || [[ *"${CUR_WM}"* == *"fluxbox"* ]] || \
-    [[ *"${CUR_WM}"* == *"openbox"* ]] || [[ *"${CUR_WM}"* == *"i3"* ]]; then
+    if [[ "${CUR_WM}" == *"icewm"* ]] || [[ "${CUR_WM}" == *"fluxbox"* ]] || \
+    [[ "${CUR_WM}" == *"openbox"* ]] || [[ "${CUR_WM}" == *"i3"* ]]; then
         bash ${CORE_BIN_DIR}/gpu/install_x11.sh;
 
     else
@@ -89,20 +98,20 @@ function install_wm()
 {
     # --------------------------------------------------------------------------
     # wm
-    if [[ *"${CUR_WM}"* == *"icewm"* ]]; then
+    if [[ "${CUR_WM}" == *"icewm"* ]]; then
         bash ${CORE_BIN_DIR}/wmde/wm/icewm/install_icewm.sh "${CUR_USER}"
 
-    elif [[ *"${CUR_WM}"* == *"fluxbox"* ]]; then
+    elif [[ "${CUR_WM}" == *"fluxbox"* ]]; then
         bash ${CORE_BIN_DIR}/wmde/wm/fluxbox/fb/install_fluxbox.sh "${CUR_USER}"
 
-    elif [[ *"${CUR_WM}"* == *"openbox"* ]]; then
+    elif [[ "${CUR_WM}" == *"openbox"* ]]; then
         bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh "${CUR_USER}"
 
-    elif [[ *"${CUR_WM}"* == *"i3"* ]]; then
+    elif [[ "${CUR_WM}" == *"i3"* ]]; then
         bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3.sh "${CUR_USER}"
 
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -138,19 +147,37 @@ function install_panel()
     # if [[ -d "${HOME_DIR}/.config/i3" ]]; then
     # if [[ -d "${HOME_DIR}/.fluxbox" ]]; then
     # if [[ -d "${HOME_DIR}/.config/openbox" ]]; then
+    # --------------------------------------------------------------------------
 
-    if [[ *"${CUR_WM}"* == *"icewm"* ]]; then
+    # --------------------------------------------------------------------------
+    if [[ "${CUR_WM}" == *"icewm"* ]]; then
+        # ----------------------------------------------------------------------
         echo "";
+        # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WM}"* == *"fluxbox"* ]] || [[ *"${CUR_WM}"* == *"openbox"* ]]; then
+    elif [[ "${CUR_WM}" == *"fluxbox"* ]]; then
+        # ----------------------------------------------------------------------
         bash ${CORE_BIN_DIR}/panel/tint2/install_tint2.sh "${CUR_USER}";
-        bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh "${CUR_USER}";
+        # pkill openbox >> pkill fluxbox
+        source ${CORE_BIN_DIR}/panel/tint2/install_tint2_funcs.sh && fix_logout_for_tint2 "${CUR_WM}" "${CUR_USER}";
 
-    elif [[ *"${CUR_WM}"* == *"i3"* ]]; then
+        bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh "${CUR_USER}";
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_WM}" == *"openbox"* ]]; then
+        # ----------------------------------------------------------------------
+        bash ${CORE_BIN_DIR}/panel/tint2/install_tint2.sh "${CUR_USER}";
+
+        bash ${CORE_BIN_DIR}/panel/install_jgmenu.sh "${CUR_USER}";
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_WM}" == *"i3"* ]]; then
+        # ----------------------------------------------------------------------
         bash ${CORE_BIN_DIR}/panel/install_i3blocks.sh "${CUR_USER}";
+        # ----------------------------------------------------------------------
 
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 }

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_libhangul.sh && build_libhangul_for_dnf;
@@ -37,7 +38,7 @@ function build_libhangul_for_dnf()
 
     # --------------------------------------------------------------------------
     if [[ -f "${PC_PATH}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -89,8 +90,8 @@ function build_libhangul_for_dnf()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # pkg-config --modversion libhangul
     # local RST=$(pkg-config --modversion ${NAME})
-    # if [[ *"${local RST}"* == *"not found"* ]]; then
-    #     return
+    # if [[ "${local RST}" == *"not found"* ]]; then
+    #     return 0
     # fi
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
@@ -23,19 +24,19 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
-# Funcs ========================================================================
+# Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
@@ -47,7 +48,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12
             echo "xfce4-screensaver is not supported for Debian";
-            return 0
+            exit 0
         fi
         [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y --no-install-recommends xfce4-screensaver;
         # ----------------------------------------------------------------------

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/system/wmcc/wmcc.sh;
@@ -19,14 +20,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -53,7 +54,7 @@ function create_db()
     fi
 
     if [[ -f "${JSON_PATH}" ]]; then
-        return
+        return 0
     fi
 
     echo "[]" > "${JSON_PATH}"
@@ -163,7 +164,8 @@ function set_text_with_emoji()
 
     elif [[ "${text,,}" == *"desktop"* ]] || [[ "${text,,}" == *"monitor"* ]] || \
         [[ "${text,,}" == *"gpu"* ]] || [[ "${text,,}" == *"nvidia"* ]] || \
-        [[ "${text,,}" == *"amd"* ]] || [[ "${text,,}" == *"display"* ]]; then
+        [[ "${text,,}" == *"amd"* ]] || [[ "${text,,}" == *"display"* ]] || \
+        [[ "${text,,}" == *"arandr"* ]]; then
         emoji="🖥️ "
 
     elif [[ "${text,,}" == *"look"* ]] || [[ "${text,,}" == *"feel"* ]] || \
@@ -285,7 +287,7 @@ function show_ui()
     # --------------------------------------------------------------------------
     # 1) JSON_PATH(db) 확인
     if [[ ! -f "${JSON_PATH}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -301,7 +303,8 @@ function show_ui()
 --title="Control Center" \
 --width=1000 --columns=4 --resizable \
 --image="preferences-system" \
---text="Please select an application to run.\n"';
+--text="Please select an application to run.\n" \
+--center';
 
     local rm_db_cmd='rm -f \"'${JSON_PATH}'\"';
     # --------------------------------------------------------------------------
@@ -334,7 +337,6 @@ function show_ui()
     yad_cmd+=' --button="Close:0"'
     # echo "${yad_cmd}"
 
-    # su - ${CUR_USER} -c "export DISPLAY=:0 && export XAUTHORITY=${HOME}/.Xauthority && eval \"\"${yad_cmd}\"\""
     eval "${yad_cmd}"
     # --------------------------------------------------------------------------
 }

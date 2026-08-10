@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/install_opencc.sh && build_OpenCC_for_dnf;
@@ -33,7 +34,7 @@ function build_OpenCC_for_dnf()
 
     # --------------------------------------------------------------------------
     if [[ -f "${PC_PATH}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

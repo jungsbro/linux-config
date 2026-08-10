@@ -219,7 +219,9 @@ bindsym Mod1+Tab focus next
 # 포커스 설정 (expose) -----------------------------------------------------------
 # win + tab
 # bindsym $mod+Tab exec "skippy-xd"
-bindsym $mod+Tab exec "skippy-xd --expose --desktop -1"
+
+bindsym $mod+Tab exec "skippy-xd --desktop -1"
+# bindsym $mod+Tab exec "skippy-xd --expose --desktop -1"
 
 # bindsym $mod+Tab exec "rofi -show window -window-format '{w} {c} {t}' -theme-str 'window {width: 40%;}'"
 # bindsym $mod+Tab exec "rofi -show window -show-icons"
@@ -348,7 +350,8 @@ bindsym $mod+p exec arandr
 
 # control center  --------------------------------------------------------------
 # win + i
-bindsym $mod+p exec python3 ~/.local/bin/wmcc.py
+bindsym $mod+p exec "python3 ~/.local/bin/wmcc.py"
+# bindsym $mod+p exec "bash ~/.local/bin/wmcc.sh"
 # ------------------------------------------------------------------------------
 
 # workspace---------------------------------------------------------------------

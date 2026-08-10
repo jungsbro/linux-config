@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER};
@@ -27,14 +28,11 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 APP_NAME="wmcc"
-
-APP_BIN="wmcc.py"
-# APP_BIN="wmcc.sh"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -44,21 +42,29 @@ function cp_wmcc()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local src_dir="$(CUR_DIR)";
+    local src_fname_list="wmcc.py wmcc.sh";
+
+    local src_dir="${CUR_DIR}";
     local dst_dir="${HOME_DIR}/.local/bin";
+    # --------------------------------------------------------------------------
 
-    # su - ${CUR_USER} -c "echo \"${dst_dir}\"";
-    # su - ${CUR_USER} -c "echo ${src_dir}/${APP_BIN}";
-    # su - ${CUR_USER} -c "echo ${dst_dir}/${APP_BIN}";
-
+    # --------------------------------------------------------------------------
     su - ${CUR_USER} -c "[[ -d ${dst_dir} ]] || mkdir -p ${dst_dir}";
-    su - ${CUR_USER} -c "[[ -f '${dst_dir}/${APP_BIN}' ]] || cp -f ${src_dir}/${APP_BIN} ${dst_dir}/${APP_BIN}";
-    su - ${CUR_USER} -c "chmod 755 ${dst_dir}/${APP_BIN}";
+
+    for cur_fname in ${src_fname_list};
+    do
+        if [[ ! -f "${src_dir}/${cur_fname}" ]]; then
+            continue;
+        fi
+
+        su - ${CUR_USER} -c "[[ -f '${dst_dir}/${cur_fname}' ]] || cp -f ${src_dir}/${cur_fname} ${dst_dir}/${cur_fname}";
+        su - ${CUR_USER} -c "chmod 755 ${dst_dir}/${cur_fname}";
+    done
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
@@ -73,7 +79,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # --------------------------------------------------------------------------
     # for wmcc.sh
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/develop/install_jq.sh;
     # --------------------------------------------------------------------------
 

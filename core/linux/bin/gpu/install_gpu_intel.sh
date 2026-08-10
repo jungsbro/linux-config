@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/gpu/install_gpu_inel.sh ${CUR_USER};
@@ -24,14 +25,14 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # CPU 모델명에서 세대 정보 추출 (예: i7-8700 -> 8)
 CPU_MODEL=$(grep "model name" /proc/cpuinfo | head -n 1)
 
-INTEL_GENERATION=$(echo "$CPU_MODEL" | grep -oP 'i[3579]-\K[0-9]+(?=[0-9]{3})| \K[0-9]+(?=[0-9]{3})' | head -n 1)
+INTEL_GENERATION=$(echo "$CPU_MODEL" | grep -oP 'i[3579]-\K[0-9]+(?=[0-9]{3})| \K[0-9]+(?=[0-9]{3})' | head -n 1 || true)
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -62,7 +63,7 @@ function install_intel_for_pacman()
     # --------------------------------------------------------------------------
     # VA-API
     if [ -z "${INTEL_GENERATION}" ]; then
-        return
+        return 0
     fi
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
@@ -80,7 +81,7 @@ function install_intel_for_pacman()
     # --------------------------------------------------------------------------
     # OpenCL
     if [ -z "${INTEL_GENERATION}" ]; then
-        return
+        return 0
     fi
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
@@ -141,7 +142,7 @@ function install_intel_for_apt()
     # --------------------------------------------------------------------------
     # OpenCL
     if [ -z "${INTEL_GENERATION}" ]; then
-        return
+        return 0
     fi
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
@@ -198,7 +199,7 @@ function install_intel_for_dnf()
     # --------------------------------------------------------------------------
     # OpenCL
     if [ -z "${INTEL_GENERATION}" ]; then
-        return
+        return 0
     fi
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------

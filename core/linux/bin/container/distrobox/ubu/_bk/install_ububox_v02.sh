@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/container/distrobox/ubu/install_ububox.sh;
@@ -25,7 +26,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -88,8 +89,8 @@ PRE_INIT_HOOKS+=" && \
 # Main =========================================================================
 # container --------------------------------------------------------------------
 # checking container
-if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
-    return 0;
+if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+    exit 0;
 fi
 
 # creating container

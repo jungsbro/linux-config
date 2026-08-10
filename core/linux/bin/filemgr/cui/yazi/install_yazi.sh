@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -142,19 +143,19 @@ function install_dependency_for_yazi()
 function install_yazi_for_apt()
 {
     # if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
-    #     return
+    #     return 0
     # fi
 
     # 1) SRC_URL ---------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.deb
         local FNAME="yazi-aarch64-unknown-linux-gnu";
 
-    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.deb
         # local FNAME="yazi-i686-unknown-linux-gnu";
         # yazi not found for i686_deb
-        return
+        return 0
 
     else
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
@@ -192,12 +193,12 @@ function install_yazi_for_apt()
 function install_yazi_for_portable()
 {
     if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
-        return
+        return 0
     fi
 
 
     # 1) SRC_URL ---------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-musl.zip
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.zip
 
@@ -208,7 +209,7 @@ function install_yazi_for_portable()
             local FNAME="yazi-aarch64-unknown-linux-gnu";
         fi
 
-    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.zip
 
         local FNAME="yazi-i686-unknown-linux-gnu";
@@ -247,7 +248,7 @@ function install_yazi_for_portable()
     # 3) LOCAL_BIN_DIR ---------------------------------------------------------
     # /usr/local/bin
     if [[ ! -d "${LOCAL_BIN_DIR}" ]]; then
-        return
+        return 0
     fi
 
     # unzip /tmp/yazi/yazi-x86_64-unknown-linux-gnu.zip -d /tmp/yazi
@@ -280,7 +281,7 @@ function install_yazi()
         [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --needed --noconfirm yazi;
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        if [[ "${CUR_ARCH}" == *"i686"* ]]; then
             install_yazi_for_portable;
         else
             install_yazi_for_apt;
@@ -299,7 +300,7 @@ function copy_yazirc()
     # --------------------------------------------------------------------------
     local src_dir="${CUR_DIR}/yazi/config"
     if [[ ! -f "${src_dir}/yazi.toml" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

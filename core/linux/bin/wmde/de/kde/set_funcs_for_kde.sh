@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ function restart_kglobalaccel()
     # --------------------------------------------------------------------------
     # 단축키 설정 변경 반영
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl --user list-unit-files | grep -iq plasma-kglobalaccel; then
+        if systemctl --user list-unit-files plasma-kglobalaccel.service &>/dev/null; then
             # systemd를 통해 서비스를 재시작
             systemctl --user restart plasma-kglobalaccel
         fi
@@ -43,7 +44,7 @@ function restart_kwin()
 {
     # --------------------------------------------------------------------------
     # 창 제목 폰트, 가상 데스크톱 설정 반영
-    qdbus6 org.kde.KWin /KWin org.kde.KWin.reconfigure
+    qdbus6 org.kde.KWin /KWin org.kde.KWin.reconfigure || true
     # --------------------------------------------------------------------------
 }
 
@@ -52,7 +53,7 @@ function restart_kded6()
 {
     # --------------------------------------------------------------------------
     # 다크 테마, 일반 폰트, 아이콘 변경 설정 반영
-    qdbus6 org.kde.kded6 /kded org.kde.kded6.reconfigure
+    qdbus6 org.kde.kded6 /kded org.kde.kded6.reconfigure || true
     # --------------------------------------------------------------------------
 }
 
@@ -62,7 +63,7 @@ function restart_plasmashell()
     # --------------------------------------------------------------------------
     # 패널 시계, 위젯, 플로팅 설정 반영
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl --user list-unit-files | grep -iq plasma-plasmashell; then
+        if systemctl --user list-unit-files plasma-plasmashell.service &>/dev/null; then
             systemctl --user restart plasma-plasmashell
         fi
     fi

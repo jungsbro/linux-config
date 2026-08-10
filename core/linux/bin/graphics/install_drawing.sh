@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/graphics/install_drawing.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -43,8 +44,8 @@ function install_drawing_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 

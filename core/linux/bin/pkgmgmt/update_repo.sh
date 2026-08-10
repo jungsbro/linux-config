@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -35,7 +36,7 @@ function add_aur_for_yay()
     # --------------------------------------------------------------------------
     # dnf repolist
     if [[ -n $(pacman -Q | grep -i ^yay) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -90,7 +91,7 @@ function add_universe_repo_for_apt()
 {
     # --------------------------------------------------------------------------
     if grep -qr "main.*universe" /etc/apt/sources.list /etc/apt/sources.list.d/; then
-        return
+        return 0
     fi
 
     add-apt-repository -y universe restricted multiverse
@@ -109,7 +110,7 @@ function add_epel_repo_for_dnf()
     # dnf repolist >> epel
     # dnf list --installed >> epel-release.noarch
     if [[ -n $(dnf list --installed | grep -i ^epel-release) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -118,7 +119,7 @@ function add_epel_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -133,7 +134,7 @@ function add_rpmfusion_repo_for_dnf()
     # dnf list --installed >> rpmfusion-free-release.noarch, rpmfusion-nonfree-release.noarch
 
     if [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -156,7 +157,7 @@ function add_rpmfusion_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -169,10 +170,10 @@ function set_crb_enabled_for_dnf()
     # --------------------------------------------------------------------------
     # dnf repolist >> powertools, crb
     if [[ -n $(dnf repolist | grep -i ^powertools) ]]; then
-        return
+        return 0
     fi
     if [[ -n $(dnf repolist | grep -i ^crb) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -189,7 +190,7 @@ function set_crb_enabled_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -203,21 +204,21 @@ function add_remi_repo_for_dnf()
     # dnf repolist >> remi-modular, remi-safe
     # dnf list --installed >> remi-release
     if [[ -n $(dnf list --installed | grep -i ^remi) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"Fedora"* ]]; then
-        dnf install -y https://rpms.remirepo.net/fedora/remi-release-$(rpm -E %fedora).rpm
+        dnf install -y "https://rpms.remirepo.net/fedora/remi-release-$(rpm -E %fedora).rpm"
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        dnf install -y https://rpms.remirepo.net/enterprise/remi-release-$(rpm -E %rhel).rpm
+        dnf install -y "https://rpms.remirepo.net/enterprise/remi-release-$(rpm -E %rhel).rpm"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -231,7 +232,7 @@ function add_elrepo_for_dnf()
     # dnf repolist >> elrepo
     # dnf list --installed >> elrepo-release.noarch
     if [[ -n $(dnf list --installed | grep -i ^elrepo) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -240,14 +241,14 @@ function add_elrepo_for_dnf()
         echo ""
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-        # dnf install -y https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
-        dnf install -y https://www.elrepo.org/elrepo-release-$(rpm -E %rhel).el$(rpm -E %rhel).elrepo.noarch.rpm
+        rpm --import "https://www.elrepo.org/RPM-GPG-KEY-elrepo.org"
+        # dnf install -y "https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm"
+        dnf install -y "https://www.elrepo.org/elrepo-release-$(rpm -E %rhel).el$(rpm -E %rhel).elrepo.noarch.rpm"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -260,7 +261,7 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
     # --------------------------------------------------------------------------
     # dnf repolist
     if [[ -n $(dnf list --installed | grep -i ^ius) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -269,13 +270,13 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
         echo ""
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        dnf install -y https://repo.ius.io/ius-release-el$(rpm -E %rhel).rpm
-        dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
+        dnf install -y "https://repo.ius.io/ius-release-el$(rpm -E %rhel).rpm"
+        dnf install -y "https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -318,4 +319,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
 fi
+# ==============================================================================
+
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================

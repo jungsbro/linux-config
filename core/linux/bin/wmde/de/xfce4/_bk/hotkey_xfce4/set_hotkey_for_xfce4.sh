@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_for_xfce4.sh;
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -44,7 +45,8 @@ function set_focus_hotkey()
 
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "rofi -show window -show-icons"
     # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --desktop -1";
 
     # if [[ -f "skippy-xd" ]]; then
     #     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "skippy-xd"

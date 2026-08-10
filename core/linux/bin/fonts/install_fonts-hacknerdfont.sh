@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -33,7 +34,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 function install_fonts-hacknerdfont()
 {
     if [[ -n $(fc-list |grep -i hacknerdfont) ]]; then
-        return
+        return 0
     fi
 
     # --------------------------------------------------------------------------
@@ -44,19 +45,19 @@ function install_fonts-hacknerdfont()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/TTF";
         if [[ -f "${FONT_DST_DIR}/${FONT_NAME}-Regular.ttf" ]]; then
-            return
+            return 0
         fi
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
         if [[ -d "${FONT_DST_DIR}" ]]; then
-            return
+            return 0
         fi
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         local FONT_DST_DIR="/usr/share/fonts/${FONT_NAME}";
         if [[ -d "${FONT_DST_DIR}" ]]; then
-            return
+            return 0
         fi
     fi
     # --------------------------------------------------------------------------

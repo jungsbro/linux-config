@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -38,11 +39,11 @@ function install_vscode_for_apt()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(apt list --installed | grep -i ^code) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -71,11 +72,11 @@ function install_vscode_for_dnf()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(dnf list --installed | grep -i ^code.x86) ]]; then   # because of codec2
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ function install_vscode_for_dnf()
     # -e : enable interpretation of backslash escapes
     rpm --import https://packages.microsoft.com/keys/microsoft.asc
     echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-    dnf check-update
+    dnf check-update || true;
     dnf install -y code
     # --------------------------------------------------------------------------
 }
@@ -93,8 +94,8 @@ function install_vscode_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 

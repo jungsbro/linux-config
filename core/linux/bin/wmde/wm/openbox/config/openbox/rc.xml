@@ -296,7 +296,7 @@
     <!--> Keybindings for window-switching </!-->
     <keybind key="W-Tab">
       <action name="Execute">
-        <command>skippy-xd --expose --desktop -1</command>
+        <command>skippy-xd --desktop -1</command>
       </action>
     </keybind>
     <!--> Keybindings for menu </!-->
@@ -359,6 +359,13 @@
     <keybind key="W-e">
       <action name="Execute">
         <command>pcmanfm</command>
+      </action>
+    </keybind>
+    <!--> Keybindings for control-center</!-->
+    <keybind key="W-i">
+      <action name="Execute">
+      <command>python3 ~/.local/bin/wmcc.py</command>
+      <!-- <command>bash ~/.local/bin/wmcc.sh</command> -->
       </action>
     </keybind>
     <!--> Keybindings for set_hotkey_for_terminal </!-->

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -61,20 +62,20 @@ function install_freetube_for_apt()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(apt list --installed | grep -i ^freetube) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
         # freetube_0.23.5_amd64.deb
         local FNAME="${APP_NAME}_${APP_VER}_amd64.deb";
 
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # freetube_0.23.5_arm64.deb
         local FNAME="${APP_NAME}_${APP_VER}_arm64.deb";
     fi
@@ -106,20 +107,20 @@ function install_freetube_for_rpm()
 {
     # --------------------------------------------------------------------------
     # for x86_64, aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(apt list --installed | grep -i ^freetube) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
         # freetube-0.23.5.amd64.rpm
         local FNAME="${APP_NAME}-${APP_VER}.amd64.rpm";
 
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # freetube-0.23.5_arm64.rpm
         local FNAME="${APP_NAME}-${APP_VER}.arm64.rpm";
     fi
@@ -151,8 +152,8 @@ function install_freetube_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -189,22 +190,22 @@ function install_freetube_for_portable()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
 
     # /opt/freetube
     if [[ -e ${APP_DIR} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # 1) src_url ---------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
         # freetube-0.23.5-linux-x64-portable.zip
         local fname="${APP_NAME}-${APP_VER}-linux-x64-portable.zip";
 
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # freetube-0.23.5-linux-arm64-portable.zip
         local fname="${APP_NAME}-${APP_VER}-linux-arm64-portable.zip";
     fi
@@ -237,7 +238,7 @@ function install_freetube_for_portable()
 
     # /opt/freetube
     if [[ ! -d "${APP_DIR}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -274,22 +275,22 @@ function install_freetube_for_appimg()
 {
     # appimage for only x86_64 -------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
 
     # /opt/freetube
     if [[ -e "${APP_DIR}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # 1) src_url ---------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"x86_64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
         # FreeTube-0.23.5-amd64.AppImage
         local fname="FreeTube-${APP_VER}-amd64.AppImage";
 
-    elif [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # FreeTube-0.23.5-arm64.AppImage
         local fname="FreeTube-${APP_VER}-arm64.AppImage";
     fi
@@ -347,7 +348,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
+        if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
             echo "freetube-i686 is not supported for Debian/Ubuntu"
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
@@ -363,7 +364,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then  # i686
+        if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
             echo "freetube-i686 is not supported for RHEL"
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"

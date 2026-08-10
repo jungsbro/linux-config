@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -180,7 +181,7 @@ function copy_nnnrc()
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/nnn/config/nnnrc"
     if [[ ! -f ${src_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -231,7 +232,7 @@ function copy_shell_plugin()
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/nnn/config/plugins/shell"
     if [[ ! -f ${src_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

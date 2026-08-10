@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ function set_nvidia-current_dir()
     fi
 
     if [[ ! -d ${LIB_SRC_DIR} ]]; then
-        return
+        return 0
     fi
 
     local LIB_DST_DIR="/usr/lib/nvidia-current"
@@ -176,7 +177,7 @@ function add_nvidia_repo_for_apt()  # not used
         # https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
         local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${DISTRO_VER}/x86_64/${PKG_NAME}"
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -184,15 +185,15 @@ function add_nvidia_repo_for_apt()  # not used
     # --------------------------------------------------------------------------
     # 조건) container에서는 nvidia repo가 필요없다.
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -201,13 +202,13 @@ function add_nvidia_repo_for_apt()  # not used
 
     # 방법1)
     if [[ -n $(apt list --installed | grep -i ^${KEYRING_NAME}) ]]; then
-        return
+        return 0
     fi
 
     # 방법2)
     # if [[ $(apt-cache policy | grep -i "developer.download.nvidia.com") ]]; then
     #     # https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64  Packages
-    #     return
+    #     return 0
     # fi
     # --------------------------------------------------------------------------
 
@@ -238,15 +239,15 @@ function add_nvidia_repo_for_dnf()
     # --------------------------------------------------------------------------
     # 조건) container에서는 nvidia repo가 필요없다.
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 조건) nvidia gpu만 적용
 
-    if [[ *"${VENDOR}"* != *"nvidia"* ]]; then
-        return
+    if [[ "${VENDOR}" != *"nvidia"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -255,7 +256,7 @@ function add_nvidia_repo_for_dnf()
 
     local REPO_KWD="cuda-rhel"
     if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -272,7 +273,7 @@ function add_nvidia_repo_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    dnf check-update;
+    dnf check-update || true;
     # sudo dnf clean all
     # sudo dnf makecache
     # --------------------------------------------------------------------------
@@ -334,12 +335,12 @@ function install_nvidia_for_pacman()
     # OpenCL
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^oci-icd) ]] || pacman -S --needed --noconfirm oci-icd;
+        [[ -n $(pacman -Q | grep -i ^ocl-icd) ]] || pacman -S --needed --noconfirm ocl-icd;
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^opencl-nvidia) ]] || pacman -S --needed --noconfirm opencl-nvidia;
-        [[ -n $(pacman -Q | grep -i ^oci-icd) ]] || pacman -S --needed --noconfirm oci-icd;
+        [[ -n $(pacman -Q | grep -i ^ocl-icd) ]] || pacman -S --needed --noconfirm ocl-icd;
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -540,7 +541,11 @@ function install_nvidia_for_dnf()
         fi
         # ----------------------------------------------------------------------
     fi
-    [[ -n $(dnf list --installed | grep -i ^ocl-icd) ]] || dnf install -y ocl-icd;
+
+    # ocl-icd 또는 OpenCL-ICD-Loader 둘 중 하나도 없을 때만 ocl-icd 설치 시도
+    if [[ -z $(dnf list --installed | grep -iE "^(ocl-icd|OpenCL-ICD-Loader)") ]]; then
+        dnf install -y ocl-icd
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

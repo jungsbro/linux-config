@@ -22,8 +22,9 @@ Mod4 Shift r :Exec fluxbox-remote restart
 
 # expose -----------------------------------------------------------------------
 # Mod4 Tab :Exec rofi -show window -show-icons
+# Mod4 Tab :Exec skippy-xd --expose --desktop -1
 
-Mod4 Tab :Exec skippy-xd --expose --desktop -1
+Mod4 Tab :Exec skippy-xd --desktop -1
 # ------------------------------------------------------------------------------
 
 # menu -------------------------------------------------------------------------

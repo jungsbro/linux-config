@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # sudo bash ./install_cpkg.sh "${CUR_USER}";
@@ -15,13 +16,15 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER=$1;
+CUR_USER="${1}"
+
 while [[ -z "${CUR_USER}" ]]
 do
-    echo "${CUR_USER} not found";
-    read -p "Please input username : " CUR_USER;
+    echo "Username not provided."
+    read -p "Please input username : " CUR_USER
 done
-# echo "your name : ${CUR_USER}";
+
+# echo "User selected: ${CUR_USER}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -31,7 +34,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ${CORE_BIN_DIR}/ -------------------------------------------------------------
@@ -48,7 +51,6 @@ CUR_WMDE=$(ls /usr/bin/*session);
 # chmod 777 ${SRC_DIR};
 # ------------------------------------------------------------------------------
 # ==============================================================================
-
 
 # update =======================================================================
 bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -358,6 +360,7 @@ if [[ "${CUR_VER}" == *"archlinux"* ]]; then
     # --------------------------------------------------------------------------
     # 압축
     [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+    [[ -n $(pacman -Q | grep -i ^unzip) ]] || pacman -S --needed --noconfirm unzip;
     # --------------------------------------------------------------------------
 
 elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
@@ -373,13 +376,16 @@ elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; t
     [[ -n $(apt list --installed | grep -i ^tree) ]] || apt install -y tree;
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
-    su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
-    su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+    if [[ ! -f "${HOME_DIR}/.local/bin/bat" ]]; then
+        su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
+        su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+    fi
     # --------------------------------------------------------------------------
     [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
     # --------------------------------------------------------------------------
     # 압축
     [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+    [[ -n $(apt list --installed | grep -i ^unzip) ]] || apt install -y unzip;
     # --------------------------------------------------------------------------
     # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
     # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
@@ -402,6 +408,7 @@ elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
     # 압축
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -420,6 +427,7 @@ elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
     # 압축
     [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+    [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
     # --------------------------------------------------------------------------
     # dnf install -y nyancat cmatrix tty-clock;
     # --------------------------------------------------------------------------
@@ -427,7 +435,7 @@ fi
 
 # ------------------------------------------------------------------------------
 # 데이터 수정
-bash ${CORE_BIN_DIR}/develop/install_crudini.sh;
+bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
 bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
 bash ${CORE_BIN_DIR}/develop/install_jq.sh;
 bash ${CORE_BIN_DIR}/develop/install_yq.sh;

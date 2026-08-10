@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -38,17 +39,17 @@ source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
 function install_gputop_for_pacman()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
+    if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^nvtop) ]] || pacman -S --needed --noconfirm nvtop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"radeon"* ]]; then
+    elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^radeontop) ]] || pacman -S --needed --noconfirm radeontop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"intel"* ]]; then
+    elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^intel-gpu-tools) ]] || pacman -S --needed --noconfirm intel-gpu-tools;
         # ----------------------------------------------------------------------
@@ -60,17 +61,17 @@ function install_gputop_for_pacman()
 function install_gputop_for_apt()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
+    if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^nvtop) ]] || apt install -y nvtop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"radeon"* ]]; then
+    elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^radeontop) ]] || apt install -y radeontop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"intel"* ]]; then
+    elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^intel-gpu-tools) ]] || apt install -y intel-gpu-tools;
         # ----------------------------------------------------------------------
@@ -82,17 +83,17 @@ function install_gputop_for_apt()
 function install_gputop_for_rhel()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
+    if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^nvtop) ]] || dnf install -y nvtop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"radeon"* ]]; then
+    elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^radeontop) ]] || dnf install -y radeontop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"intel"* ]]; then
+    elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
         # [[ -n $(dnf list --installed | grep -i ^igt-gpu-tools) ]] || dnf install -y igt-gpu-tools;
         echo "Intel GPU tools may not be available in RHEL/CentOS repositories"
@@ -105,17 +106,17 @@ function install_gputop_for_rhel()
 function install_gputop_for_dnf()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
+    if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^nvtop) ]] || dnf install -y nvtop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"radeon"* ]]; then
+    elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^radeontop) ]] || dnf install -y radeontop;
         # ----------------------------------------------------------------------
 
-    elif [[ *"${VENDOR}"* == *"intel"* ]]; then
+    elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^igt-gpu-tools) ]] || dnf install -y igt-gpu-tools;
         # ----------------------------------------------------------------------
@@ -134,7 +135,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # --------------------------------------------------------------------------
     if [[ -z "${VENDOR}" ]]; then
-        return
+        exit 0
     fi
     # --------------------------------------------------------------------------
 

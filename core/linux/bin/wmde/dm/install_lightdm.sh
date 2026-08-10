@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -37,7 +38,7 @@ function fix_lightdm-xsession()     # not used
     local cur_ver=$(cat /etc/*-release 2> /dev/null);
 
     if [[ "${CUR_VER}" != *"Fedora"* ]] && [[ "${CUR_VER}" != *"CentOS"* ]] && [[ "${CUR_VER}" != *"rocky"* ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -52,7 +53,7 @@ function fix_lightdm-xsession()     # not used
     # 1) copy Xsession
 
     if [[ ! -f ${src_xsession_path} ]]; then
-        return
+        return 0
     fi
     if [[ ! -f ${dst_xsession_path} ]]; then
         # -a --archive : preserve all attributes / because of selinux
@@ -65,10 +66,10 @@ function fix_lightdm-xsession()     # not used
     # 2) fix /etc/lightdm/lightdm.conf
 
     if [[ ! -f ${dst_lightdm_conf_path} ]]; then
-        return
+        return 0
     fi
     if [[ -n $(cat ${dst_lightdm_conf_path} | grep -i ${dst_xsession_path}) ]]; then
-        return
+        return 0
     fi
 
     local search_str='#session-wrapper=lightdm-session'
@@ -100,7 +101,7 @@ fi
 EOF
 
     if [[ -z $(cat ${dst_xsession_path} | grep -i ${search_str}) ]]; then
-        return
+        return 0
     fi
     sed -i "\|${search_str}|r ${tmp_path}" ${dst_xsession_path};
     # --------------------------------------------------------------------------
@@ -114,7 +115,7 @@ function set_logind-check-graphical_enable()
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
     if [[ "${CUR_VER}" != *"Fedora"* ]] && [[ "${CUR_VER}" != *"CentOS"* ]] && [[ "${CUR_VER}" != *"rocky"* ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -133,7 +134,7 @@ function set_logind-check-graphical_enable()
 
     # grep -E '^logind-check-graphical=true' /etc/lightdm/lightdm.conf
     if [[ -n $(grep -E '^logind-check-graphical=true' "${dst_path}") ]]; then
-        return
+        return 0
     fi
 
     # crudini --set /etc/lightdm/lightdm.conf "Seat:*" "logind-check-graphical" "true";
@@ -147,13 +148,13 @@ function set_logind-check-graphical_enable()
 function set_lightdm_enable()
 {
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl list-unit-files | grep -iq lightdm; then
+        if systemctl list-unit-files lightdm.service &>/dev/null; then
             systemctl enable lightdm
             systemctl set-default graphical.target
             systemctl restart lightdm
         fi
     else    # sysVinit
-        return
+        return 0
     fi
 }
 # ==============================================================================

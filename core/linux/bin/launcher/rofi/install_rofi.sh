@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
@@ -37,7 +38,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -66,10 +67,10 @@ function create_scripts_for_obrc()   # not used
         su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
     fi
     if [[ -f ${expose_path} ]]; then
-        return
+        return 0
     fi
     if [[ -f ${launcher_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -96,7 +97,7 @@ function fix_paths_for_obrc()   # not used
     local obrc_path="${dst_dir}/rc.xml"
 
     if [[ ! -f ${obrc_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -124,14 +125,14 @@ function fix_themes_for_nix()
     local dst_config_path="${dst_config_dir}/j_launcher.rasi"
 
     if [[ ! -f ${dst_theme_path} ]]; then
-        return
+        return 0
     fi
     if [[ ! -f ${dst_config_path} ]]; then
-        return
+        return 0
     fi
     # grep "/usr/share/rofi/themes/Arc-Dark.rasi" "${HOME}/.config/rofi/themes/j_launcher.rasi"
     if [[ -z $(grep "${src_theme_path}" "${dst_config_path}") ]]; then
-        return
+        return 0
     fi
 
     sed -i "s|${src_theme_path}|${dst_theme_path}|g" "${dst_config_path}";
@@ -143,7 +144,7 @@ function create_config()
 {
     # --------------------------------------------------------------------------
     if [[ -f ${DST_ROFI_CONF_PATH} ]]; then
-        return
+        return 0
     fi
     if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"
@@ -187,7 +188,7 @@ function copy_config_to_home()
 {
     # --------------------------------------------------------------------------
     if [[ ! -d ${SRC_ROFI_CONF_DIR} ]]; then
-        return
+        return 0
     fi
     if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"

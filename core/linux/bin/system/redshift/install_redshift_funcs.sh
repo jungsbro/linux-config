@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
@@ -20,7 +21,7 @@ function set_redshift_autostart()
     local cur_user=${1}
 
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -61,7 +62,7 @@ function config_redshift()
     local cur_user=${1}
 
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

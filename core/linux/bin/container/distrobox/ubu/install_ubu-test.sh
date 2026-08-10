@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/container/distrobox/ubu/install_ubu-test.sh;
@@ -25,7 +26,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -33,7 +34,7 @@ CTR_NAME="ubu-test"
 
 # ubuntu24.04에서 애러가 난다. >> Setting up existing user... Error: An error occurred
 # IMAGE="docker.io/library/ubuntu:latest"
-IMAGE="docker.io/library/ubuntu:22.04"
+IMAGE="docker.io/library/ubuntu:24.04"
 
 # distrobox create --name "ubu-test" --image "docker.io/library/debian:latest"
 CTR_ARGS=""
@@ -126,8 +127,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     # container ----------------------------------------------------------------
     # checking container
-    if [[ *"$(distrobox list)"* == *"${CTR_NAME}"* ]]; then
-        return 0;
+    if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+        exit 0;
     fi
 
     # creating container

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -49,13 +50,13 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${VENDOR}"* == *"nvidia"* ]]; then
+    if [[ "${VENDOR}" == *"nvidia"* ]]; then
         bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh ${CUR_USER};
 
-    elif [[ *"${VENDOR}"* == *"radeon"* ]]; then
+    elif [[ "${VENDOR}" == *"radeon"* ]]; then
         bash ${CORE_BIN_DIR}/gpu/install_gpu_radeon.sh ${CUR_USER};
 
-    elif [[ *"${VENDOR}"* == *"intel"* ]]; then
+    elif [[ "${VENDOR}" == *"intel"* ]]; then
         bash ${CORE_BIN_DIR}/gpu/install_gpu_inel.sh ${CUR_USER};
     fi
     # --------------------------------------------------------------------------

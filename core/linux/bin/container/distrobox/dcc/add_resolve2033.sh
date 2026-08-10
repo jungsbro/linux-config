@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_resolve2033.sh ${CTR_NAME};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -47,7 +48,7 @@ AYON_ENV_PATH="/tmp/ayon_env_${DCC_NAME}.sh"
 CTR_NAME="${1}"
 if [[ -z "${CTR_NAME}" ]]; then
     echo "Usage: bash ${BASH_SOURCE[0]} '${CTR_NAME}'"
-    return 0
+    exit 0
 fi
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -90,7 +91,7 @@ function create_ayonresolve()
 
     # --------------------------------------------------------------------------
     if [[ -e ${AYON_DCC_PATH} ]]; then
-        return
+        return 0
     fi
 
     # 방법1)
@@ -107,7 +108,7 @@ function create_ayonresolve()
 function add_resolve2033()
 {
     if [[ ! -e ${DCC_PATH} ]]; then
-        return
+        return 0
     fi
 
     # 1) install_resolve.sh ----------------------------------------------------

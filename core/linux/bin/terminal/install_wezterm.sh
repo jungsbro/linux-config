@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -33,7 +34,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 function install_wezterm_for_apt()
 {
     if [[ -n $(apt list --installed | grep -i ^wezterm) ]]; then
-        return
+        return 0
     fi
 
     curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
@@ -46,7 +47,7 @@ function install_wezterm_for_apt()
 function install_wezterm_for_dnf()
 {
     if [[ -n $(dnf list --installed | grep -i ^wezterm) ]]; then
-        return
+        return 0
     fi
 
     sudo dnf copr enable wezfurlong/wezterm-nightly
@@ -58,8 +59,8 @@ function install_wezterm_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 

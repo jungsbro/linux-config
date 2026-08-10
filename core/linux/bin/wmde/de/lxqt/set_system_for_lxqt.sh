@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -42,10 +43,10 @@ function set_autostart()
 
     # --------------------------------------------------------------------------
     if [[ ! -f ${src_desktop_path} ]]; then
-        return
+        return 0
     fi
     if [[ -f ${dst_autostart_path} ]]; then
-        return
+        return 0
     fi
     if [[ ! -d ${dst_autostart_dir} ]]; then
         mkdir -p ${dst_autostart_dir}
@@ -72,7 +73,7 @@ function set_global_keyboard_shortcuts_disable()
     # echo ${dst_autostart_path}
 
     if [[ ! -f ${dst_autostart_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -101,7 +102,7 @@ function set_powermanagement_disable()
     # echo ${dst_autostart_path}
 
     if [[ ! -f ${dst_autostart_path} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -127,10 +128,10 @@ function fix_tmux_for_qterminal()
 
     # --------------------------------------------------------------------------
     if [[ ! -f ${tmux_conf_path} ]]; then
-        return
+        return 0
     fi
     if [[ -n $(cat ${tmux_conf_path} | grep -i ${tmux_conf_kwd}) ]]; then
-        return;
+        return 0
     fi
     # --------------------------------------------------------------------------
 

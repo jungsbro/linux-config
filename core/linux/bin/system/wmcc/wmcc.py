@@ -149,7 +149,7 @@ class Interface(tk.Tk):
         elif [ kwd for kwd in ["package","application"] if kwd in text.lower()]:
             emoji = "📦 "
 
-        elif [ kwd for kwd in ["desktop","monitor", "gpu", "nvidia", "amd", "display"] if kwd in text.lower()]:
+        elif [ kwd for kwd in ["desktop","monitor", "gpu", "nvidia", "amd", "display", "arandr"] if kwd in text.lower()]:
             emoji = "🖥️ "
 
         elif [ kwd for kwd in ["look", "feel", "appearance", "color"] if kwd in text.lower()]:

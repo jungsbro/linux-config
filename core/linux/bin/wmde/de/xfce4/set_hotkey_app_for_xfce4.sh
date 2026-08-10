@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_hotkey_app_for_xfce4.sh;
@@ -17,14 +18,14 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER=${1};
+# HOME_DIR=$(eval echo ~${CUR_USER});
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -48,7 +49,8 @@ function set_hotkey_for_expose()
     # using rofi ---------------------------------------------------------------
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Super>Tab" -t "string" -s "rofi -show window -show-icons"
     # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
-    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --expose --desktop -1";
+    set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Tab" "string" "skippy-xd --desktop -1";
     # --------------------------------------------------------------------------
 
     # using skippy-xd ----------------------------------------------------------
@@ -72,7 +74,7 @@ function set_hotkey_for_menu()
 {
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

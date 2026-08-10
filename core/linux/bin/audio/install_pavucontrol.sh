@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -33,7 +34,7 @@ CUR_WMDE=$(ls /usr/bin/*session);
 function set_pavucontrol_enable()
 {
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl list-unit-files | grep -iq pipewire; then
+        if systemctl list-unit-files pipewire.service &>/dev/null; then
             su - ${CUR_USER} -c "systemctl --user enable --now pipewire";
             su - ${CUR_USER} -c "systemctl --user enable --now pipewire-pulse";
             su - ${CUR_USER} -c "systemctl --user enable --now wireplumber";
@@ -52,7 +53,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(pacman -Q | grep -i ^pipewire-alsa) ]] || pacman -S --needed --noconfirm pipewire-alsa;
         [[ -n $(pacman -Q | grep -i ^pipewire-pulse) ]] || pacman -S --needed --noconfirm pipewire-pulse;
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(pacman -Q | grep -i ^pavucontrol-qt) ]] || pacman -S --needed --noconfirm pavucontrol-qt;
         else
             [[ -n $(pacman -Q | grep -i ^pavucontrol) ]] || pacman -S --needed --noconfirm pavucontrol;
@@ -68,7 +69,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(apt list --installed | grep -i ^pipewire-pulse) ]] || apt install -y pipewire-pulse;
         [[ -n $(apt list --installed | grep -i ^pipewire-audio-client-libraries) ]] || apt install -y pipewire-audio-client-libraries;
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^pavucontrol-qt) ]] || apt install -y pavucontrol-qt;
         else
             [[ -n $(apt list --installed | grep -i ^pavucontrol) ]] || apt install -y pavucontrol;
@@ -83,7 +84,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^pipewire-alsa) ]] || dnf install -y pipewire-alsa;
         [[ -n $(dnf list --installed | grep -i ^pipewire-pulseaudio) ]] || dnf install -y pipewire-pulseaudio;
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(dnf list --installed | grep -i ^pavucontrol-qt) ]] || dnf install -y pavucontrol-qt;
         else
             [[ -n $(dnf list --installed | grep -i ^pavucontrol) ]] || dnf install -y pavucontrol;

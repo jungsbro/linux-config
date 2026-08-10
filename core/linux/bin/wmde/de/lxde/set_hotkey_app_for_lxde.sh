@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/de/lxde/set_hotkey_app_for_lxde.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -72,7 +73,8 @@ function set_hotkey_for_expose()
     local comment="Keybindings for window-switching";
     local action="Execute";
     # local cmd="rofi -show window -theme '~/.config/rofi/themes/j_launcher.rasi'";
-    local cmd="skippy-xd --expose --desktop -1";
+    # local cmd="skippy-xd --expose --desktop -1";
+    local cmd="skippy-xd --desktop -1";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

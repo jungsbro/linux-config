@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -80,7 +81,7 @@ function copy_sxhkdrc_to_home()
 
     # --------------------------------------------------------------------------
     if [[ -f ${dst_sxhkdrc_path} ]]; then
-        return
+        return 0
     fi
     if [[ ! -d ${dst_sxhkdrc_dir} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${dst_sxhkdrc_dir}"
@@ -98,28 +99,28 @@ function copy_sxhkdrc_to_home()
     # 2) copy sxhkdrc to ~/.config/sxhkd
     local src_template_dir="${src_sxhkdrc_dir}/templates";
 
-    if [[ *"${CUR_WMDE}"* != *"lxsession"* ]] && [[ *"${CUR_WMDE}"* == *"openbox"* ]]; then
+    if [[ *"${CUR_WMDE}"* != *"lxsession"* ]] && [[ "${CUR_WMDE}" == *"openbox"* ]]; then
         local src_template_path="${src_template_dir}/wm_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
         local src_template_path="${src_template_dir}/lxde_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
         local src_template_path="${src_template_dir}/lxqt_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         local src_template_path="${src_template_dir}/xfce4_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         local src_template_path="${src_template_dir}/mate_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
+    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         local src_template_path="${src_template_dir}/gnome_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         local src_template_path="${src_template_dir}/cinnamon_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
         local src_template_path="${src_template_dir}/kde_sxhkdrc";
 
     else
@@ -147,7 +148,7 @@ X-LXQt-X11-Only=true
 
     # --------------------------------------------------------------------------
     if [[ -f ${autostart_path} ]]; then
-        return
+        return 0
     fi
     if [[ ! -d ${autostart_dir} ]]; then
         su - ${CUR_USER} -c "mkdir -p ${autostart_dir}"
@@ -162,25 +163,25 @@ X-LXQt-X11-Only=true
 
 function set_autostart_for_sxhkd()      # deprecated
 {
-    if [[ *"${CUR_WMDE}"* == *"lxsession"* ]]; then
+    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* == *"lxqt"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* == *"xfce4"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* == *"mate"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then
+    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* == *"cinnamon"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
         create_desktop_for_sxhkd;
     fi
 
@@ -200,7 +201,7 @@ function set_sxhkd_autostart()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -227,7 +228,7 @@ function set_sxhkd_autostart()
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
     # if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    #     return
+    #     exit 0
     # fi
     # --------------------------------------------------------------------------
 

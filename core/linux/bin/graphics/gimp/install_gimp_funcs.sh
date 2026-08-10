@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp ${CUR_USER};
@@ -32,7 +33,7 @@ function install_photogimp()
 
     # --------------------------------------------------------------------------
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

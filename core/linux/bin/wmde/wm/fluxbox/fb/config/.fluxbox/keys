@@ -5,8 +5,9 @@ Mod4 Shift r :Exec fluxbox-remote restart
 
 # expose -----------------------------------------------------------------------
 # Mod4 Tab :Exec rofi -show window -show-icons
+# Mod4 Tab :Exec skippy-xd --expose --desktop -1
 
-Mod4 Tab :Exec skippy-xd --expose --desktop -1
+Mod4 Tab :Exec skippy-xd --desktop -1
 # ------------------------------------------------------------------------------
 
 # menu -------------------------------------------------------------------------
@@ -35,8 +36,8 @@ none Print :Exec xfce4-screenshooter
 # ------------------------------------------------------------------------------
 
 # logout -----------------------------------------------------------------------
-Ctrl Mod1 Delete :Exec [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && \
-loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
+Ctrl Mod1 Delete :Exec [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && loginctl terminate-session $(loginctl list-sessions | grep $USER | awk '{print $1}')
+# Ctrl Mod1 Delete :Exec [ "$(echo -e "No\nYes" | rofi -dmenu -p "logout?" -i)" = "Yes" ] && pkill fluxbox
 # ------------------------------------------------------------------------------
 
 # lock-screen ------------------------------------------------------------------
@@ -56,7 +57,8 @@ Mod4 e :Exec pcmanfm
 # ------------------------------------------------------------------------------
 
 # control-center ---------------------------------------------------------------
-# Mod4 i :Exec python3 ~/.local/bin/wmcc.py
+Mod4 i :Exec python3 "${HOME}/.local/bin/wmcc.py"
+# Mod4 i :Exec bash "${HOME}/.local/bin/wmcc.sh"
 # ------------------------------------------------------------------------------
 
 # terminal ---------------------------------------------------------------------

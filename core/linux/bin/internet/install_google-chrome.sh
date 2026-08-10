@@ -1,7 +1,8 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh;
+# bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER};
 # ==============================================================================
 
 
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ function fix_exec_cmd()
     # --------------------------------------------------------------------------
     # /usr/share/applications/google-chrome.desktop
     if [[ ! -f ${GC_DESKTOP_PATH} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -61,8 +62,8 @@ function fix_exec_cmd()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${GC_DESKTOP_CMDS}"* == *"${PW_STORE}"* ]]; then
-        return
+    if [[ "${GC_DESKTOP_CMDS}" == *"${PW_STORE}"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -75,24 +76,24 @@ function fix_exec_cmd()
 function install_google-chrome()
 {
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
     fi
 
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
 
     if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
-            return
+            return 0
         fi
         # ----------------------------------------------------------------------
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
-            return
+            return 0
         fi
         # ----------------------------------------------------------------------
     fi
@@ -152,14 +153,14 @@ function install_google-chrome()
 function install_google-chrome_for_apt()    # not used
 {
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
     fi
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -191,14 +192,14 @@ function install_google-chrome_for_apt()    # not used
 function install_google-chrome_for_dnf()    # not used
 {
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
     fi
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 

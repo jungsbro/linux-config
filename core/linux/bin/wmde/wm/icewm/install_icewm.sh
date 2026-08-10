@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/wmde/wm/icewm/install_icewm.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ function copy_config_to_home()
 
     # --------------------------------------------------------------------------
     if [[ -d "${dst_dir}" ]]; then
-        return;
+        return 0
     fi
 
     su - ${CUR_USER} -c "mkdir -p ${dst_dir}";

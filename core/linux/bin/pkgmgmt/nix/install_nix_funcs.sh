@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
@@ -53,7 +54,7 @@ function install_nixpkg()
     local cur_arch=$(uname -m);
 
     # /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    if [[ *"${mod}"* == *"multi"* ]]; then
+    if [[ "${mod}" == *"multi"* ]]; then
         # multi-user
         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
     else
@@ -64,7 +65,7 @@ function install_nixpkg()
 
     # --------------------------------------------------------------------------
     if [[ -z ${cur_user} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -82,12 +83,12 @@ function install_nixpkg()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ *"${mod}"* == *"multi"* ]]; then
-        return
+    if [[ "${mod}" == *"multi"* ]]; then
+        return 0
     fi
 
     # both of multi-user and single-user
-    return
+    return 0
     # --------------------------------------------------------------------------
 
     # 4) bins settings ---------------------------------------------------------
@@ -166,6 +167,6 @@ function install_nixpkg()
 # ==============================================================================
 
 
-# main =========================================================================
+# Main =========================================================================
 
 # ==============================================================================

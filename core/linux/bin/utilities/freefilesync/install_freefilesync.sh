@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -39,11 +40,11 @@ function install_freefilesync()
 {
     # for x86_64
     # --------------------------------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -76,7 +77,7 @@ function install_freefilesync()
     # 2) Downloading and Extracting --------------------------------------------
     # /opt/FreeFileSync
     if [[ -d ${FFS_DIR} ]]; then
-        return
+        return 0
     fi
 
     # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
@@ -108,8 +109,8 @@ function install_freefilesync_for_flatpak()
 {
     # --------------------------------------------------------------------------
     # for x86_64 / aarch64
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -142,7 +143,7 @@ function fix_freefilesync_desktop()
     local dst_path="${HOME_DIR}/.local/share/applications/${ctr}-FreeFileSync.desktop"
 
     if [[ ! -f ${dst_path} ]]; then
-        return
+        return 0
     fi
 
     # Path=/usr/share/freefilesync
@@ -152,7 +153,7 @@ function fix_freefilesync_desktop()
 # ==============================================================================
 
 
-# main =========================================================================
+# Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
@@ -182,8 +183,8 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # distrobox를 사용한다.
         # echo "freefilesync is not supported in RHEL and Fedora"
 
-        if [[ *"${cur_arch}"* == *"i686"* ]]; then
-            return
+        if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+            exit 0
         fi
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \

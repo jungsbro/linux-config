@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -62,18 +63,18 @@ function install_dc_for_portable()
     # --------------------------------------------------------------------------
     # /opt/doublecmd
     if [[ -d "${APP_DIR}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # 1) src_url ---------------------------------------------------------------
     # "https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%201.1.26/doublecmd-1.1.26.gtk2.x86_64.tar.xz"
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # ----------------------------------------------------------------------
         local fname="doublecmd-${APP_VER}.gtk2.aarch64.tar.xz";
         local src_url="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
         # ----------------------------------------------------------------------
-    elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # ----------------------------------------------------------------------
         local fname="doublecmd-${APP_VER}.gtk2.i386.tar.xz";
         local src_url="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2032%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
@@ -108,7 +109,7 @@ function install_dc_for_portable()
 
     # /opt/doublecmd
     if [[ ! -d "${APP_DIR}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -146,15 +147,15 @@ function install_dc_for_portable()
 function install_dc_for_appimg()
 {
     # appimage for only x86_64 -------------------------------------------------
-    if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
     fi
-    if [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
-        return
+    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
     fi
     # /opt/doublecmd
     if [[ -e "${APP_DIR}" ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -214,7 +215,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             [[ -n $(apt list --installed | grep -i ^doublecmd-qt) ]] || apt install -y doublecmd-qt;
         else
             [[ -n $(apt list --installed | grep -i ^doublecmd-gtk) ]] || apt install -y doublecmd-gtk;
@@ -223,7 +224,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ *"${CUR_WMDE}"* == *"lxqt"* ]] || [[ *"${CUR_WMDE}"* == *"plasma"* ]]; then
+        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             # qt5
             [[ -n $(dnf list --installed | grep -i ^doublecmd-qt) ]] || dnf install -y doublecmd-qt;
 
@@ -242,9 +243,9 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------
-        # if [[ *"${CUR_ARCH}"* == *"aarch64"* ]]; then
+        # if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         #     install_dc_for_portable;
-        # elif [[ *"${CUR_ARCH}"* == *"i686"* ]]; then
+        # elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         #     install_dc_for_portable;
         # else                        # x86_64
         #     install_dc_for_portable;

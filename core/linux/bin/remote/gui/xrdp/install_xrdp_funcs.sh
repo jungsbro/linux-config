@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
@@ -84,20 +85,20 @@ fi
 # ------------------------------------------------------------------------------
 '
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) cheking dst_path
     if [[ ! -f "${dst_path}" ]]; then
-        return
+        return 0
     fi
     if [[ -z $(grep -i "${search_str}" "${dst_path}") ]]; then
-        return
+        return 0
     fi
     if [[ -n $(grep -i "${append_kwd}" "${dst_path}") ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -114,11 +115,11 @@ fi
     # --------------------------------------------------------------------------
     # 5) restart xrdp
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
-        if systemctl list-unit-files | grep -iq xrdp; then
+        if systemctl list-unit-files xrdp.service &>/dev/null; then
             systemctl restart xrdp
         fi
     else    # sysVinit
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 }
@@ -135,40 +136,40 @@ function set_xsession()
 
     # --------------------------------------------------------------------------
     # 2) cmd
-    if [[ *"${kwd}"* == *"plasma"* ]]; then
+    if [[ "${kwd}" == *"plasma"* ]]; then
         local cmd="exec startplasma-x11";
 
-    elif [[ *"${kwd}"* == *"gnome"* ]]; then
+    elif [[ "${kwd}" == *"gnome"* ]]; then
         local cmd="exec gnome-session";
 
-    elif [[ *"${kwd}"* == *"cinnamon"* ]]; then
+    elif [[ "${kwd}" == *"cinnamon"* ]]; then
         local cmd="exec cinnamon-session";
 
-    elif [[ *"${kwd}"* == *"mate"* ]]; then
+    elif [[ "${kwd}" == *"mate"* ]]; then
         local cmd="exec mate-session";
 
-    elif [[ *"${kwd}"* == *"xfce4"* ]]; then
+    elif [[ "${kwd}" == *"xfce4"* ]]; then
         local cmd="exec startxfce4";
 
-    elif [[ *"${kwd}"* == *"lxqt"* ]]; then
+    elif [[ "${kwd}" == *"lxqt"* ]]; then
         local cmd="exec startlxqt";
 
-    elif [[ *"${kwd}"* == *"lxde"* ]]; then
+    elif [[ "${kwd}" == *"lxde"* ]]; then
         local cmd="exec startlxde";
 
-    elif [[ *"${kwd}"* == *"fluxbox"* ]]; then
+    elif [[ "${kwd}" == *"fluxbox"* ]]; then
         local cmd="exec startfluxbox";
 
-    elif [[ *"${kwd}"* == *"icewm"* ]]; then
+    elif [[ "${kwd}" == *"icewm"* ]]; then
         local cmd="exec icewm-session";
 
-    elif [[ *"${kwd}"* == *"openbox"* ]]; then
+    elif [[ "${kwd}" == *"openbox"* ]]; then
         local cmd="exec openbox-session";
 
-    elif [[ *"${kwd}"* == *"i3"* ]]; then
+    elif [[ "${kwd}" == *"i3"* ]]; then
         local cmd="exec i3";
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -183,7 +184,7 @@ function set_xsession()
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         local cur_path="${HOME_DIR}/.Xclients";
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -191,12 +192,13 @@ function set_xsession()
     # 4) cmd to cur_path
     if [[ -f "${cur_path}" ]]; then
         if [[ $(grep -i "${kwd}" "${cur_path}") ]]; then
-            return
+            return 0
         fi
 
         echo "${cmd}" >> "${cur_path}";
     else
-        echo '#!/bin/bash' > "${cur_path}";
+        echo '#!/bin/bash
+set -e' > "${cur_path}";
         echo "${cmd}" >> "${cur_path}";
     fi
 
@@ -207,6 +209,6 @@ function set_xsession()
 # ==============================================================================
 
 
-# main =========================================================================
+# Main =========================================================================
 
 # ==============================================================================

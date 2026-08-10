@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
@@ -24,7 +25,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -95,7 +96,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^gtk3-immodule-xim) ]] || dnf install -y gtk3-immodule-xim;
 
         # ibus-hangul has a problem at google-docs
-        if [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ *"${CUR_WMDE}"* == *"gnome"* ]]; then    # gnome
+        if [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
             bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
         else
             # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};

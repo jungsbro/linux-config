@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
@@ -15,32 +16,35 @@ function set_vendor()
 
     # --------------------------------------------------------------------------
     # pciutils is needed for lspci
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${cur_ver}" == *"archlinux"* ]]; then
         [[ -n $(pacman -Q | grep -i ^pciutils) ]] || pacman -S --needed --noconfirm pciutils;
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^pciutils) ]] || apt install -y pciutils;
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
         [[ -n $(dnf list --installed | grep -i ^pciutils) ]] || dnf install -y pciutils;
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # GPU 감지 (lspci 사용)
-    local GPU_VENDOR=$(lspci | grep -E "VGA|3D" | grep -iE "nvidia|intel|amd|radeon")
+    local gpu_info=$(lspci 2>/dev/null || true)
 
-    if echo "${GPU_VENDOR}" | grep -iq "nvidia"; then
+    # 소문자로 변환
+    local gpu_lower="${gpu_info,,}"
+
+    if [[ "${gpu_lower}" =~ nvidia ]]; then
         VENDOR="nvidia"
 
-    elif echo "${GPU_VENDOR}" | grep -iq "amd\|radeon"; then
+    elif [[ "${gpu_lower}" =~ (amd|radeon) ]]; then
         VENDOR="radeon"
 
-    elif echo "${GPU_VENDOR}" | grep -iq "intel"; then
+    elif [[ "${gpu_lower}" =~ intel ]]; then
         VENDOR="intel"
 
     else
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 }

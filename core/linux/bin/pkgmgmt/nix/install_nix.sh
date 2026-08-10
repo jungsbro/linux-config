@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # usage ========================================================================
 # bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
@@ -41,7 +42,7 @@ CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session);
+CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -51,18 +52,18 @@ function install_nix()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     local mod=${1}  # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
+    if [[ "${mod}" == *"multi"* ]]; then
         # ----------------------------------------------------------------------
         # checking nix-daemon.socket
-        if systemctl list-unit-files | grep -iq nix-daemon.socket; then
-            return
+        if systemctl list-unit-files nix-daemon.socket &>/dev/null; then
+            return 0
         fi
         # ----------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ function install_nix()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        # if systemctl list-unit-files | grep -iq nix-daemon.socket; then
+        # if systemctl list-unit-files nix-daemon.socket &>/dev/null; then
         #     sudo systemctl enable nix-daemon.socket
         #     sudo systemctl start nix-daemon.socket
         # fi
@@ -115,21 +116,21 @@ function config_nix()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     local mod=${1}  # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
+    if [[ "${mod}" == *"multi"* ]]; then
         # multi-user -----------------------------------------------------------
         local nix_conf_path="/etc/nix/nix.conf";
 
         local FEATURE_CMD="experimental-features = nix-command flakes"
 
         if [[ ! -e ${nix_conf_path} ]]; then
-            return
+            return 0
         fi
 
         if [[ *"$(cat ${nix_conf_path})"* != *"${FEATURE_CMD}"* ]]; then
@@ -154,14 +155,14 @@ function set_nix_env()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     local mod=${1}      # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
+    if [[ "${mod}" == *"multi"* ]]; then
         local kwd="nix-daemon.sh"
         local cmd='
 # ------------------------------------------------------------------------------
@@ -192,7 +193,7 @@ function reload_shell()
 {
     # --------------------------------------------------------------------------
     if [[ -z ${CUR_USER} ]]; then
-        return
+        return 0
     fi
     # --------------------------------------------------------------------------
 
@@ -209,7 +210,7 @@ function reload_shell()
     # --------------------------------------------------------------------------
     local mod=${1}  # multi / single
 
-    if [[ *"${mod}"* == *"multi"* ]]; then
+    if [[ "${mod}" == *"multi"* ]]; then
         # multi-user -----------------------------------------------------------
         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
         # ----------------------------------------------------------------------
@@ -220,7 +221,7 @@ function reload_shell()
     fi
 
     if [[ ! -e ${nix_env_path} ]]; then
-        return
+        return 0
     fi
 
     source ${nix_env_path};
@@ -258,3 +259,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 fi
 # ==============================================================================
 
+# EOF ==========================================================================
+source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+# ==============================================================================
