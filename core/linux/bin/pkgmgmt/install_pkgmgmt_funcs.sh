@@ -102,7 +102,7 @@ function set_env()
 
     local path_list="";
 
-    # 1) cui (tty, xrdp)
+    # 1) cli (tty, xrdp)
     path_list+="${HOME_DIR}/.bash_profile";
     path_list+=" ";
 

@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/filemgr/cui/yazi
+# /core/linux/bin/filemgr/tui/yazi
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."

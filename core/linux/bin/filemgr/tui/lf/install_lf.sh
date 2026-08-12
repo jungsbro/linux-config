@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/cui/lf/install_lf.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/lf/install_lf.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/filemgr/cui/lf
+# /core/linux/bin/filemgr/tui/lf
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."

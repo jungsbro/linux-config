@@ -52,8 +52,18 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
+
 # update =======================================================================
 bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+# ==============================================================================
+
+
+# security =====================================================================
+bash ${CORE_BIN_DIR}/network/install_firewall.sh;
+
+bash ${CORE_BIN_DIR}/remote/cli/install_ssh.sh;
+
+bash ${CORE_BIN_DIR}/security/install_clamav.sh;
 # ==============================================================================
 
 
@@ -97,15 +107,6 @@ elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ 
     [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
     # --------------------------------------------------------------------------
 fi
-# ==============================================================================
-
-
-# security =====================================================================
-bash ${CORE_BIN_DIR}/network/install_firewall.sh;
-
-bash ${CORE_BIN_DIR}/remote/cui/install_ssh.sh;
-
-bash ${CORE_BIN_DIR}/security/install_clamav.sh;
 # ==============================================================================
 
 
@@ -459,10 +460,10 @@ bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
 
 
 # file-manager =================================================================
-# bash ${CORE_BIN_DIR}/filemgr/cui/install_mc.sh;
-# bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh "${CUR_USER}";
-bash ${CORE_BIN_DIR}/filemgr/cui/install_ranger.sh "${CUR_USER}";
-bash ${CORE_BIN_DIR}/filemgr/cui/yazi/install_yazi.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/filemgr/tui/install_mc.sh;
+# bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh "${CUR_USER}";
+bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
 # ==============================================================================
 
 

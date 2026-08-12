@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/cui/nnn/install_nnn.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh ${CUR_USER};
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/filemgr/cui/nnn
+# /core/linux/bin/filemgr/tui/nnn
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."

@@ -40,11 +40,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1)
         # [[ -n $(pacman -Q | grep -i ^nftables) ]] || pacman -S --needed --noconfirm nftables;
 
+        # 방법2)
         [[ -n $(pacman -Q | grep -i ^ufw) ]] || pacman -S --needed --noconfirm ufw;
         ufw enable;
 
+        # 방법3)
         # [[ -n $(pacman -Q | grep -i ^firewalld) ]] || pacman -S --needed --noconfirm firewalld;
         # source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && enable_sv firewalld && restart_sv firewalld;
         # ----------------------------------------------------------------------
