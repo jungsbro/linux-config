@@ -53,437 +53,451 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ==============================================================================
 
 
-# update =======================================================================
-bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-# ==============================================================================
+# Funcs ========================================================================
+function install_security-tools()
+{
+    bash ${CORE_BIN_DIR}/network/install_firewall.sh;
+
+    bash ${CORE_BIN_DIR}/remote/cli/install_ssh.sh;
+
+    bash ${CORE_BIN_DIR}/security/install_clamav.sh;
+}
 
 
-# security =====================================================================
-bash ${CORE_BIN_DIR}/network/install_firewall.sh;
+function install_develop-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
+        # ----------------------------------------------------------------------
 
-bash ${CORE_BIN_DIR}/remote/cli/install_ssh.sh;
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
+        apt install -y python3-pip python3-dev python3-setuptools;
+        # ----------------------------------------------------------------------
 
-bash ${CORE_BIN_DIR}/security/install_clamav.sh;
-# ==============================================================================
-
-
-# development ==================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
-    [[ -n $(pacman -Q | grep -i ^python) ]] || pacman -S --needed --noconfirm python python-pip python-setuptools;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git build-essential;
-    apt install -y python3-pip python3-dev python3-setuptools;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-    dnf install -y python3 python3-libs python3-pip python3-setuptools;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
-
-
-# maintenance ==================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --needed --noconfirm rsync;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
-    [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
-    [[ -n $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
-
-
-# storage ======================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^samba) ]] || pacman -S --needed --noconfirm samba;
-    [[ -n $(pacman -Q | grep -i ^cifs-utils) ]] || pacman -S --needed --noconfirm cifs-utils;
-    [[ -n $(pacman -Q | grep -i ^smbclient) ]] || pacman -S --needed --noconfirm smbclient;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nfts-3g) ]] || pacman -S --needed --noconfirm nfts-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^exfatprogs) ]] || pacman -S --needed --noconfirm exfatprogs;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nfs-utils) ]] || pacman -S --needed --noconfirm nfs-utils;
-    [[ -n $(pacman -Q | grep -i ^rpcbind) ]] || pacman -S --needed --noconfirm rpcbind;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(yay -Q | grep -i ^autofs) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm autofs";
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
-    [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
-    [[ -n $(apt list --installed | grep -i ^cifs-utils) ]] || apt install -y cifs-utils;
-    [[ -n $(apt list --installed | grep -i ^smbclient) ]] || apt install -y smbclient;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^nfs-kernel-server) ]] || apt install -y nfs-kernel-server;
-    [[ -n $(apt list --installed | grep -i ^rpcbind) ]] || apt install -y rpcbind;
-    [[ -n $(apt list --installed | grep -i ^nfs-commo) ]] || apt install -y nfs-common;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
-    [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
-    [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
-    [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
-    [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
-    [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
-    [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
-
-
-# network ======================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^net-tools) ]] || pacman -S --needed --noconfirm net-tools;
-    [[ -n $(pacman -Q | grep -i ^whois) ]] || pacman -S --needed --noconfirm whois;
-    [[ -n $(pacman -Q | grep -i ^iputils) ]] || pacman -S --needed --noconfirm iputils;
-    [[ -n $(pacman -Q | grep -i ^speedtest-cli) ]] || pacman -S --needed --noconfirm speedtest-cli;
-    [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --needed --noconfirm axel;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
-    [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
-    [[ -n $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
-    [[ -n $(apt list --installed | grep -i ^speedtest-cli) ]] || apt install -y speedtest-cli;
-    [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
-    [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
-    [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
-    [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
-    [[ -n $(dnf list --installed | grep -i ^axel) ]] || dnf install -y axel;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
-    [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
-    [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
-    [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
-
-
-# info =========================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^fastfetch) ]] || pacman -S --needed --noconfirm fastfetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^hdparm) ]] || pacman -S --needed --noconfirm hdparm;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^ncdu) ]] || pacman -S --needed --noconfirm ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --needed --noconfirm procps-ng;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    if [[ -n $(apt list | grep -i ^neofetch) ]]; then
-        [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        dnf install -y python3 python3-libs python3-pip python3-setuptools;
+        # ----------------------------------------------------------------------
     fi
-    if [[ -n $(apt list | grep -i ^fastfetch) ]]; then
-        [[ -n $(apt list --installed | grep -i ^fastfetch) ]] || apt install -y fastfetch;
+}
+
+
+function install_sys-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^rsync) ]] || pacman -S --needed --noconfirm rsync;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^unattended) ]] || apt install -y unattended-upgrades;
+        [[ -n $(apt list --installed | grep -i ^rsync) ]] || apt install -y rsync;
+        [[ -n $(apt list --installed | grep -i ^locales) ]] || apt install -y locales;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^nala) ]] || apt install -y nala;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        [[ -n $(dnf list --installed | grep -i ^rsync) ]] || dnf install -y rsync;
+        # ----------------------------------------------------------------------
     fi
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
-    [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
-    [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
-    [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
+}
 
 
-# monitoring ===================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^htop) ]] || pacman -S --needed --noconfirm htop;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^btop) ]] || pacman -S --needed --noconfirm btop;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^nmon) ]] || pacman -S --needed --noconfirm nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^glances) ]] || pacman -S --needed --noconfirm glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --needed --noconfirm powertop;
-    # --------------------------------------------------------------------------
+function install_storage-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^samba) ]] || pacman -S --needed --noconfirm samba;
+        [[ -n $(pacman -Q | grep -i ^cifs-utils) ]] || pacman -S --needed --noconfirm cifs-utils;
+        [[ -n $(pacman -Q | grep -i ^smbclient) ]] || pacman -S --needed --noconfirm smbclient;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^nfts-3g) ]] || pacman -S --needed --noconfirm nfts-3g;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^exfatprogs) ]] || pacman -S --needed --noconfirm exfatprogs;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^nfs-utils) ]] || pacman -S --needed --noconfirm nfs-utils;
+        [[ -n $(pacman -Q | grep -i ^rpcbind) ]] || pacman -S --needed --noconfirm rpcbind;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(yay -Q | grep -i ^autofs) ]] || su - "${CUR_USER}" -c "yay -S --needed --noconfirm autofs";
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^rclone) ]] || pacman -S --needed --noconfirm rclone;
+        # ----------------------------------------------------------------------
 
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^btop) ]] || apt install -y btop;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
-    # --------------------------------------------------------------------------
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^samba$) ]] || apt install -y samba;
+        [[ -n $(apt list --installed | grep -i ^samba-common) ]] || apt install -y samba-common;
+        [[ -n $(apt list --installed | grep -i ^cifs-utils) ]] || apt install -y cifs-utils;
+        [[ -n $(apt list --installed | grep -i ^smbclient) ]] || apt install -y smbclient;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^ntfs-3g) ]] || apt install -y ntfs-3g;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^exfat) ]] || apt install -y exfat-fuse;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^nfs-kernel-server) ]] || apt install -y nfs-kernel-server;
+        [[ -n $(apt list --installed | grep -i ^rpcbind) ]] || apt install -y rpcbind;
+        [[ -n $(apt list --installed | grep -i ^nfs-commo) ]] || apt install -y nfs-common;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^autofs) ]] || apt install -y autofs;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^rclone) ]] || apt install -y rclone;
+        # ----------------------------------------------------------------------
 
-elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
-    # --------------------------------------------------------------------------
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
+        [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
+        [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
+        [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
+        # ----------------------------------------------------------------------
 
-elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
-    # --------------------------------------------------------------------------
-    # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
-    # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
-    # --------------------------------------------------------------------------
-fi
-# ==============================================================================
-
-
-# etc ==========================================================================
-if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-    # --------------------------------------------------------------------------
-    # 검색 / 이동
-    [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
-    [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
-    [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
-    [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
-    # --------------------------------------------------------------------------
-    # 폴더 / 파일
-    [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
-    [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
-    [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
-    [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
-    # --------------------------------------------------------------------------
-    # 압축
-    [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
-    [[ -n $(pacman -Q | grep -i ^unzip) ]] || pacman -S --needed --noconfirm unzip;
-    # --------------------------------------------------------------------------
-
-elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-    # --------------------------------------------------------------------------
-    # 검색 / 이동
-    [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-    [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
-    [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-    [[ -n $(apt list --installed | grep -i ^ripgrep) ]] || apt install -y ripgrep;
-    # --------------------------------------------------------------------------
-    # 폴더 / 파일
-    [[ -n $(apt list --installed | grep -i ^eza) ]] || apt install -y eza;
-    [[ -n $(apt list --installed | grep -i ^tree) ]] || apt install -y tree;
-    # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
-    if [[ ! -f "${HOME_DIR}/.local/bin/bat" ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
-        su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^samba$) ]] || dnf install -y samba;
+        [[ -n $(dnf list --installed | grep -i ^samba-common) ]] || dnf install -y samba-common;
+        [[ -n $(dnf list --installed | grep -i ^cifs-utils) ]] || dnf install -y cifs-utils;
+        [[ -n $(dnf list --installed | grep -i ^samba-client) ]] || dnf install -y samba-client;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ntfs-3g) ]] || dnf install -y ntfs-3g;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^exfatprogs) ]] || dnf install -y exfatprogs;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^nfs-utils) ]] || dnf install -y nfs-utils;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^autofs) ]] || dnf install -y autofs;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^rclone) ]] || dnf install -y rclone;
+        # ----------------------------------------------------------------------
     fi
+}
+
+function install_network-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^net-tools) ]] || pacman -S --needed --noconfirm net-tools;
+        [[ -n $(pacman -Q | grep -i ^whois) ]] || pacman -S --needed --noconfirm whois;
+        [[ -n $(pacman -Q | grep -i ^iputils) ]] || pacman -S --needed --noconfirm iputils;
+        [[ -n $(pacman -Q | grep -i ^speedtest-cli) ]] || pacman -S --needed --noconfirm speedtest-cli;
+        [[ -n $(pacman -Q | grep -i ^axel) ]] || pacman -S --needed --noconfirm axel;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^net-tools) ]] || apt install -y net-tools;
+        [[ -n $(apt list --installed | grep -i ^whois) ]] || apt install -y whois;
+        [[ -n $(apt list --installed | grep -i ^iputils) ]] || apt install -y iputils-ping;
+        [[ -n $(apt list --installed | grep -i ^speedtest-cli) ]] || apt install -y speedtest-cli;
+        [[ -n $(apt list --installed | grep -i ^axel) ]] || apt install -y axel;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
+        [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
+        [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
+        [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
+        [[ -n $(dnf list --installed | grep -i ^axel) ]] || dnf install -y axel;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^net-tools) ]] || dnf install -y net-tools;
+        [[ -n $(dnf list --installed | grep -i ^whois) ]] || dnf install -y whois;
+        [[ -n $(dnf list --installed | grep -i ^iputils) ]] || dnf install -y iputils;
+        [[ -n $(dnf list --installed | grep -i ^speedtest-cli) ]] || dnf install -y speedtest-cli;
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
+
+function install_info-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^fastfetch) ]] || pacman -S --needed --noconfirm fastfetch;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^hdparm) ]] || pacman -S --needed --noconfirm hdparm;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^ncdu) ]] || pacman -S --needed --noconfirm ncdu;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^procps-ng) ]] || pacman -S --needed --noconfirm procps-ng;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        if [[ -n $(apt list | grep -i ^neofetch) ]]; then
+            [[ -n $(apt list --installed | grep -i ^neofetch) ]] || apt install -y neofetch;
+        fi
+        if [[ -n $(apt list | grep -i ^fastfetch) ]]; then
+            [[ -n $(apt list --installed | grep -i ^fastfetch) ]] || apt install -y fastfetch;
+        fi
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^hdparm) ]] || apt install -y hdparm;
+        [[ -n $(apt list --installed | grep -i ^ncdu) ]] || apt install -y ncdu;
+        [[ -n $(apt list --installed | grep -i ^procps) ]] || apt install -y procps;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^neofetch) ]] || dnf install -y neofetch;
+        [[ -n $(dnf list --installed | grep -i ^fastfetch) ]] || dnf install -y fastfetch;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^hdparm) ]] || dnf install -y hdparm;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^ncdu) ]] || dnf install -y ncdu;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^procps-ng) ]] || dnf install -y procps-ng;
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
+function install_monitoring-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^htop) ]] || pacman -S --needed --noconfirm htop;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^btop) ]] || pacman -S --needed --noconfirm btop;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^nmon) ]] || pacman -S --needed --noconfirm nmon;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^glances) ]] || pacman -S --needed --noconfirm glances;
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^powertop) ]] || pacman -S --needed --noconfirm powertop;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^htop) ]] || apt install -y htop;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^btop) ]] || apt install -y btop;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^nmon) ]] || apt install -y nmon;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^glances) ]] || apt install -y glances;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^powertop) ]] || apt install -y powertop;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^htop) ]] || dnf install -y htop;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^btop) ]] || dnf install -y btop;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^nmon) ]] || dnf install -y nmon;
+        # ----------------------------------------------------------------------
+        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        [[ -n $(dnf list --installed | grep -i ^glances) ]] || dnf install -y glances;
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^powertop) ]] || dnf install -y powertop;
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
+function install_file-tools()
+{
+    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색 / 이동
+        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
+        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
+        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
+        # ----------------------------------------------------------------------
+        # 폴더 / 파일
+        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
+        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
+        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
+        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+        # ----------------------------------------------------------------------
+        # 압축
+        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        [[ -n $(pacman -Q | grep -i ^unzip) ]] || pacman -S --needed --noconfirm unzip;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색 / 이동
+        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
+        [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
+        [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
+        [[ -n $(apt list --installed | grep -i ^ripgrep) ]] || apt install -y ripgrep;
+        # ----------------------------------------------------------------------
+        # 폴더 / 파일
+        [[ -n $(apt list --installed | grep -i ^eza) ]] || apt install -y eza;
+        [[ -n $(apt list --installed | grep -i ^tree) ]] || apt install -y tree;
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
+        if [[ ! -f "${HOME_DIR}/.local/bin/bat" ]]; then
+            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
+            su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+        fi
+        # ----------------------------------------------------------------------
+        [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+        # ----------------------------------------------------------------------
+        # 압축
+        [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+        [[ -n $(apt list --installed | grep -i ^unzip) ]] || apt install -y unzip;
+        # ----------------------------------------------------------------------
+        # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
+        # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
+        # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
+        # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색 / 이동
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
+        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        # ----------------------------------------------------------------------
+        # 폴더 / 파일
+        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
+        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+        [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
+        # ----------------------------------------------------------------------
+        # 압축
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+        [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
+        # ----------------------------------------------------------------------
+        # dnf install -y nyancat cmatrix tty-clock;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # 검색 / 이동
+        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
+        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
+        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
+        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        # ----------------------------------------------------------------------
+        # 폴더 / 파일
+        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
+        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+        # ----------------------------------------------------------------------
+        # 압축
+        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
+        [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
+        # ----------------------------------------------------------------------
+        # dnf install -y nyancat cmatrix tty-clock;
+        # ----------------------------------------------------------------------
+    fi
+
     # --------------------------------------------------------------------------
-    [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
-    # --------------------------------------------------------------------------
-    # 압축
-    [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
-    [[ -n $(apt list --installed | grep -i ^unzip) ]] || apt install -y unzip;
-    # --------------------------------------------------------------------------
-    # [[ -n $(apt list --installed | grep -i ^tldr) ]] || apt install -y tldr;
-    # [[ -n $(apt list --installed | grep -i ^nyancat) ]] || apt install -y nyancat;
-    # [[ -n $(apt list --installed | grep -i ^cmatrix) ]] || apt install -y cmatrix;
-    # [[ -n $(apt list --installed | grep -i ^tty-clock) ]] || apt install -y tty-clock;
+    # 데이터 수정
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
+    bash ${CORE_BIN_DIR}/develop/install_jq.sh;
+    bash ${CORE_BIN_DIR}/develop/install_yq.sh;
     # --------------------------------------------------------------------------
 
-elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
     # --------------------------------------------------------------------------
-    # 검색 / 이동
-    [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-    [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-    [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-    [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+    # nerd-font
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
-    # 폴더 / 파일
-    [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
-    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-    [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
-    # --------------------------------------------------------------------------
-    # 압축
-    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
-    [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
-    # --------------------------------------------------------------------------
-    # dnf install -y nyancat cmatrix tty-clock;
+}
+
+
+function execute_main()
+{
+    # update -------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     # --------------------------------------------------------------------------
 
-elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
     # --------------------------------------------------------------------------
-    # 검색 / 이동
-    [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-    [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-    [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-    [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+    install_security-tools;
+    install_develop-tools;
+    install_sys-tools;
+    install_storage-tools;
+    install_network-tools;
+    install_info-tools;
+    install_monitoring-tools;
+    install_file-tools;
     # --------------------------------------------------------------------------
-    # 폴더 / 파일
-    [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
-    [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+
     # --------------------------------------------------------------------------
-    # 압축
-    [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip p7zip-plugins;
-    [[ -n $(dnf list --installed | grep -i ^unzip) ]] || dnf install -y unzip;
+    bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
-    # dnf install -y nyancat cmatrix tty-clock;
+
+    # file-manager -------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/filemgr/tui/install_mc.sh;
+    # bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/system/install_zsh.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/config_swap.sh;
+    bash ${CORE_BIN_DIR}/system/config_fstab.sh;
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
-
-# ------------------------------------------------------------------------------
-# 데이터 수정
-bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
-bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
-bash ${CORE_BIN_DIR}/develop/install_jq.sh;
-bash ${CORE_BIN_DIR}/develop/install_yq.sh;
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# nerd-font
-bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
-# ------------------------------------------------------------------------------
-# ==============================================================================
-
-
-# vim ==========================================================================
-bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
-# ==============================================================================
-
-
-# tmux =========================================================================
-bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
-# ==============================================================================
-
-
-# file-manager =================================================================
-# bash ${CORE_BIN_DIR}/filemgr/tui/install_mc.sh;
-# bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh "${CUR_USER}";
-bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh "${CUR_USER}";
-bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
-# ==============================================================================
-
-
-# zsh ==========================================================================
-bash ${CORE_BIN_DIR}/system/install_zsh.sh "${CUR_USER}";
-# ==============================================================================
-
-
-# swap =========================================================================
-bash ${CORE_BIN_DIR}/system/config_swap.sh;
-# ==============================================================================
-
-
-# fstab ========================================================================
-bash ${CORE_BIN_DIR}/system/config_fstab.sh;
-# ==============================================================================
-
-
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 # ==============================================================================
 
 

@@ -62,11 +62,10 @@ function install_kdenlive_for_flatpak()
     [[ -n $(flatpak list --app | grep -i kdenlive) ]] || flatpak install -y flathub org.kde.kdenlive;
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^kdenlive) ]] || pacman -S --needed --noconfirm kdenlive;
@@ -82,10 +81,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^kdenlive) ]] || dnf install -y kdenlive;
         # ----------------------------------------------------------------------
     fi
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

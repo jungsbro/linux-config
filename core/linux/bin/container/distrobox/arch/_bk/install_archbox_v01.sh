@@ -157,28 +157,38 @@ cli_bins2=""
 # ==============================================================================
 
 
+# Funcs ========================================================================
+function execute_main()
+{
+    if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+        return 0;
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 1) creaeting container
+    distrobox create ${CTR_ARGS};
+
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) installing apps (pacaman)
+    # 2) installing apps (yay)
+    source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \
+    install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}" && \
+    install_apps "${CTR_NAME}" "${pkg_type2}" "${gui_apps2}" "${gui_bins2}" "${cli_apps2}" "${cli_bins2}"
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
 
 # Main =========================================================================
-# ------------------------------------------------------------------------------
-if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
-    exit 0;
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 1) creaeting container
-distrobox create ${CTR_ARGS};
-
-if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
-fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 2) installing apps (pacaman)
-# 2) installing apps (yay)
-source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \
-install_apps "${CTR_NAME}" "${pkg_type}" "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}" && \
-install_apps "${CTR_NAME}" "${pkg_type2}" "${gui_apps2}" "${gui_bins2}" "${cli_apps2}" "${cli_bins2}"
-# ------------------------------------------------------------------------------
 # ==============================================================================

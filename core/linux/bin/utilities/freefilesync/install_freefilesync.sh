@@ -150,11 +150,10 @@ function fix_freefilesync_desktop()
     sed -i '/Path=/d' "${dst_path}"
     chown ${CUR_USER}:${CUR_USER} "${dst_path}"
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+function execute_main()
+{
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
@@ -184,18 +183,22 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # echo "freefilesync is not supported in RHEL and Fedora"
 
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-            exit 0
+            return 0
         fi
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------
     fi
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================
 

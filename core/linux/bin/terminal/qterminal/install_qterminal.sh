@@ -60,8 +60,8 @@ function copy_config_to_home()
 
 
 # Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^qterminal) ]] || pacman -S --needed --noconfirm qterminal;
@@ -88,10 +88,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     copy_config_to_home;
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

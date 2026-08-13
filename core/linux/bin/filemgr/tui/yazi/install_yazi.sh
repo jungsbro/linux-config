@@ -341,18 +341,22 @@ function install_nerd_font()
     bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
+
+
+function execute_main()
+{
+    install_dependency_for_yazi;
+    install_yazi;
+    copy_yazirc;
+    install_nerd_font;
+}
 # ==============================================================================
 
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    install_dependency_for_yazi;
-    install_yazi;
-    copy_yazirc;
-    install_nerd_font;
-fi
-# ==============================================================================
+    execute_main;
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

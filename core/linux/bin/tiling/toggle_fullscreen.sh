@@ -26,60 +26,70 @@ CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-WINDOW_ID=$(xdotool getactivewindow)
-
-STATE=$(xprop -id $WINDOW_ID | grep "_NET_WM_STATE_FULLSCREEN")
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 키 입력 감지용 변수
-KEY_FILE="/tmp/xfce_key_toggle"
-CURRENT_TIME=$(date +%s)
-
-
-# 이전 입력 시간 확인
-if [ -f "$KEY_FILE" ]; then
-    LAST_TIME=$(cat "$KEY_FILE")
-else
-    LAST_TIME=0
-fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 화면 크기 가져오기
-SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f1)
-SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f2)
-
-# 창 크기 설정 (화면 너비 유지, 높이는 절반)
-HALF_HEIGHT=$((SCREEN_HEIGHT / 2))
-
-# TASKBAR의 높이
-# TASKBAR_HEIGHT=60
-TASKBAR_HEIGHT=30
-# ------------------------------------------------------------------------------
 # ==============================================================================
 
-# ------------------------------------------------------------------------------
-# 시간 차이 계산 (0.5초 이내면 두 번 누름으로 간주)
-if [ $((CURRENT_TIME - LAST_TIME)) -lt 1 ]; then
-    # 전체화면 토글
-    # wmctrl -r :ACTIVE: -b toggle,fullscreen
-    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$(($SCREEN_HEIGHT-$TASKBAR_HEIGHT))
-else
-    # 윗쪽 타일링 적용
-    # wmctrl -r :ACTIVE: -b add,maximized_vert
-    wmctrl -r :ACTIVE: -e 0,0,0,$SCREEN_WIDTH,$HALF_HEIGHT
-fi
-# ------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------
-# 현재 시간 저장
-echo "$CURRENT_TIME" > "$KEY_FILE"
-# ------------------------------------------------------------------------------
+# Funcs ========================================================================
+function execute_main()
+{
+    # --------------------------------------------------------------------------
+    local window_id=$(xdotool getactivewindow)
+
+    local state=$(xprop -id ${window_id} | grep "_NET_WM_STATE_FULLSCREEN")
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 키 입력 감지용 변수
+    local key_file="/tmp/xfce_key_toggle"
+    local current_time=$(date +%s)
+
+
+    # 이전 입력 시간 확인
+    if [ -f "${key_file}" ]; then
+        local last_time=$(cat "${key_file}")
+    else
+        local last_time=0
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 화면 크기 가져오기
+    local screen_width=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f1)
+    local screen_height=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f2)
+
+    # 창 크기 설정 (화면 너비 유지, 높이는 절반)
+    local half_height=$((screen_height / 2))
+
+    # TASKBAR의 높이
+    # local taskbar_height=60
+    local taskbar_height=30
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 시간 차이 계산 (0.5초 이내면 두 번 누름으로 간주)
+    if [ $((current_time - last_time)) -lt 1 ]; then
+        # 전체화면 토글
+        # wmctrl -r :ACTIVE: -b toggle,fullscreen
+        wmctrl -r :ACTIVE: -e 0,0,0,${screen_width},$((${screen_height}-${taskbar_height}))
+    else
+        # 윗쪽 타일링 적용
+        # wmctrl -r :ACTIVE: -b add,maximized_vert
+        wmctrl -r :ACTIVE: -e 0,0,0,${screen_width},${half_height}
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 현재 시간 저장
+    echo "${current_time}" > "${key_file}"
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

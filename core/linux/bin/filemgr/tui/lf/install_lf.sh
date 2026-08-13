@@ -350,18 +350,21 @@ function set_color_icon_settings()
     bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
+
+function execute_main()
+{
+    install_dependency_for_lf;
+    install_lf;
+    copy_lfrc;
+    set_color_icon_settings;
+}
 # ==============================================================================
 
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    install_dependency_for_lf;
-    install_lf;
-    copy_lfrc;
-    set_color_icon_settings;
-fi
-# ==============================================================================
+    execute_main;
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

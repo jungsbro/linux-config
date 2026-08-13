@@ -36,9 +36,9 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+# Funcs ========================================================================
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^xfce4-screensaver) ]] || pacman -S --needed --noconfirm xfce4-screensaver;
@@ -48,7 +48,7 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12
             echo "xfce4-screensaver is not supported for Debian";
-            exit 0
+            return 0
         fi
         [[ -n $(apt list --installed | grep -i ^xfce4-screensaver) ]] || apt install -y --no-install-recommends xfce4-screensaver;
         # ----------------------------------------------------------------------
@@ -64,10 +64,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         [[ -n $(dnf list --installed | grep -i ^xfce4-screensaver) ]] || dnf install -y xfce4-screensaver;
         # ----------------------------------------------------------------------
     fi
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

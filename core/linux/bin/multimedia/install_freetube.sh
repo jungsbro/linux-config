@@ -180,11 +180,7 @@ function install_freetube_for_flatpak()
     [[ -n $(flatpak list --app | grep -i freetube) ]] || flatpak install -y flathub io.freetubeapp.FreeTube
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
-
-
-# appimage, portable-zip : x86_64, aarch64 =====================================
 
 function install_freetube_for_portable()
 {
@@ -271,6 +267,7 @@ function install_freetube_for_portable()
 }
 
 
+
 function install_freetube_for_appimg()
 {
     # appimage for only x86_64 -------------------------------------------------
@@ -332,12 +329,10 @@ function install_freetube_for_appimg()
     set_desktop ${APP_NAME} ${exec_path} ${icon_path} ${APP_CAT} ${APP_HIDDEN} ${desktop_path} ${CUR_USER};
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -372,10 +367,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
             install_freetube_for_rpm;
         fi
     fi
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

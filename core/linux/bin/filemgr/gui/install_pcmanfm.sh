@@ -36,13 +36,8 @@ APP_CAT="System;FileTools;Utility;Core;GTK;FileManager;Development"
 
 
 # Funcs ========================================================================
-
-# ==============================================================================
-
-
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
@@ -73,17 +68,21 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "pcmanfm is not supported for RHEL"
-        # exit 0
+        # return 0
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------
     fi
-
-fi
+}
 # ==============================================================================
 
-# eof ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================
 

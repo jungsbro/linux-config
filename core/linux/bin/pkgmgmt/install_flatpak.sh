@@ -41,12 +41,10 @@ function add_flathub()
 
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo;
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^flatpak) ]] || pacman -S --needed --noconfirm flatpak;
@@ -64,10 +62,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     fi
 
     add_flathub;
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

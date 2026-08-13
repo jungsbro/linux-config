@@ -80,192 +80,200 @@ PRE_INIT_HOOKS+=" && \
 # ==============================================================================
 
 
+# Funcs ========================================================================
+function execute_main()
+{
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+        return 0;
+    fi
 
-# Main =========================================================================
-# container --------------------------------------------------------------------
-# checking container
-if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
-    exit 0;
-fi
+    # creating container
+    distrobox create ${CTR_ARGS};
 
-# creating container
-distrobox create ${CTR_ARGS};
+    # pre_init_hooks
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+    fi
+    # --------------------------------------------------------------------------
 
-# pre_init_hooks
-if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-    distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
-fi
-# ------------------------------------------------------------------------------
+    # xcape --------------------------------------------------------------------
+    # 존재하지 않는다.
+    # --------------------------------------------------------------------------
 
-# xcape ------------------------------------------------------------------------
-# 존재하지 않는다.
-# ------------------------------------------------------------------------------
+    # skippy-xd ----------------------------------------------------------------
+    # 존재하지 않는다.
+    # --------------------------------------------------------------------------
 
-# skippy-xd --------------------------------------------------------------------
-# 존재하지 않는다.
-# ------------------------------------------------------------------------------
+    # autokey ------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y autokey-gtk
 
-# autokey ----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y autokey-gtk
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
+    # config
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
+        config_autokey ${CUR_USER} && \
+        set_autokey_autostart ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# config
-distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
-    config_autokey ${CUR_USER} && \
-    set_autokey_autostart ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # redshift -----------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y redshift-gtk geoclue2
 
-# redshift ---------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y redshift-gtk geoclue2
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
+    # config
+    distrobox enter ${CTR_NAME} -- bash -c "\
+        source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
+        config_redshift ${CUR_USER} && \
+        set_redshift_autostart ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# config
-distrobox enter ${CTR_NAME} -- bash -c "\
-    source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
-    config_redshift ${CUR_USER} && \
-    set_redshift_autostart ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # firejail -----------------------------------------------------------------
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y firejail
+    # --------------------------------------------------------------------------
 
-# firejail ---------------------------------------------------------------------
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo dnf install -y firejail
-# ------------------------------------------------------------------------------
+    # timeshift ----------------------------------------------------------------
+    # # distrobox에서 작동을 안한다.
 
-# timeshift --------------------------------------------------------------------
-# # distrobox에서 작동을 안한다.
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y timeshift
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo dnf install -y timeshift
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
+    # --------------------------------------------------------------------------
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
-# ------------------------------------------------------------------------------
+    # gnome-disk-utility -------------------------------------------------------
+    # # distrobox에서 작동을 안한다.
+    # # 배포판에 이미 설치되어 있다.
 
-# gnome-disk-utility -----------------------------------------------------------
-# # distrobox에서 작동을 안한다.
-# # 배포판에 이미 설치되어 있다.
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y gnome-disk-utility
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo dnf install -y gnome-disk-utility
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
+    # --------------------------------------------------------------------------
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
-# ------------------------------------------------------------------------------
+    # gnome-keyring ------------------------------------------------------------
+    # vscode, remmina에서 사용된다.
 
-# gnome-keyring ----------------------------------------------------------------
-# vscode, remmina에서 사용된다.
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y gnome-keyring
+    # --------------------------------------------------------------------------
 
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y gnome-keyring
-# ------------------------------------------------------------------------------
+    # vscode -------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- bash -c "\
+        sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
 
-# vscode -----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app code
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app code
-# ------------------------------------------------------------------------------
+    # doublecmd ----------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y doublecmd-gtk
 
-# doublecmd --------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y doublecmd-gtk
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
-# ------------------------------------------------------------------------------
+    # google-chrome ------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- bash -c "\
+        sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER}"
 
-# google-chrome ----------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- bash -c "\
-    sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER}"
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
-# ------------------------------------------------------------------------------
+    # firefox ------------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
 
-# firefox ----------------------------------------------------------------------
-# # 배포판에 이미 설치되어 있다.
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y firefox
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo dnf install -y firefox
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
+    # --------------------------------------------------------------------------
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
-# ------------------------------------------------------------------------------
+    # remmina ------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y remmina
 
-# remmina ----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y remmina
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
-# ------------------------------------------------------------------------------
+    # libreoffice --------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
 
-# libreoffice ------------------------------------------------------------------
-# # 배포판에 이미 설치되어 있다.
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo dnf install -y libreoffice
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo dnf install -y libreoffice
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
+    # --------------------------------------------------------------------------
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
-# ------------------------------------------------------------------------------
+    # qpdf ---------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y qpdfview qpdfview-common qpdfview-qt5 qpdfview-qt6
 
-# qpdf -------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y qpdfview qpdfview-common qpdfview-qt5 qpdfview-qt6
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
-# ------------------------------------------------------------------------------
+    # gimp ---------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y gimp
 
-# gimp -------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y gimp
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
+    # config : photogimp
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
+        install_photogimp ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# config : photogimp
-distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
-    install_photogimp ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # drawing ------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y drawing
 
-# drawing ----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y drawing
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
-# ------------------------------------------------------------------------------
+    # vlc ----------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo dnf install -y vlc
 
-# vlc --------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo dnf install -y vlc
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
+    # --------------------------------------------------------------------------
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
-# ------------------------------------------------------------------------------
+    # freefilesync -------------------------------------------------------------
+    # debbox(ububox)의 freefilesync를 사용한다.
 
-# freefilesync -----------------------------------------------------------------
-# debbox(ububox)의 freefilesync를 사용한다.
-
-# installation >> not used
-# https://copr.fedorainfracloud.org/coprs/bgstack15/FreeFileSync/
-# sudo dnf install -y 'dnf-command(copr)'
-# sudo dnf copr enable bgstack15/FreeFileSync
-# ------------------------------------------------------------------------------
+    # installation >> not used
+    # https://copr.fedorainfracloud.org/coprs/bgstack15/FreeFileSync/
+    # sudo dnf install -y 'dnf-command(copr)'
+    # sudo dnf copr enable bgstack15/FreeFileSync
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
 
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
 
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
+# ==============================================================================

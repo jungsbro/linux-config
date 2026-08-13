@@ -255,97 +255,109 @@ cli_bins=""
 # cli_bins+="firejail "
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # ==============================================================================
 
+
+
+# Funcs ========================================================================
+function execute_main()
+{
+    # ==========================================================================
+    # --------------------------------------------------------------------------
+    if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+        return 0;
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 1) creaeting container
+
+    # 방법1)
+    distrobox create ${CTR_ARGS};
+
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
+    fi
+
+    # 방법2) rkl9에서 crun 런타임을 사용할 때 발생하는 문제가 있음 >> 방법1)을 사용해야 한다.
+    # Error: OCI runtime error: crun: ptsname: Inappropriate ioctl for device
+    # distrobox create --name "${CTR_NAME}" --image "${IMAGE}" --pre-init-hooks "$pre_init_hooks";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 2) installing apps
+    source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \
+    install_apps ${CTR_NAME} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
+    # --------------------------------------------------------------------------
+    # ==========================================================================
+
+
+    # installing vfx-dcc =======================================================
+    # --------------------------------------------------------------------------
+    # OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
+    # glxinfo | grep "OpenGL renderer"
+    # nvidi-smi
+    # --------------------------------------------------------------------------
+
+    # maya 2025 ----------------------------------------------------------------
+    if [[ -e ${MA_PATH} ]]; then
+        # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
+        # sudo bash ./install_maya2025.sh
+        distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${MA_PATH}"
+
+        # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${MA_BIN}"
+
+        # distrobox-export --app maya
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${MA_APP}"
+    fi
+
+    # ~/.local/bin/maya
+    # echo 'xhost +local:' >> ~/.xprofile
+    # echo 'xhost +local:' >> ~/.xinitrc
+    # echo 'export DISPLAY=:0' >> ~/.bashrc
+    # --------------------------------------------------------------------------
+
+    # houdini 19.5 -------------------------------------------------------------
+    if [[ -e ${HOU_PATH} ]]; then
+        # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
+        # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
+        distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${HOU_PATH}"
+
+        # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
+
+        # distrobox-export --app houdinifx
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${HOU_APP}"
+    fi
+
+    # export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
+    # --------------------------------------------------------------------------
+
+    # nuke 16.0 ----------------------------------------------------------------
+    if [[ -e ${NK_PATH} ]]; then
+        # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
+        # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
+        distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${NK_PATH}"
+
+        # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${NK_BIN}"
+
+        # distrobox-export --app Nuke16.0v6
+        distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${NK_APP}"
+    fi
+
+    # export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
+    # --------------------------------------------------------------------------
+    # ==========================================================================
+}
+# ==============================================================================
 
 
 # Main =========================================================================
-# ------------------------------------------------------------------------------
-if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
-    exit 0;
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 1) creaeting container
-
-# 방법1)
-distrobox create ${CTR_ARGS};
-
-if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-    distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
-fi
-
-# 방법2) rkl9에서 crun 런타임을 사용할 때 발생하는 문제가 있음 >> 방법1)을 사용해야 한다.
-# Error: OCI runtime error: crun: ptsname: Inappropriate ioctl for device
-# distrobox create --name "${CTR_NAME}" --image "${IMAGE}" --pre-init-hooks "$pre_init_hooks";
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 2) installing apps
-source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \
-install_apps ${CTR_NAME} ${pkg_type} "${gui_apps}" "${gui_bins}" "${cli_apps}" "${cli_bins}"
-# ------------------------------------------------------------------------------
 # ==============================================================================
-
-
-# installing vfx-dcc ===========================================================
-# ------------------------------------------------------------------------------
-# OpenGL renderer string: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2
-# glxinfo | grep "OpenGL renderer"
-# nvidi-smi
-# ------------------------------------------------------------------------------
-
-# maya 2025 --------------------------------------------------------------------
-if [[ -e ${MA_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
-    # sudo bash ./install_maya2025.sh
-    distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${MA_PATH}"
-
-    # distrobox-export --bin /usr/autodesk/maya2025/bin/maya
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${MA_BIN}"
-
-    # distrobox-export --app maya
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${MA_APP}"
-fi
-
-# ~/.local/bin/maya
-# echo 'xhost +local:' >> ~/.xprofile
-# echo 'xhost +local:' >> ~/.xinitrc
-# echo 'export DISPLAY=:0' >> ~/.bashrc
-# ------------------------------------------------------------------------------
-
-# houdini 19.5 -----------------------------------------------------------------
-if [[ -e ${HOU_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
-    # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
-    distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${HOU_PATH}"
-
-    # distrobox-export --bin /opt/hfs19.5/bin/houdinifx
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${HOU_BIN}"
-
-    # distrobox-export --app houdinifx
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${HOU_APP}"
-fi
-
-# export SESI_LMHOST=192.168.0.64 && ~/.local/bin/houdinifx
-# ------------------------------------------------------------------------------
-
-# nuke 16.0 --------------------------------------------------------------------
-if [[ -e ${NK_PATH} ]]; then
-    # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
-    # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
-    distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${NK_PATH}"
-
-    # distrobox-export --bin /opt/Nuke16.0v6/Nuke16.0
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${NK_BIN}"
-
-    # distrobox-export --app Nuke16.0v6
-    distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${NK_APP}"
-fi
-
-# export foundry_LICENSE="4101@192.168.0.68" && ~/.local/bin/Nuke16.0 --nukex
-# ------------------------------------------------------------------------------
-# ==============================================================================
-

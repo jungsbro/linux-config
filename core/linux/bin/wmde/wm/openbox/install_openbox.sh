@@ -70,12 +70,10 @@ function set_hotkeys()
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_window_for_ob.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_workspace_for_ob.sh ${CUR_USER};
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^openbox) ]] || pacman -S --needed --noconfirm openbox;
@@ -111,9 +109,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # set_hotkeys;
     # bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_system_for_ob.sh ${CUR_USER};
     # --------------------------------------------------------------------------
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

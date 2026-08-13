@@ -38,28 +38,36 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ==============================================================================
 
 
-# update =======================================================================
-bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+# Funcs ========================================================================
+function execute_main()
+{
+    # update -------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    # --------------------------------------------------------------------------
+
+    # de -----------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/wmde/de/config_de.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # korean -------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # terminal -----------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
+    # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
+    # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
-# WM / DE ======================================================================
-# bash ${CORE_BIN_DIR}/wmde/wm/install_pkgs_for_wm.sh "${CUR_USER}";
 
-bash ${CORE_BIN_DIR}/wmde/de/config_de.sh "${CUR_USER}";
-# ==============================================================================
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
 
-# korean =======================================================================
-bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
-bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
-# ==============================================================================
-
-# terminal =====================================================================
-# bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
-# bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
-# bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
-# ==============================================================================
-
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================
 

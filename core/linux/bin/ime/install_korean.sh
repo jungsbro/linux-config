@@ -30,9 +30,9 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+# Funcs ========================================================================
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # fontconfig -----------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^fontconfig) ]] || pacman -S --needed --noconfirm fontconfig;
@@ -114,10 +114,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
     bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh ${CUR_USER};
     # --------------------------------------------------------------------------
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

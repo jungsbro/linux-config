@@ -90,221 +90,231 @@ PRE_INIT_HOOKS+=" && \
 # ==============================================================================
 
 
+# Funcs ========================================================================
+function execute_main()
+{
+    # container ----------------------------------------------------------------
+    # checking container
+    if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
+        retunr 0;
+    fi
 
-# Main =========================================================================
-# container --------------------------------------------------------------------
-# checking container
-if [[ "$(distrobox list)" == *"${CTR_NAME}"* ]]; then
-    exit 0;
-fi
+    # creating container
+    distrobox create ${CTR_ARGS};
 
-# creating container
-distrobox create ${CTR_ARGS};
-
-# pre_init_hooks
-if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-    distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
-fi
-# ------------------------------------------------------------------------------
+    # pre_init_hooks
+    if [[ -n "${PRE_INIT_HOOKS}" ]]; then
+        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+    fi
+    # --------------------------------------------------------------------------
 
 
-# xcape ------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm xcape
+    # xcape --------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm xcape
 
-# bin
-distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
-# ------------------------------------------------------------------------------
+    # bin
+    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
+    # --------------------------------------------------------------------------
 
-# skippy-xd --------------------------------------------------------------------
-# # installation (aur)
-# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
+    # skippy-xd ----------------------------------------------------------------
+    # # installation (aur)
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm skippy-xd-git
 
-# # bin
-# distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
-# ------------------------------------------------------------------------------
+    # # bin
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/skippy-xd
+    # --------------------------------------------------------------------------
 
-# autokey ----------------------------------------------------------------------
-# installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm autokey-gtk
+    # autokey ------------------------------------------------------------------
+    # installation (aur)
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm autokey-gtk
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
 
-# config (sudo로 실행하면 password를 묻지 않는다.)
-distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
-    config_autokey ${CUR_USER} && \
-    set_autokey_autostart ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # config (sudo로 실행하면 password를 묻지 않는다.)
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
+        config_autokey ${CUR_USER} && \
+        set_autokey_autostart ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# redshift ---------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm redshift geoclue
+    # redshift -----------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm redshift geoclue
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
 
-# config (sudo로 실행하면 password를 묻지 않는다.)
-distrobox enter ${CTR_NAME} -- bash -c "\
-    source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
-    config_redshift ${CUR_USER} && \
-    set_redshift_autostart ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # config (sudo로 실행하면 password를 묻지 않는다.)
+    distrobox enter ${CTR_NAME} -- bash -c "\
+        source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
+        config_redshift ${CUR_USER} && \
+        set_redshift_autostart ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# firejail ---------------------------------------------------------------------
-# # sandbox안에서 권한문제가 있다.
+    # firejail -----------------------------------------------------------------
+    # # sandbox안에서 권한문제가 있다.
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firejail firetools
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firejail firetools
 
-# # bin
-# distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/firejail
+    # # bin
+    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/firejail
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app firetools
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app firetools
+    # --------------------------------------------------------------------------
 
-# timeshift --------------------------------------------------------------------
-# # distrobox에서 작동을 안한다.
+    # timeshift ----------------------------------------------------------------
+    # # distrobox에서 작동을 안한다.
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm timeshift
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm timeshift
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
+    # --------------------------------------------------------------------------
 
-# gnome-disk-utility -----------------------------------------------------------
-# # distrobox에서 작동을 안한다.
-# # 배포판에 이미 설치되어 있다.
+    # gnome-disk-utility -------------------------------------------------------
+    # # distrobox에서 작동을 안한다.
+    # # 배포판에 이미 설치되어 있다.
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-disk-utility
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-disk-utility
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
+    # --------------------------------------------------------------------------
 
-# gnome-keyring ----------------------------------------------------------------
-# vscode, remmina에서 사용된다.
+    # gnome-keyring ------------------------------------------------------------
+    # vscode, remmina에서 사용된다.
 
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-keyring
-# ------------------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-keyring
+    # --------------------------------------------------------------------------
 
-# vscode -----------------------------------------------------------------------
-# installation
-# 1) opensource (without telemetry)
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm code
+    # vscode -------------------------------------------------------------------
+    # installation
+    # 1) opensource (without telemetry)
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm code
 
-# 2) official microsoft
-distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm visual-studio-code-bin
+    # 2) official microsoft
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm visual-studio-code-bin
 
-# 3) opensource (disable telemetry)
-# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin
-# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin-marketplace
+    # 3) opensource (disable telemetry)
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin-marketplace
 
-# 4)
-# distrobox enter ${CTR_NAME} -- bash -c "\
-#     sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
+    # 4)
+    # distrobox enter ${CTR_NAME} -- bash -c "\
+    #     sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app code
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app code
+    # --------------------------------------------------------------------------
 
-# doublecmd --------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm doublecmd-qt5
+    # doublecmd ----------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm doublecmd-qt5
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
+    # --------------------------------------------------------------------------
 
-# google-chrome ----------------------------------------------------------------
-# # installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm google-chrome
+    # google-chrome ------------------------------------------------------------
+    # # installation (aur)
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm google-chrome
 
-# # desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
-# ------------------------------------------------------------------------------
+    # # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
+    # --------------------------------------------------------------------------
 
-# firefox ----------------------------------------------------------------------
-# # 배포판에 이미 설치되어 있다.
+    # firefox ------------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
 
-# # installation
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firefox
+    # # installation
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firefox
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
+    # --------------------------------------------------------------------------
 
-# remmina ----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm remmina freerdp
+    # remmina ------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm remmina freerdp
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
+    # --------------------------------------------------------------------------
 
-# libreoffice ------------------------------------------------------------------
-# # 배포판에 이미 설치되어 있다.
+    # libreoffice --------------------------------------------------------------
+    # # 배포판에 이미 설치되어 있다.
 
-# # installation
-# # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-fresh
-# distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-still
+    # # installation
+    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-fresh
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-still
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
+    # --------------------------------------------------------------------------
 
-# qpdf -------------------------------------------------------------------------
-# installation (aur)
-distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm qpdfview
+    # qpdf ---------------------------------------------------------------------
+    # installation (aur)
+    distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm qpdfview
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
+    # --------------------------------------------------------------------------
 
-# gimp -------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
+    # gimp ---------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
 
-# config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
-distrobox enter ${CTR_NAME} -- sudo bash -c "\
-    source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
-    install_photogimp ${CUR_USER}"
-# ------------------------------------------------------------------------------
+    # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
+    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+        source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
+        install_photogimp ${CUR_USER}"
+    # --------------------------------------------------------------------------
 
-# drawing ----------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm drawing
+    # drawing ------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm drawing
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
+    # --------------------------------------------------------------------------
 
-# vlc --------------------------------------------------------------------------
-# installation
-distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm vlc
+    # vlc ----------------------------------------------------------------------
+    # installation
+    distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm vlc
 
-# desktop
-distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
-# ------------------------------------------------------------------------------
+    # desktop
+    distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
+    # --------------------------------------------------------------------------
 
-# freefilesync -----------------------------------------------------------------
-# # build하는데 20분 걸린다
-# # installation (aur)
-# # 방법1)
-# # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync-bin
-# # 방법2)
-# distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync
+    # freefilesync -------------------------------------------------------------
+    # # build하는데 20분 걸린다
+    # # installation (aur)
+    # # 방법1)
+    # # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync-bin
+    # # 방법2)
+    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm freefilesync
 
-# # desktop
-# distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
-# ------------------------------------------------------------------------------
+    # # desktop
+    # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
+    # --------------------------------------------------------------------------
+}
 # ==============================================================================
 
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
+# ==============================================================================

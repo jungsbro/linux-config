@@ -66,12 +66,10 @@ function install_pinta_for_flatpak()
     [[ -n $(flatpak list --app | grep -i pinta) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-
+function execute_main()
+{
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -110,10 +108,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
         # install_pinta_for_flatpak;
         # ----------------------------------------------------------------------
     fi
-
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

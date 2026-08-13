@@ -170,16 +170,20 @@ function config_zsh()
     bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
+
+
+function execute_main()
+{
+    install_zsh;
+    config_zsh;
+}
 # ==============================================================================
 
 
 # Main =========================================================================
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    install_zsh;
-    config_zsh;
-fi
-# ==============================================================================
+    execute_main;
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================

@@ -158,11 +158,10 @@ function set_hotkey_for_right-screen()
     kwriteconfig6 --file kglobalshortcutsrc --group "kwin" --key "Window to Next Screen" "Meta+Shift+Right,Meta+Shift+Right,Move Window to Next Screen"
     # --------------------------------------------------------------------------
 }
-# ==============================================================================
 
 
-# Main =========================================================================
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+function execute_main()
+{
     # --------------------------------------------------------------------------
     set_hotkey_for_showdesktop;
     set_hotkey_for_window-switching;
@@ -181,9 +180,14 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     # --------------------------------------------------------------------------
     # source ${CORE_BIN_DIR}/wmde/de/kde/set_funcs_for_kde.sh && restart_kglobalaccel;
     # --------------------------------------------------------------------------
-fi
+}
 # ==============================================================================
 
-# EOF ==========================================================================
-source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
 # ==============================================================================
