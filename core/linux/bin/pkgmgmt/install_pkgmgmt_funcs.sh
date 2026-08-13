@@ -64,27 +64,24 @@ echo \"Finished: $(basename "${0}")  at $(date +'%Y-%m-%d(%a) %H:%M:%S')\"
 echo \"\"
 echo \"=========================================================================\"
 "
-    # echo ""
-    # echo "========================================================================="
-    # echo -e "${msg}";
-    # #
-    # echo "Finished: $(basename "${0}")  at $(date +'%Y-%m-%d(%a) %H:%M:%S')"
-    # echo ""
-    # echo "========================================================================="
-    # echo ""
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) execute
 
-    local log_path="/tmp/linux-config.log";
+    local log_dir="/tmp/linux-config";
+    local log_path="${log_dir}/linux-config.log";
+
+    mkdir -p -m 777 "${log_dir}" 2>/dev/null || true
+
     if [[ ! -f "${log_path}" ]]; then
         touch "${log_path}";
         chmod 777 "${log_path}"
     fi
 
-    eval "${cmd}" >> "${log_path}" 2>&1;
-    eval "${cmd}"
+    eval "${cmd}" 2>&1 | tee -a "${log_path}"
+    # eval "${cmd}" >> "${log_path}" 2>&1;
+    # eval "${cmd}"
     # --------------------------------------------------------------------------
 }
 
