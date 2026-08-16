@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="kime"
 
 # com.github.riey.kime
-APP_UNIQUE_NAME="com.github.riey.${APP_NAME}"
+APP_FULLNAME="com.github.riey.${APP_NAME}"
 
 APP_CAT="Settings;System;"
 

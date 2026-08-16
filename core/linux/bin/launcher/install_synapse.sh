@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="synapse"
 
 # synapse
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_FULLNAME="${APP_NAME}"
 
 APP_CAT="GNOME;Utility"
 # ------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="simplescreenrecorder"
 
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_FULLNAME="${APP_NAME}"
 
 # be.maartenbaert.simplescreenrecorder
 NIX_UNIQUE_NAME="be.maartenbaert.${APP_NAME}"

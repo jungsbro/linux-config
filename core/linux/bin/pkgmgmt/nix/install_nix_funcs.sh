@@ -70,18 +70,20 @@ function install_nixpkg()
     # --------------------------------------------------------------------------
 
     # 2) install nix -----------------------------------------------------------
-    bash ${core_bin_dir}/pkgmgmt/nix/install_nix.sh ${cur_user};
+    bash ${core_bin_dir}/pkgmgmt/nix/install_nix.sh "${cur_user}"
     # --------------------------------------------------------------------------
 
-    # 3) install_freefilesync --------------------------------------------------
+    # 3) install_nixpkg --------------------------------------------------------
     # https://search.nixos.org/packages
     # nix-env -iA nixpkgs.freefilesync
     # nix profile add nixpkgs#freefilesync
+
     su - ${cur_user} -c "source ${nix_env_path} && \
     nix profile list 2>/dev/null | grep -iq ${app_name} || \
     nix profile add nixpkgs#${app_name}"
     # --------------------------------------------------------------------------
 
+    # plan A
     # --------------------------------------------------------------------------
     if [[ "${mod}" == *"multi"* ]]; then
         return 0
@@ -91,6 +93,7 @@ function install_nixpkg()
     return 0
     # --------------------------------------------------------------------------
 
+    # plan B
     # 4) bins settings ---------------------------------------------------------
     local cur_name="";
 

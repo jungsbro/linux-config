@@ -30,48 +30,13 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="bottles"
+
+APP_FULLNAME="com.usebottles.bottles";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_bottles_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        return 0
-    fi
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # ~/.local/share/applications/KakaoTalk.desktop
-    [[ -n $(flatpak list --app | grep -i bottles) ]] || flatpak install -y flathub com.usebottles.bottles;
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
@@ -88,7 +53,8 @@ function execute_main()
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
-            install_bottles_for_flatpak;
+            # bottles is avaialable for onlxy x86_64
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on Debian"
@@ -108,7 +74,8 @@ function execute_main()
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
-            install_bottles_for_flatpak;
+            # bottles is avaialable for onlxy x86_64
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on RHEL"

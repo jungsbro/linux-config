@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="fcitx"
 
 # com.github.fcitx
-APP_UNIQUE_NAME="com.github.${APP_NAME}"
+APP_FULLNAME="com.github.${APP_NAME}"
 
 APP_CAT="Settings;System;"
 

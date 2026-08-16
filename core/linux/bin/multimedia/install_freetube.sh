@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="freetube";
 
 # freetube
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_FULLNAME="io.freetubeapp.FreeTube"
 
 # /tmp/freetube
 TMP_DIR="/tmp/${APP_NAME}";
@@ -47,7 +47,7 @@ APP_ROOT_URL="https://github.com/FreeTubeApp/FreeTube/releases/download"
 APP_ICON_URL="https://freetubeapp.io/images/iconWhite.png";
 
 # freetube-icon.png
-APP_ICON_NAME="${APP_UNIQUE_NAME}-icon.png";
+APP_ICON_NAME="${APP_NAME}-icon.png";
 
 APP_CAT="AudioVideo;Player"
 
@@ -148,40 +148,6 @@ function install_freetube_for_rpm()
 }
 
 
-function install_freetube_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # flatpak run io.freetubeapp.FreeTube
-    [[ -n $(flatpak list --app | grep -i freetube) ]] || flatpak install -y flathub io.freetubeapp.FreeTube
-    # --------------------------------------------------------------------------
-}
-
-
 function install_freetube_for_portable()
 {
     # --------------------------------------------------------------------------
@@ -252,14 +218,14 @@ function install_freetube_for_portable()
 
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/freetube.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
-    local icon_path="${APP_UNIQUE_NAME}";
+    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_NAME}.svg";
+    local icon_path="${APP_NAME}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
     # 6) desktop_path ----------------------------------------------------------
     # /usr/share/applications/freetube.deskop
-    local desktop_path="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+    local desktop_path="/usr/share/applications/${APP_NAME}.desktop";
 
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
     set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
@@ -317,13 +283,13 @@ function install_freetube_for_appimg()
 
     # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/freetube.svg
-    local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
+    local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_NAME}.svg";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
     # 4) desktop_path ----------------------------------------------------------
     # /usr/share/applications/freetube.deskop
-    local desktop_path="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+    local desktop_path="/usr/share/applications/${APP_NAME}.desktop";
 
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
     set_desktop ${APP_NAME} ${exec_path} ${icon_path} ${APP_CAT} ${APP_HIDDEN} ${desktop_path} ${CUR_USER};
@@ -359,7 +325,7 @@ function execute_main()
         fi
 
         # 방법2)
-        # install_freetube_for_flatpak;
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
 
         # 방법3)
         # install_freetube_for_portable;

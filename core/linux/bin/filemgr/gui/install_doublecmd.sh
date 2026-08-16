@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="doublecmd";
 
 # doublecmd
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_FULLNAME="${APP_NAME}"
 
 # /tmp/doublecmd
 TMP_DIR="/tmp/${APP_NAME}";
@@ -47,7 +47,7 @@ APP_VER="1.1.26";
 APP_ICON_URL="https://doublecmd.sourceforge.io/site/images/logo.png";
 
 # doublecmd.png
-APP_ICON_NAME="${APP_UNIQUE_NAME}.png";
+APP_ICON_NAME="${APP_FULLNAME}.png";
 
 APP_CAT="System;FileTools;Utility;Core;GTK;FileManager;Development"
 
@@ -127,14 +127,14 @@ function install_dc_for_portable()
 
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
-    local icon_path="${APP_UNIQUE_NAME}";
+    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_FULLNAME}.svg";
+    local icon_path="${APP_FULLNAME}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
     # 6) desktop_path ----------------------------------------------------------
     # /usr/share/applications/doublecmd.deskop
-    local desktop_path="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+    local desktop_path="/usr/share/applications/${APP_FULLNAME}.desktop";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -186,14 +186,14 @@ function install_dc_for_appimg()
 
     # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_UNIQUE_NAME}.svg";
-    local icon_path="${APP_UNIQUE_NAME}";
+    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_FULLNAME}.svg";
+    local icon_path="${APP_FULLNAME}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
 
     # 4) desktop_path ----------------------------------------------------------
     # /usr/share/applications/doublecmd.deskop
-    local desktop_path="/usr/share/applications/${APP_UNIQUE_NAME}.desktop";
+    local desktop_path="/usr/share/applications/${APP_FULLNAME}.desktop";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

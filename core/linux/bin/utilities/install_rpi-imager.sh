@@ -31,7 +31,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="rpi-imager"
 
-APP_UNIQUE_NAME="${APP_NAME}"
+APP_FULLNAME="org.raspberrypi.rpi-imager"
 
 APP_CAT="Utility;"
 # ------------------------------------------------------------------------------
@@ -39,38 +39,6 @@ APP_CAT="Utility;"
 
 
 # Funcs ========================================================================
-function install_rpi-imager_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i rpi-imager) ]] || flatpak install -y flathub org.raspberrypi.rpi-imager;
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
@@ -80,7 +48,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
-        install_rpi-imager_for_flatpak;
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
@@ -95,7 +63,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_rpi-imager_for_flatpak;
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
     fi
 }

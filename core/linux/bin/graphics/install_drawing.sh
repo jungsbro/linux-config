@@ -31,8 +31,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="drawing"
 
-# com.github.maoschanz.drawing
-APP_UNIQUE_NAME="com.github.maoschanz.${APP_NAME}"
+APP_FULLNAME="com.github.maoschanz.drawing"
 
 APP_CAT="Graphics;GNOME;GTK;"
 # ------------------------------------------------------------------------------
@@ -40,39 +39,6 @@ APP_CAT="Graphics;GNOME;GTK;"
 
 
 # Funcs ========================================================================
-function install_drawing_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i drawing) ]] || flatpak install -y flathub com.github.maoschanz.drawing;
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
     # for x86_64, i686, aarch64
@@ -103,7 +69,7 @@ function execute_main()
 
         # 방법3)
         # multi-user 때문에 flatpak을 사용했다.
-        install_drawing_for_flatpak;
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
     fi
 }

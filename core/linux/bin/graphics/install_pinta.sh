@@ -30,50 +30,19 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="pinta"
+
+APP_FULLNAME="com.github.PintaProject.Pinta";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_pinta_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i pinta) ]] || flatpak install -y flathub com.github.PintaProject.Pinta;
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="pinta"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="${APP_NAME}"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
@@ -87,17 +56,17 @@ function execute_main()
         install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
 
         # 방법3)
-        # install_pinta_for_flatpak;
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="pinta"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="pinta"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
@@ -111,7 +80,7 @@ function execute_main()
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
 
         # 방법3)
-        # install_pinta_for_flatpak;
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
     fi
 }

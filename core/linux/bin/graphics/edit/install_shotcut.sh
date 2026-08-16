@@ -27,63 +27,36 @@ CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="shotcut"
+
+APP_FULLNAME="org.shotcut.Shotcut";
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_shotcut_for_flatpak()
-{
-    # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^flatpak) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    [[ -n $(flatpak list --app | grep -i shotcut) ]] || flatpak install -y flathub org.shotcut.Shotcut;
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="shotcut"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="${APP_NAME}"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="shotcut"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="shotcut"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_shotcut_for_flatpak;
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
         # ----------------------------------------------------------------------
     fi
 }

@@ -48,7 +48,7 @@ function install_utils()
     bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
     bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
 
-    bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh "${CUR_USER}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

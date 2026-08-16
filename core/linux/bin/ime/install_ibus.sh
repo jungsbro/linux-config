@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="ibus"
 
 # com.github.ibus.ibus
-APP_UNIQUE_NAME="com.github.ibus.${APP_NAME}"
+APP_FULLNAME="com.github.ibus.${APP_NAME}"
 
 APP_CAT="Settings;System;"
 

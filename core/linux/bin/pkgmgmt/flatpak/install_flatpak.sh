@@ -2,16 +2,16 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/pkgmgmt/install_flatpak.sh;
+# bash ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/pkgmgmt
+# /core/linux/bin/pkgmgmt/flatpak
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -35,19 +35,7 @@ APP_NAME="flatpak";
 
 
 # Funcs ========================================================================
-function add_flathub()
-{
-    # --------------------------------------------------------------------------
-    if [[ "$(flatpak remotes)" == *"flathub"* ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo;
-}
-
-
-function execute_main()
+function install_flatpak()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
@@ -64,6 +52,24 @@ function execute_main()
         local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
+}
+
+
+function add_flathub()
+{
+    # --------------------------------------------------------------------------
+    if [[ "$(flatpak remotes)" == *"flathub"* ]]; then
+        return 0
+    fi
+    # --------------------------------------------------------------------------
+
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo;
+}
+
+
+function execute_main()
+{
+    install_flatpak;
 
     add_flathub;
 }

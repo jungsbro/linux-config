@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 APP_NAME="fcitx5"
 
 # org.fcitx.Fcitx5
-APP_UNIQUE_NAME="org.fcitx.${APP_NAME}"
+APP_FULLNAME="org.fcitx.${APP_NAME}"
 
 APP_CAT="Settings;System;"
 
@@ -74,8 +74,8 @@ function set_fcitx5_autostart()
     # --------------------------------------------------------------------------
     local exec_path="${APP_NAME}"
 
-    # local icon_path="/usr/share/icons/hicolor/128x128/apps/${APP_UNIQUE_NAME}.png"
-    local icon_path="${APP_UNIQUE_NAME}"
+    # local icon_path="/usr/share/icons/hicolor/128x128/apps/${APP_FULLNAME}.png"
+    local icon_path="${APP_FULLNAME}"
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
     su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
