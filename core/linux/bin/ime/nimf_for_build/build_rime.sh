@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_rime.sh && build_rime_for_dnf;
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/build_rime.sh && build_rime_for_dnf;
 # ==============================================================================
 
 
@@ -15,25 +15,25 @@ set -e
 function build_rime_for_dnf()
 {
     # --------------------------------------------------------------------------
-    local NAME="rime";
+    local pkg_name="rime";
 
     # https://github.com/rime/librime.git
-    local URL="https://github.com/rime/librime.git";
+    local app_url="https://github.com/rime/librime.git";
 
-    local TMP_DIR="/tmp";
+    local tmp_dir="/tmp";
 
     # /tmp/rime
-    local SRC_DIR="/tmp/${NAME}";
+    local src_dir="/tmp/${pkg_name}";
 
-    local LOCAL_LIB_DIR="/usr/local/lib"
-    local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local local_lib_dir="/usr/local/lib"
+    local local_lib64_dir="/usr/local/lib64"
 
     # /usr/local/lib64/pkgconfig/rime.pc
-    local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/rime.pc"
+    local pc_path="${local_lib64_dir}/pkgconfig/rime.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${PC_PATH}" ]]; then
+    if [[ -f "${pc_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -41,14 +41,16 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
-    [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
-    [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-    [[ -n $(dnf list --installed | grep -i ^cmake) ]] || dnf install -y cmake;
-    [[ -n $(dnf list --installed | grep -i ^gtest-devel) ]] || dnf install -y gtest-devel;
-    [[ -n $(dnf list --installed | grep -i ^leveldb-devel) ]] || dnf install -y leveldb-devel;
-    [[ -n $(dnf list --installed | grep -i ^boost-devel) ]] || dnf install -y boost-devel;
-    [[ -n $(dnf list --installed | grep -i ^yaml-cpp-devel) ]] || dnf install -y yaml-cpp-devel;
-    [[ -n $(dnf list --installed | grep -i ^glog-devel) ]] || dnf install -y glog-devel;
+
+    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="cmake"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="gtest-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="leveldb-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="boost-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="yaml-cpp-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="glog-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
     # rime needs "marisa-devel"
     # rime needs "opencc-devel"
     # --------------------------------------------------------------------------
@@ -56,30 +58,30 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
     # 2) rime build시에 marisa-trie,opencc을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB_DIR}/pkgconfig"* ]]; then
+    elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
 
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
+        export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig"
+    elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig:$PKG_CONFIG_PATH"
 
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) rime build
-    git clone ${URL} ${SRC_DIR};
+    git clone ${app_url} ${src_dir};
 
     # Removing "IsGoogleLoggingInitialized" in setup.cc ~~~~~~~~~~~~~~~~~~~~~~~~
     # 90-96
@@ -91,14 +93,14 @@ function build_rime_for_dnf()
     #     google::InitGoogleLogging(app_name);
     # }
     # ..........................................................................
-    local RIME_SETUP_PATH="${SRC_DIR}/src/rime/setup.cc"
+    local RIME_SETUP_PATH="${src_dir}/src/rime/setup.cc"
 
     if [[ -f ${RIME_SETUP_PATH} ]]; then
         sed -i '/IsGoogleLoggingInitialized/{N;N;N;N;s/^/\/\//;s/\n/\n\/\//g}' ${RIME_SETUP_PATH}
     fi
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    pushd ${SRC_DIR}
+    pushd ${src_dir}
     mkdir build && cd build
     cmake .. -DCMAKE_BUILD_TYPE=Release
     # cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TEST=OFF
@@ -113,7 +115,7 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
 
     echo "---------------------------------------------------------------------"
-    echo "${NAME} installed";
+    echo "${pkg_name} installed";
     date;
     echo "---------------------------------------------------------------------"
 }

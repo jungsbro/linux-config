@@ -180,7 +180,7 @@ function install_nvidia-container-toolkit_for_pacman()
 
     # --------------------------------------------------------------------------
     # nvidia-container-toolkit pkg 설치
-    [[ -n $(pacman -Q | grep -i ^nvidia-container-toolkit) ]] || pacman -S --needed --noconfirm nvidia-container-toolkit;
+    local app_name="nvidia-container-toolkit"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 }
 
@@ -204,9 +204,9 @@ function install_nvidia-container-toolkit_for_apt()
 
     # --------------------------------------------------------------------------
     # 의존성 pkg 설치
-    [[ -n $(apt list --installed | grep -i ^ca-certificates) ]] || apt install -y ca-certificates;
-    [[ -n $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
-    [[ -n $(apt list --installed | grep -i ^gnupg2) ]] || apt install -y gnupg2;
+    local app_name="ca-certificates"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="curl"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="gnupg2"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -216,10 +216,10 @@ function install_nvidia-container-toolkit_for_apt()
 
     # --------------------------------------------------------------------------
     # nvidia-container-toolkit pkg 설치
-    [[ -n $(apt list --installed | grep -i ^nvidia-container-toolkit) ]] || apt install -y nvidia-container-toolkit;
-    # [[ -n $(apt list --installed | grep -i ^nvidia-container-toolkit-base) ]] || apt install -y nvidia-container-toolkit-base;
-    # [[ -n $(apt list --installed | grep -i ^libnvidia-container-tools) ]] || apt install -y libnvidia-container-tools;
-    # [[ -n $(apt list --installed | grep -i ^libnvidia-container1) ]] || apt install -y libnvidia-container1;
+    local app_name="nvidia-container-toolkit"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    # local app_name="nvidia-container-toolkit-base"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    # local app_name="libnvidia-container-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    # local app_name="libnvidia-container1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 }
 
@@ -248,10 +248,10 @@ function install_nvidia-container-toolkit_for_dnf()
 
     # --------------------------------------------------------------------------
     # nvidia-container-toolkit pkg 설치
-    [[ -n $(dnf list --installed | grep -i ^nvidia-container-toolkit) ]] || dnf install -y nvidia-container-toolkit;
-    # [[ -n $(dnf list --installed | grep -i ^nvidia-container-toolkit-base) ]] || dnf install -y nvidia-container-toolkit-base;
-    # [[ -n $(dnf list --installed | grep -i ^libnvidia-container-tools) ]] || dnf install -y libnvidia-container-tools;
-    # [[ -n $(dnf list --installed | grep -i ^libnvidia-container1) ]] || dnf install -y libnvidia-container1;
+    local app_name="nvidia-container-toolkit"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    # local app_name="nvidia-container-toolkit-base"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    # local app_name="libnvidia-container-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    # local app_name="libnvidia-container1"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

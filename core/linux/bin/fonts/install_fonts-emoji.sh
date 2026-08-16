@@ -35,22 +35,22 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^noto-fonts-emoji) ]] || pacman -S --needed --noconfirm noto-fonts-emoji;
+        local app_name="noto-fonts-emoji"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^fonts-noto-color-emoji) ]] || apt install -y fonts-noto-color-emoji;
+        local app_name="fonts-noto-color-emoji"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^google-noto-color-emoji-fonts) ]] || dnf install -y google-noto-color-emoji-fonts;
+        local app_name="google-noto-color-emoji-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^google-noto-emoji-color-fonts) ]] || dnf install -y google-noto-emoji-color-fonts;
+        local app_name="google-noto-emoji-color-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 

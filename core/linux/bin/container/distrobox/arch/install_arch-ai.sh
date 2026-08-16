@@ -66,29 +66,29 @@ fi
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm --needed"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm base-devel"
+    sudo pacman -S --noconfirm --needed base-devel"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm git wget curl"
+    sudo pacman -S --noconfirm --needed git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm vim xclip xsel"
+    sudo pacman -S --noconfirm --needed vim xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm ranger"
+    sudo pacman -S --noconfirm --needed ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --needed --noconfirm nnn"
+#     sudo pacman -S --noconfirm --needed nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
+#     sudo pacman -S --noconfirm --needed fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm fcitx5-gtk"
+    sudo pacman -S --noconfirm --needed fcitx5-gtk"
 
 # aur 설치
 # PRE_INIT_HOOKS+=" && \
@@ -114,7 +114,7 @@ PRE_INIT_HOOKS+=" && \
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm libpulse"
+    sudo pacman -S --noconfirm --needed libpulse"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
@@ -145,7 +145,7 @@ function execute_main()
 
     # terminal -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm wezterm
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed wezterm
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app wezterm
@@ -163,7 +163,7 @@ function execute_main()
 
     # autokey ------------------------------------------------------------------
     # # installation (aur)
-    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm autokey-gtk
+    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed autokey-gtk
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app autokey-gtk
@@ -177,7 +177,7 @@ function execute_main()
 
     # redshift -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm redshift geoclue
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed redshift geoclue
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
@@ -193,7 +193,7 @@ function execute_main()
     # # sandbox안에서 권한문제가 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firejail firetools
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed firejail firetools
 
     # # bin
     # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/firejail
@@ -206,7 +206,7 @@ function execute_main()
     # # distrobox에서 작동을 안한다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm timeshift
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed timeshift
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
@@ -217,7 +217,7 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-disk-utility
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed gnome-disk-utility
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
@@ -227,20 +227,20 @@ function execute_main()
     # # vscode, remmina에서 사용된다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gnome-keyring
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed gnome-keyring
     # --------------------------------------------------------------------------
 
     # vscode -------------------------------------------------------------------
     # # installation
     # # 1) opensource (without telemetry)
-    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm code
+    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed code
 
     # # 2) official microsoft
-    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm visual-studio-code-bin
+    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed visual-studio-code-bin
 
     # # 3) opensource (disable telemetry)
-    # # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin
-    # # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm vscodium-bin-marketplace
+    # # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed vscodium-bin
+    # # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed vscodium-bin-marketplace
 
     # # 4)
     # # distrobox enter ${CTR_NAME} -- bash -c "\
@@ -252,7 +252,7 @@ function execute_main()
 
     # doublecmd ----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm doublecmd-qt5
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed doublecmd-qt5
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
@@ -260,7 +260,7 @@ function execute_main()
 
     # chromium -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm chromium
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed chromium
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
@@ -273,7 +273,7 @@ function execute_main()
 
     # google-chrome ------------------------------------------------------------
     # # installation (aur)
-    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm google-chrome
+    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed google-chrome
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome-stable
@@ -288,7 +288,7 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm firefox
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed firefox
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
@@ -301,7 +301,7 @@ function execute_main()
 
     # remmina ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm remmina freerdp
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed remmina freerdp
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
@@ -311,8 +311,8 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-fresh
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm libreoffice-still
+    # # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed libreoffice-fresh
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed libreoffice-still
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
@@ -320,7 +320,7 @@ function execute_main()
 
     # qpdf ---------------------------------------------------------------------
     # # installation (aur)
-    # distrobox enter ${CTR_NAME} -- yay -S --needed --noconfirm qpdfview
+    # distrobox enter ${CTR_NAME} -- yay -S --noconfirm --needed qpdfview
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
@@ -328,7 +328,7 @@ function execute_main()
 
     # gimp ---------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm gimp
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed gimp
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
@@ -346,7 +346,7 @@ function execute_main()
 
     # drawing ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm drawing
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed drawing
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
@@ -354,7 +354,7 @@ function execute_main()
 
     # vlc ----------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm vlc
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed vlc
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app vlc

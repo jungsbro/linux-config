@@ -127,7 +127,7 @@ function set_hoteky_for_expose()
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # expose cmd를 찾지 못했다.
         SXHKDRC_CMD+="${expose_cmd}"
@@ -216,7 +216,7 @@ function set_hotkey_for_startmenu()
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # start-menu cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
@@ -288,7 +288,7 @@ function set_hotkey_for_spotlight()
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
@@ -364,7 +364,7 @@ function set_hotkey_for_rundialog()
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
@@ -439,7 +439,7 @@ function set_hotkey_for_searchdialog()
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
@@ -555,7 +555,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="gnome-session-quit --logout"
@@ -687,7 +687,7 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
         # 방법1)
@@ -831,7 +831,7 @@ function set_hotkey_for_screenshot()
         # SXHKDRC_CMD+="mate-screenshot -a"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # gnome이 gnome-screenshot을 폐기했다.
         SXHKDRC_CMD+="gnome-screenshot -i"
@@ -955,7 +955,7 @@ function set_hotkey_for_display()
         # display resolution 설정 창
         SXHKDRC_CMD+="mate-display-properties"
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="gnome-control-center display"
@@ -1038,7 +1038,7 @@ function set_hotkey_for_taskmanager()
         SXHKDRC_CMD+="mate-system-monitor"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-system-monitor"
         # ----------------------------------------------------------------------
@@ -1108,7 +1108,7 @@ function set_hotkey_for_finder()
         SXHKDRC_CMD+="caja"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="nautilus"
         # ----------------------------------------------------------------------
@@ -1196,7 +1196,7 @@ function set_hotkey_for_controlcenter()
         SXHKDRC_CMD+="mate-control-center"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-control-center"
         # ----------------------------------------------------------------------
@@ -1270,7 +1270,7 @@ function set_hotkey_for_terminal()
         SXHKDRC_CMD+="mate-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # gnome이 gnome-terminal cmd를 막았다.
         # Error creating terminal: Object does not exist at path “/org/gnome/Terminal/Factory0”

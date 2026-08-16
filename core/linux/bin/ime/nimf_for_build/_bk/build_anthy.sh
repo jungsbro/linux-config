@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_anthy.sh && build_anthy_for_dnf;
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/build_anthy.sh && build_anthy_for_dnf;
 # ==============================================================================
 
 
@@ -15,24 +15,24 @@ set -e
 function build_anthy_for_dnf()
 {
     # --------------------------------------------------------------------------
-    local NAME="anthy";
+    local pkg_name="anthy";
 
     # https://salsa.debian.org/gniibe/anthy.git
-    local URL="https://salsa.debian.org/gniibe/anthy.git";
+    local app_url="https://salsa.debian.org/gniibe/anthy.git";
 
-    local TMP_DIR="/tmp";
+    local tmp_dir="/tmp";
 
     # /tmp/anthy
-    local SRC_DIR="/tmp/${NAME}";
+    local src_dir="/tmp/${pkg_name}";
 
-    local LOCAL_LIB_DIR="/usr/local/lib"
+    local local_lib_dir="/usr/local/lib"
 
     # /usr/local/lib/pkgconfig/anthy.pc
-    local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/anthy.pc"
+    local pc_path="${local_lib_dir}/pkgconfig/anthy.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # if [[ -f "${PC_PATH}" ]]; then
+    # if [[ -f "${pc_path}" ]]; then
     #     return 0
     # fi
     # --------------------------------------------------------------------------
@@ -48,14 +48,14 @@ function build_anthy_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) anthy build
-    git clone ${URL} ${SRC_DIR};
+    git clone ${app_url} ${src_dir};
 
-    pushd ${SRC_DIR}
+    pushd ${src_dir}
     ./autogen.sh
     ./configure
     make
@@ -66,10 +66,10 @@ function build_anthy_for_dnf()
     # --------------------------------------------------------------------------
     # 4) nimf가 build시에 anthy을 인식할 수 있도록 pkgconfig 경로 등록
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB_DIR}/pkgconfig"* ]]; then
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
+    elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig:$PKG_CONFIG_PATH"
     fi
     # --------------------------------------------------------------------------
 }

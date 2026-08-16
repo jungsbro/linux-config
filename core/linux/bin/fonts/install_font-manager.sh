@@ -44,19 +44,21 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^font-manager) ]] || pacman -S --needed --noconfirm font-manager;
+        local app_name="font-manager"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^font-manager) ]] || apt install -y font-manager;
+        local app_name="font-manager"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1)
         # distrobox를 사용한다.
-        # echo "font-manager is not supported for RHEL and Fedora"
+        # echo "font-manager is not avialable on RHEL and Fedora"
 
+        # 방법2)
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------

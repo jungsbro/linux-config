@@ -58,17 +58,17 @@ PRE_INIT_HOOKS+=" && \
 
 # container에서 사용하는 git
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y git"
+    sudo apt install -y --no-reinstall git"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y ranger"
+    sudo apt install -y --no-reinstall ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y nnn"
+#     sudo apt install -y --no-reinstall nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
+    sudo apt install -y --no-reinstall fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
 # ------------------------------------------------------------------------------
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

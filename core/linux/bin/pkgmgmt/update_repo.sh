@@ -35,6 +35,10 @@ function add_aur_for_yay()
 {
     # --------------------------------------------------------------------------
     # dnf repolist
+
+    # if pacman -Q yay &>/dev/null; then
+    # if [[ $(pacman -Q yay 2>/dev/null) ]]; then
+    # if [[ $(pacman -Q | grep -i ^yay) ]]; then
     if [[ -n $(pacman -Q | grep -i ^yay) ]]; then
         return 0
     fi
@@ -42,7 +46,7 @@ function add_aur_for_yay()
 
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        # [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+        # [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --noconfirm --needed git;
 
         git clone https://aur.archlinux.org/yay.git /tmp/yay
 
@@ -109,6 +113,10 @@ function add_epel_repo_for_dnf()
     # --------------------------------------------------------------------------
     # dnf repolist >> epel
     # dnf list --installed >> epel-release.noarch
+
+    # if dnf list --installed epel-release &>/dev/null; then
+    # if [[ $(dnf list --installed epel-release 2>/dev/null) ]]; then
+    # if [[ $(dnf list --installed | grep -i ^epel-release) ]]; then
     if [[ -n $(dnf list --installed | grep -i ^epel-release) ]]; then
         return 0
     fi
@@ -133,6 +141,7 @@ function add_rpmfusion_repo_for_dnf()
     # dnf repolist >> rpmfusion-free-updates, rpmfusion-nonfree-update
     # dnf list --installed >> rpmfusion-free-release.noarch, rpmfusion-nonfree-release.noarch
 
+    # if [[ $(dnf list --installed | grep -i ^rpmfusion) ]]; then
     if [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]]; then
         return 0
     fi
@@ -169,9 +178,15 @@ function set_crb_enabled_for_dnf()
     # 개발용 라이브러리
     # --------------------------------------------------------------------------
     # dnf repolist >> powertools, crb
+
+    # if [[ $(dnf repolist powertools 2>/dev/null) ]]; then
+    # if [[ $(dnf repolist | grep -i ^powertools) ]]; then
     if [[ -n $(dnf repolist | grep -i ^powertools) ]]; then
         return 0
     fi
+
+    # if [[ $(dnf repolist crb 2>/dev/null) ]]; then
+    # if [[ $(dnf repolist | grep -i ^crb) ]]; then
     if [[ -n $(dnf repolist | grep -i ^crb) ]]; then
         return 0
     fi
@@ -203,6 +218,10 @@ function add_remi_repo_for_dnf()
     # --------------------------------------------------------------------------
     # dnf repolist >> remi-modular, remi-safe
     # dnf list --installed >> remi-release
+
+    # if dnf list --installed remi-release &>/dev/null; then
+    # if [[ $(dnf list --installed remi-release 2>/dev/null) ]]; then
+    # if [[ $(dnf list --installed | grep -i ^remi) ]]; then
     if [[ -n $(dnf list --installed | grep -i ^remi) ]]; then
         return 0
     fi
@@ -231,6 +250,10 @@ function add_elrepo_for_dnf()
     # --------------------------------------------------------------------------
     # dnf repolist >> elrepo
     # dnf list --installed >> elrepo-release.noarch
+
+    # if dnf list --installed elrepo-release &>/dev/null; then
+    # if [[ $(dnf list --installed elrepo-release 2>/dev/null) ]]; then
+    # if [[ $(dnf list --installed | grep -i ^elrepo) ]]; then
     if [[ -n $(dnf list --installed | grep -i ^elrepo) ]]; then
         return 0
     fi
@@ -260,6 +283,8 @@ function add_ius_repo_for_dnf()     # not available for rhel8 / rhel9
     # 최신 Python/Git 등
     # --------------------------------------------------------------------------
     # dnf repolist
+
+    # if [[ $(dnf list --installed | grep -i ^ius) ]]; then
     if [[ -n $(dnf list --installed | grep -i ^ius) ]]; then
         return 0
     fi

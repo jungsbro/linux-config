@@ -40,24 +40,40 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^${APP_NAME}) ]] || pacman -S --needed --noconfirm ${APP_NAME};
+        local app_name="${APP_NAME}"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]] || apt install -y --no-install-recommends ${APP_NAME};
+        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # ----------------------------------------------------------------------
+
+        # ----------------------------------------------------------------------
+        # # theme : Adwaita-dark 추가
+        # local app_name="gnome-themes-extra"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # local app_name="gtk2-engines-pixbuf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
+        # # theme : adwita-icon
+        # local app_name="adwaita-icon-theme"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
+        # # theme : svg-icon library
+        # local app_name="librsvg2-common"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
+        # # font : noto
+        # local app_name="fonts-noto"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]] || dnf install -y ${APP_NAME};
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        # echo "lxappearance is not supported for RHEL"
+        # 방법1) distrobox를 사용한다.
+        # echo "lxappearance is not avialable on RHEL"
 
+        # 방법2) nixpkg
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------

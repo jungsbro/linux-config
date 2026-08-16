@@ -96,28 +96,33 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm fcitx5 \
-        fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt;
+        local app_name="fcitx5"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fcitx5-hangul"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fcitx5-configtool"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fcitx5-gtk"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fcitx5-qt"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 방법2)
-        # [[ -n $(pacman -Q | grep -i ^fcitx5) ]] || pacman -S --needed --noconfirm fcitx5-gtk;
+        # local app_name="fcitx5-gtk"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^fcitx) ]] || apt install -y fcitx fcitx-hangul;
+        local app_name="fcitx"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fcitx-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^fcitx) ]] || dnf install -y fcitx fcitx-hangul;
+        local app_name="fcitx"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fcitx-hangul"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # rhel8은 fcitx를 지원한다.
         # rhel9에서 fcitx가 사라졌다.
-        echo "fcitx is not supported for RHEL"
+        echo "fcitx is not avialable on RHEL"
         return 0
         # ----------------------------------------------------------------------
     fi

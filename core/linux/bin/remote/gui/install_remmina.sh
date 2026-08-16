@@ -73,39 +73,47 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^remmina) ]] || pacman -S --needed --noconfirm remmina freerdp;
+
+        local app_name="${APP_NAME}"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="freerdp"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^remmina) ]] || apt install -y remmina remmina-plugin-rdp;
-        # ----------------------------------------------------------------------
+
+        # 방법1)
+        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="remmina-plugin-rdp"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
+        # 방법2) nixpkg
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
+
+        # 방법3) flatpak
         # install_remmina_for_flatpak
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
+
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # remmina needs gnome-keyring
-        # ----------------------------------------------------------------------
+
+        # 방법1)
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^remmina) ]] || dnf install -y remmina;
-        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
+        # 방법2) nixpkg
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
+
+        # 방법3) flapak
         # install_remmina_for_flatpak
         # ----------------------------------------------------------------------
     fi

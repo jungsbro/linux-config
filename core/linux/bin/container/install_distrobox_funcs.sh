@@ -34,14 +34,14 @@ function install_apps()
         pkg_install="sudo dnf install -y"
 
     elif [[ "${pkg_type}" == "pacman" ]]; then
-        pkg_install="sudo pacman -S --needed --noconfirm"
+        pkg_install="sudo pacman -S --noconfirm --needed"
 
     elif [[ "${pkg_type}" == "yay" ]]; then
-        pkg_install="yay -S --needed --noconfirm"
+        pkg_install="yay -S --noconfirm --needed"
 
         if ! distrobox enter ${ctr_name} -- yay --version &>/dev/null; then
             if ! distrobox enter ${ctr_name} -- git --version &>/dev/null; then
-                distrobox enter ${ctr_name} -- sudo pacman -S --needed --noconfirm base-devel git
+                distrobox enter ${ctr_name} -- sudo pacman -S --noconfirm --needed base-devel git
             fi
             distrobox enter ${ctr_name} -- git clone https://aur.archlinux.org/yay.git /tmp/yay
             distrobox enter ${ctr_name} -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"

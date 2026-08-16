@@ -95,20 +95,24 @@ function execute_main()
     # for gnome, cinnamon, mate, xfce, lxde
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^ibus) ]] || pacman -S --needed --noconfirm ibus ibus-hangul;
+        local app_name="ibus"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ibus-hangul"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^ibus) ]] || apt install -y ibus ibus-hangul;
+        local app_name="ibus"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ibus-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ibus-hangul has a problem when using google-docs
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^ibus) ]] || dnf install -y ibus ibus-hangul;
-        # if [[ *"${CUR_WMDE}" == *"xfce4"* ]] || [[ *"${CUR_WMDE}" == *"mate"* ]]; then
-        #     [[ -n $(dnf list --installed | grep -i ^im-chooser) ]] || dnf install -y im-chooser;
+        local app_name="ibus"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ibus-hangul"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
+        # if [[ "${CUR_WMDE}" == *"xfce4"* ]] || [[ "${CUR_WMDE}" == *"mate"* ]]; then
+        #     local app_name="im-chooser"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # fi
         # ----------------------------------------------------------------------
     fi

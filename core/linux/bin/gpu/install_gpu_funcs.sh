@@ -17,13 +17,13 @@ function set_vendor()
     # --------------------------------------------------------------------------
     # pciutils is needed for lspci
     if [[ "${cur_ver}" == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^pciutils) ]] || pacman -S --needed --noconfirm pciutils;
+        local app_name="pciutils"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
     elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
-        [[ -n $(apt list --installed | grep -i ^pciutils) ]] || apt install -y pciutils;
+        local app_name="pciutils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
     elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^pciutils) ]] || dnf install -y pciutils;
+        local app_name="pciutils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     fi
     # --------------------------------------------------------------------------
 

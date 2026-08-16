@@ -42,38 +42,47 @@ function install_tmux()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
-        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
-        [[ -n $(pacman -Q | grep -i ^xclip) ]] || pacman -S --needed --noconfirm xclip xsel;
-        [[ -n $(pacman -Q | grep -i ^powerline) ]] || pacman -S --needed --noconfirm powerline powerline-fonts;
+        local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="tmux"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="xclip"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="xsel"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="powerline"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="powerline-fonts"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
-        [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
-        [[ -n $(apt list --installed | grep -i ^xclip) ]] || apt install -y xclip xsel;
-        [[ -n $(apt list --installed | grep -i ^powerline) ]] || apt install -y powerline fonts-powerline python3-powerline;
+        local app_name="git"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="tmux"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="xclip"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="xsel"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="powerline"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fonts-powerline"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="python3-powerline"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
-        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
-        [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tmux"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xclip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xsel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tmux-powerline"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
-        # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xclip) ]] || dnf install -y xclip xsel;
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^powerline) ]] || dnf install -y powerline powerline-fonts tmux-powerline;
+
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tmux"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xclip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xsel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tmux-powerline"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }

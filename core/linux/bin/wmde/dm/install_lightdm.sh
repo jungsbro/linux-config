@@ -58,6 +58,7 @@ function fix_lightdm-xsession()     # not used
     if [[ ! -f ${dst_xsession_path} ]]; then
         # -a --archive : preserve all attributes / because of selinux
         cp -a ${src_xsession_path} ${dst_xsession_path};
+
         # chmod +x ${dst_xsession_path};
     fi
     # --------------------------------------------------------------------------
@@ -110,7 +111,8 @@ EOF
 
 function set_logind-check-graphical_enable()
 {
-    # suspend후, 먹통되는것을 개선한다.
+    # suspend후, 먹통되는것을 개선한다.>> 안된다.
+    # compositor: off하면,suspend후, 먹통되는 증상 해결된다.
 
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
@@ -163,34 +165,37 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^lightdm) ]] || pacman -S --needed --noconfirm lightdm lightdm-gtk-greeter;
+        local app_name="lightdm"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="lightdm-gtk-greeter"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^lightdm) ]] || apt install -y lightdm;
+        local app_name="lightdm"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^lightdm) ]] || dnf install -y lightdm lightdm-gtk;
+        local app_name="lightdm"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="lightdm-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
-    # only working for fedora and rhel
+    # 방법1) only working for fedora and rhel
     source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # only working for fedora and rhel
-    set_logind-check-graphical_enable;
-    # --------------------------------------------------------------------------
 
-    # --------------------------------------------------------------------------
-    # only working for fedora and rhel
+    # 방법2) only working for fedora and rhel
     # fix_lightdm-xsession;
+    # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # only working for fedora and rhel
+    # set_logind-check-graphical_enable;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # only working for lightdm
     set_lightdm_enable;
     # --------------------------------------------------------------------------

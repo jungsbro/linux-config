@@ -42,47 +42,47 @@ APP_HIDDEN="false"
 
 function install_dep_for_apt()
 {
-    [[ -n $(apt list --installed | grep -i ^libimlib2-dev) ]] || apt install -y libimlib2-dev;
-    [[ -n $(apt list --installed | grep -i ^libfontconfig1-dev) ]] || apt install -y libfontconfig1-dev;
-    [[ -n $(apt list --installed | grep -i ^libfreetype6-dev) ]] || apt install -y libfreetype6-dev;
-    [[ -n $(apt list --installed | grep -i ^libx11-dev) ]] || apt install -y libx11-dev;
-    [[ -n $(apt list --installed | grep -i ^libxext-dev) ]] || apt install -y libxext-dev;
-    [[ -n $(apt list --installed | grep -i ^libxft-dev) ]] || apt install -y libxft-dev;
-    [[ -n $(apt list --installed | grep -i ^libxrender-dev) ]] || apt install -y libxrender-dev;
-    [[ -n $(apt list --installed | grep -i ^zlib1g-dev) ]] || apt install -y zlib1g-dev;
-    [[ -n $(apt list --installed | grep -i ^libxinerama-dev) ]] || apt install -y libxinerama-dev;
-    [[ -n $(apt list --installed | grep -i ^libxcomposite-dev) ]] || apt install -y libxcomposite-dev;
-    [[ -n $(apt list --installed | grep -i ^libxdamage-dev) ]] || apt install -y libxdamage-dev;
-    [[ -n $(apt list --installed | grep -i ^libxfixes-dev) ]] || apt install -y libxfixes-dev;
-    [[ -n $(apt list --installed | grep -i ^libxmu-dev) ]] || apt install -y libxmu-dev;
+    local app_name="libimlib2-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libfontconfig1-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libfreetype6-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libx11-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxext-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxft-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxrender-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="zlib1g-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxinerama-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxcomposite-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxdamage-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxfixes-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libxmu-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 }
 
 function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^imlib2-devel) ]] || dnf install -y imlib2-devel;
+    local app_name="imlib2-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(dnf list --installed | grep -i ^fontconfig-devel) ]] || dnf install -y fontconfig-devel;
-    [[ -n $(dnf list --installed | grep -i ^freetype-devel) ]] || dnf install -y freetype-devel;
-    [[ -n $(dnf list --installed | grep -i ^libX11-devel) ]] || dnf install -y libX11-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXext-devel) ]] || dnf install -y libXext-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXft-devel) ]] || dnf install -y libXft-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXrender-devel) ]] || dnf install -y libXrender-devel;
-    [[ -n $(dnf list --installed | grep -i ^zlib-devel) ]] || dnf install -y zlib-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXinerama-devel) ]] || dnf install -y libXinerama-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXcomposite-devel) ]] || dnf install -y libXcomposite-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXdamage-devel) ]] || dnf install -y libXdamage-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXfixes-devel) ]] || dnf install -y libXfixes-devel;
-    [[ -n $(dnf list --installed | grep -i ^libXmu-devel) ]] || dnf install -y libXmu-devel;
-    [[ -n $(dnf list --installed | grep -i ^libjpeg-turbo-devel) ]] || dnf install -y libjpeg-turbo-devel;
+    local app_name="fontconfig-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="freetype-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libX11-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXext-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXft-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXrender-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="zlib-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXinerama-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXcomposite-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXdamage-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXfixes-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libXmu-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libjpeg-turbo-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    [[ -n $(dnf list --installed | grep -i ^giflib-devel) ]] || dnf install -y giflib-devel;
+    [[ $(dnf repolist crb 2>/dev/null) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    local app_name="giflib-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 }
 
@@ -187,29 +187,33 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^skippy-xd) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm skippy-xd-git";
+        local app_name="skippy-xd-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        # echo "skippy-xd is not supported for Debian and Ubuntu"
+        # 방법1) distrobox를 사용한다.
+        # echo "skippy-xd is not available on Debian and Ubuntu"
 
+        # 방법2) nixpkg
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
-        # ----------------------------------------------------------------------
+
+        # 방법3) build
         # install_dep_for_apt;
         # install_skippy-xd_for_build;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        # echo "skippy-xd is not supported for RHEL and Fedora"
+        # 방법1) distrobox를 사용한다.
+        # echo "skippy-xd is not avialable on RHEL and Fedora"
 
+        # 방법2) nixpkg
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
+
+        # 방법3) build
         # install_dep_for_dnf;
         # install_skippy-xd_for_build;
         # ----------------------------------------------------------------------

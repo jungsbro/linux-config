@@ -194,7 +194,7 @@ gui_bins=""
 # gui_apps+="gnome-keyring libsecret "
 # gui_bins+=""
 
-# # doublecmd-gtk is not available in Rocky8
+# # doublecmd-gtk is not available on rhel8
 # # gui_apps+="doublecmd-gtk "
 # # gui_bins+="doublecmd "
 
@@ -217,7 +217,7 @@ gui_bins=""
 # gui_apps+="drawing "
 # gui_bins+="drawing "
 
-# # vlc is not available in Rocky8
+# # vlc is not available on rhel8
 # # gui_apps+="vlc "
 # # gui_bins+="vlc "
 # ------------------------------------------------------------------------------

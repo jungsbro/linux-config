@@ -68,24 +68,26 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^kolourpaint) ]] || pacman -S --needed --noconfirm kolourpaint;
+        local app_name="kolourpaint"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^kolurpaint4) ]] || apt install -y kolourpaint;
+        local app_name="kolourpaint"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
+        local app_name="kolourpaint"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1)
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^kolourpaint) ]] || dnf install -y kolourpaint;
+        # local app_name="kolourpaint"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
+        # 방법2)
         install_kolourpaint_for_flatpak;
         # ----------------------------------------------------------------------
     fi

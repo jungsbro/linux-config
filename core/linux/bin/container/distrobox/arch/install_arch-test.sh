@@ -67,29 +67,29 @@ fi
 PRE_INIT_HOOKS=""
 
 # update
-PRE_INIT_HOOKS+="sudo pacman -Syu --needed --noconfirm"
+PRE_INIT_HOOKS+="sudo pacman -Syu --noconfirm --needed"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm base-devel"
+    sudo pacman -S --noconfirm --needed base-devel"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm git wget curl"
+    sudo pacman -S --noconfirm --needed git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm vim xclip xsel"
+    sudo pacman -S --noconfirm --needed vim xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm ranger"
+    sudo pacman -S --noconfirm --needed ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --needed --noconfirm nnn"
+#     sudo pacman -S --noconfirm --needed nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다. (fcitx5-gtk만 설치하면 된다.)
 # PRE_INIT_HOOKS+=" && \
-#     sudo pacman -S --needed --noconfirm fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
+#     sudo pacman -S --noconfirm --needed fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-gtk fcitx5-qt"
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm fcitx5-gtk"
+    sudo pacman -S --noconfirm --needed fcitx5-gtk"
 
 # aur 설치
 # PRE_INIT_HOOKS+=" && \
@@ -115,7 +115,7 @@ PRE_INIT_HOOKS+=" && \
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
-    sudo pacman -S --needed --noconfirm libpulse"
+    sudo pacman -S --noconfirm --needed libpulse"
 
 # bash 사용
 # chsh: your shell is not in /etc/shells, shell change denied: Permission denied
@@ -149,7 +149,7 @@ function execute_main()
 
     # chromium -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo pacman -S --needed --noconfirm chromium
+    # distrobox enter ${CTR_NAME} -- sudo pacman -S --noconfirm --needed chromium
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium

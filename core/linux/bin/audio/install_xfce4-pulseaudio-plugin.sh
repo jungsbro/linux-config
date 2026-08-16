@@ -35,23 +35,23 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xfce4-pulseaudio-plugin) ]] || pacman -S --needed --noconfirm xfce4-pulseaudio-plugin;
+        local app_name="xfce4-pulseaudio-plugin"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-pulseaudio-plugin) ]] || apt install -y xfce4-pulseaudio-plugin;
+        local app_name="xfce4-pulseaudio-plugin"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xfce4-pulseaudio-plugin) ]] || dnf install -y xfce4-pulseaudio-plugin;
+        local app_name="xfce4-pulseaudio-plugin"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^xfce4-pulseaudio-plugin) ]] || dnf install -y xfce4-pulseaudio-plugin;
+        local app_name="xfce4-pulseaudio-plugin"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }

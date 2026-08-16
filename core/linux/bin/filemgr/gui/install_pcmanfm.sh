@@ -41,33 +41,33 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(pacman -Q | grep -i ^pcmanfm-qt$) ]] || pacman -S --needed --noconfirm pcmanfm-qt;
+            local app_name="pcmanfm-qt"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         else
-            [[ -n $(pacman -Q | grep -i ^pcmanfm$) ]] || pacman -S --needed --noconfirm pcmanfm;
+            local app_name="pcmanfm"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^pcmanfm-qt$) ]] || apt install -y pcmanfm-qt;
+            local app_name="pcmanfm-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         else
-            [[ -n $(apt list --installed | grep -i ^pcmanfm$) ]] || apt install -y pcmanfm;
+            local app_name="pcmanfm"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(dnf list --installed | grep -i ^pcmanfm-qt$) ]] || dnf install -y pcmanfm-qt;
+            local app_name="pcmanfm-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^pcmanfm$) ]] || dnf install -y pcmanfm;
+            local app_name="pcmanfm"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # echo "pcmanfm is not supported for RHEL"
+        # echo "pcmanfm is not avialable on RHEL"
         # return 0
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \

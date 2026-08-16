@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_glog.sh && build_glog_for_dnf;
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/build_glog.sh && build_glog_for_dnf;
 # ==============================================================================
 
 
@@ -15,24 +15,24 @@ set -e
 function build_glog_for_dnf()
 {
     # --------------------------------------------------------------------------
-    local NAME="glog";
+    local pkg_name="glog";
 
     # https://github.com/google/glog.git
-    local URL="https://github.com/google/glog.git";
+    local app_url="https://github.com/google/glog.git";
 
-    local TMP_DIR="/tmp";
+    local tmp_dir="/tmp";
 
     # /tmp/glog
-    local SRC_DIR="/tmp/${NAME}";
+    local src_dir="/tmp/${pkg_name}";
 
-    local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local local_lib64_dir="/usr/local/lib64"
 
     # /usr/local/lib/pkgconfig/glog.pc
-    local PC_PATH="${LOCAL_LIB64_DIR}/pkgconfig/glog.pc"
+    local pc_path="${local_lib64_dir}/pkgconfig/glog.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # if [[ -f "${PC_PATH}" ]]; then
+    # if [[ -f "${pc_path}" ]]; then
     #     return 0
     # fi
     # --------------------------------------------------------------------------
@@ -47,14 +47,14 @@ function build_glog_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) glog build
-    git clone ${URL} ${SRC_DIR};
+    git clone ${app_url} ${src_dir};
 
-    pushd ${SRC_DIR}
+    pushd ${src_dir}
     # rime has error because of "glog v0.5.0+"
     # git checkout v0.5.0
     # git checkout v0.4.0
@@ -69,13 +69,13 @@ function build_glog_for_dnf()
 
     make -j$(nproc)
     make install
-    ldconfig ${LOCAL_LIB64_DIR}
+    ldconfig ${local_lib64_dir}
     popd
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) rime이 build시에 glog을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ ! -f "${LOCAL_LIB64_DIR}/pkgconfig/${NAME}.pc" ]]; then
+    if [[ ! -f "${local_lib64_dir}/pkgconfig/${pkg_name}.pc" ]]; then
         CONF_CMD="prefix=/usr/local
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib64
@@ -87,14 +87,14 @@ Version: 0.4.0
 Libs: -L${libdir} -lglog
 Cflags: -I${includedir}
 "
-        echo "$CONF_CMD" > ${LOCAL_LIB64_DIR}/pkgconfig/${NAME}.pc
+        echo "$CONF_CMD" > ${local_lib64_dir}/pkgconfig/${pkg_name}.pc
     fi
 
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig"
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
+        export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig"
+    elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
     # pkg-config --modversion glog

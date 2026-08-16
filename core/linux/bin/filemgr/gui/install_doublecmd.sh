@@ -207,40 +207,46 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^doublecmd-qt5) ]] || pacman -S --needed --noconfirm doublecmd-qt5;
-        # [[ -n $(pacman -Q | grep -i ^doublecmd-qt6) ]] || pacman -S --needed --noconfirm doublecmd-qt6;
+        # 방법1) qt5
+        # local app_name="doublecmd-qt5"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+
+        # 방법2) qt6
+        local app_name="doublecmd-qt6"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^doublecmd-qt) ]] || apt install -y doublecmd-qt;
+            local app_name="doublecmd-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         else
-            [[ -n $(apt list --installed | grep -i ^doublecmd-gtk) ]] || apt install -y doublecmd-gtk;
+            local app_name="doublecmd-gtk"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            # qt5
-            [[ -n $(dnf list --installed | grep -i ^doublecmd-qt) ]] || dnf install -y doublecmd-qt;
+            # 방법1) qt5
+            local app_name="doublecmd-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
-            # qt6
-            # [[ -n $(dnf list --installed | grep -i ^doublecmd-qt6) ]] || dnf install -y doublecmd-qt6;
+            # 방법2) qt6
+            # local app_name="doublecmd-qt6"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^doublecmd-gtk) ]] || dnf install -y doublecmd-gtk;
+            local app_name="doublecmd-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1)
         # distrobox를 사용한다.
-        # echo "doublecmd is not supported for RHEL"
+        # echo "doublecmd is not avialable on RHEL"
 
+        # 방법2) nix
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
-        # ----------------------------------------------------------------------
+
+        # 방법3)
         # if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         #     install_dc_for_portable;
         # elif [[ "${CUR_ARCH}" == *"i686"* ]]; then

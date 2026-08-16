@@ -50,150 +50,150 @@ function install_dependency_for_lf()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
-        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
+        local app_name="fzf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="zoxide"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ripgrep"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 폴더/파일
-        [[ -n $(pacman -Q | grep -i ^eza) ]] || pacman -S --needed --noconfirm eza;
-        [[ -n $(pacman -Q | grep -i ^tree) ]] || pacman -S --needed --noconfirm tree;
-        [[ -n $(pacman -Q | grep -i ^bat) ]] || pacman -S --needed --noconfirm bat;
-        [[ -n $(pacman -Q | grep -i ^lsd) ]] || pacman -S --needed --noconfirm lsd;
+        local app_name="eza"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="tree"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="bat"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="lsd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --needed --noconfirm highlight;
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^djvulibre) ]] || pacman -S --needed --noconfirm djvulibre;
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
-        [[ -n $(pacman -Q | grep -i ^chafa) ]] || pacman -S --needed --noconfirm chafa;
+        local app_name="highlight"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="imagemagick"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="djvulibre"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="poppler"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="chafa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 미디어
-        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --needed --noconfirm ffmpegthumbnailer;
-        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --needed --noconfirm mediainfo;
+        local app_name="ffmpegthumbnailer"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="mediainfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --needed --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+        local app_name="atool"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="7zip"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="jq"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 터미널 ui
-        [[ -n $(pacman -Q | grep -i ^tmux) ]] || pacman -S --needed --noconfirm tmux;
+        local app_name="tmux"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 휴지통
-        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
+        local app_name="trash-cli"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
-        [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-        [[ -n $(apt list --installed | grep -i ^ripgrep) ]] || apt install -y ripgrep;
+        local app_name="fzf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="zoxide"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fd-find"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ripgrep"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 폴더/파일
-        [[ -n $(apt list --installed | grep -i ^eza) ]] || apt install -y eza;
-        [[ -n $(apt list --installed | grep -i ^tree) ]] || apt install -y tree;
+        local app_name="eza"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="tree"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^bat) ]] || apt install -y bat;
+        local app_name="bat"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
         su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^lsd) ]] || apt install -y lsd;
+        local app_name="lsd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
-        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
-        [[ -n $(apt list --installed | grep -i ^djvulibre-bin) ]] || apt install -y djvulibre-bin;
-        [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
-        [[ -n $(apt list --installed | grep -i ^chafa) ]] || apt install -y chafa;
+        local app_name="highlight"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="imagemagick"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="djvulibre-bin"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="poppler-utils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="chafa"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 미디어
-        [[ -n $(apt list --installed | grep -i ^ffmpegthumbnailer) ]] || apt install -y ffmpegthumbnailer;
-        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
+        local app_name="ffmpegthumbnailer"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="mediainfo"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
-        [[ -n $(apt list --installed | grep -i ^7zip) ]] || apt install -y 7zip;
-        [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
+        local app_name="atool"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="7zip"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="jq"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 터미널 ui
-        [[ -n $(apt list --installed | grep -i ^tmux) ]] || apt install -y tmux;
+        local app_name="tmux"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 휴지통
-        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
+        local app_name="trash-cli"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ripgrep"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 폴더/파일
-        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
-        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
-        [[ -n $(dnf list --installed | grep -i ^lsd) ]] || dnf install -y lsd;
+        local app_name="tree"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="bat"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="lsd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;
+        local app_name="highlight"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="djvulibre"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="chafa"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 미디어
-        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        local app_name="ffmpegthumbnailer"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mediainfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+        local app_name="atool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="jq"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 터미널 ui
-        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+        local app_name="tmux"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 휴지통
-        [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
+        local app_name="trash-cli"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ripgrep"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 폴더/파일
-        [[ -n $(dnf list --installed | grep -i ^tree) ]] || dnf install -y tree;
-        [[ -n $(dnf list --installed | grep -i ^bat) ]] || dnf install -y bat;
+        local app_name="tree"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="bat"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^djvulibre) ]] || dnf install -y djvulibre;
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        [[ -n $(dnf list --installed | grep -i ^chafa) ]] || dnf install -y chafa;
+        local app_name="highlight"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="djvulibre"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="chafa"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 미디어
-        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        local app_name="ffmpegthumbnailer"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mediainfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+        local app_name="atool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="jq"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 터미널 ui
-        [[ -n $(dnf list --installed | grep -i ^tmux) ]] || dnf install -y tmux;
+        local app_name="tmux"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 휴지통
-        [[ -n $(dnf list --installed | grep -i ^trash-cli) ]] || dnf install -y trash-cli;
+        local app_name="trash-cli"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }
@@ -253,7 +253,7 @@ function install_lf_for_portable()
 function install_lf()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --needed --noconfirm lf;
+        [[ -n $(pacman -Q | grep -i ^lf) ]] || pacman -S --noconfirm --needed lf;
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         [[ -n $(apt list --installed | grep -i ^lf) ]] || apt install -y lf;

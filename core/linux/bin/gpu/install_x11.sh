@@ -35,45 +35,53 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^xorg-server) ]] || pacman -S --needed --noconfirm xorg-server;
+        local app_name="xorg-server"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+
         # for startx
-        [[ -n $(pacman -Q | grep -i ^xorg-xinit) ]] || pacman -S --needed --noconfirm xorg-xinit;
+        local app_name="xorg-xinit"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+
         # xorg-x11-utils
-        [[ -n $(pacman -Q | grep -i ^xorg-xwininfo) ]] || pacman -S --needed --noconfirm xorg-xwininfo;
-        [[ -n $(pacman -Q | grep -i ^xorg-xprop) ]] || pacman -S --needed --noconfirm xorg-xprop;
-        [[ -n $(pacman -Q | grep -i ^xorg-xrandr) ]] || pacman -S --needed --noconfirm xorg-xrandr;
-        [[ -n $(pacman -Q | grep -i ^xorg-xkill) ]] || pacman -S --needed --noconfirm xorg-xkill;
+        local app_name="xorg-xwininfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="xorg-xprop"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="xorg-xrandr"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="xorg-xkill"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xorg) ]] || apt install -y xorg;
+        local app_name="xorg"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
         # for startx
-        [[ -n $(apt list --installed | grep -i ^xinit) ]] || apt install -y xinit;
+        local app_name="xinit"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
         # xorg-x11-utils
-        [[ -n $(apt list --installed | grep -i ^x11-utils) ]] || apt install -y x11-utils;
+        local app_name="x11-utils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-server-Xorg) ]] || dnf install -y xorg-x11-server-Xorg;
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-drv-libinput) ]] || dnf install -y xorg-x11-drv-libinput;
+        local app_name="xorg-x11-server-Xorg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xorg-x11-drv-libinput"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
         # for startx
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-xinit) ]] || dnf install -y xorg-x11-xinit;
+        local app_name="xorg-x11-xinit"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
         # xorg-x11-utils
-        [[ -n $(dnf list --installed | grep -i ^xwininfo) ]] || dnf install -y xwininfo;
-        [[ -n $(dnf list --installed | grep -i ^xprop) ]] || dnf install -y xprop;
-        [[ -n $(dnf list --installed | grep -i ^xrandr) ]] || dnf install -y xrandr;
-        [[ -n $(dnf list --installed | grep -i ^xkill) ]] || dnf install -y xkill;
+        local app_name="xwininfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xprop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xrandr"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="xkill"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-server-Xorg) ]] || dnf install -y xorg-x11-server-Xorg;
+        local app_name="xorg-x11-server-Xorg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
         # for startx
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-xinit) ]] || dnf install -y xorg-x11-xinit;
+        local app_name="xorg-x11-xinit"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
         # xorg-x11-utils
-        [[ -n $(dnf list --installed | grep -i ^xorg-x11-utils) ]] || dnf install -y xorg-x11-utils;
+        local app_name="xorg-x11-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }

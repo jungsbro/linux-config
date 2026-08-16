@@ -76,28 +76,30 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^openbox) ]] || pacman -S --needed --noconfirm openbox;
-        [[ -n $(pacman -Q | grep -i ^lxappearance-obconf) ]] || pacman -S --needed --noconfirm lxappearance-obconf;
-        # [[ -n $(pacman -Q | grep -i ^obconf-qt) ]] || pacman -S --needed --noconfirm obconf-qt;
+        local app_name="openbox"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="lxappearance-obconf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        # local app_name="obconf-qt"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^openbox) ]] || apt install -y openbox;
-        [[ -n $(apt list --installed | grep -i ^obconf) ]] || apt install -y obconf;
-        # [[ -n $(apt list --installed | grep -i ^obconf-qt) ]] || apt install -y obconf-qt;
+        local app_name="openbox"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="obconf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # local app_name="obconf-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^openbox) ]] || dnf install -y openbox;
-        [[ -n $(dnf list --installed | grep -i ^obconf) ]] || dnf install -y obconf;
-        # [[ -n $(dnf list --installed | grep -i ^obconf-qt) ]] || dnf install -y obconf-qt;
+        local app_name="openbox"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="obconf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="obconf-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^openbox) ]] || dnf install -y openbox;
+
+        local app_name="openbox"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 

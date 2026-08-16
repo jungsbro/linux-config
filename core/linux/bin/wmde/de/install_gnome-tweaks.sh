@@ -35,137 +35,135 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-tweaks) ]] || pacman -S --needed --noconfirm gnome-tweaks;
+        local app_name="gnome-tweaks"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-shell-extensions) ]] || pacman -S --needed --noconfirm gnome-shell-extensions;
+        local app_name="gnome-shell-extensions"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # drive-menu
         # window-list
         # user-theme
         # horizontal-workspace
-        [[ -n $(pacman -Q | grep -i ^extension-manager) ]] || pacman -S --needed --noconfirm extension-manager;
+        local app_name="extension-manager"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^gnome-shell) ]] || pacman -S --needed --noconfirm gnome-shell;
-        [[ -n $(pacman -Q | grep -i ^gnome-browser-connector) ]] || pacman -S --needed --noconfirm gnome-browser-connector;
+        local app_name="gnome-shell"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="gnome-browser-connector"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-appindicator) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-appindicator";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-caffeine) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-caffeine";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-desktop-icons-ng) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-desktop-icons-ng";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-do-not-disturb-button";
+        local app_name="gnome-shell-extension-appindicator"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="gnome-shell-extension-caffeine"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="gnome-shell-extension-desktop-icons-ng"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="gnome-shell-extension-do-not-disturb-button"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-drive-menu) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-drive-menu";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-window-list) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-window-list";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-user-theme-x-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-user-theme-x-git";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-horizontal-workspaces";
+        # local app_name="gnome-shell-extension-drive-menu"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="gnome-shell-extension-window-list"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="gnome-shell-extension-user-theme-x-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="gnome-shell-extension-horizontal-workspaces"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-panel-favorites) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-panel-favorites";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-topicons-plus) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-topicons-plus";
-        # [[ -n $(yay -Q | grep -i ^gnome-shell-extension-top-icons) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-top-icons";
-        [[ -n $(yay -Q | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm gnome-shell-extension-windowoverlay-icons";
+        # local app_name="gnome-shell-extension-panel-favorites"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="gnome-shell-extension-topicons-plus"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="gnome-shell-extension-top-icons"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="gnome-shell-extension-windowoverlay-icons"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^gnome-tweaks) ]] || apt install -y gnome-tweaks;
-        [[ -n $(apt list --installed | grep -i ^gnome-shell-extensions) ]] || apt install -y gnome-shell-extensions;
+        local app_name="gnome-tweaks"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="gnome-shell-extensions"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # drive-menu
         # window-list
         # user-theme
         # horizontal-workspace
         # ----------------------------------------------------------------------
-        # [[ -n $(apt list --installed | grep -i ^gnome-shell-extensions-prefs) ]] || apt install -y gnome-shell-extensions-prefs;
+        # local app_name="gnome-shell-extensions-prefs"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12
-            [[ -n $(apt list --installed | grep -i ^gnome-shell) ]] || apt install -y gnome-shell;
-            [[ -n $(apt list --installed | grep -i ^chrome-gnome-shell) ]] || apt install -y chrome-gnome-shell;
+            local app_name="gnome-shell"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="chrome-gnome-shell"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || apt install -y gnome-shell-extension-appindicator;
-            [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || apt install -y gnome-shell-extension-caffeine;
-            [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-desktop-icons-ng) ]] || apt install -y gnome-shell-extension-desktop-icons-ng;
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || apt install -y gnome-shell-extension-do-not-disturb-button;
+            local app_name="gnome-shell-extension-appindicator"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="gnome-shell-extension-caffeine"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="gnome-shell-extension-desktop-icons-ng"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            # local app_name="gnome-shell-extension-do-not-disturb-button"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
             # ------------------------------------------------------------------
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || apt install -y gnome-shell-extension-drive-menu;
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-window-list) ]] || apt install -y gnome-shell-extension-window-list;
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || apt install -y gnome-shell-extension-user-theme;
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || apt install -y gnome-shell-extension-horizontal-workspaces;
+            # local app_name="gnome-shell-extension-drive-menu"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            # local app_name="gnome-shell-extension-window-list"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            # local app_name="gnome-shell-extension-user-theme"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            # local app_name="gnome-shell-extension-horizontal-workspaces"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
             # ------------------------------------------------------------------
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || apt install -y gnome-shell-extension-panel-favorites;
-            [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-top-icons-plus) ]] || apt install -y gnome-shell-extension-top-icons-plus;
-            # [[ -n $(apt list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || apt install -y gnome-shell-extension-windowoverlay-icons;
+            # local app_name="gnome-shell-extension-panel-favorites"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="gnome-shell-extension-top-icons-plus"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            # local app_name="gnome-shell-extension-windowoverlay-icons"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
+        local app_name="gnome-tweaks"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-extensions-app) ]] || dnf install -y gnome-extensions-app;
+        local app_name="gnome-extensions-app"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
-        [[ -n $(dnf list --installed | grep -i ^gnome-browser-connector) ]] || dnf install -y gnome-browser-connector;
+        local app_name="gnome-shell"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="gnome-browser-connector"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || dnf install -y gnome-shell-extension-appindicator;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || dnf install -y gnome-shell-extension-caffeine;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-desktop-icons) ]] || dnf install -y gnome-shell-extension-desktop-icons;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || dnf install -y gnome-shell-extension-do-not-disturb-button;
+        local app_name="gnome-shell-extension-appindicator"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="gnome-shell-extension-caffeine"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-desktop-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-do-not-disturb-button"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || dnf install -y gnome-shell-extension-drive-menu;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-window-list) ]] || dnf install -y gnome-shell-extension-window-list;
-        [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || dnf install -y gnome-shell-extension-user-theme;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || dnf install -y gnome-shell-extension-horizontal-workspaces;
+        local app_name="gnome-shell-extension-drive-menu"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="gnome-shell-extension-window-list"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="gnome-shell-extension-user-theme"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-horizontal-workspaces"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || dnf install -y gnome-shell-extension-panel-favorites;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-topicons-plus) ]] || dnf install -y gnome-shell-extension-topicons-plus;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-top-icons) ]] || dnf install -y gnome-shell-extension-top-icons;
-        # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
+        # local app_name="gnome-shell-extension-panel-favorites"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-topicons-plus"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-top-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="gnome-shell-extension-windowoverlay-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^gnome-tweaks) ]] || dnf install -y gnome-tweaks;
+        local app_name="gnome-tweaks"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # ----------------------------------------------------------------------
+        # gnome-extensions-app은 rhel8을 지원하지 않는다.
+        local app_name="gnome-extensions-app"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-            echo "";
-        else                                                    # rocky9, ...
-            [[ -n $(dnf list --installed | grep -i ^gnome-extensions-app) ]] || dnf install -y gnome-extensions-app;
-        fi
-        # ----------------------------------------------------------------------
-        if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
-            [[ -n $(dnf list --installed | grep -i ^chrome-gnome-shell) ]] || dnf install -y chrome-gnome-shell;
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || dnf install -y gnome-shell-extension-appindicator;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || dnf install -y gnome-shell-extension-caffeine;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-desktop-icons) ]] || dnf install -y gnome-shell-extension-desktop-icons;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || dnf install -y gnome-shell-extension-do-not-disturb-button;
+            local app_name="gnome-shell"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="chrome-gnome-shell"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || dnf install -y gnome-shell-extension-drive-menu;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-window-list) ]] || dnf install -y gnome-shell-extension-window-list;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || dnf install -y gnome-shell-extension-user-theme;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || dnf install -y gnome-shell-extension-horizontal-workspaces;
+            local app_name="gnome-shell-extension-appindicator"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-caffeine"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-desktop-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-do-not-disturb-button"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || dnf install -y gnome-shell-extension-panel-favorites;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-topicons-plus) ]] || dnf install -y gnome-shell-extension-topicons-plus;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
+            local app_name="gnome-shell-extension-drive-menu"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-window-list"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-user-theme"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-horizontal-workspaces"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            # ------------------------------------------------------------------
+            local app_name="gnome-shell-extension-panel-favorites"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-topicons-plus"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-windowoverlay-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
 
         elif  [[ "${CUR_VER}" == *"VERSION_ID=\"9"* ]]; then  # rocky9
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell) ]] || dnf install -y gnome-shell;
-            [[ -n $(dnf list --installed | grep -i ^chrome-gnome-shell) ]] || dnf install -y chrome-gnome-shell;
+            local app_name="gnome-shell"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="chrome-gnome-shell"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-appindicator) ]] || dnf install -y gnome-shell-extension-appindicator;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-caffeine) ]] || dnf install -y gnome-shell-extension-caffeine;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-desktop-icons) ]] || dnf install -y gnome-shell-extension-desktop-icons;
-            # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-do-not-disturb-button) ]] || dnf install -y gnome-shell-extension-do-not-disturb-button;
+            local app_name="gnome-shell-extension-appindicator"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-caffeine"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-desktop-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            # local app_name="gnome-shell-extension-do-not-disturb-button"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-drive-menu) ]] || dnf install -y gnome-shell-extension-drive-menu;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-window-list) ]] || dnf install -y gnome-shell-extension-window-list;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-user-theme) ]] || dnf install -y gnome-shell-extension-user-theme;
-            # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-horizontal-workspaces) ]] || dnf install -y gnome-shell-extension-horizontal-workspaces;
+            local app_name="gnome-shell-extension-drive-menu"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-window-list"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-user-theme"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            # local app_name="gnome-shell-extension-horizontal-workspaces"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-panel-favorites) ]] || dnf install -y gnome-shell-extension-panel-favorites;
-            [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-top-icons) ]] || dnf install -y gnome-shell-extension-top-icons;
-            # [[ -n $(dnf list --installed | grep -i ^gnome-shell-extension-windowoverlay-icons) ]] || dnf install -y gnome-shell-extension-windowoverlay-icons;
+            local app_name="gnome-shell-extension-panel-favorites"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gnome-shell-extension-topicons-plus"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            # local app_name="gnome-shell-extension-windowoverlay-icons"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------

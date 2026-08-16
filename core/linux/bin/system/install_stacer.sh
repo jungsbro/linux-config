@@ -46,30 +46,36 @@ function execute_main()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        # [[ -n $(yay -Q | grep -i ^stacer-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer-git";
-        [[ -n $(yay -Q | grep -i ^stacer-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer-bin";
-        # [[ -n $(yay -Q | grep -i ^stacer) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm stacer";
+        # 방법1)
+        # local app_name="stacer-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2)
+        local app_name="stacer-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법3)
+        # local app_name="stacer"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        echo "stacer is not supported for Debian13+"
+        # 방법1) distrobox를 사용한다.
+        echo "stacer is not avialable on Debian13+"
 
-        # [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+        # 방법2)
+        # local app_name="stacer"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^stacer) ]] || apt install -y stacer;
+        local app_name="stacer"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        echo "stacer is not supported for RHEL and Fedora"
+        # 방법1) distrobox를 사용한다.
+        echo "stacer is not avialable on RHEL and Fedora"
 
-        # "stacer for nix" has error
+        # 방법2) "stacer for nix" has error
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------

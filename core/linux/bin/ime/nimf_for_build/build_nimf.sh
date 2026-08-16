@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/ime/nimf_for_build/install_nimf_for_build.sh && build_nimf_for_dnf;
+# source ${CORE_BIN_DIR}/ime/nimf_for_build/build_nimf.sh && build_nimf_for_dnf "${CUR_USER}";
 # ==============================================================================
 
 
@@ -15,26 +15,37 @@ set -e
 function build_nimf_for_dnf()
 {
     # --------------------------------------------------------------------------
-    local NAME="nimf";
+    local cur_user=${1}
+    local home_dir=$(eval echo ~${cur_user});
+
+    local nix_dir="${home_dir}/.nix-profile"
+    local nix_lib_dir="${nix_dir}/lib"
+    local nix_share_dir="${nix_dir}/share"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local pkg_name="nimf";
 
     # https://github.com/hamonikr/nimf.git
-    local URL="https://github.com/hamonikr/nimf.git"
+    local app_url="https://github.com/hamonikr/nimf.git"
 
-    local TMP_DIR="/tmp";
+    local tmp_dir="/tmp";
 
     # /tmp/nimf
-    local SRC_DIR="/tmp/${NAME}";
+    local src_dir="/tmp/${pkg_name}";
 
-    local LOCAL_LIB_DIR="/usr/local/lib"
-    local LOCAL_LIB64_DIR="/usr/local/lib64"
+    local local_lib_dir="/usr/local/lib"
+    local local_lib64_dir="/usr/local/lib64"
     local LIB64_DIR="/usr/lib64"
 
+    local local_share_dir="/usr/local/share"
+
     # /usr/local/lib/pkgconfig/nimf.pc
-    local PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/nimf.pc"
+    local pc_path="${local_lib_dir}/pkgconfig/nimf.pc"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${PC_PATH}" ]]; then
+    if [[ -f "${pc_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -42,16 +53,18 @@ function build_nimf_for_dnf()
     # --------------------------------------------------------------------------
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
-    [[ -n $(dnf list --installed | grep -i ^pkg-config) ]] || dnf install -y pkg-config;
-    [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-    [[ -n $(dnf list --installed | grep -i ^gtk-doc) ]] || dnf install -y gtk-doc;
-    [[ -n $(dnf list --installed | grep -i ^gtk2-devel) ]] || dnf install -y gtk2-devel;
-    [[ -n $(dnf list --installed | grep -i ^gtk3-devel) ]] || dnf install -y gtk3-devel;
-    [[ -n $(dnf list --installed | grep -i ^wayland-devel) ]] || dnf install -y wayland-devel;
-    [[ -n $(dnf list --installed | grep -i ^wayland-protocols-devel) ]] || dnf install -y wayland-protocols-devel;
-    [[ -n $(dnf list --installed | grep -i ^libxkbcommon-devel) ]] || dnf install -y libxkbcommon-devel;
-    [[ -n $(dnf list --installed | grep -i ^libayatana-appindicator-gtk3-devel) ]] || dnf install -y libayatana-appindicator-gtk3-devel;
-    [[ -n $(dnf list --installed | grep -i ^libxklavier-devel) ]] || dnf install -y libxklavier-devel;
+
+    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="gtk-doc"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="gtk2-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="gtk3-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="wayland-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="wayland-protocols-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libxkbcommon-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libayatana-appindicator-gtk3-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="libxklavier-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+
     # nimf needs "libhangul"
     # nimf needs "m17n-lib"
     # nimf needs "m17n-db"
@@ -60,35 +73,62 @@ function build_nimf_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 2) nimf가 build시에 언어엔진을 인식할 수 있도록 pkgconfig 경로 등록
+    # 2) nimf가 build시에 언어엔진을 인식할 수 있도록 pkgconfig 경로 등록 (for native)
+
     # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
     if [[ -z ${PKG_CONFIG_PATH} ]]; then
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig"
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
-    elif [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB_DIR}/pkgconfig"* ]]; then
+    # /usr/local/lib/pkgconfig : m17n-core.pc, anthy.pc
+    elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-
-    if [[ *"${PKG_CONFIG_PATH}"* != *"${LOCAL_LIB64_DIR}/pkgconfig"* ]]; then
+    # /usr/local/lib64/pkgconfig : marisa.pc, opencc.pc, rime.pc
+    if [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
-        export PKG_CONFIG_PATH="${LOCAL_LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
+        export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig:$PKG_CONFIG_PATH"
     fi
 
-
-    if [[ *"${PKG_CONFIG_PATH}"* != *"${LIB64_DIR}/pkgconfig"* ]]; then
+    # /usr/lib64/pkgconfig : libhangul.pc
+    if [[ "${PKG_CONFIG_PATH}" != *"${LIB64_DIR}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
         export PKG_CONFIG_PATH="${LIB64_DIR}/pkgconfig:$PKG_CONFIG_PATH"
     fi
+
+    # /usr/local/share/pkgconfig : m17n-db.pc
+    if [[ "${PKG_CONFIG_PATH}" != *"${local_share_dir}/pkgconfig"* ]]; then
+        # export PKG_CONFIG_PATH=/usr/local/share/pkgconfig:$PKG_CONFIG_PATH
+        export PKG_CONFIG_PATH="${local_share_dir}/pkgconfig:$PKG_CONFIG_PATH"
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    # 2) nimf가 build시에 언어엔진을 인식할 수 있도록 pkgconfig 경로 등록 (for nixpkg)
+    # ~/.nix-profile/lib/pkgconfig : anthy.pc, libhangul.pc, m17n-core.pc, rime.pc
+    if [[ "${PKG_CONFIG_PATH}" != *"${nix_lib_dir}/pkgconfig"* ]]; then
+        # export PKG_CONFIG_PATH=~/.nix-profile/lib/pkgconfig:$PKG_CONFIG_PATH
+        export PKG_CONFIG_PATH="${nix_lib_dir}/pkgconfig:$PKG_CONFIG_PATH"
+    fi
+
+    # ~/.nix-profile/share/pkgconfig : m17n-db.pc
+    if [[ "${PKG_CONFIG_PATH}" != *"${nix_share_dir}/pkgconfig"* ]]; then
+        # export PKG_CONFIG_PATH=~/.nix-profile/share/pkgconfig:$PKG_CONFIG_PATH
+        export PKG_CONFIG_PATH="${nix_share_dir}/pkgconfig:$PKG_CONFIG_PATH"
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    git clone "${URL}" "${SRC_DIR}"
+    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -d ${src_dir} ]]; then
+        rm -rf ${src_dir}
+    fi
+
+    git clone "${app_url}" "${src_dir}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -98,7 +138,7 @@ function build_nimf_for_dnf()
 
     # --------------------------------------------------------------------------
     # 3) nimf build
-    pushd ${SRC_DIR}
+    pushd ${src_dir}
     ./autogen.sh
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -107,12 +147,14 @@ function build_nimf_for_dnf()
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # 방법2) anthy(japanese), rime(chinese)를 사용하지 않는다.
+    # 방법2) libhangul 만을 사용한다 (anthy(japanese), m17n(muliti), rime(chinese)를 사용하지 않는다.)
     ./configure --prefix=/usr/local \
         --disable-nimf-anthy \
-        --disable-nimf-rime \
         --disable-nimf-m17n \
+        --disable-nimf-rime \
         --enable-nimf-libhangul
+        # NIMF_ANTHY_DEPS_CFLAGS=" " \
+        # NIMF_ANTHY_DEPS_LIBS=" "
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     make -j "$(nproc)"
@@ -128,8 +170,8 @@ function build_nimf_for_dnf()
     # --------------------------------------------------------------------------
     # nimf ui를 제대로 띄울수 있도록 수정
     # nimf-settings needs this schema
-    local SCH_SRC_PATH1="${SRC_DIR}/.schemas/org.nimf.clients.qt5.gschema.xml";
-    local SCH_SRC_PATH2="${SRC_DIR}/.schemas/org.nimf.clients.qt6.gschema.xml";
+    local SCH_SRC_PATH1="${src_dir}/.schemas/org.nimf.clients.qt5.gschema.xml";
+    local SCH_SRC_PATH2="${src_dir}/.schemas/org.nimf.clients.qt6.gschema.xml";
     local SCH_DST_DIR="/usr/local/share/glib-2.0/schemas";
 
     if [[ -f "${SCH_SRC_PATH1}" ]]; then
@@ -143,7 +185,7 @@ function build_nimf_for_dnf()
     # --------------------------------------------------------------------------
 
     echo "---------------------------------------------------------------------"
-    echo "${NAME} installed";
+    echo "${pkg_name} installed";
     date;
     echo "---------------------------------------------------------------------"
 }

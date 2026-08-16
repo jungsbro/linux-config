@@ -35,21 +35,21 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        # # unstable
-        # [[ -n $(pacman -Q | grep -i ^libreoffice-fresh) ]] || pacman -S --needed --noconfirm libreoffice-fresh;
+        # 방법1) unstable
+        # local app_name="libreoffice-fresh"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
-        # stable
-        [[ -n $(pacman -Q | grep -i ^libreoffice-still) ]] || pacman -S --needed --noconfirm libreoffice-still;
+        # 방법2) stable
+        local app_name="libreoffice-still"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^libreoffice) ]] || apt install -y libreoffice;
+        local app_name="libreoffice"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^libreoffice) ]] || dnf install -y libreoffice;
+        local app_name="libreoffice"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }

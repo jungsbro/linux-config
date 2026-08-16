@@ -39,43 +39,45 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(yay -Q | grep -i ^autokey-qt) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autokey-qt";
+            local app_name="autokey-qt"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         else
-            [[ -n $(yay -Q | grep -i ^autokey-gtk) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autokey-gtk";
+            local app_name="autokey-gtk"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^autokey-qt) ]] || apt install -y autokey-qt;
+            local app_name="autokey-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         else
-            [[ -n $(apt list --installed | grep -i ^autokey-gtk) ]] || apt install -y autokey-gtk;
+            local app_name="autokey-gtk"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(dnf list --installed | grep -i ^autokey-qt) ]] || dnf install -y autokey-qt;
+            local app_name="autokey-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^autokey-gtk) ]] || dnf install -y autokey-gtk;
+            local app_name="autokey-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-            echo "autokey not working on rocky8";
+        if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rhel8
+            echo "autokey not working on rhel8";
             return 0
         fi
+        # ----------------------------------------------------------------------
+
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(dnf list --installed | grep -i ^autokey-qt) ]] || dnf install -y autokey-qt;
+            local app_name="autokey-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^autokey-gtk) ]] || dnf install -y autokey-gtk;
+            local app_name="autokey-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
     fi

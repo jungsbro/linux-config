@@ -38,25 +38,34 @@ function install_fonts-hacknerdfont()
     fi
 
     # --------------------------------------------------------------------------
-    local FONT_NAME="HackNerdFont"
-    local FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
-    local FONT_ZIP_PATH="/tmp/${FONT_NAME}.zip";
+    local font_name="HackNerdFont"
+    local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
+    local font_zip_path="/tmp/${font_name}.zip";
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/TTF";
-        if [[ -f "${FONT_DST_DIR}/${FONT_NAME}-Regular.ttf" ]]; then
+        local font_dir="/usr/share/fonts/TTF"
+        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
+
+        local font_dst_dir="${font_dir}";
+        if [[ -f "${font_dst_dir}/${font_name}-Regular.ttf" ]]; then
             return 0
         fi
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
-        if [[ -d "${FONT_DST_DIR}" ]]; then
+        local font_dir="/usr/share/fonts/truetype"
+        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
+
+        local font_dst_dir="${font_dir}/${font_name}";
+        if [[ -d "${font_dst_dir}" ]]; then
             return 0
         fi
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/${FONT_NAME}";
-        if [[ -d "${FONT_DST_DIR}" ]]; then
+        local font_dir="/usr/share/fonts"
+        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
+
+        local font_dst_dir="${font_dir}/${font_name}";
+        if [[ -d "${font_dst_dir}" ]]; then
             return 0
         fi
     fi
@@ -64,11 +73,11 @@ function install_fonts-hacknerdfont()
 
     # --------------------------------------------------------------------------
     # wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip" -O "/tmp/HackNerdFont.zip"
-    wget ${FONT_URL} -O ${FONT_ZIP_PATH}
+    wget ${font_url} -O ${font_zip_path}
 
     # sudo unzip /tmp/HackNerdFont.zip -d /usr/share/fonts/HackNerdFont
-    sudo unzip ${FONT_ZIP_PATH} -d ${FONT_DST_DIR}
-    rm -f ${FONT_ZIP_PATH}
+    sudo unzip ${font_zip_path} -d ${font_dst_dir}
+    rm -f ${font_zip_path}
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -83,8 +92,12 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(pacman -Q | grep -i ^ttf-hack-nerd) ]] || pacman -S --needed --noconfirm ttf-hack-nerd;
-        # [[ -n $(yay -Q | grep -i ^ttf-hack-nerd) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm ttf-hack-nerd";
+
+        # 방법1)
+        local app_name="ttf-hack-nerd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+
+        # 방법2)
+        # local app_name="ttf-hack-nerd"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
@@ -96,7 +109,7 @@ function execute_main()
         # ----------------------------------------------------------------------
         # 방법1)
         # dnf copr enable lyessaadi/nerd-fonts
-        # [[ -n $(dnf list installed | grep -i ^font-hack-nerd) ]] || dnf install -y font-hack-nerd;
+        # local app_name="font-hack-nerd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 방법2)
         install_fonts-hacknerdfont;

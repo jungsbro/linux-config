@@ -78,40 +78,45 @@ function execute_main()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm bottles";
-        # [[ -n $(yay -Q | grep -i ^bottles) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm bottles-git";
+        # 방법1)
+        local app_name="${APP_NAME}"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2)
+        # local app_name="bottles-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             install_bottles_for_flatpak;
+
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
-            echo "bottles-aarch64 is not supported for Debian"
+            echo "bottles-aarch64 is not avialable on Debian"
 
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         else                                            # i868
-            echo "bottles-i686 is not supported for Debian"
+            echo "bottles-i686 is not avialable on Debian"
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^bottles) ]] || dnf install -y bottles;
+        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             install_bottles_for_flatpak;
+
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
-            echo "bottles-aarch64 is not supported for RHEL"
+            echo "bottles-aarch64 is not avialable on RHEL"
 
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         else                                            # i868
-            echo "bottles-i686 is not supported for RHEL"
+            echo "bottles-i686 is not avialable on RHEL"
         fi
         # ----------------------------------------------------------------------
     fi

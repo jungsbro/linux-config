@@ -108,8 +108,12 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(yay -Q | grep -i ^anydesk) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm anydesk-legacy-bin";
-        [[ -n $(yay -Q | grep -i ^anydesk) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm anydesk-bin";
+
+        # 방법1)
+        # local app_name="anydesk-legacy-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2)
+        local app_name="anydesk-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

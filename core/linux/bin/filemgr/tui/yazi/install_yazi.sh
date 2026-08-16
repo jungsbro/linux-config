@@ -51,90 +51,89 @@ function install_dependency_for_yazi()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
-        [[ -n $(pacman -Q | grep -i ^fd) ]] || pacman -S --needed --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^ripgrep) ]] || pacman -S --needed --noconfirm ripgrep;
+        local app_name="fzf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="zoxide"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ripgrep"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
+        local app_name="imagemagick"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="poppler"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 미디어
-        [[ -n $(pacman -Q | grep -i ^ffmpegthumbnailer) ]] || pacman -S --needed --noconfirm ffmpegthumbnailer;
-        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --needed --noconfirm ffmpeg;
+        local app_name="ffmpegthumbnailer"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ffmpeg"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
-        [[ -n $(pacman -Q | grep -i ^jq) ]] || pacman -S --needed --noconfirm jq;
+        local app_name="7zip"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="jq"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
-        [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-        [[ -n $(apt list --installed | grep -i ^ripgrep) ]] || apt install -y ripgrep;
+        local app_name="fzf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="zoxide"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fd-find"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ripgrep"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
-        [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
+        local app_name="imagemagick"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="poppler-utils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 미디어
-        [[ -n $(apt list --installed | grep -i ^ffmpegthumbnailer) ]] || apt install -y ffmpegthumbnailer;
-        [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
+        local app_name="ffmpegthumbnailer"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ffmpeg"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(apt list --installed | grep -i ^7zip) ]] || apt install -y 7zip;
-        [[ -n $(apt list --installed | grep -i ^jq) ]] || apt install -y jq;
+        local app_name="7zip"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="jq"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ripgrep"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 미디어
-        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
+        local app_name="ffmpegthumbnailer"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+        local app_name="ffmpeg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="jq"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^ripgrep) ]] || dnf install -y ripgrep;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="ripgrep"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 이미지/문서
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 미디어
-        [[ -n $(dnf list --installed | grep -i ^ffmpegthumbnailer) ]] || dnf install -y ffmpegthumbnailer;
+        local app_name="ffmpegthumbnailer"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
-
+        local app_name="ffmpeg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # 압축/데이터
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
-        [[ -n $(dnf list --installed | grep -i ^jq) ]] || dnf install -y jq;
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="jq"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }
@@ -278,7 +277,7 @@ function install_yazi_for_portable()
 function install_yazi()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --needed --noconfirm yazi;
+        [[ -n $(pacman -Q | grep -i ^yazi) ]] || pacman -S --noconfirm --needed yazi;
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then

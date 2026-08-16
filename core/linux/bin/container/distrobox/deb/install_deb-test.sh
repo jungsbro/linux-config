@@ -75,25 +75,25 @@ PRE_INIT_HOOKS+=" && \
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y git wget curl"
+    sudo apt install -y --no-reinstall git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y vim-gtk3 xclip xsel"
+    sudo apt install -y --no-reinstall vim-gtk3 xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y ranger"
+    sudo apt install -y --no-reinstall ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y nnn"
+#     sudo apt install -y --no-reinstall nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-config-qt"
+    sudo apt install -y --no-reinstall --install-recommends fcitx5 fcitx5-hangul fcitx5-config-qt"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
+#     sudo apt install -y --no-reinstall fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
+#     sudo apt install -y --no-reinstall fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
 
 # gpu-driver (opengl,vulkan,vaapi,opencl)
 PRE_INIT_HOOKS+=" && \
@@ -109,7 +109,7 @@ PRE_INIT_HOOKS+=" && \
 
 # puslseAudio 사용을 위해
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y libpulse0"
+    sudo apt install -y --no-reinstall libpulse0"
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
@@ -141,7 +141,7 @@ function execute_main()
 
     # autokey ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y autokey-gtk
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall autokey-gtk
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
@@ -155,7 +155,7 @@ function execute_main()
 
     # redshift -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y redshift-gtk geoclue-2.0
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall redshift-gtk geoclue-2.0
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
@@ -169,7 +169,7 @@ function execute_main()
 
     # chromium -----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y chromium
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall chromium
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
@@ -182,7 +182,7 @@ function execute_main()
 
     # gimp ---------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y gimp
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gimp
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
@@ -200,7 +200,7 @@ function execute_main()
 
     # freefilesync -------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y freefilesync
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall freefilesync
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync

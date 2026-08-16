@@ -139,9 +139,14 @@ function execute_main()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime-bin";
-        # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime-git";
-        # [[ -n $(yay -Q | grep -i ^kime) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm kime";
+        # 방법1)
+        local app_name="kime-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2)
+        # local app_name="kime-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법3)
+        # local app_name="kime"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then

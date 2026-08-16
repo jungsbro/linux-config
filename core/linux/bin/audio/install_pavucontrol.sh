@@ -47,48 +47,48 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^pipewire) ]] || pacman -S --needed --noconfirm pipewire;
-        [[ -n $(pacman -Q | grep -i ^pipewire-alsa) ]] || pacman -S --needed --noconfirm pipewire-alsa;
-        [[ -n $(pacman -Q | grep -i ^pipewire-pulse) ]] || pacman -S --needed --noconfirm pipewire-pulse;
+        local app_name="pipewire"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="pipewire-alsa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="pipewire-pulse"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(pacman -Q | grep -i ^pavucontrol-qt) ]] || pacman -S --needed --noconfirm pavucontrol-qt;
+            local app_name="pavucontrol-qt"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         else
-            [[ -n $(pacman -Q | grep -i ^pavucontrol) ]] || pacman -S --needed --noconfirm pavucontrol;
+            local app_name="pavucontrol"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         fi
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^wireplumber) ]] || pacman -S --needed --noconfirm wireplumber;
+        local app_name="wireplumber"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^pipewire) ]] || apt install -y pipewire;
-        [[ -n $(apt list --installed | grep -i ^pipewire-alsa) ]] || apt install -y pipewire-alsa;
-        [[ -n $(apt list --installed | grep -i ^pipewire-pulse) ]] || apt install -y pipewire-pulse;
-        [[ -n $(apt list --installed | grep -i ^pipewire-audio-client-libraries) ]] || apt install -y pipewire-audio-client-libraries;
+        local app_name="pipewire"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="pipewire-alsa"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="pipewire-pulse"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="pipewire-audio-client-libraries"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(apt list --installed | grep -i ^pavucontrol-qt) ]] || apt install -y pavucontrol-qt;
+            local app_name="pavucontrol-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         else
-            [[ -n $(apt list --installed | grep -i ^pavucontrol) ]] || apt install -y pavucontrol;
+            local app_name="pavucontrol"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         fi
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^wireplumber) ]] || apt install -y wireplumber;
+        local app_name="wireplumber"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^pipewire) ]] || dnf install -y pipewire;
-        [[ -n $(dnf list --installed | grep -i ^pipewire-alsa) ]] || dnf install -y pipewire-alsa;
-        [[ -n $(dnf list --installed | grep -i ^pipewire-pulseaudio) ]] || dnf install -y pipewire-pulseaudio;
+        local app_name="pipewire"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="pipewire-alsa"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="pipewire-pulseaudio"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(dnf list --installed | grep -i ^pavucontrol-qt) ]] || dnf install -y pavucontrol-qt;
+            local app_name="pavucontrol-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^pavucontrol) ]] || dnf install -y pavucontrol;
+            local app_name="pavucontrol"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^wireplumber) ]] || dnf install -y wireplumber;
+        local app_name="wireplumber"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then

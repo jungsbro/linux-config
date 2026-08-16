@@ -75,222 +75,201 @@ function install_dependency_for_ranger()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
-        pacman -S --needed --noconfirm python;
+        local app_name="python"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 코드강조
-        [[ -n $(pacman -Q | grep -i ^highlight) ]] || pacman -S --needed --noconfirm highlight;
+        local app_name="highlight"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 이미지/비디오
-        [[ -n $(pacman -Q | grep -i ^w3m) ]] || pacman -S --needed --noconfirm w3m;
-        [[ -n $(pacman -Q | grep -i ^ffmpeg) ]] || pacman -S --needed --noconfirm ffmpeg;
-        [[ -n $(pacman -Q | grep -i ^imagemagick) ]] || pacman -S --needed --noconfirm imagemagick;
-        [[ -n $(pacman -Q | grep -i ^catimg) ]] || pacman -S --needed --noconfirm catimg;
-        [[ -n $(pacman -Q | grep -i ^libcaca) ]] || pacman -S --needed --noconfirm libcaca;
+        local app_name="w3m"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ffmpeg"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="imagemagick"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="catimg"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="libcaca"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 문서/미디어 정보
-        [[ -n $(pacman -Q | grep -i ^poppler) ]] || pacman -S --needed --noconfirm poppler;
-        [[ -n $(pacman -Q | grep -i ^mediainfo) ]] || pacman -S --needed --noconfirm mediainfo;
+        local app_name="poppler"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="mediainfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 압축관리
-        [[ -n $(pacman -Q | grep -i ^atool) ]] || pacman -S --needed --noconfirm atool;
-        [[ -n $(pacman -Q | grep -i ^tar) ]] || pacman -S --needed --noconfirm tar;
-        [[ -n $(pacman -Q | grep -i ^7zip) ]] || pacman -S --needed --noconfirm 7zip;
+        local app_name="atool"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="tar"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="7zip"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^fasd) ]] || pacman -S --needed --noconfirm fasd;
-        [[ -n $(pacman -Q | grep -i ^findutils) ]] || pacman -S --needed --noconfirm findutils;
-        [[ -n $(pacman -Q | grep -i ^plocate) ]] || pacman -S --needed --noconfirm plocate;
+        local app_name="fzf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fasd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="findutils"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="plocate"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 기타
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
-        [[ -n $(pacman -Q | grep -i ^trash-cli) ]] || pacman -S --needed --noconfirm trash-cli;
-        [[ -n $(pacman -Q | grep -i ^mpv) ]] || pacman -S --needed --noconfirm mpv;
+        local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="trash-cli"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="mpv"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
-        apt install -y python3;
+        local app_name="python3"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 코드강조
-        [[ -n $(apt list --installed | grep -i ^highlight) ]] || apt install -y highlight;
+        local app_name="highlight"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 이미지/비디오
-        [[ -n $(apt list --installed | grep -i ^w3m) ]] || apt install -y w3m;
-        [[ -n $(apt list --installed | grep -i ^ffmpeg) ]] || apt install -y ffmpeg;
-        [[ -n $(apt list --installed | grep -i ^imagemagick) ]] || apt install -y imagemagick;
-        [[ -n $(apt list --installed | grep -i ^catimg) ]] || apt install -y catimg;
-        [[ -n $(apt list --installed | grep -i ^caca-utils) ]] || apt install -y caca-utils;
+        local app_name="w3m"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ffmpeg"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="imagemagick"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="catimg"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="caca-utils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 문서/미디어 정보
-        [[ -n $(apt list --installed | grep -i ^poppler-utils) ]] || apt install -y poppler-utils;
-        [[ -n $(apt list --installed | grep -i ^mediainfo) ]] || apt install -y mediainfo;
+        local app_name="poppler-utils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="mediainfo"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 압축관리
-        [[ -n $(apt list --installed | grep -i ^atool) ]] || apt install -y atool;
-        [[ -n $(apt list --installed | grep -i ^tar) ]] || apt install -y tar;
-        [[ -n $(apt list --installed | grep -i ^p7zip-full) ]] || apt install -y p7zip-full;
+        local app_name="atool"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="tar"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="p7zip-full"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ -n $(apt list --installed | grep -i ^fasd) ]] || apt install -y fasd;
-        [[ -n $(apt list --installed | grep -i ^findutils) ]] || apt install -y findutils;
-        # [[ -n $(apt list --installed | grep -i ^mlocate) ]] || apt install -y mlocate;
-        [[ -n $(apt list --installed | grep -i ^plocate) ]] || apt install -y plocate;
-
+        local app_name="fzf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fasd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="findutils"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # local app_name="mlocate"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="plocate"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
         # 기타
-        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
-        [[ -n $(apt list --installed | grep -i ^trash-cli) ]] || apt install -y trash-cli;
-        [[ -n $(apt list --installed | grep -i ^mpv) ]] || apt install -y mpv;
+        local app_name="git"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="trash-cli"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="mpv"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
-        [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
+        local app_name="python3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 코드강조
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
+        local app_name="highlight"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 이미지/비디오
-        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
+        local app_name="w3m"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+        local app_name="ffmpeg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
-        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="catimg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="caca-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 문서/미디어 정보
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mediainfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 압축관리
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        local app_name="atool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tar"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
-        [[ -n $(dnf list --installed | grep -i ^plocate) ]] || dnf install -y plocate;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="fasd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="findutils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="plocate"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 기타
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="trash-cli"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mpv"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 필수엔진
-        [[ -n $(dnf list --installed | grep -i ^python3) ]] || dnf install -y python3;
+        local app_name="python3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 코드강조
-        [[ -n $(dnf list --installed | grep -i ^highlight) ]] || dnf install -y highlight;
+        local app_name="highlight"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 이미지/비디오
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^w3m) ]] || dnf install -y w3m;
+        local app_name="w3m"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ffmpeg) ]] || dnf install -y ffmpeg;
+        local app_name="ffmpeg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ImageMagick) ]] || dnf install -y ImageMagick;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^caca-utils) ]] || dnf install -y caca-utils;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^catimg) ]] || dnf install -y catimg;
+        local app_name="ImageMagick"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="catimg"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="caca-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 문서/미디어 정보
-        [[ -n $(dnf list --installed | grep -i ^poppler-utils) ]] || dnf install -y poppler-utils;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mediainfo) ]] || dnf install -y mediainfo;
+        local app_name="poppler-utils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mediainfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 압축관리
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^atool) ]] || dnf install -y atool;
-
-        [[ -n $(dnf list --installed | grep -i ^tar) ]] || dnf install -y tar;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^p7zip) ]] || dnf install -y p7zip;
+        local app_name="atool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="tar"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="p7zip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^fasd) ]] || dnf install -y fasd;
-
-        [[ -n $(dnf list --installed | grep -i ^findutils) ]] || dnf install -y findutils;
-
-        [[ -n $(dnf list --installed | grep -i ^mlocate) ]] || dnf install -y mlocate;
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="fasd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="findutils"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mlocate"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # 기타
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y trash-cli;
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mpv) ]] || dnf install -y mpv;
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="trash-cli"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mpv"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }
@@ -304,17 +283,17 @@ function install_ranger()
     # --------------------------------------------------------------------------
 
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        [[ -n $(pacman -Q | grep -i ^ranger) ]] || pacman -S --needed --noconfirm ranger;
+        local app_name="ranger"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        [[ -n $(apt list --installed | grep -i ^ranger) ]] || apt install -y ranger;
+        local app_name="ranger"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
+        local app_name="ranger"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^ranger) ]] || dnf install -y ranger;
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        local app_name="ranger"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     fi
 }
 

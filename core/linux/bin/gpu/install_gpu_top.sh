@@ -41,17 +41,17 @@ function install_gputop_for_pacman()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^nvtop) ]] || pacman -S --needed --noconfirm nvtop;
+        local app_name="nvtop"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^radeontop) ]] || pacman -S --needed --noconfirm radeontop;
+        local app_name="radeontop"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^intel-gpu-tools) ]] || pacman -S --needed --noconfirm intel-gpu-tools;
+        local app_name="intel-gpu-tools"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -63,17 +63,17 @@ function install_gputop_for_apt()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^nvtop) ]] || apt install -y nvtop;
+        local app_name="nvtop"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^radeontop) ]] || apt install -y radeontop;
+        local app_name="radeontop"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^intel-gpu-tools) ]] || apt install -y intel-gpu-tools;
+        local app_name="intel-gpu-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -85,17 +85,17 @@ function install_gputop_for_rhel()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^nvtop) ]] || dnf install -y nvtop;
+        local app_name="nvtop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^radeontop) ]] || dnf install -y radeontop;
+        local app_name="radeontop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^igt-gpu-tools) ]] || dnf install -y igt-gpu-tools;
+        # local app_name="igt-gpu-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         echo "Intel GPU tools may not be available in RHEL/CentOS repositories"
         # ----------------------------------------------------------------------
     fi
@@ -108,17 +108,17 @@ function install_gputop_for_dnf()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^nvtop) ]] || dnf install -y nvtop;
+        local app_name="nvtop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^radeontop) ]] || dnf install -y radeontop;
+        local app_name="radeontop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^igt-gpu-tools) ]] || dnf install -y igt-gpu-tools;
+        local app_name="igt-gpu-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

@@ -65,8 +65,10 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^glibc-locales) ]] || pacman -S --needed --noconfirm glibc-locales;
+        # 방법1)
+        local app_name="glibc-locales"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
+        # 방법2)
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg ${APP_NAME} "multi" ${CUR_USER}
         # set_locale_archive_env;
@@ -74,8 +76,10 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # [[ -n $(apt list --installed | grep -i ^glibc-locales) ]] || apt install -y glibc-locales;
+        # 방법1)
+        # local app_name="glibc-locales"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
+        # 방법2)
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         set_locale_archive_env;
@@ -83,7 +87,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # echo "glibcLocales is not supported for RHEL and Fedora"
+        # echo "glibcLocales is not avialable on RHEL and Fedora"
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"

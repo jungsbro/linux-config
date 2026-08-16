@@ -286,7 +286,7 @@ function add_nvidia_repo_for_dnf()
 function install_nvidia_for_pacman()
 {
     # --------------------------------------------------------------------------
-    # pacman -S --needed --noconfirm nvidia-utils vulkan-icd-loader vulkan-tools libva-nvidia-driver;
+    # pacman -S --noconfirm --needed nvidia-utils vulkan-icd-loader vulkan-tools libva-nvidia-driver;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -300,8 +300,8 @@ function install_nvidia_for_pacman()
         # ----------------------------------------------------------------------
         # nvidia driver 설치 유무 확인
         if [[ ! -f "/proc/driver/nvidia/version" ]]; then
-            [[ -n $(pacman -Q | grep -i ^nvidia-open-dkms) ]] || pacman -S --needed --noconfirm nvidia-open-dkms;
-            [[ -n $(pacman -Q | grep -i ^nvidia-utils) ]] || pacman -S --needed --noconfirm nvidia-utils;
+            local app_name="nvidia-open-dkms"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+            local app_name="nvidia-utils"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         fi
         # ----------------------------------------------------------------------
     fi
@@ -309,12 +309,12 @@ function install_nvidia_for_pacman()
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(pacman -Q | grep -i ^vulkan-icd-loader) ]] || pacman -S --needed --noconfirm vulkan-icd-loader;
+    local app_name="vulkan-icd-loader"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(pacman -Q | grep -i ^vulkan-tools) ]] || pacman -S --needed --noconfirm vulkan-tools;
+    local app_name="vulkan-tools"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -326,7 +326,7 @@ function install_nvidia_for_pacman()
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^libva-nvidia-driver) ]] || pacman -S --needed --noconfirm libva-nvidia-driver;
+        local app_name="libva-nvidia-driver"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -335,19 +335,19 @@ function install_nvidia_for_pacman()
     # OpenCL
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^ocl-icd) ]] || pacman -S --needed --noconfirm ocl-icd;
+        local app_name="ocl-icd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^opencl-nvidia) ]] || pacman -S --needed --noconfirm opencl-nvidia;
-        [[ -n $(pacman -Q | grep -i ^ocl-icd) ]] || pacman -S --needed --noconfirm ocl-icd;
+        local app_name="opencl-nvidia"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ocl-icd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(pacman -Q | grep -i ^clinfo) ]] || pacman -S --needed --noconfirm clinfo;
+    local app_name="clinfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -377,17 +377,18 @@ function install_nvidia_for_apt()
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
         # ----------------------------------------------------------------------
         # (host-nvidia-driver와 충돌위험이 있다. >> 설치안함)
-        # [[ -n $(apt list --installed | grep -i ^nvidia-vulkan-common) ]] || apt install -y nvidia-vulkan-common;
+        # local app_name="nvidia-vulkan-common"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         echo ""
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
         # nvidia driver 설치 유무 확인
         if [[ ! -f "/proc/driver/nvidia/version" ]]; then
-            [[ -n $(apt list --installed | grep -i ^nvidia-driver) ]] || apt install -y nvidia-driver;
+            local app_name="nvidia-driver"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
             if [[ "${CUR_VER}" == *"debian.org"* ]]; then
                 # nvidia-driver를 설치후, nvidia-smi가 빠져서 추가로 설치
-                [[ -n $(apt list --installed | grep -i ^nvidia-smi) ]] || apt install -y nvidia-smi;
+                local app_name="nvidia-smi"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
             fi
         fi
         # ----------------------------------------------------------------------
@@ -397,7 +398,7 @@ function install_nvidia_for_apt()
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(apt list --installed | grep -i ^libvulkan1) ]] || apt install -y libvulkan1;
+    local app_name="libvulkan1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
         # ----------------------------------------------------------------------
@@ -407,7 +408,7 @@ function install_nvidia_for_apt()
         # ----------------------------------------------------------------------
         # debian은 nvidia-vulkan-icd를 통해서 nvidia_icd.json이 생성된다.
         # /usr/share/vulkan/icd.d/nvidia_icd.json
-        [[ -n $(apt list --installed | grep -i ^nvidia-vulkan-icd) ]] || apt install -y nvidia-vulkan-icd;
+        local app_name="nvidia-vulkan-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -415,7 +416,7 @@ function install_nvidia_for_apt()
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(apt list --installed | grep -i ^vulkan-tools) ]] || apt install -y vulkan-tools;
+    local app_name="vulkan-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
 
@@ -428,7 +429,7 @@ function install_nvidia_for_apt()
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^nvidia-vaapi-driver) ]] || apt install -y nvidia-vaapi-driver;
+        local app_name="nvidia-vaapi-driver"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -438,12 +439,12 @@ function install_nvidia_for_apt()
     # OpenCL
     if [[ ! -f "/usr/bin/distrobox" ]] && [[ -f "/usr/bin/distrobox-export" ]]; then  # container
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^ocl-icd-libopencl1) ]] || apt install -y ocl-icd-libopencl1;
+        local app_name="ocl-icd-libopencl1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^nvidia-opencl-icd) ]] || apt install -y nvidia-opencl-icd;
-        [[ -n $(apt list --installed | grep -i ^ocl-icd-libopencl1) ]] || apt install -y ocl-icd-libopencl1;
+        local app_name="nvidia-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="ocl-icd-libopencl1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -451,7 +452,7 @@ function install_nvidia_for_apt()
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(apt list --installed | grep -i ^clinfo) ]] || apt install -y clinfo;
+    local app_name="clinfo"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -481,15 +482,15 @@ function install_nvidia_for_dnf()
 
             if [[ "${CUR_VER}" == *"Fedora"* ]]; then
                 # --------------------------------------------------------------
-                [[ -n $(dnf list --installed | grep -i ^akmod-nvidia) ]] || dnf install -y akmod-nvidia;
+                local app_name="akmod-nvidia"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
                 # --------------------------------------------------------------
             elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
                 # --------------------------------------------------------------
                 # nvidia-repo 추가
                 add_nvidia_repo_for_dnf
 
-                # [[ -n $(dnf list --installed | grep -i ^nvidia-driver) ]] || dnf install -y nvidia-driver:latest-dkms;
-                [[ -n $(dnf list --installed | grep -i ^nvidia-driver) ]] || dnf install -y nvidia-driver;
+                # local app_name="nvidia-driver:latest-dkms"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+                local app_name="nvidia-driver"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
                 # --------------------------------------------------------------
             fi
         fi
@@ -499,12 +500,12 @@ function install_nvidia_for_dnf()
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(dnf list --installed | grep -i ^vulkan-loader) ]] || dnf install -y vulkan-loader;
+    local app_name="vulkan-loader"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(dnf list --installed | grep -i ^vulkan-tools) ]] || dnf install -y vulkan-tools;
+    local app_name="vulkan-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -516,7 +517,7 @@ function install_nvidia_for_dnf()
         # ----------------------------------------------------------------------
     else                                                                                # host
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^libva-nvidia-driver) ]] || dnf install -y libva-nvidia-driver;
+        local app_name="libva-nvidia-driver"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -532,11 +533,11 @@ function install_nvidia_for_dnf()
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"Fedora"* ]]; then
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^xorg-x11-drv-nvidia-cuda) ]] || dnf install -y xorg-x11-drv-nvidia-cuda;
+            local app_name="xorg-x11-drv-nvidia-cuda"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
         elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
             # ------------------------------------------------------------------
-            [[ -n $(dnf list --installed | grep -i ^nvidia-driver-cuda) ]] || dnf install -y nvidia-driver-cuda;
+            local app_name="nvidia-driver-cuda"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------
@@ -550,7 +551,7 @@ function install_nvidia_for_dnf()
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(dnf list --installed | grep -i ^clinfo) ]] || dnf install -y clinfo;
+    local app_name="clinfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

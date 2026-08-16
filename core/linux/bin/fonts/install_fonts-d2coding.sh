@@ -79,10 +79,12 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # D2Coding
-        [[ -n $(yay -Q | grep -i ^ttf-d2coding) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm ttf-d2coding";
-        # Nerd Fonts
-        # [[ -n $(pacman -Q | grep -i ^ttf-d2coding-nerd) ]] || su - ${CUR_USER} -c "pacman -S --needed --noconfirm ttf-d2coding-nerd";
+
+        # 방법1) D2Coding
+        local app_name="ttf-d2coding"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2) Nerd Fonts
+        # local app_name="ttf-d2coding-nerd"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

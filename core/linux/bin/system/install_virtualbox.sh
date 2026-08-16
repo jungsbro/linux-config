@@ -63,7 +63,7 @@ function install_vbox_for_apt()
 
     # --------------------------------------------------------------------------
     # /etc/apt/sources.list
-    if [[ -e ${REPO_PATH} ]] && [[ *"${REPO_CMD}"* != *"${VBOX_REPO_CMD}"* ]]; then
+    if [[ -e ${REPO_PATH} ]] && [[ "${REPO_CMD}" != *"${VBOX_REPO_CMD}"* ]]; then
         echo "" >> ${REPO_PATH};
         echo "${VBOX_REPO_CMD}" >> ${REPO_PATH};
     fi
@@ -175,7 +175,8 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^virtualbox) ]] || pacman -S --needed --noconfirm virtualbox virtualbox-guest-iso;
+        local app_name="virtualbox"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="virtualbox-guest-iso"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
@@ -185,13 +186,18 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^virtualbox) ]] || apt install -y virtualbox virtualbox-guest-additions-iso;
+        # 방법1)
+        local app_name="virtualbox"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="virtualbox-guest-additions-iso"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+
+        # 방법2)
         # install_vbox_for_ubu20;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^virtualbox) ]] || dnf install -y VirtualBox virtualbox-guest-additions;
+        local app_name="VirtualBox"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="virtualbox-guest-additions"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then

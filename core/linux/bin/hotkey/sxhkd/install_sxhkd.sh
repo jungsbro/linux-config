@@ -44,22 +44,22 @@ function install_sxhkd()
     # for x86_64, aarch64, i686
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^sxhkd) ]] || pacman -S --needed --noconfirm sxhkd;
+        local app_name="sxhkd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^sxhkd) ]] || apt install -y sxhkd;
+        local app_name="sxhkd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^sxhkd) ]] || dnf install -y sxhkd;
+        local app_name="sxhkd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # echo "sxhkd is not supported for RHEL"
+        # echo "sxhkd is not avialable on RHEL"
         # return 0
 
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
@@ -99,7 +99,7 @@ function copy_sxhkdrc_to_home()
     # 2) copy sxhkdrc to ~/.config/sxhkd
     local src_template_dir="${src_sxhkdrc_dir}/templates";
 
-    if [[ *"${CUR_WMDE}"* != *"lxsession"* ]] && [[ "${CUR_WMDE}" == *"openbox"* ]]; then
+    if [[ "${CUR_WMDE}" != *"lxsession"* ]] && [[ "${CUR_WMDE}" == *"openbox"* ]]; then
         local src_template_path="${src_template_dir}/wm_sxhkdrc";
 
     elif [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
@@ -114,7 +114,7 @@ function copy_sxhkdrc_to_home()
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         local src_template_path="${src_template_dir}/mate_sxhkdrc";
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         local src_template_path="${src_template_dir}/gnome_sxhkdrc";
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
@@ -175,7 +175,7 @@ function set_autostart_for_sxhkd()      # deprecated
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         create_desktop_for_sxhkd;
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then

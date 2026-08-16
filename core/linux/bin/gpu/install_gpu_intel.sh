@@ -42,22 +42,22 @@ INTEL_GENERATION=$(echo "$CPU_MODEL" | grep -oP 'i[3579]-\K[0-9]+(?=[0-9]{3})| \
 function install_intel_for_pacman()
 {
     # --------------------------------------------------------------------------
-    # pacman -S --needed --noconfirm mesa vulkan-intel vulkan-tools intel-media-driver;
+    # pacman -S --noconfirm --needed mesa vulkan-intel vulkan-tools intel-media-driver;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenGL
-    [[ -n $(pacman -Q | grep -i ^mesa) ]] || pacman -S --needed --noconfirm mesa;
+    local app_name="mesa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(pacman -Q | grep -i ^vulkan-intel) ]] || pacman -S --needed --noconfirm vulkan-intel;
+    local app_name="vulkan-intel"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(pacman -Q | grep -i ^vulkan-tools) ]] || pacman -S --needed --noconfirm vulkan-tools;
+    local app_name="vulkan-tools"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -68,12 +68,12 @@ function install_intel_for_pacman()
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
         # GPU : 5세대(Broadwell)부터는 최신 런타임이 작동합니다. (8세대부터 제대로 작동한다.)
-        [[ -n $(pacman -Q | grep -i ^intel-media-driver) ]] || pacman -S --needed --noconfirm intel-media-driver;
+        local app_name="intel-media-driver"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # CPU : 3세대 이하는 미련 없이 pocl입니다.
-        [[ -n $(pacman -Q | grep -i ^libva-intel-driver) ]] || pacman -S --needed --noconfirm libva-intel-driver;
+        local app_name="libva-intel-driver"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -86,29 +86,30 @@ function install_intel_for_pacman()
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
         # GPU : 5세대(Broadwell)부터는 최신 런타임이 작동합니다. (8세대부터 제대로 작동한다.)
-        [[ -n $(pacman -Q | grep -i ^intel-compute-runtime) ]] || pacman -S --needed --noconfirm intel-compute-runtime;
+        local app_name="intel-compute-runtime"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     elif [ "${INTEL_GENERATION}" -eq 4 ]; then
         # ----------------------------------------------------------------------
         # GPU : 4세대(Haswell)는 특수하게 구형 엔진이나 Mesa를 시도해야 합니다.
         # 방법1)
-        [[ -n $(pacman -Q | grep -i ^opencl-mesa) ]] || pacman -S --needed --noconfirm opencl-mesa;
+        local app_name="opencl-mesa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 방법2)
-        # [[ -n $(pacman -Q | grep -i ^intel-opencl) ]] || yay -S --needed --noconfirm intel-opencl;
+        # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        # local app_name="intel-opencl"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # CPU : 3세대 이하는 미련 없이 pocl입니다.
-        [[ -n $(pacman -Q | grep -i ^pocl) ]] || pacman -S --needed --noconfirm pocl;
+        local app_name="pocl"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
     fi
-    [[ -n $(pacman -Q | grep -i ^oci-icd) ]] || pacman -S --needed --noconfirm oci-icd;
+    local app_name="ocl-icd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(pacman -Q | grep -i ^clinfo) ]] || pacman -S --needed --noconfirm clinfo;
+    local app_name="clinfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
     # --------------------------------------------------------------------------
 }
 
@@ -121,22 +122,22 @@ function install_intel_for_apt()
 
     # --------------------------------------------------------------------------
     # OpenGL
-    [[ -n $(apt list --installed | grep -i ^libgl1-mesa-dri) ]] || apt install -y libgl1-mesa-dri;
+    local app_name="libgl1-mesa-dri"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(apt list --installed | grep -i ^mesa-vulkan-drivers) ]] || apt install -y mesa-vulkan-drivers;
+    local app_name="mesa-vulkan-drivers"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(apt list --installed | grep -i ^vulkan-tools) ]] || apt install -y vulkan-tools;
+    local app_name="vulkan-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # VA-API
-    [[ -n $(apt list --installed | grep -i ^intel-media-va-driver) ]] || apt install -y intel-media-va-driver;
+    local app_name="intel-media-va-driver"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -147,25 +148,25 @@ function install_intel_for_apt()
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
         # GPU : 5세대(Broadwell)부터는 최신 런타임이 작동합니다. (8세대부터 제대로 작동한다.)
-        [[ -n $(apt list --installed | grep -i ^mesa-opencl-icd) ]] || apt install -y mesa-opencl-icd;
+        local app_name="mesa-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     elif [ "${INTEL_GENERATION}" -eq 4 ]; then
         # ----------------------------------------------------------------------
         # GPU : 4세대(Haswell)는 특수하게 구형 엔진이나 Mesa를 시도해야 합니다.
-        [[ -n $(apt list --installed | grep -i ^mesa-opencl-icd) ]] || apt install -y mesa-opencl-icd;
+        local app_name="mesa-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # CPU : 3세대 이하는 미련 없이 pocl입니다.
-        [[ -n $(apt list --installed | grep -i ^pocl-opencl-icd) ]] || apt install -y pocl-opencl-icd;
+        local app_name="pocl-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
     fi
-    [[ -n $(apt list --installed | grep -i ^ocl-icd-libopencl1) ]] || apt install -y ocl-icd-libopencl1;
+    local app_name="ocl-icd-libopencl1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(apt list --installed | grep -i ^clinfo) ]] || apt install -y clinfo;
+    local app_name="clinfo"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
     # --------------------------------------------------------------------------
 }
 
@@ -178,22 +179,22 @@ function install_intel_for_dnf()
 
     # --------------------------------------------------------------------------
     # OpenGL
-    [[ -n $(dnf list --installed | grep -i ^mesa-dri-drivers) ]] || dnf install -y mesa-dri-drivers;
+    local app_name="mesa-dri-drivers"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-    [[ -n $(dnf list --installed | grep -i ^mesa-vulkan-drivers) ]] || dnf install -y mesa-vulkan-drivers;
+    local app_name="mesa-vulkan-drivers"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    [[ -n $(dnf list --installed | grep -i ^vulkan-tools) ]] || dnf install -y vulkan-tools;
+    local app_name="vulkan-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # VA-API
-    [[ -n $(dnf list --installed | grep -i ^intel-media-driver) ]] || dnf install -y intel-media-driver;
+    local app_name="intel-media-driver"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -204,25 +205,25 @@ function install_intel_for_dnf()
     if [ "${INTEL_GENERATION}" -ge 5 ]; then
         # ----------------------------------------------------------------------
         # GPU : 5세대(Broadwell)부터는 최신 런타임이 작동합니다. (8세대부터 제대로 작동한다.)
-        [[ -n $(dnf list --installed | grep -i ^intel-compute-runtime) ]] || dnf install -y intel-compute-runtime;
+        local app_name="intel-compute-runtime"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     elif [ "${INTEL_GENERATION}" -eq 4 ]; then
         # ----------------------------------------------------------------------
         # GPU : 4세대(Haswell)는 특수하게 구형 엔진이나 Mesa를 시도해야 합니다.
-        [[ -n $(dnf list --installed | grep -i ^mesa-libOpenCL) ]] || dnf install -y mesa-libOpenCL;
+        local app_name="mesa-libOpenCL"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # CPU : 3세대 이하는 미련 없이 pocl입니다.
-        [[ -n $(dnf list --installed | grep -i ^pocl) ]] || dnf install -y pocl;
+        local app_name="pocl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
-    [[ -n $(dnf list --installed | grep -i ^ocl-icd) ]] || dnf install -y ocl-icd;
+    local app_name="ocl-icd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    [[ -n $(dnf list --installed | grep -i ^clinfo) ]] || dnf install -y clinfo;
+    local app_name="clinfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
     # --------------------------------------------------------------------------
 }
 

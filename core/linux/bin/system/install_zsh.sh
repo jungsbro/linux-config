@@ -49,86 +49,69 @@ function install_zsh()
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^zsh) ]] || pacman -S --needed --noconfirm zsh;
-        [[ -n $(pacman -Q | grep -i ^curl) ]] || pacman -S --needed --noconfirm curl;
-        [[ -n $(pacman -Q | grep -i ^powerline-fonts) ]] || pacman -S --needed --noconfirm powerline-fonts;
+        local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="zsh"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="curl"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="powerline-fonts"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^autojump) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm autojump";
+        local app_name="autojump"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^fzf) ]] || pacman -S --needed --noconfirm fzf;
-        [[ -n $(pacman -Q | grep -i ^fd-find) ]] || pacman -S --needed --noconfirm fd;
-        [[ -n $(pacman -Q | grep -i ^zoxide) ]] || pacman -S --needed --noconfirm zoxide;
+        local app_name="fzf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="zoxide"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^mercurial) ]] || pacman -S --needed --noconfirm mercurial;
+        local app_name="mercurial"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^git) ]] || apt install -y git;
+        local app_name="git"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="zsh"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="curl"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fonts-powerline"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^zsh) ]] || apt install -y zsh;
-        [[ -n $(apt list --installed | grep -i ^curl) ]] || apt install -y curl;
-        [[ -n $(apt list --installed | grep -i ^fonts-powerline) ]] || apt install -y fonts-powerline;
-        [[ -n $(apt list --installed | grep -i ^autojump) ]] || apt install -y autojump;
+        local app_name="autojump"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^fzf) ]] || apt install -y fzf;
-        [[ -n $(apt list --installed | grep -i ^fd-find) ]] || apt install -y fd-find;
-        [[ -n $(apt list --installed | grep -i ^zoxide) ]] || apt install -y zoxide;
-        # ----------------------------------------------------------------------
-
+        local app_name="fzf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fd-find"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="zoxide"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^mercurial) ]] || apt install -y mercurial;
+        local app_name="mercurial"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zsh"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="curl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^zsh) ]] || dnf install -y zsh;
-        [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
-        [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
-        [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
+        local app_name="autojump"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        # ----------------------------------------------------------------------
-
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # for ohmyzsh ----------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
+        local app_name="mercurial"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^git) ]] || dnf install -y git;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^zsh) ]] || dnf install -y zsh;
-        [[ -n $(dnf list --installed | grep -i ^curl) ]] || dnf install -y curl;
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^powerline-fonts) ]] || dnf install -y powerline-fonts;
         # ----------------------------------------------------------------------
-
+        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zsh"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="curl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^autojump) ]] || dnf install -y autojump;
+        local app_name="autojump"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^fzf) ]] || dnf install -y fzf;
-        [[ -n $(dnf list --installed | grep -i ^fd-find) ]] || dnf install -y fd-find;
-        [[ -n $(dnf list --installed | grep -i ^zoxide) ]] || dnf install -y zoxide;
-        # ----------------------------------------------------------------------
-
+        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # for ohmyzsh ----------------------------------------------------------
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf list --installed | grep -i ^mercurial) ]] || dnf install -y mercurial;
+        local app_name="mercurial"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

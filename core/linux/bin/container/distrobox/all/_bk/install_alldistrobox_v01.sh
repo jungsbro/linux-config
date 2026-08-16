@@ -15,20 +15,20 @@ function install_apps()
 
     # --------------------------------------------------------------------------
     if [[ "${pkg_type}" == "apt" ]]; then
-        pkg_install="sudo apt install -y"
+        pkg_install="sudo apt install -y --no-reinstall"
 
     elif [[ "${pkg_type}" == "dnf" ]]; then
         pkg_install="sudo dnf install -y"
 
     elif [[ "${pkg_type}" == "pacman" ]]; then
-        pkg_install="sudo pacman -S --needed --noconfirm"
+        pkg_install="sudo pacman -S --noconfirm --needed"
 
     elif [[ "${pkg_type}" == "yay" ]]; then
-        pkg_install="yay -S --needed --noconfirm"
+        pkg_install="yay -S --noconfirm --needed"
 
         if ! distrobox enter ${ctr_name} -- yay --version &>/dev/null; then
             if ! distrobox enter ${ctr_name} -- git --version &>/dev/null; then
-                distrobox enter ${ctr_name} -- sudo pacman -S --needed --noconfirm base-devel git
+                distrobox enter ${ctr_name} -- sudo pacman -S --noconfirm --needed base-devel git
             fi
             distrobox enter ${ctr_name} -- git clone https://aur.archlinux.org/yay.git /tmp/yay
             distrobox enter ${ctr_name} -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"
@@ -42,7 +42,7 @@ function install_apps()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 1) distrobox enter debbox -- sudo apt install -y firefox-esr btop
+    # 1) distrobox enter debbox -- sudo apt install -y --no-reinstall firefox-esr btop
     distrobox enter ${ctr_name} -- ${pkg_install} ${gui_apps} ${cli_apps}
     # --------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ function install_apps()
 # ------------------------------------------------------------------------------
 # archbox
 distrobox create --name archbox --image docker.io/library/archlinux:latest \
---pre-init-hooks "pacman -Syu --needed --noconfirm"
+--pre-init-hooks "pacman -Syu --noconfirm --needed"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

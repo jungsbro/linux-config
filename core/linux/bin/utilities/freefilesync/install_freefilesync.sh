@@ -160,32 +160,33 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
-        # [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freefilesync-bin";
+        # local app_name="freefilesync-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2) build하는데 20분 걸린다
-        [[ -n $(yay -Q | grep -i ^freefilesync) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freefilesync";
+        local app_name="${APP_NAME}"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법3) distrobox를 사용한다.
-        # echo "freefilesync takes too long time to install."
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^freefilesync) ]] || apt install -y freefilesync;
+        # 방법1)
+        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
+        # 방법2) nixpkg
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # distrobox를 사용한다.
-        # echo "freefilesync is not supported in RHEL and Fedora"
+        # 방법1) distrobox를 사용한다.
+        # echo "freefilesync is not avialable on RHEL and Fedora"
 
+        # 방법2)
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then
             return 0
         fi
-
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
         install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         # ----------------------------------------------------------------------

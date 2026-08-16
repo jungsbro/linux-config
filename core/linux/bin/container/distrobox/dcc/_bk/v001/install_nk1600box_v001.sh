@@ -212,7 +212,7 @@ gui_bins=""
 # gui_apps+="gnome-keyring libsecret "
 # gui_bins+=""
 
-# # doublecmd-gtk is not available in Rocky9
+# # doublecmd-gtk is not available on rhel9
 # # gui_apps+="doublecmd-gtk "
 # # gui_bins+="doublecmd "
 
@@ -232,7 +232,7 @@ gui_bins=""
 # gui_apps+="gimp "
 # gui_bins+="gimp "
 
-# # drawing is not available in Rocky9
+# # drawing is not available on rhel9
 # # gui_apps+="drawing "
 # # gui_bins+="drawing "
 

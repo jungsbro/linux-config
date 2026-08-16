@@ -58,25 +58,25 @@ PRE_INIT_HOOKS+="sudo apt update && sudo apt upgrade -y"
 
 # container에서 사용하는 git wget curl
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y git wget curl"
+    sudo apt install -y --no-reinstall git wget curl"
 
 # container에서 사용하는 vim
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y vim-gtk3 xclip xsel"
+    sudo apt install -y --no-reinstall vim-gtk3 xclip xsel"
 
 # container에서 사용하는 fm
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y ranger"
+    sudo apt install -y --no-reinstall ranger"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y nnn"
+#     sudo apt install -y --no-reinstall nnn"
 
 # host와 container에 한글입력기를 설치해야 한글을 사용할 수 있다.
 PRE_INIT_HOOKS+=" && \
-    sudo apt install -y --install-recommends fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt"
+    sudo apt install -y --no-reinstall --install-recommends fcitx5 fcitx5-hangul fcitx5-configtool fcitx5-config-qt"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
+#     sudo apt install -y --no-reinstall fcitx5-frontend-gtk3 fcitx5-frontend-qt5 libfcitx5utils2"
 # PRE_INIT_HOOKS+=" && \
-#     sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
+#     sudo apt install -y --no-reinstall fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk* fcitx5-frontend-qt* fcitx5-module-dbus"
 
 # bash 사용
 PRE_INIT_HOOKS+=" && \
@@ -107,7 +107,7 @@ function execute_main()
 
     # xcape --------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y xcape
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall xcape
 
     # bin
     distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
@@ -119,7 +119,7 @@ function execute_main()
 
     # autokey ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y autokey-gtk
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall autokey-gtk
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
@@ -133,7 +133,7 @@ function execute_main()
 
     # redshift -----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y redshift-gtk geoclue-2.0
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall redshift-gtk geoclue-2.0
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
@@ -149,7 +149,7 @@ function execute_main()
     # # sandbox안에서 권한문제가 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y firejail firejail-profiles firetools
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall firejail firejail-profiles firetools
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app firetools
@@ -159,7 +159,7 @@ function execute_main()
     # # distrobox에서 작동을 안한다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y timeshift
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall timeshift
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
@@ -170,7 +170,7 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y gnome-disk-utility
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gnome-disk-utility
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
@@ -180,7 +180,7 @@ function execute_main()
     # vscode, remmina에서 사용된다.
 
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y gnome-keyring
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gnome-keyring
     # --------------------------------------------------------------------------
 
     # vscode -------------------------------------------------------------------
@@ -194,7 +194,7 @@ function execute_main()
 
     # doublecmd ----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y doublecmd-gtk
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall doublecmd-gtk
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
@@ -213,7 +213,7 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y firefox
+    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall firefox
 
     # # desktop
     # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
@@ -221,7 +221,7 @@ function execute_main()
 
     # remmina ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y remmina remmina-plugin-rdp
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall remmina remmina-plugin-rdp
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
@@ -231,7 +231,7 @@ function execute_main()
     # 배포판에 이미 설치되어 있다.
 
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y libreoffice
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall libreoffice
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
@@ -239,7 +239,7 @@ function execute_main()
 
     # qpdf ---------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y qpdfview qpdfview-djvu-plugin \
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall qpdfview qpdfview-djvu-plugin \
     qpdfview-pdf-poppler-plugin qpdfview-ps-plugin qpdfview-translations
 
     # desktop
@@ -248,7 +248,7 @@ function execute_main()
 
     # gimp ---------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y gimp
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gimp
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
@@ -261,7 +261,7 @@ function execute_main()
 
     # drawing ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y drawing
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall drawing
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
@@ -269,7 +269,7 @@ function execute_main()
 
     # vlc ----------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y vlc
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall vlc
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
@@ -277,7 +277,7 @@ function execute_main()
 
     # freefilesync -------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y freefilesync
+    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall freefilesync
 
     # desktop
     distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync

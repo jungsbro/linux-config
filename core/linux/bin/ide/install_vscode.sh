@@ -145,16 +145,16 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) opensource (without telemetry)
-        # [[ -n $(pacman -Q | grep -i ^code) ]] || pacman -S --needed --noconfirm code;
+        # local app_name="code"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 방법2) official microsoft
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^visual-studio-code-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm visual-studio-code-bin";
+        local app_name="visual-studio-code-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법3) opensource (disable telemetry)
         # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(yay -Q | grep -i ^vscodium-bin) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm vscodium-bin";
-        # [[ -n $(yay -Q | grep -i ^vscodium-bin-marketplace) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm vscodium-bin-marketplace";
+        # local app_name="vscodium-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="vscodium-bin-marketplace"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

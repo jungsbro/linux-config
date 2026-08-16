@@ -41,15 +41,15 @@ function install_snapd_for_pacman()
 
     # 방법1) --------------------------------------------------------------------
     # 1) base-devel / git
-    [[ -n $(pacman -Q | grep -i ^base-devel) ]] || pacman -S --needed --noconfirm base-devel;
-    [[ -n $(pacman -Q | grep -i ^git) ]] || pacman -S --needed --noconfirm git;
+    local app_name="base-devel"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
     # 2) snapd for aur
     git clone https://aur.archlinux.org/snapd.git /tmp/snapd
 
     # -s : 의존성 패키지를 자동으로 설치
     # -i : 빌드 완료 후 패키지를 설치
-    bash -c 'cd /tmp/snapd && makepkg -si --needed --noconfirm'
+    bash -c 'cd /tmp/snapd && makepkg -si --noconfirm --needed'
     rm -rf /tmp/snapd
 
     # 3) snapd.socket >> important
@@ -61,7 +61,7 @@ function install_snapd_for_pacman()
 
     # 방법2) --------------------------------------------------------------------
     # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    # [[ -n $(yay -Q | grep -i ^snapd) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm snapd";
+    # [[ -n $(yay -Q | grep -i ^snapd) ]] || su - ${CUR_USER} -c "yay -S --noconfirm --needed snapd";
 
     # sudo systemctl enable --now snapd.socket
     # --------------------------------------------------------------------------
@@ -99,7 +99,7 @@ function install_snapd_for_apt()
     fi
     # --------------------------------------------------------------------------
 
-    apt install -y snapd;
+    local app_name="snapd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
 
     init 6;
 }
@@ -115,7 +115,7 @@ function install_snapd_for_dnf()
 
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    dnf install -y snapd;
+    local app_name="snapd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
     systemctl enable --now snapd.socket;
 

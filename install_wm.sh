@@ -22,8 +22,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_WM="openbox";
 CUR_WM=${1};
 
-if [[ *"${CUR_WM}"* != *"icewm"* ]] && [[ *"${CUR_WM}"* != *"fluxbox"* ]] && \
-[[ *"${CUR_WM}"* != *"openbox"* ]] && [[ *"${CUR_WM}"* != *"i3"* ]]; then
+if [[ "${CUR_WM}" != *"icewm"* ]] && [[ "${CUR_WM}" != *"fluxbox"* ]] && \
+[[ "${CUR_WM}" != *"openbox"* ]] && [[ "${CUR_WM}" != *"i3"* ]]; then
 
     echo "# ------------------------------------------------------------------------------";
     echo "Usage: bash ${BASH_SOURCE[0]} 'openbox' 'jungs'"
@@ -74,6 +74,8 @@ function install_utils()
     bash ${CORE_BIN_DIR}/develop/install_yad.sh;
     bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
     bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
+
+    bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
 

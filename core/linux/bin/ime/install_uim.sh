@@ -96,32 +96,37 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        [[ -n $(pacman -Q | grep -i ^uim) ]] || pacman -S --needed --noconfirm uim uim-byeoru;
+        local app_name="uim"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="uim-byeoru"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
 
         # 방법2)
         # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # # [[ -n $(yay -Q | grep -i ^uim-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm uim-git";
-        # [[ -n $(yay -Q | grep -i ^uim) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm uim";
+        # # 방법2-1)
+        # # local app_name="uim-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # # 방법2-2)
+        # local app_name="uim"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^uim) ]] || apt install -y uim uim-byeoru;
+        local app_name="uim"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="uim-byeoru"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^uim) ]] || dnf install -y uim uim-m17n;
+        local app_name="uim"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="uim-m17n"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            [[ -n $(dnf list --installed | grep -i ^uim-qt) ]] || dnf install -y uim-qt;
+            local app_name="uim-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         else
-            [[ -n $(dnf list --installed | grep -i ^uim-gtk3) ]] || dnf install -y uim-gtk3;
+            local app_name="uim-gtk3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        echo "uim is not supported for RHEL"
+        echo "uim is not avialable on RHEL"
         return 0
     fi
 

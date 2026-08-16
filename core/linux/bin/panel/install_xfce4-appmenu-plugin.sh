@@ -36,18 +36,18 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(yay -Q | grep -i ^xfce4-appmenu-plugin-git) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm xfce4-appmenu-plugin-git";
+        local app_name="xfce4-appmenu-plugin-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(apt list --installed | grep -i ^xfce4-appmenu-plugin) ]] || apt install -y xfce4-appmenu-plugin;
+        local app_name="xfce4-appmenu-plugin"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        echo "xfce4-appmenu-plugin is not supported for RHEL"
-        # [[ -n $(dnf list --installed | grep -i ^xfce4-appmenu-plugin) ]] || dnf install -y xfce4-appmenu-plugin;
+        echo "xfce4-appmenu-plugin is not avialable on RHEL"
+        # local app_name="xfce4-appmenu-plugin"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
         # ----------------------------------------------------------------------
     fi
 }

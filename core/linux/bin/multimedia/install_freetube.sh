@@ -337,30 +337,40 @@ function execute_main()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        # [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freetube";
-        [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freetube-bin";
-        # [[ -n $(yay -Q | grep -i ^freetube) ]] || su - ${CUR_USER} -c "yay -S --needed --noconfirm freetube-git";
+        # 방법1)
+        # local app_name="freetube"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법2)
+        local app_name="freetube-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # 방법3)
+        # local app_name="freetube-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1)
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
-            echo "freetube-i686 is not supported for Debian/Ubuntu"
+            echo "freetube-i686 is not avialable on Debian/Ubuntu"
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         else                                        # x86_64, aarch64
             install_freetube_for_apt;
         fi
-        # ----------------------------------------------------------------------
+
+        # 방법2)
         # install_freetube_for_flatpak;
-        # ----------------------------------------------------------------------
+
+        # 방법3)
         # install_freetube_for_portable;
-        # ----------------------------------------------------------------------
+
+        # 방법4)
         # install_freetube_for_appimg;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
-            echo "freetube-i686 is not supported for RHEL"
+            echo "freetube-i686 is not avialable on RHEL"
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
             # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
         else                                        # x86_64, aarch64

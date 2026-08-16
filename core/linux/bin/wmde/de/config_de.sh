@@ -47,12 +47,19 @@ function install_utils()
     bash ${CORE_BIN_DIR}/develop/install_yad.sh;
     bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
     bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
+
+    bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # launcher
+    # 방법1)
     # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
+
+    # 방법2)
     # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
+
+    # 방법3)
     bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
     # --------------------------------------------------------------------------
 }
@@ -140,8 +147,14 @@ function install_pkgs_for_xfce4()
         bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
         # ----------------------------------------------------------------------
         # calculator
+
+        # 방법1)
         # bash ${CORE_BIN_DIR}/calculator/install_galculator.sh ${CUR_USER}
+
+        # 방법2)
         # bash ${CORE_BIN_DIR}/calculator/install_gnome-calculator.sh;
+
+        # 방법3)
         bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
         # ----------------------------------------------------------------------
         # screensaver
@@ -302,7 +315,7 @@ function config_de()
         dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
         # ----------------------------------------------------------------------
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_VER}" == *"archlinux"* ]]; then
             # ------------------------------------------------------------------
@@ -333,6 +346,7 @@ function config_de()
             #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
             #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # fi
+
             su - ${CUR_USER} -c \
             "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
             dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
@@ -374,7 +388,7 @@ function execute_main()
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         install_pkgs_for_mate;
 
-    elif [[ *"${CUR_WMDE}"* != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
         install_pkgs_for_gnome;
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
