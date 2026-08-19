@@ -90,9 +90,19 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-mate-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # local app_name="marco"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # local app_name="pavucontrol"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) mate raw (minimal)
+        # local app_name="mate-desktop-environment-core"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법3) mate raw (standard)
+        # local app_name="mate-desktop-environment"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법4) mate raw (full)
+        # local app_name="mate-desktop-environment-extras"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
         # bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
@@ -100,13 +110,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
-        # local app_name="task-mate-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법2)
-        # local app_name="mate-desktop-environment"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법3)
+        # ubuntu mate
         local app_name="ubuntu-mate-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님

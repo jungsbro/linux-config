@@ -50,7 +50,17 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-kde-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) kde raw (minimal)
+        # local app_name="kde-plasma-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법3) kde raw (standard)
+        # local app_name="kde-standard"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법3) kde raw (full)
+        # local app_name="kde-full"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
         # bash ${CORE_BIN_DIR}/wmde/dm/install_sddm.sh;
@@ -58,16 +68,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then     # wayland only
         # ----------------------------------------------------------------------
-        # 방법1)
-        # local app_name="task-kde-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법2) minimal
-        # local app_name="kde-plasma-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법3) full (kde raw)
-        # local app_name="kde-full"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법4) kubuntu (custom)
+        # ubuntu kde
         local app_name="kubuntu-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님

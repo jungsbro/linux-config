@@ -46,7 +46,14 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-lxde-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) lxde raw (minimal)
+        # local app_name="lxde-core"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법3) lxde raw (standard)
+        # local app_name="lxde"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
         # bash ${CORE_BIN_DIR}/wmde/dm/install_lxdm.sh;
@@ -54,6 +61,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
+        # tasksel
         local app_name="task-lxde-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님

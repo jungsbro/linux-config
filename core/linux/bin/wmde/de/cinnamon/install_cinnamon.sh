@@ -73,7 +73,11 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-cinnamon-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) cinnamon raw
+        # local app_name="cinnamon-desktop-environment"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # xrdp를 사용하기 위해서
         # ~/.xsession, ~/.Xclients
@@ -85,16 +89,10 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
-        # local app_name="task-cinnamon-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법2) full (cinnamon raw)
-        # local app_name="cinnamon-desktop-environment"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법3) ubuntu cinnamon minimal
+        # 방법1) ubuntu cinnamon minimal
         local app_name="ubuntucinnamon-desktop-minimal"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
-        # 방법4) ubuntu cinnamon
+        # 방법2) ubuntu cinnamon
         # local app_name="ubuntucinnamon-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # xrdp를 사용하기 위해서
@@ -140,5 +138,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
+
 
 

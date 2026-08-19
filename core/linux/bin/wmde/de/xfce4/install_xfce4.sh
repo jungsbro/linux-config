@@ -99,7 +99,11 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-xfce-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) xfce raw
+        # local app_name="xfce4"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
         # bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
@@ -107,16 +111,10 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
-        # local app_name="task-xfce-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법2) full (xfce raw)
-        # local app_name="xfce4"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법3) xubuntu minimal
+        # 방법1) ubuntu xfce minimal
         local app_name="xubuntu-desktop-minimal"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
-        # 방법4) xubuntu
+        # 방법2) ubuntu xfce
         # local app_name="xubuntu-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # xrdp를 사용하기 위해서

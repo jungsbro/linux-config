@@ -50,7 +50,11 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
+        # 방법1) tasksel
         local app_name="task-gnome-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # 방법2) gnome raw
+        # local app_name="gnome"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
         # bash ${CORE_BIN_DIR}/wmde/dm/install_gdm.sh;
@@ -58,16 +62,10 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then     # wayland only
         # ----------------------------------------------------------------------
-        # 방법1)
-        # local app_name="task-gnome-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법2) full (gnome raw)
-        # local app_name="gnome"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 방법3) ubuntu minimal
+        # 방법1) ubuntu gnome minimal
         local app_name="ubuntu-desktop-minimal"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || local app_name="ubuntu-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
-        # 방법4) ubuntu
+        # 방법2) ubuntu gnome
         # local app_name="ubuntu-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # dm 설정 필수 아님
@@ -115,5 +113,6 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
+
 
 
