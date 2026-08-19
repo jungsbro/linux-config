@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_NIMF_LOADED:-}" ]] && return 0
+_BUILD_NIMF_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_nimf.sh && build_nimf_for_dnf "${CUR_USER}";
 # ==============================================================================

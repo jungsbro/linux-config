@@ -50,7 +50,9 @@ function execute_main()
         if [[ "${CUR_ARCH}" == *"aarch64"* ]] || [[ "${CUR_ARCH}" == *"i686"* ]]; then
             return 0
         fi
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+
+        local app_fullname="${APP_FULLNAME}";
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
@@ -58,7 +60,9 @@ function execute_main()
         if [[ "${CUR_ARCH}" == *"aarch64"* ]] || [[ "${CUR_ARCH}" == *"i686"* ]]; then
             return 0
         fi
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+
+        local app_fullname="${APP_FULLNAME}";
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }

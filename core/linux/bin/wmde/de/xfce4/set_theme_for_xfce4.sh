@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_SET_THEME_FOR_XFCE4_LOADED:-}" ]] && return 0
+_SET_THEME_FOR_XFCE4_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/wmde/de/xfce4/set_theme_for_xfce4.sh && set_theme;

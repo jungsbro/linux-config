@@ -68,22 +68,27 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "multi" ${CUR_USER}
+        local app_name="${APP_NAME}";
+        local user_type="multi";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="multi";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "glibcLocales is not avialable on RHEL and Fedora"
-
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 

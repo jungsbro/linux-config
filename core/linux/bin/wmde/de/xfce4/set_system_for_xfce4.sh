@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_SET_SYSTEM_FOR_XFCE4_LOADED:-}" ]] && return 0
+_SET_SYSTEM_FOR_XFCE4_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_default_app ${CUR_USER};

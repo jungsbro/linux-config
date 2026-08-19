@@ -62,8 +62,10 @@ function install_sxhkd()
         # echo "sxhkd is not avialable on RHEL"
         # return 0
 
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 }

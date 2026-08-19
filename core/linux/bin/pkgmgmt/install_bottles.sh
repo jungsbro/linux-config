@@ -54,13 +54,16 @@ function execute_main()
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             # bottles is avaialable for onlxy x86_64
-            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+            local app_fullname="${APP_FULLNAME}";
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on Debian"
+            # local app_name="${APP_NAME}";
+            # local user_type="multi";
+            # local cur_user="${CUR_USER}";
+            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
-            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-            # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
         else                                            # i868
             echo "bottles-i686 is not avialable on Debian"
         fi
@@ -75,13 +78,15 @@ function execute_main()
         # ----------------------------------------------------------------------
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             # bottles is avaialable for onlxy x86_64
-            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+            local app_fullname="${APP_FULLNAME}";
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on RHEL"
-
-            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-            # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+            # local app_name="${APP_NAME}";
+            # local user_type="single";
+            # local cur_user="${CUR_USER}";
+            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         else                                            # i868
             echo "bottles-i686 is not avialable on RHEL"
         fi

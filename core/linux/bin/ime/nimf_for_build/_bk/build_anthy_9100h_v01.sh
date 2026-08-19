@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_ANTHY_9100H_LOADED:-}" ]] && return 0
+_BUILD_ANTHY_9100H_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_anthy_9100h.sh && build_anthy-9100h_for_dnf;
 # ==============================================================================

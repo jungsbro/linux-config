@@ -48,8 +48,10 @@ function execute_main()
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2) nixpkg
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+        # local app_name="${APP_NAME}";
+        # local user_type="multi";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
@@ -64,8 +66,10 @@ function execute_main()
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2) nixpkg
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        # local app_name="${APP_NAME}";
+        # local user_type="single";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 }

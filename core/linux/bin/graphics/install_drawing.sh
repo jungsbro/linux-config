@@ -64,12 +64,15 @@ function execute_main()
         # echo "drawing is not avialable on RHEL"
 
         # 방법2)
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        # local app_name="${APP_NAME}";
+        # local user_type="single";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3)
         # multi-user 때문에 flatpak을 사용했다.
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        local app_fullname="${APP_FULLNAME}";
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }

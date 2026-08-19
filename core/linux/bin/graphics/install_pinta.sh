@@ -52,11 +52,14 @@ function execute_main()
         # echo "pinta is not avialable on Debian"
 
         # 방법2)
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="multi";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3)
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
@@ -76,11 +79,14 @@ function execute_main()
         # echo "pinta is not avialable on RHEL"
 
         # 방법2)
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3)
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }

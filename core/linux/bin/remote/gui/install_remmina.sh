@@ -57,11 +57,14 @@ function execute_main()
         local app_name="remmina-plugin-rdp"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2) nixpkg
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        # local app_name="${APP_NAME}";
+        # local user_type="single";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3) flatpak
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
@@ -80,11 +83,14 @@ function execute_main()
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2) nixpkg
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        # local app_name="${APP_NAME}";
+        # local user_type="single";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3) flapak
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }

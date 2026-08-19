@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_ANTHY_LOADED:-}" ]] && return 0
+_BUILD_ANTHY_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_anthy.sh && build_anthy_for_dnf;
 # ==============================================================================

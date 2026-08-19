@@ -243,8 +243,10 @@ function execute_main()
         # echo "doublecmd is not avialable on RHEL"
 
         # 방법2) nix
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3)
         # if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then

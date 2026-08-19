@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_TINT2_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_TINT2_FUNCS_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/panel/tint2/install_tint2_funcs.sh && fix_logout_for_tint2 ${CUR_WM} ${CUR_USER};

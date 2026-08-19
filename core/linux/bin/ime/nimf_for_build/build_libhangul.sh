@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_LIBHANGUL_LOADED:-}" ]] && return 0
+_BUILD_LIBHANGUL_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_libhangul.sh && build_libhangul_for_dnf;
 # ==============================================================================

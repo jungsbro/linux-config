@@ -196,8 +196,10 @@ function execute_main()
         # echo "skippy-xd is not available on Debian and Ubuntu"
 
         # 방법2) nixpkg
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="multi";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3) build
         # install_dep_for_apt;
@@ -210,8 +212,10 @@ function execute_main()
         # echo "skippy-xd is not avialable on RHEL and Fedora"
 
         # 방법2) nixpkg
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
         # 방법3) build
         # install_dep_for_dnf;

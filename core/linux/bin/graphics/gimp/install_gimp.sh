@@ -60,7 +60,8 @@ function execute_main()
         # local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        local app_fullname="${APP_FULLNAME}";
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 

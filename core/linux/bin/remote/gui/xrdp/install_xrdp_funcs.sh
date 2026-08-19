@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_XRDP_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_XRDP_FUNCS_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/remote/gui/xrdp/install_xrdp_funcs.sh && fix_xrdp-startwm_for_xsession;

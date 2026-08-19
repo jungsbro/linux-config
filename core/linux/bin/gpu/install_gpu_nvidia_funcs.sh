@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_GPU_NVIDIA_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_GPU_NVIDIA_FUNCS_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} ${APP_NAME}

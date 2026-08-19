@@ -113,8 +113,10 @@ function get_libhangul-pc()
     # --------------------------------------------------------------------------
     # 방법2)
     # ~/.nix-profile/lib/pkgconfig/libhangul.pc
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "libhangul" "single" "${CUR_USER}"
+    local app_name="libhangul";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
     # --------------------------------------------------------------------------
 }
 
@@ -136,12 +138,16 @@ function get_m17n-pc()
     # --------------------------------------------------------------------------
     # 방법2)
     # ~/.nix-profile/lib/pkgconfig/m17n-core.pc
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "m17n_lib" "single" "${CUR_USER}"
+    local app_name="m17n_lib";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
     # ~/.nix-profile/share/pkgconfig/m17n-db.pc
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "m17n_db" "single" "${CUR_USER}"
+    local app_name="m17n_db";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
     # --------------------------------------------------------------------------
 }
 
@@ -160,8 +166,10 @@ function get_anthy-pc()
     # --------------------------------------------------------------------------
     # 방법2)
     # /usr/share/anthy/anthy.dic
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "anthy" "single" "${CUR_USER}"
+    local app_name="anthy";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
 
     local src_path="${HOME_DIR}/.nix-profile/share/anthy/anthy.dic"
     local dst_dir="/usr/share/anthy"
@@ -172,8 +180,10 @@ function get_anthy-pc()
 
 
     # ~/.nix-profile/lib/pkgconfig/anthy.pc
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "anthy.dev" "single" "${CUR_USER}"
+    local app_name="anthy.dev";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
     # --------------------------------------------------------------------------
 }
 
@@ -198,8 +208,10 @@ function get_rime-pc()
     # --------------------------------------------------------------------------
     # 방법2)
     # ~/.nix-profile/lib/pkgconfig/rime.pc
-    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-    install_nixpkg "librime" "single" "${CUR_USER}"
+    local app_name="librime";
+    local user_type="single";
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
     # --------------------------------------------------------------------------
 }
 

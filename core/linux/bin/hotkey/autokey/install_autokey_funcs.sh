@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_AUTOKEY_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_AUTOKEY_FUNCS_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
 # config_autokey ${CUR_USER} && \

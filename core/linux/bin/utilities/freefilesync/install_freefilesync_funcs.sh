@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_FREEFILESYNC_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_FREEFILESYNC_FUNCS_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} ${APP_NAME};

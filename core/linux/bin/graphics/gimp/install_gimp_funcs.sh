@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_GIMP_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_GIMP_FUNCS_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp ${CUR_USER};
 # ==============================================================================

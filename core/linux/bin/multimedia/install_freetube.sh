@@ -318,14 +318,17 @@ function execute_main()
         # 방법1)
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
             echo "freetube-i686 is not avialable on Debian/Ubuntu"
-            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-            # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+            # local app_name="${APP_NAME}";
+            # local user_type="multi";
+            # local cur_user="${CUR_USER}";
+            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         else                                        # x86_64, aarch64
             install_freetube_for_apt;
         fi
 
         # 방법2)
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
 
         # 방법3)
         # install_freetube_for_portable;
@@ -337,8 +340,10 @@ function execute_main()
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then  # i686
             echo "freetube-i686 is not avialable on RHEL"
-            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-            # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+            # local app_name="${APP_NAME}";
+            # local user_type="single";
+            # local cur_user="${CUR_USER}";
+            # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         else                                        # x86_64, aarch64
             install_freetube_for_rpm;
         fi

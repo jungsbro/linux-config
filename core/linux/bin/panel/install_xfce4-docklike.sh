@@ -91,9 +91,10 @@ function execute_main()
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2) nixpkg
-        # APP_NAME="xfce.xfce4-docklike-plugin"
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
+        # local app_name="xfce.xfce4-docklike-plugin";
+        # local user_type="multi";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # copy_nix-dokclike;
         # ----------------------------------------------------------------------
 
@@ -106,9 +107,10 @@ function execute_main()
         # ----------------------------------------------------------------------
         echo "docklike is not avialable on RHEL"
 
-        # APP_NAME="xfce.xfce4-docklike-plugin"
-        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && \
-        # install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+        # local app_name="xfce.xfce4-docklike-plugin";
+        # local user_type="single";
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # copy_nix-dokclike;
         # ----------------------------------------------------------------------
     fi

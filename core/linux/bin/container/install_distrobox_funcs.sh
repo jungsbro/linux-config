@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_DISTROBOX_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_DISTROBOX_FUNCS_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/container/install_distrobox_funcs.sh && \

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_REDSHIFT_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_REDSHIFT_FUNCS_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
 #     config_redshift ${CUR_USER} && \

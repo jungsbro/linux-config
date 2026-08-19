@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_MARISA-TRIE_LOADED:-}" ]] && return 0
+_BUILD_MARISA-TRIE_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_marisa-trie.sh && build_marisa-trie_for_dnf;
 # ==============================================================================

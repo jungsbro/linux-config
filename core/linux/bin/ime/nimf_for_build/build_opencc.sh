@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_BUILD_OPENCC_LOADED:-}" ]] && return 0
+_BUILD_OPENCC_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/ime/nimf_for_build/build_opencc.sh && build_OpenCC_for_dnf;
 # ==============================================================================

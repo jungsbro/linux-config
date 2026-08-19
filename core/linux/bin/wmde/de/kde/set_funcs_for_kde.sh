@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_SET_FUNCS_FOR_KDE_LOADED:-}" ]] && return 0
+_SET_FUNCS_FOR_KDE_LOADED=1
+
 # usage ========================================================================
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/wmde/de/kde/set_funcs_for_kde.sh && restart_kglobalaccel;

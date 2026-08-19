@@ -1,8 +1,12 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_FLATPAK_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_FLATPAK_FUNCS_LOADED=1
+
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${APP_FULLNAME}"
+# local app_fullname="${APP_FULLNAME}";
+# source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
 # ==============================================================================
 
 

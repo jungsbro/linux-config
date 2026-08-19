@@ -1,9 +1,23 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_NIX_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_NIX_FUNCS_LOADED=1
+
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${APP_NAME}" "multi" "${CUR_USER}"
-# source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${APP_NAME}" "single" "${CUR_USER}"
+# ------------------------------------------------------------------------------
+# local app_name="${APP_NAME}";
+# local user_type="multi";
+# local cur_user="${CUR_USER}";
+# source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# local app_name="${APP_NAME}";
+# local user_type="single";
+# local cur_user="${CUR_USER}";
+# source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -30,7 +44,7 @@ function get_core_bin_dir_from_nix()
 
 function install_nixpkg()
 {
-    # install_nixpkg ${app_name} ${mod} ${cur_user}
+    # install_nixpkg ${app_name} ${user_type} ${cur_user}
     # install_nixpkg "freefilesync" "multi" "jungs"
 
     # 1) env-vars settings -----------------------------------------------------
@@ -38,7 +52,7 @@ function install_nixpkg()
     local app_name=${1}
 
     # multi / single
-    local mod=${2}
+    local user_type=${2}
 
     # junsgs
     local cur_user=${3}
@@ -54,7 +68,7 @@ function install_nixpkg()
     local cur_arch=$(uname -m);
 
     # /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    if [[ "${mod}" == *"multi"* ]]; then
+    if [[ "${user_type}" == *"multi"* ]]; then
         # multi-user
         local nix_env_path="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh";
     else
@@ -85,7 +99,7 @@ function install_nixpkg()
 
     # plan A
     # --------------------------------------------------------------------------
-    if [[ "${mod}" == *"multi"* ]]; then
+    if [[ "${user_type}" == *"multi"* ]]; then
         return 0
     fi
 

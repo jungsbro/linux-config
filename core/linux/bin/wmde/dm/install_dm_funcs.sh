@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+[[ -n "${_INSTALL_DM_FUNCS_LOADED:-}" ]] && return 0
+_INSTALL_DM_FUNCS_LOADED=1
+
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
 # ==============================================================================
