@@ -40,38 +40,38 @@ function install_radeon_for_pacman()
 
     # --------------------------------------------------------------------------
     # OpenGL
-    local app_name="mesa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="mesa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-        local app_name="vulkan-radeon"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="vulkan-radeon"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-        local app_name="vulkan-tools"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="vulkan-tools"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # VA-API
-    # local app_name="mesa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    # local app_name="mesa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL
     # 방법1)
-    local app_name="opencl-mesa"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="opencl-mesa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
     # 방법2)
-    # local app_name="rocm-opencl-sdk"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    # local app_name="rocm-opencl-sdk"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
-    local app_name="ocl-icd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="ocl-icd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    local app_name="clinfo"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="clinfo"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     # --------------------------------------------------------------------------
 }
 
@@ -84,38 +84,38 @@ function install_radeon_for_apt()
 
     # --------------------------------------------------------------------------
     # OpenGL
-    local app_name="libglx-mesa0"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libglx-mesa0"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-    local app_name="mesa-vulkan-drivers"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="mesa-vulkan-drivers"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    local app_name="vulkan-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="vulkan-tools"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # VA-API (mesa-va-drivers >> libgl1-mesa-dri)
-    local app_name="libgl1-mesa-dri"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libgl1-mesa-dri"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL
     # 방법1)
-    local app_name="mesa-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="mesa-opencl-icd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
     # 방법2)
-    # local app_name="rocm-opencl-icd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    # local app_name="rocm-opencl-icd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
-    local app_name="ocl-icd-libopencl1"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="ocl-icd-libopencl1"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    local app_name="clinfo"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="clinfo"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 }
 
@@ -128,22 +128,22 @@ function install_radeon_for_dnf()
 
     # --------------------------------------------------------------------------
     # OpenGL
-    local app_name="mesa-dri-drivers"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="mesa-dri-drivers"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan
-    local app_name="mesa-vulkan-drivers"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="mesa-vulkan-drivers"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # Vulkan tools
-    local app_name="vulkan-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="vulkan-tools"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # VA-API
-    local app_name="mesa-va-drivers"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="mesa-va-drivers"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -151,26 +151,26 @@ function install_radeon_for_dnf()
     if [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        local app_name="mesa-libOpenCL"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mesa-libOpenCL"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
-        # local app_name="rocm-opencl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="rocm-opencl"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        # local app_name="mesa-libOpenCL"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="mesa-libOpenCL"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
-        local app_name="rocm-opencl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="rocm-opencl"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
-    local app_name="ocl-icd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="ocl-icd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # OpenCL tools
-    local app_name="clinfo"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="clinfo"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 }
 

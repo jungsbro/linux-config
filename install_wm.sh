@@ -59,23 +59,16 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 # Funcs ========================================================================
 
-function install_utils()
+function install_tools()
 {
     # --------------------------------------------------------------------------
-    # develop
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
-    bash ${CORE_BIN_DIR}/develop/install_jq.sh;
-    bash ${CORE_BIN_DIR}/develop/install_yq.sh;
-
-    bash ${CORE_BIN_DIR}/develop/install_glib2.sh;
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-
-    bash ${CORE_BIN_DIR}/develop/install_yad.sh;
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
-    bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
-
+    # nix (이유없이 애러가 날 때가 있다. 그래서 첫 순위에 배치를 했다.)
     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh "${CUR_USER}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/develop/tools/install_crud-tools.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -245,7 +238,7 @@ function install_screen-manager()
 function install_compositor()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_picom.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/gpu/compositor/install_picom.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -292,7 +285,7 @@ function install_file-manager()
 
     # 방법2)
     # bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
-    # bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+    # bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -441,7 +434,7 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    install_utils;
+    install_tools;
     install_display-server;
     # --------------------------------------------------------------------------
 

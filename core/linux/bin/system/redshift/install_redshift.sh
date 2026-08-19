@@ -35,32 +35,32 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="redshift"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="geoclue"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="redshift"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="geoclue"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="redshift-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="redshift-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
-            local app_name="redshift-gtk"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="redshift-gtk"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
 
-        local app_name="geoclue-2.0"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="geoclue-2.0"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="redshift-gt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="geoclue2"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="redshift-gt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="geoclue2"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="redshift-gt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="geoclue2"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="redshift-gt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="geoclue2"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 

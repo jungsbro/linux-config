@@ -58,7 +58,7 @@ APP_HIDDEN="false"
 
 
 # Funcs ========================================================================
-function install_dc_for_portable()
+function install_doublecmd_for_portable()
 {
     # --------------------------------------------------------------------------
     # /opt/doublecmd
@@ -144,7 +144,7 @@ function install_dc_for_portable()
 }
 
 
-function install_dc_for_appimg()
+function install_doublecmd_for_appimage()
 {
     # appimage for only x86_64 -------------------------------------------------
     if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
@@ -208,18 +208,18 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) qt5
-        # local app_name="doublecmd-qt5"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        # local app_name="doublecmd-qt5"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
         # 방법2) qt6
-        local app_name="doublecmd-qt6"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="doublecmd-qt6"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="doublecmd-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="doublecmd-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
-            local app_name="doublecmd-gtk"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="doublecmd-gtk"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
@@ -227,12 +227,12 @@ function execute_main()
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             # 방법1) qt5
-            local app_name="doublecmd-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="doublecmd-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
             # 방법2) qt6
-            # local app_name="doublecmd-qt6"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            # local app_name="doublecmd-qt6"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
-            local app_name="doublecmd-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="doublecmd-gtk"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
@@ -248,12 +248,12 @@ function execute_main()
 
         # 방법3)
         # if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        #     install_dc_for_portable;
+        #     install_doublecmd_for_portable;
         # elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        #     install_dc_for_portable;
+        #     install_doublecmd_for_portable;
         # else                        # x86_64
-        #     install_dc_for_portable;
-        #     # install_dc_for_appimg;
+        #     install_doublecmd_for_portable;
+        #     # install_doublecmd_for_appimage;
         # fi
         # ----------------------------------------------------------------------
     fi

@@ -32,23 +32,16 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 # Funcs ========================================================================
 
-function install_utils()
+function install_tools()
 {
     # --------------------------------------------------------------------------
-    # develop
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
-    bash ${CORE_BIN_DIR}/develop/install_jq.sh;
-    bash ${CORE_BIN_DIR}/develop/install_yq.sh;
-
-    bash ${CORE_BIN_DIR}/develop/install_glib2.sh;
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-
-    bash ${CORE_BIN_DIR}/develop/install_yad.sh;
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
-    bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
-
+    # nix (이유없이 애러가 날 때가 있다. 그래서 첫 순위에 배치를 했다.)
     bash ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix.sh "${CUR_USER}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/develop/tools/install_crud-tools.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -165,11 +158,17 @@ function install_pkgs_for_xfce4()
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
-    # xfce4-apps
-    bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
+    # 파일 및 미디어도구
+    bash ${CORE_BIN_DIR}/archive/install_file-roller.sh
+    bash ${CORE_BIN_DIR}/archive/install_thunar-archive-plugin.sh;
+    bash ${CORE_BIN_DIR}/mount/install_thunar-volman.sh;
+    # 무거움
+    # bash ${CORE_BIN_DIR}/graphics/install_tumbler.sh
 
     # 하드웨어 및 전원관리
     bash ${CORE_BIN_DIR}/audio/install_xfce4-pulseaudio-plugin.sh;
+    # bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/network/install_nm-connection-editor.sh;
 
     # 시스템 모니터링
     bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
@@ -182,7 +181,10 @@ function install_pkgs_for_xfce4()
 
     # 고급 사용자용 확장 및 자동화
     bash ${CORE_BIN_DIR}/panel/install_xfce4-panel-profiles.sh;
-
+    # --------------------------------------------------------------------------
+    # appmenu
+    bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
     # file-editor
     bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
     # --------------------------------------------------------------------------
@@ -204,7 +206,7 @@ function install_pkgs_for_xfce4()
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
-    bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
     # terminal
     bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
@@ -214,6 +216,12 @@ function install_pkgs_for_xfce4()
 
 function install_pkgs_for_mate()
 {
+    # --------------------------------------------------------------------------
+    # compositor
+    bash ${CORE_BIN_DIR}/gpu/compositor/install_marco.sh
+    # --------------------------------------------------------------------------
+    # screenshot
+    bash ${CORE_BIN_DIR}/screenshot/install_mate-screenshot.sh;
     # --------------------------------------------------------------------------
     # task-manager
     bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
@@ -234,7 +242,7 @@ function install_pkgs_for_mate()
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_caja.sh;
-    bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -249,7 +257,7 @@ function install_pkgs_for_gnome()
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_nautilus.sh;
-    bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -264,7 +272,7 @@ function install_pkgs_for_cinnamon()
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_nemo.sh;
-    bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -374,7 +382,7 @@ function execute_main()
 {
     # --------------------------------------------------------------------------
     # 1) install packages for de
-    install_utils;
+    install_tools;
 
     if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
         install_pkgs_for_lxde;
@@ -414,3 +422,5 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
+
+

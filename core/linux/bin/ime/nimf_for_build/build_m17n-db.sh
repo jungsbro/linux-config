@@ -52,11 +52,11 @@ function build_m17n-db_for_dnf()
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
 
-    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="autoconf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="automake"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libtool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gettext-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="pkg-config"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="autoconf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="automake"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libtool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gettext-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

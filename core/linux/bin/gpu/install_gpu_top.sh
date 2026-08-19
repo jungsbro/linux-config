@@ -41,17 +41,17 @@ function install_gputop_for_pacman()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="nvtop"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="nvtop"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="radeontop"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="radeontop"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="intel-gpu-tools"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="intel-gpu-tools"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -63,17 +63,17 @@ function install_gputop_for_apt()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="nvtop"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="nvtop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="radeontop"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="radeontop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="intel-gpu-tools"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="intel-gpu-tools"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -85,17 +85,17 @@ function install_gputop_for_rhel()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="nvtop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="nvtop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="radeontop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="radeontop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        # local app_name="igt-gpu-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="igt-gpu-tools"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         echo "Intel GPU tools may not be available in RHEL/CentOS repositories"
         # ----------------------------------------------------------------------
     fi
@@ -108,17 +108,17 @@ function install_gputop_for_dnf()
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="nvtop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="nvtop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="radeontop"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="radeontop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="igt-gpu-tools"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="igt-gpu-tools"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

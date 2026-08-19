@@ -42,11 +42,11 @@ function build_OpenCC_for_dnf()
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
 
-    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="cmake"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    # local app_name="gcc-c++"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    # local app_name="make"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="pkg-config"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="cmake"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    # local app_name="gcc-c++"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    # local app_name="make"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

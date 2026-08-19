@@ -197,8 +197,7 @@ function set_xsession()
 
         echo "${cmd}" >> "${cur_path}";
     else
-        echo '#!/bin/bash
-set -e' > "${cur_path}";
+        echo '#!/bin/bash' > "${cur_path}";
         echo "${cmd}" >> "${cur_path}";
     fi
 

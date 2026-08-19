@@ -49,69 +49,69 @@ function install_zsh()
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="zsh"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="curl"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="powerline-fonts"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="zsh"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="curl"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="powerline-fonts"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         local app_name="autojump"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
-        local app_name="fzf"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="fd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="zoxide"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="fd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="zoxide"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
-        local app_name="mercurial"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="mercurial"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="zsh"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="curl"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="fonts-powerline"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="zsh"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="curl"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="fonts-powerline"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="autojump"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="autojump"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="fd-find"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="zoxide"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="fd-find"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="zoxide"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
-        local app_name="mercurial"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="mercurial"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="zsh"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="curl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="zsh"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="curl"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="powerline-fonts"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="autojump"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="autojump"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
-        local app_name="mercurial"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mercurial"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # ----------------------------------------------------------------------
-        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="zsh"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="curl"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="powerline-fonts"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="zsh"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="curl"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="powerline-fonts"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="autojump"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="autojump"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="fd-find"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="zoxide"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
-        local app_name="mercurial"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="mercurial"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

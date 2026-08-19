@@ -116,31 +116,7 @@ function fix_paths_for_obrc()   # not used
 }
 
 
-function fix_themes_for_nix()
-{
-    local src_theme_path="/usr/share/rofi/themes/Arc-Dark.rasi"
-    local dst_theme_path="${HOME_DIR}/.nix-profile/share/rofi/themes/Arc-Dark.rasi"
-
-    local dst_config_dir="${HOME_DIR}/.config/rofi/themes"
-    local dst_config_path="${dst_config_dir}/j_launcher.rasi"
-
-    if [[ ! -f ${dst_theme_path} ]]; then
-        return 0
-    fi
-    if [[ ! -f ${dst_config_path} ]]; then
-        return 0
-    fi
-    # grep "/usr/share/rofi/themes/Arc-Dark.rasi" "${HOME}/.config/rofi/themes/j_launcher.rasi"
-    if [[ -z $(grep "${src_theme_path}" "${dst_config_path}") ]]; then
-        return 0
-    fi
-
-    sed -i "s|${src_theme_path}|${dst_theme_path}|g" "${dst_config_path}";
-    chown ${CUR_USER}:${CUR_USER} ${dst_config_path};
-}
-
-
-function create_config()
+function create_rofi-config()
 {
     # --------------------------------------------------------------------------
     if [[ -f ${DST_ROFI_CONF_PATH} ]]; then
@@ -184,7 +160,7 @@ element-icon {
 }
 
 
-function copy_config_to_home()
+function copy_rofi-config_to_home()
 {
     # --------------------------------------------------------------------------
     if [[ ! -d ${SRC_ROFI_CONF_DIR} ]]; then
@@ -203,21 +179,51 @@ function copy_config_to_home()
 }
 
 
+function fix_rofi-themes_for_nix()
+{
+    # --------------------------------------------------------------------------
+    local src_theme_path="/usr/share/rofi/themes/Arc-Dark.rasi"
+    local dst_theme_path="${HOME_DIR}/.nix-profile/share/rofi/themes/Arc-Dark.rasi"
+
+    local dst_config_dir="${HOME_DIR}/.config/rofi/themes"
+    local dst_config_path="${dst_config_dir}/j_launcher.rasi"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ ! -f ${dst_theme_path} ]]; then
+        return 0
+    fi
+    if [[ ! -f ${dst_config_path} ]]; then
+        return 0
+    fi
+    # grep "/usr/share/rofi/themes/Arc-Dark.rasi" "${HOME}/.config/rofi/themes/j_launcher.rasi"
+    if [[ -z $(grep "${src_theme_path}" "${dst_config_path}") ]]; then
+        return 0
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    sed -i "s|${src_theme_path}|${dst_theme_path}|g" "${dst_config_path}";
+    chown ${CUR_USER}:${CUR_USER} ${dst_config_path};
+    # --------------------------------------------------------------------------
+}
+
+
 function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
@@ -231,22 +237,21 @@ function execute_main()
 
         # "rofi for nix" needs glibc-locales
         # export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
-        bash ${CORE_BIN_DIR}/fonts/install_glibc-locales.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/fonts/locale/install_locales_for_nix.sh ${CUR_USER};
         # ----------------------------------------------------------------------
     fi
 
     # --------------------------------------------------------------------------
     # 방법1)
-    # create_config;
+    # create_rofi-config;
 
     # 방법2)
-    copy_config_to_home;
+    copy_rofi-config_to_home;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        fix_themes_for_nix;
-    fi
+    # only working for nix
+    fix_rofi-themes_for_nix;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -54,16 +54,16 @@ function build_nimf_for_dnf()
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
 
-    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gtk-doc"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gtk2-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gtk3-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="wayland-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="wayland-protocols-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libxkbcommon-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libayatana-appindicator-gtk3-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libxklavier-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="pkg-config"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gtk-doc"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gtk2-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gtk3-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="wayland-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="wayland-protocols-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libxkbcommon-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libayatana-appindicator-gtk3-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libxklavier-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
     # nimf needs "libhangul"
     # nimf needs "m17n-lib"

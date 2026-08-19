@@ -273,8 +273,8 @@ function execute_main()
         if [[ ! -f "${PC_PATH}" ]]; then
             # ------------------------------------------------------------------
             # rhel 이라면 한/영 전환을 위해 의존성 패키지가 꼭 설치해야 한다.
-            local app_name="gtk3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-            local app_name="gtk3-immodule-xim"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="gtk3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+            local app_name="gtk3-immodule-xim"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
             # ------------------------------------------------------------------
             # build_nimf
             get_nimf-pc;

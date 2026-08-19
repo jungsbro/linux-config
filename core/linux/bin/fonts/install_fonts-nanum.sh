@@ -88,9 +88,9 @@ function execute_main()
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # install_fonts-nanum;
-        local app_name="fonts-nanum"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="fonts-nanum-eco"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="fonts-nanum-extra"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fonts-nanum"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="fonts-nanum-eco"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="fonts-nanum-extra"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then

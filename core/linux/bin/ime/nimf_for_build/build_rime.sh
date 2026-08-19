@@ -42,14 +42,14 @@ function build_rime_for_dnf()
     # 1) 의존성 패키지 설치
     [[ -n $(dnf group list --installed | grep "Development Tools") ]] || dnf groupinstall -y "Development Tools";
 
-    local app_name="pkg-config"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="cmake"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gtest-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="leveldb-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="boost-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="yaml-cpp-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="glog-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="pkg-config"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="cmake"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gtest-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="leveldb-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="boost-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="yaml-cpp-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="glog-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
     # rime needs "marisa-devel"
     # rime needs "opencc-devel"

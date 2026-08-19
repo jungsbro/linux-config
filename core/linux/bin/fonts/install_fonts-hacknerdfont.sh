@@ -94,7 +94,7 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
-        local app_name="ttf-hack-nerd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="ttf-hack-nerd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
         # 방법2)
         # local app_name="ttf-hack-nerd"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
@@ -109,7 +109,7 @@ function execute_main()
         # ----------------------------------------------------------------------
         # 방법1)
         # dnf copr enable lyessaadi/nerd-fonts
-        # local app_name="font-hack-nerd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        # local app_name="font-hack-nerd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
         install_fonts-hacknerdfont;

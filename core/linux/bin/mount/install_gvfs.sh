@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/install_gvfs.sh;
+# bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/system
+# /core/linux/bin/mount
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -41,44 +41,44 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 function install_gvfs_for_pacman()
 {
-    local app_name="gvfs"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-    local app_name="gvfs-smb"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="gvfs"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+    local app_name="gvfs-smb"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
     if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
-        local app_name="thunar-volman"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="thunar-volman"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     fi
 
-    local app_name="smbclient"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-    local app_name="gvfs-dnssd"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="smbclient"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+    local app_name="gvfs-dnssd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 }
 
 
 function install_gvfs_for_apt()
 {
-    local app_name="gvfs"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="gvfs-backends"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="gvfs-fuse"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="gvfs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="gvfs-backends"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="gvfs-fuse"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
     if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
-        local app_name="thunar-volman"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="thunar-volman"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     fi
 
-    local app_name="smbclient"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="smbclient"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 }
 
 
 function install_gvfs_for_dnf()
 {
     [[ -n $(dnf list --installed | grep -i ^gvfs$) ]] || dnf install -y gvfs gvfs-smb gvfs-fuse;
-    local app_name="gvfs"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gvfs-smb"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="gvfs-fuse"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="gvfs"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gvfs-smb"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="gvfs-fuse"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
     if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
-        local app_name="thunar-volman"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="thunar-volman"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     fi
 
-    local app_name="samba-client"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="samba-client"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 }
 # ==============================================================================
 

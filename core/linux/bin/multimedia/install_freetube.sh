@@ -234,7 +234,7 @@ function install_freetube_for_portable()
 
 
 
-function install_freetube_for_appimg()
+function install_freetube_for_appimage()
 {
     # appimage for only x86_64 -------------------------------------------------
     # for x86_64 / aarch64
@@ -331,7 +331,7 @@ function execute_main()
         # install_freetube_for_portable;
 
         # 방법4)
-        # install_freetube_for_appimg;
+        # install_freetube_for_appimage;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then

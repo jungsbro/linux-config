@@ -41,8 +41,8 @@ function install_snapd_for_pacman()
 
     # 방법1) --------------------------------------------------------------------
     # 1) base-devel / git
-    local app_name="base-devel"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-    local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+    local app_name="base-devel"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+    local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
     # 2) snapd for aur
     git clone https://aur.archlinux.org/snapd.git /tmp/snapd
@@ -99,7 +99,7 @@ function install_snapd_for_apt()
     fi
     # --------------------------------------------------------------------------
 
-    local app_name="snapd"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="snapd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
     init 6;
 }
@@ -115,7 +115,7 @@ function install_snapd_for_dnf()
 
     # --------------------------------------------------------------------------
     # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    local app_name="snapd"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="snapd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
     systemctl enable --now snapd.socket;
 

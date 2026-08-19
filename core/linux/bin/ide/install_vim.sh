@@ -42,38 +42,38 @@ function install_vim()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="vim"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="xclip"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="xsel"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="vim"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="xclip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="xsel"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="vim-gtk3"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="xclip"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="xsel"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="vim-gtk3"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="xclip"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="xsel"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # apt install -y ctags;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="vim-X11"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="vim-enhanced"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="xclip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="xsel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="vim-X11"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="vim-enhanced"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="xclip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="xsel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        local app_name="git"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="vim-X11"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="xclip"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="xsel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="vim-X11"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="xclip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="xsel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 }

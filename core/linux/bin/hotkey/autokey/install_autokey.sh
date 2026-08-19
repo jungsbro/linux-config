@@ -48,18 +48,18 @@ function execute_main()
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="autokey-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="autokey-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
-            local app_name="autokey-gtk"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="autokey-gtk"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="autokey-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="autokey-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
-            local app_name="autokey-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="autokey-gtk"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
@@ -75,9 +75,9 @@ function execute_main()
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="autokey-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="autokey-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
-            local app_name="autokey-gtk"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="autokey-gtk"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
     fi

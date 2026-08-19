@@ -42,47 +42,47 @@ APP_HIDDEN="false"
 
 function install_dep_for_apt()
 {
-    local app_name="libimlib2-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libfontconfig1-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libfreetype6-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libx11-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxext-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxft-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxrender-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="zlib1g-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxinerama-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxcomposite-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxdamage-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxfixes-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-    local app_name="libxmu-dev"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+    local app_name="libimlib2-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libfontconfig1-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libfreetype6-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libx11-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxext-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxft-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxrender-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="zlib1g-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxinerama-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxcomposite-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxdamage-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxfixes-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="libxmu-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 }
 
 function install_dep_for_dnf()
 {
     # --------------------------------------------------------------------------
     [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    local app_name="imlib2-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="imlib2-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local app_name="fontconfig-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="freetype-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libX11-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXext-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXft-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXrender-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="zlib-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXinerama-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXcomposite-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXdamage-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXfixes-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libXmu-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-    local app_name="libjpeg-turbo-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="fontconfig-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="freetype-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libX11-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXext-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXft-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXrender-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="zlib-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXinerama-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXcomposite-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXdamage-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXfixes-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libXmu-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="libjpeg-turbo-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     [[ $(dnf repolist crb 2>/dev/null) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    local app_name="giflib-devel"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+    local app_name="giflib-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     # --------------------------------------------------------------------------
 }
 

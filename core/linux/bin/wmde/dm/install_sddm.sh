@@ -39,9 +39,17 @@ function set_sddm_enable()
 {
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl list-unit-files sddm.service &>/dev/null; then
-            systemctl enable sddm
+            # ------------------------------------------------------------------
+            # locale 설정 (because of sddm-hleper)
+            # localectl set-locale LANG=ko_KR.UTF-8
+            # localectl set-locale LANG=en_US.UTF-8
+            # ------------------------------------------------------------------
+
+            # ------------------------------------------------------------------
+            systemctl enable --now --force sddm
             systemctl set-default graphical.target
-            systemctl restart sddm
+            # systemctl start graphical.target
+            # ------------------------------------------------------------------
         fi
     else    # sysVinit
         return 0
@@ -53,17 +61,17 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 

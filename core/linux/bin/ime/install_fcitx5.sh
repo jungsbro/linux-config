@@ -97,59 +97,59 @@ function execute_main()
         # ----------------------------------------------------------------------
         # 방법1)
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="fcitx5"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-hangul"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-configtool"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-qt"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+            local app_name="fcitx5"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-hangul"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-configtool"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-qt"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         else
-            local app_name="fcitx5"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-hangul"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-configtool"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-            local app_name="fcitx5-gtk"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+            local app_name="fcitx5"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-hangul"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-configtool"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="fcitx5-gtk"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         fi
 
         # 방법2)
-        # local app_name="fcitx5-gtk"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        # local app_name="fcitx5-gtk"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        # local app_name="fcitx5"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        # local app_name="fcitx5-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        # local app_name="fcitx5-configtool"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        # local app_name="fcitx5-config-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # local app_name="fcitx5"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fcitx5-hangul"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fcitx5-configtool"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fcitx5-config-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2)
-        # local app_name="fcitx5-frontend-gtk3"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        # local app_name="fcitx5-frontend-qt5"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        # local app_name="libfcitx5utils2"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        # local app_name="fcitx5-frontend-gtk3"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fcitx5-frontend-qt5"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="libfcitx5utils2"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법3)
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="fcitx5"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-config-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-frontend-qt5"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-frontend-qt6"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-module-dbus"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="fcitx5"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-hangul"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-config-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-frontend-qt5"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-frontend-qt6"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-module-dbus"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
-            local app_name="fcitx5"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-config-qt"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-frontend-gtk2"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-frontend-gtk3"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-frontend-gtk4"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-            local app_name="fcitx5-module-dbus"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+            local app_name="fcitx5"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-hangul"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-config-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-frontend-gtk2"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-frontend-gtk3"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-frontend-gtk4"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="fcitx5-module-dbus"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="fcitx5"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="fcitx5-hangul"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="fcitx5-configtool"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="fcitx5-autostart"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fcitx5"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="fcitx5-hangul"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="fcitx5-configtool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="fcitx5-autostart"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then

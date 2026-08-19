@@ -96,8 +96,8 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        local app_name="uim"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
-        local app_name="uim-byeoru"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="uim"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="uim-byeoru"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
         # 방법2)
         # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -109,19 +109,19 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="uim"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        local app_name="uim-byeoru"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="uim"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="uim-byeoru"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="uim"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="uim-m17n"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="uim"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="uim-m17n"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="uim-qt"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="uim-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
-            local app_name="uim-gtk3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+            local app_name="uim-gtk3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 

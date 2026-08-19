@@ -35,7 +35,7 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # fontconfig -----------------------------------------------------------
-        local app_name="fontconfig"; pacman -Si ${app_name} &>/dev/null && pacman -S --noconfirm --needed ${app_name} || true
+        local app_name="fontconfig"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
@@ -60,20 +60,20 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # fontconfig -----------------------------------------------------------
-        local app_name="fontconfig"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        local app_name="fontconfig"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
         # 방법0)
         # if [[ "${CUR_VER}" == *"ID=MX"* ]] || [[ "${CUR_VER}" == *"antix"* ]]; then
         #     # echo "mxlinux and anix needs to use package installer"
-        #     local app_name="fcitx"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        #     local app_name="fcitx-hangul"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        #     local app_name="fcitx"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        #     local app_name="fcitx-hangul"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         #     [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n fcitx;
         # else
         #     # echo ""
-        #     local app_name="uim"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
-        #     local app_name="uim-byeoru"; apt-cache show ${app_name} &>/dev/null && apt install -y --no-reinstall ${app_name} || true
+        #     local app_name="uim"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        #     local app_name="uim-byeoru"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         #     [[ -n $(apt list --installed | grep -i ^im-config) ]] && /usr/bin/im-config -n uim;
         # fi
 
@@ -98,7 +98,7 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # fontconfig -----------------------------------------------------------
-        local app_name="fontconfig"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fontconfig"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
@@ -123,13 +123,13 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # fontconfig -----------------------------------------------------------
-        local app_name="fontconfig"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="fontconfig"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
         # rhel 이라면 한/영 전환을 위해 의존성 패키지가 꼭 설치해야 한다.
-        local app_name="gtk3"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
-        local app_name="gtk3-immodule-xim"; dnf info ${app_name} &>/dev/null && dnf install -y ${app_name} || true
+        local app_name="gtk3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="gtk3-immodule-xim"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # ibus-hangul has a problem at google-docs
         if [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
