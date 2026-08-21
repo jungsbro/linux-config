@@ -60,7 +60,7 @@ function build_rime_for_dnf()
 
     # --------------------------------------------------------------------------
     # 2) rime build시에 marisa-trie,opencc을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then
@@ -69,7 +69,7 @@ function build_rime_for_dnf()
     fi
 
 
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig"
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH
@@ -79,12 +79,12 @@ function build_rime_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) rime build
-    git clone ${app_url} ${src_dir};
+    git clone "${app_url}" "${src_dir}";
 
     # Removing "IsGoogleLoggingInitialized" in setup.cc ~~~~~~~~~~~~~~~~~~~~~~~~
     # 90-96
@@ -98,12 +98,12 @@ function build_rime_for_dnf()
     # ..........................................................................
     local RIME_SETUP_PATH="${src_dir}/src/rime/setup.cc"
 
-    if [[ -f ${RIME_SETUP_PATH} ]]; then
-        sed -i '/IsGoogleLoggingInitialized/{N;N;N;N;s/^/\/\//;s/\n/\n\/\//g}' ${RIME_SETUP_PATH}
+    if [[ -f "${RIME_SETUP_PATH}" ]]; then
+        sed -i '/IsGoogleLoggingInitialized/{N;N;N;N;s/^/\/\//;s/\n/\n\/\//g}' "${RIME_SETUP_PATH}"
     fi
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    pushd ${src_dir}
+    pushd "${src_dir}"
     mkdir build && cd build
     cmake .. -DCMAKE_BUILD_TYPE=Release
     # cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TEST=OFF

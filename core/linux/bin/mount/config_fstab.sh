@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -63,9 +63,9 @@ function config_fstab()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -e ${FSTAB_PATH} ]] && [[ *"$(cat ${FSTAB_PATH})"* != *"${MOUNT_CMD}"* ]]; then
-        # echo "" >> ${FSTAB_PATH};
-        echo "${MOUNT_CMD}" >> ${FSTAB_PATH};
+    if [[ -e "${FSTAB_PATH}" ]] && [[ $(cat "${FSTAB_PATH}") != *"${MOUNT_CMD}"* ]]; then
+        # echo "" >> "${FSTAB_PATH}";
+        echo "${MOUNT_CMD}" >> "${FSTAB_PATH}";
     fi
     # --------------------------------------------------------------------------
 }

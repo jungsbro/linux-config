@@ -6,17 +6,17 @@ TITLE="tile_up_key"
 OLD_STR="&lt;Super&gt;KP_Up"
 NEW_STR="&lt;Super&gt;Up"
 
-LINE_NUM=$(cat -n ${SRC_PATH} | grep ${TITLE} | cut -f 1);
-echo ${LINE_NUM};
+LINE_NUM=$(cat -n "${SRC_PATH}" | grep "${TITLE}" | cut -f 1);
+echo "${LINE_NUM}";
 
-OLD_CMD=$(cat ${SRC_PATH} | grep ${TITLE});
-echo ${OLD_CMD};
+OLD_CMD=$(cat "${SRC_PATH}" | grep "${TITLE}");
+echo "${OLD_CMD}";
 
-if [[ -n ${LINE_NUM} ]]; then
-    # sed -i "${LINE_NUM}s/${SRC}/${NEW_STR}/" ${SRC_PATH};
-    NEW_CMD=$(echo ${OLD_CMD} | perl -pe "s/"${OLD_STR}"/"${NEW_STR}"/");
-    echo ${NEW_CMD};
-    sed -i "${LINE_NUM}s/.*/${NEW_CMD}/" ${SRC_PATH};
+if [[ -n "${LINE_NUM}" ]]; then
+    # sed -i "${LINE_NUM}s/${SRC}/${NEW_STR}/" "${SRC_PATH}";
+    NEW_CMD=$(echo "${OLD_CMD}" | perl -pe "s/"${OLD_STR}"/"${NEW_STR}"/");
+    echo "${NEW_CMD}";
+    sed -i "${LINE_NUM}s/.*/${NEW_CMD}/" "${SRC_PATH}";
 fi
 
 python3 - << 'EOF'
@@ -74,8 +74,8 @@ DST_STR='<property name="&lt;Super&gt;Up" type="string" value="tile_up_key"/>'
 <property name="&lt;Primary&gt;&lt;Alt&gt;l" type="string" value="xflock4"/>
 <property name="&lt;Super&gt;l" type="string" value="xscreensaver"/>
 
-sed -n "/${SRC_STR}/p" ${SRC_PATH}
-sed "s/${SRC_STR}/${DST_STR}/" ${SRC_PATH}
+sed -n "/${SRC_STR}/p" "${SRC_PATH}"
+sed "s/${SRC_STR}/${DST_STR}/" "${SRC_PATH}"
 # ==============================================================================
 
 

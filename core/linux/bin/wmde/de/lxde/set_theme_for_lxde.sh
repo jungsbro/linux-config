@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_theme_for_lxde.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_theme_for_lxde.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -54,7 +54,7 @@ fi
 function set_desktop_icons()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${PCMANFM_ITEMS_PATH} ]]; then
+    if [[ ! -f "${PCMANFM_ITEMS_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -78,7 +78,7 @@ function set_desktop_icons()
 function set_theme()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${LXSESSION_CONF_PATH} ]]; then
+    if [[ ! -f "${LXSESSION_CONF_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -95,7 +95,7 @@ function set_theme()
 function set_icon_theme()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${LXSESSION_CONF_PATH} ]]; then
+    if [[ ! -f "${LXSESSION_CONF_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -103,11 +103,11 @@ function set_icon_theme()
     # --------------------------------------------------------------------------
     # sNet/IconThemeName=nuoveXT2 >> sNet/IconThemeName=Papirus
 
-    if [[ -d /usr/share/icons/Papirus ]]; then
+    if [[ -d "/usr/share/icons/Papirus" ]]; then
         # crudini --set ~/.config/lxsession/LXDE/desktop.conf "GTK" sNet/IconThemeName Papirus;
         crudini --set "${LXSESSION_CONF_PATH}" "GTK" sNet/IconThemeName Papirus
 
-    elif [[ -d /usr/share/icons/Adwaita ]]; then
+    elif [[ -d "/usr/share/icons/Adwaita" ]]; then
         # crudini --set ~/.config/lxsession/LXDE/desktop.conf "GTK" sNet/IconThemeName Adwaita;
         crudini --set "${LXSESSION_CONF_PATH}" "GTK" sNet/IconThemeName Adwaita
 

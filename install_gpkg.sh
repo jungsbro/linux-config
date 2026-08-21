@@ -22,7 +22,7 @@ set -e
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+ROOT_DIR="$(dirname "$(realpath "${0}")")"
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -56,13 +56,13 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 # BIN_DIR="/core/linux/bin";
 # SRC_DIR="/core/linux/src/";
 
-# # if [[ ! -d ${CORE_BIN_DIR} ]]; then
-# cp -rf ${CORE_DIR} /;
-# chmod -R 755 ${CORE_BIN_DIR};
+# # if [[ ! -d "${CORE_BIN_DIR}" ]]; then
+# cp -Rf "${CORE_DIR}" /;
+# chmod -R 755 "${CORE_BIN_DIR}";
 # # fi
 
-# [[ -d ${SRC_DIR} ]] || mkdir -p ${SRC_DIR};
-# chmod 777 ${SRC_DIR};
+# [[ -d "${SRC_DIR}" ]] || mkdir -p "${SRC_DIR}";
+# chmod 777 "${SRC_DIR}";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -154,7 +154,7 @@ function execute_main()
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
 

@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/install_tmux.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -90,16 +90,16 @@ function install_tmux()
 function config_tmux()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
-    if [[ -d ${CONFIG_DIR} ]]; then
+    if [[ -d "${CONFIG_DIR}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d "${TMP_DIR}" ]] || mkdir -p "${TMP_DIR}";
     # --------------------------------------------------------------------------
 
     # powerline.conf for tmux --------------------------------------------------
@@ -110,26 +110,26 @@ function config_tmux()
     # /usr/share/powerline/bindings/tmux
     local DEB_TMUX_DIR="${DEB_TMUX_BIND_DIR}/tmux";
 
-    if [[ -d ${ROCKY_TMUX_DIR} ]] && [[ ! -d ${DEB_TMUX_BIND_DIR} ]]; then
-        mkdir -p ${DEB_TMUX_BIND_DIR};
-        ln -s ${ROCKY_TMUX_DIR} ${DEB_TMUX_DIR};
+    if [[ -d "${ROCKY_TMUX_DIR}" ]] && [[ ! -d "${DEB_TMUX_BIND_DIR}" ]]; then
+        mkdir -p "${DEB_TMUX_BIND_DIR}";
+        ln -s "${ROCKY_TMUX_DIR}" "${DEB_TMUX_DIR}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "git clone https://github.com/jungsbro/tmux-config.git ${CONFIG_DIR}";
-    su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.tmux ~/";
+    su - "${CUR_USER}" -c "git clone https://github.com/jungsbro/tmux-config.git ${CONFIG_DIR}";
+    su - "${CUR_USER}" -c "cp -Rf ${CONFIG_DIR}/.tmux ~/";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
+        su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
+        su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
+        su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.tmux.conf ~/.tmux.conf";
     fi
     # --------------------------------------------------------------------------
 }

@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -90,15 +90,15 @@ function install_freetube_for_apt()
     # /tmp/freetube/freetube_0.23.5_arm64.deb
     local SRC_PATH="${TMP_DIR}/${FNAME}"
 
-    if [[ ! -e ${SRC_PATH} ]]; then
+    if [[ ! -e "${SRC_PATH}" ]]; then
         # /tmp/freetube
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
 
         wget "${SRC_URL}" -O "${SRC_PATH}"
     fi
 
-    apt install -y ${SRC_PATH}
+    apt install -y "${SRC_PATH}"
     # --------------------------------------------------------------------------
 }
 
@@ -135,15 +135,15 @@ function install_freetube_for_rpm()
     # /tmp/freetube/freetube-0.23.5.arm64.rpm
     local SRC_PATH="${TMP_DIR}/${FNAME}"
 
-    if [[ ! -e ${SRC_PATH} ]]; then
+    if [[ ! -e "${SRC_PATH}" ]]; then
         # /tmp/freetube
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
 
         wget "${SRC_URL}" -O "${SRC_PATH}"
     fi
 
-    dnf install -y ${SRC_PATH}
+    dnf install -y "${SRC_PATH}"
     # --------------------------------------------------------------------------
 }
 
@@ -157,7 +157,7 @@ function install_freetube_for_portable()
     fi
 
     # /opt/freetube
-    if [[ -e ${APP_DIR} ]]; then
+    if [[ -e "${APP_DIR}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -180,8 +180,8 @@ function install_freetube_for_portable()
     # 2) zip_path --------------------------------------------------------------
     if [[ ! -e "${TMP_DIR}" ]]; then
         # /tmp/freetube
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
 
     # /tmp/freetube/freetube-0.23.5-linux-x64-portable.zip
@@ -213,7 +213,7 @@ function install_freetube_for_portable()
     # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/freetube/freetube-icon.png
     # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget ${APP_ICON_URL} -O ${icon_path};
+    # wget "${APP_ICON_URL}" -O "${icon_path}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,17 +268,17 @@ function install_freetube_for_appimage()
     local exec_path="${APP_DIR}/${fname}";
 
     # /opt/freetube
-    mkdir -p ${APP_DIR};
+    mkdir -p "${APP_DIR}";
 
-    wget ${src_url} -O ${exec_path};
-    chmod +x ${exec_path};
+    wget "${src_url}" -O "${exec_path}";
+    chmod +x "${exec_path}";
     # --------------------------------------------------------------------------
 
     # 3) icon_path -------------------------------------------------------------
     # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/freetube/freetube-icon.png
     # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget ${APP_ICON_URL} -O ${icon_path};
+    # wget "${APP_ICON_URL}" -O "${icon_path}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -292,7 +292,7 @@ function install_freetube_for_appimage()
     local desktop_path="/usr/share/applications/${APP_NAME}.desktop";
 
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
-    set_desktop ${APP_NAME} ${exec_path} ${icon_path} ${APP_CAT} ${APP_HIDDEN} ${desktop_path} ${CUR_USER};
+    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -304,13 +304,13 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
-        # local app_name="freetube"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="freetube"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2)
-        local app_name="freetube-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="freetube-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법3)
-        # local app_name="freetube-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="freetube-git"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

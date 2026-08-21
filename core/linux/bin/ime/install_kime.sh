@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -47,7 +47,7 @@ APP_VER="v3.1.1"
 function set_kime_env()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -72,7 +72,7 @@ function set_kime_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -85,7 +85,7 @@ function set_kime_autostart()
     local icon_path="kime-hangul-black";
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
 
     local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
@@ -103,7 +103,7 @@ function set_kime_hotkey()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -119,15 +119,15 @@ function set_kime_hotkey()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -f ${SRC_HOTKEY_PATH} ]]; then
+    if [[ ! -f "${SRC_HOTKEY_PATH}" ]]; then
         return 0
     fi
 
-    su - ${CUR_USER} -c "[[ -d ${dst_hotkey_dir} ]] || mkdir -p ${dst_hotkey_dir}";
-    su - ${CUR_USER} -c "[[ -f ${dst_hotkey_path} ]] || cp -f ${SRC_HOTKEY_PATH} ${dst_hotkey_path}";
+    su - "${CUR_USER}" -c "[[ -d ${dst_hotkey_dir} ]] || mkdir -p ${dst_hotkey_dir}";
+    su - "${CUR_USER}" -c "[[ -f ${dst_hotkey_path} ]] || cp -f ${SRC_HOTKEY_PATH} ${dst_hotkey_path}";
 
-    su - ${CUR_USER} -c "sed 's/Super-Space/S-Space/g' ${dst_hotkey_path} > ${tmp_hotkey_path}";
-    su - ${CUR_USER} -c "mv -f ${tmp_hotkey_path} ${dst_hotkey_path}";
+    su - "${CUR_USER}" -c "sed 's/Super-Space/S-Space/g' ${dst_hotkey_path} > ${tmp_hotkey_path}";
+    su - "${CUR_USER}" -c "mv -f ${tmp_hotkey_path} ${dst_hotkey_path}";
     # --------------------------------------------------------------------------
 }
 
@@ -140,13 +140,13 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
-        local app_name="kime-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="kime-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2)
-        # local app_name="kime-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="kime-git"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법3)
-        # local app_name="kime"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="kime"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
@@ -156,7 +156,7 @@ function execute_main()
             TMP_URL="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_debian-buster_${APP_VER}_amd64.deb"
             TMP_PATH="/tmp/kime.deb"
             wget "${TMP_URL}" -O "${TMP_PATH}";
-            apt install -y ${TMP_PATH};
+            apt install -y "${TMP_PATH}";
             # ------------------------------------------------------------------
             set_kime_env
             # ------------------------------------------------------------------
@@ -176,7 +176,7 @@ function execute_main()
             TMP_URL="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_ubuntu-22.04_${APP_VER}_amd64.deb"
             TMP_PATH="/tmp/kime.deb"
             wget "${TMP_URL}" -O "${TMP_PATH}";
-            apt install -y ${TMP_PATH};
+            apt install -y "${TMP_PATH}";
             # ------------------------------------------------------------------
             set_kime_env
             # ------------------------------------------------------------------

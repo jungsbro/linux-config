@@ -6,11 +6,11 @@ _INSTALL_GPU_NVIDIA_FUNCS_LOADED=1
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} ${APP_NAME}
+# source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && set_bin_with_nvidia "${CUR_USER}" "${CTR_NAME}" "${APP_NAME}"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && set_app_with_nvidia ${CUR_USER} ${CTR_NAME} ${APP_NAME}
+# source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && set_app_with_nvidia "${CUR_USER}" "${CTR_NAME}" "${APP_NAME}"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -65,19 +65,19 @@ function set_bin_with_nvidia()
 
     # --------------------------------------------------------------------------
     # /homt/jungs/.local/bin
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
     local dst_dir="${home_dir}/.local/bin"
 
     local dst_path="";
 
     # /homt/jungs/.local/bin/maya
     # -iname : 대소문자 무시
-    # local dst_path=$(find ${dst_dir} -iname "*${app_name}*" | tail -1 )
-    local dst_paths=$(find ${dst_dir} -iname "*${app_name}*")
+    # local dst_path=$(find "${dst_dir}" -iname "*${app_name}*" | tail -1 )
+    local dst_paths=$(find "${dst_dir}" -iname "*${app_name}*")
     local src_cmd="";
     local dst_cmd="";
 
-    if [[ -z ${dst_paths} ]]; then
+    if [[ -z "${dst_paths}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -86,7 +86,7 @@ function set_bin_with_nvidia()
     for dst_path in ${dst_paths};
     do
         # ----------------------------------------------------------------------
-        if [[ -n $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
+        if [[ -n $(cat "${dst_path}" | grep -i "${lib_kwd}") ]]; then
             continue
         fi
         # ----------------------------------------------------------------------
@@ -134,20 +134,20 @@ function set_app_with_nvidia()
 
     # --------------------------------------------------------------------------
     # /homt/jungs/.local/share/applications
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
     local dst_dir="${home_dir}/.local/share/applications"
 
     local dst_path="";
 
     # /homt/jungs/.local/share/applications/arch-main-chromium.desktop
     # -iname : 대소문자 무시
-    # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
-    local dst_paths=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop")
+    # local dst_path=$(find "${dst_dir}" -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    local dst_paths=$(find "${dst_dir}" -iname "${ctr_name}-*${app_name}*.desktop")
 
     local src_cmd="";
     local dst_cmd="";
 
-    if [[ -z ${dst_paths} ]]; then
+    if [[ -z "${dst_paths}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -156,7 +156,7 @@ function set_app_with_nvidia()
     for dst_path in ${dst_paths};
     do
         # ----------------------------------------------------------------------
-        if [[ -n $(cat ${dst_path} | grep -i ${lib_kwd}) ]]; then
+        if [[ -n $(cat "${dst_path}" | grep -i "${lib_kwd}") ]]; then
             continue
         fi
         # ----------------------------------------------------------------------

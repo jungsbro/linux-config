@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -63,8 +63,8 @@ function execute_main()
         local app_name="bat"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         if [[ ! -f "${HOME_DIR}/.local/bin/bat" ]]; then
-            su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
-            su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+            su - "${CUR_USER}" -c "mkdir -p ${HOME_DIR}/.local/bin";
+            su - "${CUR_USER}" -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
         fi
         # ----------------------------------------------------------------------
         local app_name="lsd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true

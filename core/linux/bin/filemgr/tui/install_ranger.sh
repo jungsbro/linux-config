@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -44,7 +44,7 @@ ARCHIVE_DIR="${TMP_DIR}/ranger-archives";
 function install_ranger_pip()   # not used
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -54,11 +54,11 @@ function install_ranger_pip()   # not used
     # --------------------------------------------------------------------------
 
     # user ---------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -e "~/.local/bin/ranger" ]] || eval '${RNG_CMD}'";
+    su - "${CUR_USER}" -c "[[ -e "~/.local/bin/ranger" ]] || eval '${RNG_CMD}'";
     # --------------------------------------------------------------------------
 
     # root ---------------------------------------------------------------------
-    if [[ ${CUR_USER} != "root" ]]; then
+    if [[ "${CUR_USER}" != "root" ]]; then
         [[ -e "/root/.local/bin/ranger" ]] || eval '${RNG_CMD}';
     fi
     # --------------------------------------------------------------------------
@@ -67,7 +67,7 @@ function install_ranger_pip()   # not used
 function install_dependency_for_ranger()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -277,7 +277,7 @@ function install_dependency_for_ranger()
 function install_ranger()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -302,18 +302,18 @@ function config_ranger_pip()
     # --------------------------------------------------------------------------
     local BASHRC_PATH="/root/.bashrc";
 
-    local PATH_CMD='if [[ *"$PATH"* != *"$HOME:"* ]]; then
+    local PATH_CMD='if [[ "${PATH}" != *"$HOME:"* ]]; then
     export PATH=$PATH:$HOME
 fi
-if [[ *"$PATH"* != *"$HOME/.local/bin"* ]]; then
+if [[ "${PATH}" != *"$HOME/.local/bin"* ]]; then
     export PATH=$PATH:$HOME/.local/bin
 fi';
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -e ${BASHRC_PATH} ]] && [[ *"$(cat ${BASHRC_PATH})"* != *"${PATH_CMD}"* ]]; then
-        echo "" >> ${BASHRC_PATH};
-        echo "${PATH_CMD}" >> ${BASHRC_PATH};
+    if [[ -e "${BASHRC_PATH}" ]] && [[ $(cat "${BASHRC_PATH}") != *"${PATH_CMD}"* ]]; then
+        echo "" >> "${BASHRC_PATH}";
+        echo "${PATH_CMD}" >> "${BASHRC_PATH}";
     fi
     # --------------------------------------------------------------------------
 }
@@ -321,36 +321,36 @@ fi';
 function config_ranger()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
-    if [[ -d ${CONFIG_DIR} ]]; then
+    if [[ -d "${CONFIG_DIR}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d "${TMP_DIR}" ]] || mkdir -p "${TMP_DIR}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "git clone https://github.com/jungsbro/ranger-config.git ${CONFIG_DIR}";
-    su - ${CUR_USER} -c "chmod 755 ${CONFIG_DIR}/.config/ranger/scope.sh";
-    su - ${CUR_USER} -c "git clone https://github.com/maximtrp/ranger-archives.git ${ARCHIVE_DIR}";
+    su - "${CUR_USER}" -c "git clone https://github.com/jungsbro/ranger-config.git ${CONFIG_DIR}";
+    su - "${CUR_USER}" -c "chmod 755 ${CONFIG_DIR}/.config/ranger/scope.sh";
+    su - "${CUR_USER}" -c "git clone https://github.com/maximtrp/ranger-archives.git ${ARCHIVE_DIR}";
     # --------------------------------------------------------------------------
 
     # for user -----------------------------------------------------------------
-    su - ${CUR_USER} -c "mkdir -p ~/.config/ranger/plugins";
-    su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.config/ranger ~/.config/";
-    su - ${CUR_USER} -c "cp -Rf ${ARCHIVE_DIR} ~/.config/ranger/plugins/";
+    su - "${CUR_USER}" -c "mkdir -p ~/.config/ranger/plugins";
+    su - "${CUR_USER}" -c "cp -Rf ${CONFIG_DIR}/.config/ranger ~/.config/";
+    su - "${CUR_USER}" -c "cp -Rf ${ARCHIVE_DIR} ~/.config/ranger/plugins/";
     # --------------------------------------------------------------------------
 
     # for root -----------------------------------------------------------------
-    if [[ ${CUR_USER} != "root" ]]; then
+    if [[ "${CUR_USER}" != "root" ]]; then
         config_ranger_pip;
         mkdir -p /root/.config/ranger/plugins;
-        cp -Rf ${CONFIG_DIR}/.config/ranger /root/.config/;
-        cp -Rf ${ARCHIVE_DIR} /root/.config/ranger/plugins/;
+        cp -Rf "${CONFIG_DIR}/.config/ranger" "/root/.config/";
+        cp -Rf "${ARCHIVE_DIR}" "/root/.config/ranger/plugins/";
     fi
     # --------------------------------------------------------------------------
 }

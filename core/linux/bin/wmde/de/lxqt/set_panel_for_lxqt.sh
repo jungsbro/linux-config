@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_panel_for_lxqt.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_panel_for_lxqt.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -82,7 +82,7 @@ function set_panel_clock()
     # customFormat="'<b>'hh:mm A'</b><br/><font size=\"-1\">'yy-MM-d (ddd)'<br/></font>'"
     crudini --set "${HOME_DIR}/.config/lxqt/panel.conf" worldclock customFormat '"'\''<b>'\''hh:mm A'\''</b><br/><font size=\"-1\">'\''yy-MM-d (ddd)'\''<br/></font>'\''"'
 
-#     su - ${CUR_USER} <<EOF
+#     su - "${CUR_USER}" <<EOF
 # crudini --set "${HOME_DIR}/.config/lxqt/panel.conf" worldclock customFormat '"'\''<b>'\''hh:mm A'\''</b><br/><font size=\"-1\">'\''yy-MM-d (ddd)'\''<br/></font>'\''"'
 # EOF
     # --------------------------------------------------------------------------

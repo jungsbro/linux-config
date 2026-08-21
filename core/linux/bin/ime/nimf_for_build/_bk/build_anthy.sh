@@ -51,14 +51,14 @@ function build_anthy_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) anthy build
-    git clone ${app_url} ${src_dir};
+    git clone "${app_url}" "${src_dir}";
 
-    pushd ${src_dir}
+    pushd "${src_dir}"
     ./autogen.sh
     ./configure
     make
@@ -68,7 +68,7 @@ function build_anthy_for_dnf()
 
     # --------------------------------------------------------------------------
     # 4) nimf가 build시에 anthy을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH

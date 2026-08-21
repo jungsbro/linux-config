@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 
 # config_xfce4 =================================================================
-# python3 f"{BIN_DIR}/wmde/xfce4/config_xfce4.py" ${CUR_USER}
+# python3 f"{BIN_DIR}/wmde/xfce4/config_xfce4.py" "${CUR_USER}"
 # ==============================================================================
 
 # env ==========================================================================

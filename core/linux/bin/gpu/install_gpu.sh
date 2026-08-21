@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/gpu/install_gpu.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/gpu/install_gpu.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -46,13 +46,13 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     if [[ "${VENDOR}" == *"nvidia"* ]]; then
-        bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh "${CUR_USER}";
 
     elif [[ "${VENDOR}" == *"radeon"* ]]; then
-        bash ${CORE_BIN_DIR}/gpu/install_gpu_radeon.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/gpu/install_gpu_radeon.sh "${CUR_USER}";
 
     elif [[ "${VENDOR}" == *"intel"* ]]; then
-        bash ${CORE_BIN_DIR}/gpu/install_gpu_inel.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/gpu/install_gpu_inel.sh "${CUR_USER}";
     fi
     # --------------------------------------------------------------------------
 }

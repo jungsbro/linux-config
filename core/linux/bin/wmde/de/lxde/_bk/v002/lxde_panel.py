@@ -3,7 +3,7 @@ import sys
 import shutil
 
 # usage ========================================================================
-# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_panel.py" ${CUR_USER}
+# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_panel.py" "${CUR_USER}"
 
 # import lxde_panel
 # lxde_panel.set_panel(CORE_BIN_DIR, HOME_DIR)

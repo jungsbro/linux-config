@@ -17,8 +17,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -35,7 +35,7 @@ function execute_main()
     # --------------------------------------------------------------------------
     local window_id=$(xdotool getactivewindow)
 
-    local state=$(xprop -id ${window_id} | grep "_NET_WM_STATE_FULLSCREEN")
+    local state=$(xprop -id "${window_id}" | grep "_NET_WM_STATE_FULLSCREEN")
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

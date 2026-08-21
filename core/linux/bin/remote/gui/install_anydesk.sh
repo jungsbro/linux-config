@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -87,18 +87,18 @@ function install_anydesk_for_dnf()
 
     # --------------------------------------------------------------------------
     # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-    if [[ ! -e ${TMP_DIR}/${FNAME} ]]; then
+    if [[ ! -e "${TMP_DIR}/${FNAME}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
         # ----------------------------------------------------------------------
         # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-        wget ${URL} -O ${TMP_DIR}/${FNAME};
+        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
     fi
 
     # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-    dnf install -y ${TMP_DIR}/${FNAME};
+    dnf install -y "${TMP_DIR}/${FNAME}";
     # --------------------------------------------------------------------------
 }
 
@@ -110,10 +110,10 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
-        # local app_name="anydesk-legacy-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="anydesk-legacy-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2)
-        local app_name="anydesk-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="anydesk-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

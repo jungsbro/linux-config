@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/gui/install_doublecmd.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -90,8 +90,8 @@ function install_doublecmd_for_portable()
     # 2) zip_path --------------------------------------------------------------
     if [[ ! -e "${TMP_DIR}" ]]; then
         # /tmp/doublecmd
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
 
     # /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz
@@ -122,7 +122,7 @@ function install_doublecmd_for_portable()
     # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/doublecmd/doublecmd.png
     # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget ${APP_ICON_URL} -O ${icon_path};
+    # wget "${APP_ICON_URL}" -O "${icon_path}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,17 +171,17 @@ function install_doublecmd_for_appimage()
     local exec_path="${APP_DIR}/${fname}"
 
     # /opt/doublecmd
-    mkdir -p ${APP_DIR};
+    mkdir -p "${APP_DIR}";
 
-    wget ${src_url} -O ${exec_path};
-    chmod +x ${exec_path};
+    wget "${src_url}" -O "${exec_path}";
+    chmod +x "${exec_path}";
     # --------------------------------------------------------------------------
 
     # 3) icon_path -------------------------------------------------------------
     # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # /opt/doublecmd/doublecmd.png
     # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget ${APP_ICON_URL} -O ${icon_path};
+    # wget "${APP_ICON_URL}" -O "${icon_path}";
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

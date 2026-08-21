@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -42,7 +42,7 @@ APP_CAT="GNOME;GTK;Utility;"
 function set_ulauncher_autostart()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -65,8 +65,8 @@ X-GNOME-Autostart-enabled=true"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
-    su - ${CUR_USER} -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
+    su - "${CUR_USER}" -c "[[ -d ${AUTOSTART_DIR} ]] || mkdir -p ${AUTOSTART_DIR}";
+    su - "${CUR_USER}" -c "[[ -f ${AUTOSTART_PATH} ]] || echo \"${AUTOSTART_CMD}\" > ${AUTOSTART_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -76,7 +76,7 @@ function install_ulauncher_for_apt()
     local GPG_PATH="/usr/share/keyrings/ulauncher-archive-keyring.gpg"
 
     # --------------------------------------------------------------------------
-    if [[ -f ${GPG_PATH} ]]; then
+    if [[ -f "${GPG_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -88,7 +88,7 @@ function install_ulauncher_for_apt()
 
     # --------------------------------------------------------------------------
     gpg --keyserver keyserver.ubuntu.com --recv 0xfaf1020699503176;
-    gpg --export 0xfaf1020699503176 | tee ${GPG_PATH} > /dev/null;
+    gpg --export 0xfaf1020699503176 | tee "${GPG_PATH}" > /dev/null;
 
     echo "deb [signed-by=${GPG_PATH}] \
               http://ppa.launchpad.net/agornostal/ulauncher/ubuntu jammy main" \
@@ -111,7 +111,7 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="${APP_NAME}"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="${APP_NAME}"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

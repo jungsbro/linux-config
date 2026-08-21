@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/wm/i3/install_i3.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -52,13 +52,13 @@ function copy_config_to_home()
         return 0
     fi
 
-    su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -d "${src_dir}" ]]; then
-        # cp -rf ./config/i3/* ~/.config/i3
-        su - ${CUR_USER} -c "cp -rf ${src_dir}/* ${dst_dir}/";
+        # cp -Rf ./config/i3/* ~/.config/i3
+        su - "${CUR_USER}" -c "cp -Rf ${src_dir}/* ${dst_dir}/";
     fi
     # --------------------------------------------------------------------------
 }

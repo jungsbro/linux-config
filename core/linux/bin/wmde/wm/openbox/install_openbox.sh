@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/wm/openbox/install_openbox.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -52,13 +52,13 @@ function copy_config_to_home()
         return 0
     fi
 
-    su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -d "${src_dir}" ]]; then
-        # cp -rf ./config/openbox/* ~/.config/openbox
-        su - ${CUR_USER} -c "cp -rf ${src_dir}/* ${dst_dir}/";
+        # cp -Rf ./config/openbox/* ~/.config/openbox
+        su - "${CUR_USER}" -c "cp -Rf ${src_dir}/* ${dst_dir}/";
     fi
     # --------------------------------------------------------------------------
 }
@@ -66,9 +66,9 @@ function copy_config_to_home()
 
 function set_hotkeys()
 {
-    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_app_for_ob.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_window_for_ob.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_workspace_for_ob.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_app_for_ob.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_window_for_ob.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_hotkey_workspace_for_ob.sh "${CUR_USER}";
 }
 
 
@@ -109,7 +109,7 @@ function execute_main()
 
     # 방법2)
     # set_hotkeys;
-    # bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_system_for_ob.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/wmde/wm/openbox/set_system_for_ob.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

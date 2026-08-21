@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/xfce4/config_xfce4.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/xfce4/config_xfce4.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -34,10 +34,10 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 function set_prop_value()
 {
     # env ----------------------------------------------------------------------
-    local ch=${1}
-    local prop=${2}
-    local typ=${3}
-    local val=${4}
+    local ch="${1}"
+    local prop="${2}"
+    local typ="${3}"
+    local val="${4}"
 
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up"
     # -c : --chanel
@@ -52,7 +52,7 @@ function set_prop_value()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${val} ]]; then
+    if [[ -z "${val}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -61,7 +61,7 @@ function set_prop_value()
     # -n : --create
     # -t : type
     # -s : --set
-    `${cmd} -n -t ${typ} -s "${val}"`
+    `${cmd} -n -t "${typ}" -s "${val}"`
     echo "${cmd} -n -t \"${typ}\" -s \"${val}\""
     # --------------------------------------------------------------------------
 }
@@ -86,9 +86,9 @@ function set_shortcuts()
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>KP_Up" "string" "";
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
-    # if [[ -f ${tog_fs_path} ]]; then
+    # if [[ -f "${tog_fs_path}" ]]; then
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
-    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" "${tog_fs_path}";
     # else
         # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
         # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";
@@ -359,7 +359,7 @@ function set_default_app()
     dst_path='${HOME_DIR}/.config/xfce4/helpers.rc'
     cur_cmd="echo \"TerminalEmulator=xfce4-terminal\" > ${dst_path}"
 
-    su - ${CUR_USER} -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";
+    su - "${CUR_USER}" -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";
 }
 
 function set_desktop()
@@ -481,7 +481,7 @@ function fix_sound_disabled()
     local AUDIO_CMD="options snd_hda_intel power_save=0";
 
     if [[ ! -f "${AUDIO_PATH}" ]]; then
-        echo "${AUDIO_CMD}" > ${AUDIO_PATH}
+        echo "${AUDIO_CMD}" > "${AUDIO_PATH}"
     fi
     # --------------------------------------------------------------------------
 
@@ -494,13 +494,13 @@ function fix_sound_disabled()
     systemctl --user restart pipewire-pulse;
     systemctl --user restart wireplumber;
 
-    # su - ${CUR_USER} -c "systemctl --user enable pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire-pulse";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable wireplumber";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire-pulse";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart wireplumber";
+    # su - "${CUR_USER}" -c "systemctl --user enable pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable pipewire-pulse";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable wireplumber";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart pipewire-pulse";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart wireplumber";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

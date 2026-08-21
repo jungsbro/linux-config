@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -66,7 +66,7 @@ function execute_main()
     fi
 
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp ${CUR_USER}
+    source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

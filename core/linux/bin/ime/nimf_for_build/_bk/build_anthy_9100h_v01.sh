@@ -50,16 +50,16 @@ function build_anthy-9100h_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${src_dir} ]] || mkdir -p ${src_dir};
+    [[ -d "${src_dir}" ]] || mkdir -p "${src_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) anthy build
-    wget ${app_url} -O ${tgz_path};
-    tar -xzvf "${tgz_path}" -C ${src_dir};
+    wget "${app_url}" -O "${tgz_path}";
+    tar -xzvf "${tgz_path}" -C "${src_dir}";
 
     # /tmp/m17n-db/anthy-9100h-1.8.0
-    tgt_dir=$(ls -d ${src_dir}/* | head -n 1)
+    tgt_dir=$(ls -d "${src_dir}/*" | head -n 1)
 
     pushd "${tgt_dir}"
     ./configure
@@ -73,15 +73,15 @@ function build_anthy-9100h_for_dnf()
     local src_anthy_dir="/usr/local/share/anthy"
     local dst_anthy_dir="/usr/share/anthy"
 
-    if [[ -e ${src_anthy_dir} ]] && [[ ! -e ${dst_anthy_dir} ]]; then
+    if [[ -e "${src_anthy_dir}" ]] && [[ ! -e "${dst_anthy_dir}" ]]; then
         # ln -s /usr/local/share/anthy /usr/share/anthy
-        ln -s ${src_anthy_dir} ${dst_anthy_dir}
+        ln -s "${src_anthy_dir}" "${dst_anthy_dir}"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 4) nimf가 build시에 anthy을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then

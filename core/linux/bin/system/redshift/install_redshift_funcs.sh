@@ -6,8 +6,8 @@ _INSTALL_REDSHIFT_FUNCS_LOADED=1
 
 # usage ========================================================================
 # source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
-#     config_redshift ${CUR_USER} && \
-#     set_redshift_autostart ${CUR_USER};
+#     config_redshift "${CUR_USER}" && \
+#     set_redshift_autostart "${CUR_USER}";
 # ==============================================================================
 
 
@@ -21,16 +21,16 @@ function set_redshift_autostart()
 {
     # --------------------------------------------------------------------------
     # jungs
-    local cur_user=${1}
+    local cur_user="${1}"
 
-    if [[ -z ${cur_user} ]]; then
+    if [[ -z "${cur_user}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # /home/jungs
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -53,8 +53,8 @@ X-GNOME-Autostart-enabled=true"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${cur_user} -c "[[ -d ${autostart_dir} ]] || mkdir -p ${autostart_dir}";
-    su - ${cur_user} -c "[[ -f ${autostart_path} ]] || echo \"${start_cmd}\" > ${autostart_path}";
+    su - "${cur_user}" -c "[[ -d ${autostart_dir} ]] || mkdir -p ${autostart_dir}";
+    su - "${cur_user}" -c "[[ -f ${autostart_path} ]] || echo \"${start_cmd}\" > ${autostart_path}";
     # --------------------------------------------------------------------------
 }
 
@@ -62,9 +62,9 @@ function config_redshift()
 {
     # --------------------------------------------------------------------------
     # jungs
-    local cur_user=${1}
+    local cur_user="${1}"
 
-    if [[ -z ${cur_user} ]]; then
+    if [[ -z "${cur_user}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -84,7 +84,7 @@ lon=127.0"
 
     # --------------------------------------------------------------------------
     # ~/.config/redshift.conf
-    su - ${cur_user} -c "[[ -f ~/.config/redshift.conf ]] || echo \"${conf_cmd}\" > ~/.config/redshift.conf";
+    su - "${cur_user}" -c "[[ -f ~/.config/redshift.conf ]] || echo \"${conf_cmd}\" > ~/.config/redshift.conf";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

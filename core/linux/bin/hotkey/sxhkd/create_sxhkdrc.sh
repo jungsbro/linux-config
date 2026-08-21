@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/hotkey/sxhkd/create_sxhkdrc.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/sxhkd/create_sxhkdrc.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -1338,11 +1338,11 @@ function set_hotkey_xkill()
 function create_sxhkdrc()
 {
     # --------------------------------------------------------------------------
-    if [[ -f ${DST_SXHKDRC_PATH} ]]; then
+    if [[ -f "${DST_SXHKDRC_PATH}" ]]; then
         return 0
     fi
-    if [[ ! -d ${DST_SXHKDRC_DIR} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${DST_SXHKDRC_DIR}"
+    if [[ ! -d "${DST_SXHKDRC_DIR}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${DST_SXHKDRC_DIR}"
     fi
     # --------------------------------------------------------------------------
 
@@ -1367,16 +1367,16 @@ function create_sxhkdrc()
 
     # write sxhkdrc ------------------------------------------------------------
     # -e : enable interpretation of backslash escapes
-    echo -e ${SXHKDRC_CMD};
+    echo -e "${SXHKDRC_CMD}";
 
     # 방법1)
-    # su - ${CUR_USER} -c "echo -e ${SXHKDRC_CMD} > ${DST_SXHKDRC_PATH};"
+    # su - "${CUR_USER}" -c "echo -e ${SXHKDRC_CMD} > ${DST_SXHKDRC_PATH};"
 
     # 방법2)
-    # sudo -u ${CUR_USER} tee ${DST_SXHKDRC_PATH} <(printf '%b' "${SXHKDRC_CMD}") > /dev/null
+    # sudo -u "${CUR_USER}" tee "${DST_SXHKDRC_PATH}" <(printf '%b' "${SXHKDRC_CMD}") > /dev/null
 
     # 방법3)
-    printf '%b\n' "${SXHKDRC_CMD}" | sudo -u ${CUR_USER} tee ${DST_SXHKDRC_PATH} > /dev/null
+    printf '%b\n' "${SXHKDRC_CMD}" | sudo -u "${CUR_USER}" tee "${DST_SXHKDRC_PATH}" > /dev/null
     # --------------------------------------------------------------------------
 }
 

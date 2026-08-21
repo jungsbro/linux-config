@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -73,11 +73,11 @@ function install_fonts-hacknerdfont()
 
     # --------------------------------------------------------------------------
     # wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip" -O "/tmp/HackNerdFont.zip"
-    wget ${font_url} -O ${font_zip_path}
+    wget "${font_url}" -O "${font_zip_path}"
 
     # sudo unzip /tmp/HackNerdFont.zip -d /usr/share/fonts/HackNerdFont
-    sudo unzip ${font_zip_path} -d ${font_dst_dir}
-    rm -f ${font_zip_path}
+    sudo unzip "${font_zip_path}" -d "${font_dst_dir}"
+    rm -f "${font_zip_path}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -97,7 +97,7 @@ function execute_main()
         local app_name="ttf-hack-nerd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
         # 방법2)
-        # local app_name="ttf-hack-nerd"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="ttf-hack-nerd"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

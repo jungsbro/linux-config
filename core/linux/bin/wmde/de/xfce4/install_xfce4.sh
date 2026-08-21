@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/xfce4/install_xfce4.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/xfce4/install_xfce4.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -69,7 +69,7 @@ function install_xfce4_for_dnf()
     )
 
     local app_name="";
-    for app_name in "${app_name_list[@]}";
+    for app_name in ${app_name_list[@]};
     do
         dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     done

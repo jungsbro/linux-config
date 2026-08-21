@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -77,8 +77,8 @@ function install_dependency_for_nnn()
         local app_name="tree"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
         local app_name="bat"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
-        su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+        su - "${CUR_USER}" -c "mkdir -p ${HOME_DIR}/.local/bin";
+        su - "${CUR_USER}" -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
         # ----------------------------------------------------------------------
         local app_name="lsd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
@@ -179,7 +179,7 @@ function copy_nnnrc()
 {
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/nnn/config/nnnrc"
-    if [[ ! -f ${src_path} ]]; then
+    if [[ ! -f "${src_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -187,8 +187,8 @@ function copy_nnnrc()
     # --------------------------------------------------------------------------
     # ~/.config/nnn
     local dst_dir="${HOME_DIR}/.config/nnn";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
@@ -196,12 +196,12 @@ function copy_nnnrc()
     # ~/.config/nnn/nnnrc
     local dst_path="${dst_dir}/nnnrc"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
-        chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "cp ${src_path} ${dst_path}";
+        chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
         chmod 664 "${dst_path}"
 
-        # su - ${CUR_USER} -c "echo ${cmd} > ${dst_path}";
+        # su - "${CUR_USER}" -c "echo ${cmd} > ${dst_path}";
         # echo "${cmd}" > "${dst_path}";
     fi
     # --------------------------------------------------------------------------
@@ -212,16 +212,16 @@ function create_nnn_plugins()
 {
     # ~/.config/nnn/plugins
     local dst_dir="${HOME_DIR}/.config/nnn/plugins";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
 
     # ~/.config/nnn/plugins/autojump
     local dst_path="${dst_dir}/autojump"
     local cmd="sh -c '$(curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs)'"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "eval ${cmd}";
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "eval ${cmd}";
     fi
 }
 
@@ -230,7 +230,7 @@ function copy_shell_plugin()
 {
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/nnn/config/plugins/shell"
-    if [[ ! -f ${src_path} ]]; then
+    if [[ ! -f "${src_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -238,8 +238,8 @@ function copy_shell_plugin()
     # --------------------------------------------------------------------------
     # ~/.config/nnn/plugins
     local dst_dir="${HOME_DIR}/.config/nnn/plugins";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
@@ -247,12 +247,12 @@ function copy_shell_plugin()
     # ~/.config/nnn/plugins/shell
     local dst_path="${dst_dir}/shell"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
-        chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "cp ${src_path} ${dst_path}";
+        chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
         chmod 775 "${dst_path}"
 
-        # su - ${CUR_USER} -c "echo ${cmd} > ${dst_path}";
+        # su - "${CUR_USER}" -c "echo ${cmd} > ${dst_path}";
         # echo "${cmd}" > "${dst_path}";
     fi
     # --------------------------------------------------------------------------
@@ -274,25 +274,25 @@ fi
 '
     # ~/.bashrc
     local dst_path="${HOME_DIR}/.bashrc";
-    if [[ -f ${dst_path} ]]; then
-        if [[ ! $(cat ${dst_path} | grep -i ${kwd}) ]]; then
-            # su - ${CUR_USER} -c "echo "${cmd}" >> "${dst_path}"";
+    if [[ -f "${dst_path}" ]]; then
+        if [[ ! $(cat "${dst_path}" | grep -i "${kwd}") ]]; then
+            # su - "${CUR_USER}" -c "echo "${cmd}" >> "${dst_path}"";
             echo "${cmd}" >> "${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+            chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
             chmod 644 "${dst_path}"
-            # su - ${CUR_USER} -c "source "${dst_path}"";
+            # su - "${CUR_USER}" -c "source "${dst_path}"";
         fi
     fi
 
     # ~/.zshrc
     local dst_path="${HOME_DIR}/.zshrc";
-    if [[ -f ${dst_path} ]]; then
-        if [[ ! $(cat ${dst_path} | grep -i ${kwd}) ]]; then
-            # su - ${CUR_USER} -c "echo "${cmd}" >> "${dst_path}"";
+    if [[ -f "${dst_path}" ]]; then
+        if [[ ! $(cat "${dst_path}" | grep -i "${kwd}") ]]; then
+            # su - "${CUR_USER}" -c "echo "${cmd}" >> "${dst_path}"";
             echo "${cmd}" >> "${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+            chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
             chmod 644 "${dst_path}"
-            # su - ${CUR_USER} -c "source "${dst_path}"";
+            # su - "${CUR_USER}" -c "source "${dst_path}"";
         fi
     fi
     # --------------------------------------------------------------------------

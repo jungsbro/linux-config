@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_system_for_lxde.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_system_for_lxde.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -71,7 +71,7 @@ function set_defualt_applications()
 function set_mouse_double_click()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${LXDERC_PATH} ]]; then
+    if [[ ! -f "${LXDERC_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -101,7 +101,7 @@ function set_mouse_double_click()
 function set_mouse_alt_drag()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${LXDERC_PATH} ]]; then
+    if [[ ! -f "${LXDERC_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------

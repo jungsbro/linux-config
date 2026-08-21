@@ -19,8 +19,8 @@ export LC_ALL="en_US.UTF-8"
 # proxy settings ===============================================================
 # export PROXY_SERVER_IP=192.168.0.0:3128
 # export http_proxy=http://${PROXY_SERVER_IP}
-# export https_proxy=${http_proxy}
-# export ftp_proxy=${http_proxy}
+# export https_proxy="${http_proxy}"
+# export ftp_proxy="${http_proxy}"
 # export no_proxy=localhost
 # ==============================================================================
 

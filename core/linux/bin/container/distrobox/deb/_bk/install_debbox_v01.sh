@@ -21,7 +21,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -177,7 +177,7 @@ function execute_main()
     # 1) creaeting container
 
     # --------------------------------------------------------------------------
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -220,7 +220,7 @@ function execute_main()
     # --------------------------------------------------------------------------
     # autokey
 
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
         config_autokey ${CUR_USER} && \
         set_autokey_autostart ${CUR_USER}"
@@ -229,7 +229,7 @@ function execute_main()
     # --------------------------------------------------------------------------
     # redshift
 
-    distrobox enter ${CTR_NAME} -- bash -c "\
+    distrobox enter "${CTR_NAME}" -- bash -c "\
         source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
         config_redshift ${CUR_USER} && \
         set_redshift_autostart ${CUR_USER}"
@@ -238,7 +238,7 @@ function execute_main()
     # --------------------------------------------------------------------------
     # gimp
 
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
         install_photogimp ${CUR_USER}"
     # --------------------------------------------------------------------------

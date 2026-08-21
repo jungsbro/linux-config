@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -39,9 +39,9 @@ function config_swap()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -e ${SYSCTL_PATH} ]] && [[ *"$(cat ${SYSCTL_PATH})"* != *"${SWAP_CMD}"* ]]; then
-        echo "" >> ${SYSCTL_PATH};
-        echo "${SWAP_CMD}" >> ${SYSCTL_PATH};
+    if [[ -e "${SYSCTL_PATH}" ]] && [[ $(cat "${SYSCTL_PATH}") != *"${SWAP_CMD}"* ]]; then
+        echo "" >> "${SYSCTL_PATH}";
+        echo "${SWAP_CMD}" >> "${SYSCTL_PATH}";
     fi
     # --------------------------------------------------------------------------
 }

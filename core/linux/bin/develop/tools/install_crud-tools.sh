@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -34,12 +34,12 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 function execute_main()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
     bash ${CORE_BIN_DIR}/develop/install_jq.sh;
     bash ${CORE_BIN_DIR}/develop/install_yq.sh;
 
-    bash ${CORE_BIN_DIR}/develop/install_crudini.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/develop/install_crudini.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/develop/install_xmlstarlet.sh;
     bash ${CORE_BIN_DIR}/develop/install_jq.sh;
     bash ${CORE_BIN_DIR}/develop/install_yq.sh;

@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh "${CUR_USER}";
 
 # usage ------------------------------------------------------------------------
 # rofi -show drun
@@ -31,8 +31,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -63,13 +63,13 @@ function create_scripts_for_obrc()   # not used
     local expose_path="${dst_dir}/expose.sh"
     local launcher_path="${dst_dir}/launcher.sh"
 
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}"
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}"
     fi
-    if [[ -f ${expose_path} ]]; then
+    if [[ -f "${expose_path}" ]]; then
         return 0
     fi
-    if [[ -f ${launcher_path} ]]; then
+    if [[ -f "${launcher_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -81,11 +81,11 @@ export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive && rofi -show
     local launcher_cmd='#!/bin/bash
 export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive && rofi -show drun -theme "~/.config/rofi/themes/j_launcher.rasi"
 '
-    su - ${CUR_USER} -c "echo \"${expose_cmd}\" > ${expose_path}";
-    su - ${CUR_USER} -c "echo \"${launcher_cmd}\" > ${launcher_path}";
+    su - "${CUR_USER}" -c "echo \"${expose_cmd}\" > ${expose_path}";
+    su - "${CUR_USER}" -c "echo \"${launcher_cmd}\" > ${launcher_path}";
 
-    chmod +x ${expose_path};
-    chmod +x ${launcher_path};
+    chmod +x "${expose_path}";
+    chmod +x "${launcher_path}";
     # --------------------------------------------------------------------------
 }
 
@@ -96,7 +96,7 @@ function fix_paths_for_obrc()   # not used
     local dst_dir="${HOME_DIR}/.config/openbox"
     local obrc_path="${dst_dir}/rc.xml"
 
-    if [[ ! -f ${obrc_path} ]]; then
+    if [[ ! -f "${obrc_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -119,11 +119,11 @@ function fix_paths_for_obrc()   # not used
 function create_rofi-config()
 {
     # --------------------------------------------------------------------------
-    if [[ -f ${DST_ROFI_CONF_PATH} ]]; then
+    if [[ -f "${DST_ROFI_CONF_PATH}" ]]; then
         return 0
     fi
-    if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"
+    if [[ ! -d "${DST_ROFI_CONF_DIR}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${DST_ROFI_CONF_DIR}"
     fi
     # --------------------------------------------------------------------------
 
@@ -154,8 +154,8 @@ element-icon {
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # su - ${CUR_USER} -c "echo ${config_cmd} > ${DST_ROFI_CONF_PATH}";
-    printf '%b\n' "${config_cmd}" | sudo -u ${CUR_USER} tee ${DST_ROFI_CONF_PATH} > /dev/null;
+    # su - "${CUR_USER}" -c "echo ${config_cmd} > ${DST_ROFI_CONF_PATH}";
+    printf '%b\n' "${config_cmd}" | sudo -u "${CUR_USER}" tee "${DST_ROFI_CONF_PATH}" > /dev/null;
     # --------------------------------------------------------------------------
 }
 
@@ -163,18 +163,18 @@ element-icon {
 function copy_rofi-config_to_home()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -d ${SRC_ROFI_CONF_DIR} ]]; then
+    if [[ ! -d "${SRC_ROFI_CONF_DIR}" ]]; then
         return 0
     fi
-    if [[ ! -d ${DST_ROFI_CONF_DIR} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${DST_ROFI_CONF_DIR}"
+    if [[ ! -d "${DST_ROFI_CONF_DIR}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${DST_ROFI_CONF_DIR}"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # -r : recursive
     # -u : update
-    su - ${CUR_USER} -c "cp -ru ${SRC_ROFI_CONF_DIR}/* ${DST_ROFI_CONF_DIR}/"
+    su - "${CUR_USER}" -c "cp -ru ${SRC_ROFI_CONF_DIR}/* ${DST_ROFI_CONF_DIR}/"
     # --------------------------------------------------------------------------
 }
 
@@ -190,10 +190,10 @@ function fix_rofi-themes_for_nix()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -f ${dst_theme_path} ]]; then
+    if [[ ! -f "${dst_theme_path}" ]]; then
         return 0
     fi
-    if [[ ! -f ${dst_config_path} ]]; then
+    if [[ ! -f "${dst_config_path}" ]]; then
         return 0
     fi
     # grep "/usr/share/rofi/themes/Arc-Dark.rasi" "${HOME}/.config/rofi/themes/j_launcher.rasi"
@@ -204,7 +204,7 @@ function fix_rofi-themes_for_nix()
 
     # --------------------------------------------------------------------------
     sed -i "s|${src_theme_path}|${dst_theme_path}|g" "${dst_config_path}";
-    chown ${CUR_USER}:${CUR_USER} ${dst_config_path};
+    chown "${CUR_USER}":"${CUR_USER}" "${dst_config_path}";
     # --------------------------------------------------------------------------
 }
 
@@ -239,7 +239,7 @@ function execute_main()
 
         # "rofi for nix" needs glibc-locales
         # export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
-        bash ${CORE_BIN_DIR}/fonts/locale/install_locales_for_nix.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/fonts/locale/install_locales_for_nix.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
 

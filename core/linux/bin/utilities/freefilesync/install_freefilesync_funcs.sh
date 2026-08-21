@@ -6,7 +6,7 @@ _INSTALL_FREEFILESYNC_FUNCS_LOADED=1
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} ${APP_NAME};
+# source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && fix_freefilesync_desktop "${CUR_USER}" "${CTR_NAME}" "${APP_NAME}";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -34,17 +34,17 @@ function fix_freefilesync_desktop()
 
     # --------------------------------------------------------------------------
     # /homt/jungs/.local/share/applications
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
     local dst_dir="${home_dir}/.local/share/applications"
 
     local dst_path="";
 
     # /homt/jungs/.local/share/applications/deb-extra-FreeFileSync.desktop
     # -iname : 대소문자 무시
-    # local dst_path=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
-    local dst_paths=$(find ${dst_dir} -iname "${ctr_name}-*${app_name}*.desktop")
+    # local dst_path=$(find "${dst_dir}" -iname "${ctr_name}-*${app_name}*.desktop" | tail -1 )
+    local dst_paths=$(find "${dst_dir}" -iname "${ctr_name}-*${app_name}*.desktop")
 
-    if [[ -z ${dst_paths} ]]; then
+    if [[ -z "${dst_paths}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -53,7 +53,7 @@ function fix_freefilesync_desktop()
     for dst_path in ${dst_paths};
     do
         # ----------------------------------------------------------------------
-        if [[ -z $(cat ${dst_path} | grep -i ${kwd}) ]]; then
+        if [[ -z $(cat "${dst_path}" | grep -i "${kwd}") ]]; then
             continue
         fi
         # ----------------------------------------------------------------------

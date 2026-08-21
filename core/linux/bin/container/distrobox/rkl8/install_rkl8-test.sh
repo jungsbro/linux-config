@@ -19,7 +19,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -121,11 +121,11 @@ function execute_main()
     fi
 
     # creating container
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
 
     # pre_init_hooks
     if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
@@ -134,13 +134,13 @@ function execute_main()
 
     # chromium -----------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo dnf install -y chromium
+    # distrobox enter "${CTR_NAME}" -- sudo dnf install -y chromium
 
     # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app chromium
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --app chromium
 
     # # config (with nvidia)
-    # distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    # distrobox enter "${CTR_NAME}" -- sudo bash -c "\
     #     source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
     #     set_app_with_nvidia ${CUR_USER} ${CTR_NAME} chromium-browser"
     # --------------------------------------------------------------------------

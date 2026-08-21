@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -61,7 +61,7 @@ function install_snapd_for_pacman()
 
     # 방법2) --------------------------------------------------------------------
     # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-    # [[ -n $(yay -Q | grep -i ^snapd) ]] || su - ${CUR_USER} -c "yay -S --noconfirm --needed snapd";
+    # [[ -n $(yay -Q | grep -i ^snapd) ]] || su - "${CUR_USER}" -c "yay -S --noconfirm --needed snapd";
 
     # sudo systemctl enable --now snapd.socket
     # --------------------------------------------------------------------------
@@ -89,12 +89,12 @@ function install_snapd_for_apt()
     local DST_PATH="${DST_DIR}/nosnap.backup"
 
     # /etc/apt/preferences.d/nosnap.pref
-    if [[ -e ${SRC_PATH} ]]; then
+    if [[ -e "${SRC_PATH}" ]]; then
 
         # ~/Documents/nosnap.backup
-        [[ -e ${DST_DIR} ]] || mkdir -p ${DST_DIR};
+        [[ -e "${DST_DIR}" ]] || mkdir -p "${DST_DIR}";
 
-        mv ${SRC_PATH} ${DST_DIR};
+        mv "${SRC_PATH}" "${DST_DIR}";
         apt update;
     fi
     # --------------------------------------------------------------------------

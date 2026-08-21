@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
 
 # ------------------------------------------------------------------------------
 # /usr/bin/xscreensaver-command -lock
@@ -22,8 +22,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -54,13 +54,13 @@ function copy_config_to_home()
         return 0
     fi
     if [[ ! -d "${dst_dir}" ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -f "${src_path}" ]]; then
-        su - ${CUR_USER} -c "cp -f ${src_path} ${dst_path}";
+        su - "${CUR_USER}" -c "cp -f ${src_path} ${dst_path}";
     fi
     # --------------------------------------------------------------------------
 }

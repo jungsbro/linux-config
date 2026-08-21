@@ -21,7 +21,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -167,7 +167,7 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     # 1) creaeting container
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
 
     if [[ -n "${PRE_INIT_HOOKS}" ]]; then
         distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";

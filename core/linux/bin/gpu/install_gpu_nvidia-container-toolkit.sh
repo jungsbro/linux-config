@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -136,7 +136,7 @@ function add_nvidia-container-toolkit_repo_for_dnf()
     # sslcacert=/etc/pki/tls/certs/ca-bundle.crt를 주석처리
     local repo_path="/etc/yum.repos.d/nvidia-container-toolkit.repo"
 
-    if [[ -f ${repo_path} ]] && [[ -z $(cat ${repo_path} | grep -i "# sslcacert") ]]; then
+    if [[ -f "${repo_path}" ]] && [[ -z $(cat "${repo_path}" | grep -i "# sslcacert") ]]; then
         # ----------------------------------------------------------------------
         # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
         tk_src_cmd="sslcacert=(.*)"
@@ -145,7 +145,7 @@ function add_nvidia-container-toolkit_repo_for_dnf()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        sed -i -E "s|${tk_src_cmd}|${tk_dst_cmd}|" ${repo_path}
+        sed -i -E "s|${tk_src_cmd}|${tk_dst_cmd}|" "${repo_path}"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

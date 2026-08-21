@@ -6,7 +6,7 @@ _SET_SYSTEM_FOR_XFCE4_LOADED=1
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_default_app ${CUR_USER};
+# source ${CORE_BIN_DIR}/wmde/de/xfce4/set_system_for_xfce4.sh && set_default_app "${CUR_USER}";
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ function get_core_bin_dir_from_xfce4()
 
 core_bin_dir=$(get_core_bin_dir_from_xfce4);
 
-# set_prop_value ${ch} ${prop} ${typ} ${val};
+# set_prop_value "${ch}" "${prop}" "${typ}" "${val}";
 source ${core_bin_dir}/wmde/de/xfce4/set_funcs_for_xfce4.sh
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -58,8 +58,8 @@ source ${core_bin_dir}/wmde/de/xfce4/set_funcs_for_xfce4.sh
 function set_default_app()
 {
     # --------------------------------------------------------------------------
-    local cur_user=${1};
-    local home_dir=$(eval echo ~${cur_user});
+    local cur_user="${1}";
+    local home_dir=$(eval echo ~"${cur_user}");
 
     # rocky8 needs password
     local dst_path='${home_dir}/.config/xfce4/helpers.rc'
@@ -67,7 +67,7 @@ function set_default_app()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${cur_user} -c "[[ -e "${dst_path}" ]] || eval ${cur_cmd}";
+    su - "${cur_user}" -c "[[ -e ${dst_path} ]] || eval ${cur_cmd}";
     # --------------------------------------------------------------------------
 }
 
@@ -157,7 +157,7 @@ function fix_sound_disabled()
     local AUDIO_CMD="options snd_hda_intel power_save=0";
 
     if [[ ! -f "${AUDIO_PATH}" ]]; then
-        echo "${AUDIO_CMD}" > ${AUDIO_PATH}
+        echo "${AUDIO_CMD}" > "${AUDIO_PATH}"
     fi
     # --------------------------------------------------------------------------
 
@@ -171,13 +171,13 @@ function fix_sound_disabled()
     systemctl --user restart pipewire-pulse;
     systemctl --user restart wireplumber;
 
-    # su - ${CUR_USER} -c "systemctl --user enable pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable pipewire-pulse";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user enable wireplumber";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart pipewire-pulse";
-    # sudo -u ${CUR_USER} bash -c "systemctl --user restart wireplumber";
+    # su - "${CUR_USER}" -c "systemctl --user enable pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable pipewire-pulse";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user enable wireplumber";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart pipewire";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart pipewire-pulse";
+    # sudo -u "${CUR_USER}" bash -c "systemctl --user restart wireplumber";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

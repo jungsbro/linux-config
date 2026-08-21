@@ -52,14 +52,14 @@ function build_marisa-trie_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) marisa-trie build
-    git clone ${app_url} ${src_dir};
+    git clone "${app_url}" "${src_dir}";
 
-    pushd ${src_dir}
+    pushd "${src_dir}"
     mkdir build && cd build
     cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_PREFIX_PATH=/usr/local
     make -j$(nproc)
@@ -69,7 +69,7 @@ function build_marisa-trie_for_dnf()
 
     # --------------------------------------------------------------------------
     # 3) nimf가 build시에 marisa-trie을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig"
 
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then

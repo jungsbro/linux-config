@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh "${CUR_USER}";
 
 # python3 ~/.local/bin/wmcc.py
 # bash ~/.local/bin/wmcc.sh
@@ -21,8 +21,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -41,7 +41,7 @@ APP_NAME="wmcc"
 function cp_wmcc()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -54,7 +54,7 @@ function cp_wmcc()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "[[ -d ${dst_dir} ]] || mkdir -p ${dst_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${dst_dir} ]] || mkdir -p ${dst_dir}";
 
     for cur_fname in ${src_fname_list};
     do
@@ -62,8 +62,8 @@ function cp_wmcc()
             continue;
         fi
 
-        su - ${CUR_USER} -c "[[ -f '${dst_dir}/${cur_fname}' ]] || cp -f ${src_dir}/${cur_fname} ${dst_dir}/${cur_fname}";
-        su - ${CUR_USER} -c "chmod 755 ${dst_dir}/${cur_fname}";
+        su - "${CUR_USER}" -c "[[ -f '${dst_dir}/${cur_fname}' ]] || cp -f ${src_dir}/${cur_fname} ${dst_dir}/${cur_fname}";
+        su - "${CUR_USER}" -c "chmod 755 ${dst_dir}/${cur_fname}";
     done
     # --------------------------------------------------------------------------
 }

@@ -20,8 +20,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -83,13 +83,13 @@ function create_db()
     local total=0;
     local cur_num=0;
 
-    for cur_dir in "${dst_list[@]}";
+    for cur_dir in ${dst_list[@]};
     do
         if [[ ! -d "${cur_dir}" ]]; then
             continue
         fi
 
-        cur_num=$(find ${cur_dir} -maxdepth 1 -iname "*.desktop" | wc -l);
+        cur_num=$(find "${cur_dir}" -maxdepth 1 -iname "*.desktop" | wc -l);
 
         total=$(( ${total} + ${cur_num} ));
     done
@@ -99,13 +99,13 @@ function create_db()
     # 4) JSON_PATH(db) 만들기
     local i=0;
 
-    for cur_dir in "${dst_list[@]}";
+    for cur_dir in ${dst_list[@]};
     do
         if [[ ! -d "${cur_dir}" ]]; then
             continue
         fi
 
-        for cur_fname in $(ls ${cur_dir} | grep -i ".desktop");
+        for cur_fname in $(ls "${cur_dir}" | grep -i ".desktop");
         do
             # ------------------------------------------------------------------
             # cur_path
@@ -114,10 +114,10 @@ function create_db()
 
             cur_path="${cur_dir}/${cur_fname}";
 
-            cur_name=$(crudini --get ${cur_path} "Desktop Entry" "Name" 2> /dev/null);
-            cur_exec=$(crudini --get ${cur_path} "Desktop Entry" "Exec" 2> /dev/null);
-            cur_icon=$(crudini --get ${cur_path} "Desktop Entry" "Icon" 2> /dev/null);
-            cur_cat=$(crudini --get ${cur_path} "Desktop Entry" "Categories" 2> /dev/null);
+            cur_name=$(crudini --get "${cur_path}" "Desktop Entry" "Name" 2> /dev/null);
+            cur_exec=$(crudini --get "${cur_path}" "Desktop Entry" "Exec" 2> /dev/null);
+            cur_icon=$(crudini --get "${cur_path}" "Desktop Entry" "Icon" 2> /dev/null);
+            cur_cat=$(crudini --get "${cur_path}" "Desktop Entry" "Categories" 2> /dev/null);
 
             if [[ -z $(echo "${cur_cat}" | grep "${CAT_KWD}") ]]; then
                 continue
@@ -132,8 +132,8 @@ function create_db()
                 --arg exec "${cur_exec}" \
                 --arg icon "${cur_icon}" \
                 --arg cat "${cur_cat}" \
-                '. += [{"name": $name, "exec": $exec, "icon": $icon, "cat": $cat}]' ${JSON_PATH} \
-                > ${TMP_PATH} && mv ${TMP_PATH} ${JSON_PATH}
+                '. += [{"name": $name, "exec": $exec, "icon": $icon, "cat": $cat}]' "${JSON_PATH}" \
+                > "${TMP_PATH}" && mv "${TMP_PATH}" "${JSON_PATH}"
             # ------------------------------------------------------------------
         done
     done
@@ -144,7 +144,7 @@ function create_db()
 function set_text_with_emoji()
 {
     # --------------------------------------------------------------------------
-    local text=${1}
+    local text="${1}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

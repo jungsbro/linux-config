@@ -6,7 +6,7 @@ _INSTALL_TINT2_FUNCS_LOADED=1
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# source ${CORE_BIN_DIR}/panel/tint2/install_tint2_funcs.sh && fix_logout_for_tint2 ${CUR_WM} ${CUR_USER};
+# source ${CORE_BIN_DIR}/panel/tint2/install_tint2_funcs.sh && fix_logout_for_tint2 "${CUR_WM}" "${CUR_USER}";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -31,7 +31,7 @@ function fix_logout_for_tint2()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
 
     # /homt/jungs/.config/tint2/tint2rc
     local dst_path="${home_dir}/.config/tint2/tint2rc";

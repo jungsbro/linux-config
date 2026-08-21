@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -168,8 +168,8 @@ function install_yazi_for_apt()
     # 2) DEB_PATH --------------------------------------------------------------
     # /tmp/yazi
     if [[ ! -d "${TMP_DIR}" ]]; then
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
 
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu.deb
@@ -232,8 +232,8 @@ function install_yazi_for_portable()
     # 2) ZIP_PATH --------------------------------------------------------------
     # /tmp/yazi
     if [[ ! -d "${TMP_DIR}" ]]; then
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
 
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu.zip
@@ -251,7 +251,7 @@ function install_yazi_for_portable()
     fi
 
     # unzip /tmp/yazi/yazi-x86_64-unknown-linux-gnu.zip -d /tmp/yazi
-    unzip "${ZIP_PATH}" -d ${TMP_DIR};
+    unzip "${ZIP_PATH}" -d "${TMP_DIR}";
 
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu/yazi
     local SRC_PATH="${TMP_DIR}/${FNAME}/${APP_NAME}"
@@ -306,8 +306,8 @@ function copy_yazirc()
     # --------------------------------------------------------------------------
     # ~/.config/yazi
     local dst_dir="${HOME_DIR}/.config/yazi";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
@@ -325,8 +325,8 @@ function copy_yazirc()
         dst_path="${dst_dir}/${cur_name}"
 
         if [[ -e "${src_path}" ]] && [[ ! -e "${dst_path}" ]]; then
-            su - ${CUR_USER} -c "cp -Rf ${src_path} ${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+            su - "${CUR_USER}" -c "cp -Rf ${src_path} ${dst_path}";
+            chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
             # chmod 664 "${dst_path}"
         fi
     done
@@ -337,7 +337,7 @@ function install_nerd_font()
 {
     # --------------------------------------------------------------------------
     # HackNerdFont
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 

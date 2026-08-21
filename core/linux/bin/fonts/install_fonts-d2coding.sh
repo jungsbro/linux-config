@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -60,11 +60,11 @@ function install_fonts-d2coding()
 
     # --------------------------------------------------------------------------
     # wget "https://github.com/naver/d2codingfont/releases/download/VER1.3.2/D2Coding-Ver1.3.2-20180524.zip" -O "/tmp/D2Coding.zip"
-    wget ${FONT_URL} -O ${FONT_ZIP_PATH}
+    wget "${FONT_URL}" -O "${FONT_ZIP_PATH}";
 
     # sudo unzip /tmp/D2Coding.zip -d /usr/share/fonts/D2Coding
-    sudo unzip ${FONT_ZIP_PATH} -d ${FONT_DST_DIR}
-    rm -f ${FONT_ZIP_PATH}
+    sudo unzip "${FONT_ZIP_PATH}" -d "${FONT_DST_DIR}"
+    rm -f "${FONT_ZIP_PATH}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -81,10 +81,10 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1) D2Coding
-        local app_name="ttf-d2coding"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="ttf-d2coding"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2) Nerd Fonts
-        # local app_name="ttf-d2coding-nerd"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="ttf-d2coding-nerd"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

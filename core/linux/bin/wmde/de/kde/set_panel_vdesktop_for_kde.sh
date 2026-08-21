@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -46,10 +46,10 @@ function set_panel_vdesktop()
 {
     # --------------------------------------------------------------------------
     # 가상 데스크톱 개수를 4개로 설정
-    kwriteconfig6 --file ${FILE} --group Desktops --key Number 4
+    kwriteconfig6 --file "${FILE}" --group Desktops --key Number 4
 
     # 행(Rows)의 개수를 2개로 설정 (2행 2열 배치가 됩니다)
-    kwriteconfig6 --file ${FILE} --group Desktops --key Rows 2
+    kwriteconfig6 --file "${FILE}" --group Desktops --key Rows 2
     # --------------------------------------------------------------------------
 }
 

@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -47,7 +47,7 @@ APP_HIDDEN="false";
 function set_xcape_autostart()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -58,7 +58,7 @@ function set_xcape_autostart()
     local icon_path="${APP_NAME}";
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
 
     local desktop_path="${desktop_dir}/${DESKTOP_NAME}.desktop"
     # --------------------------------------------------------------------------

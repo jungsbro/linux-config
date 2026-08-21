@@ -3,7 +3,7 @@ set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_deadline10.sh ${CTR_NAME};
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_deadline10.sh "${CTR_NAME}";
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -79,7 +79,7 @@ fi
 # Funcs ========================================================================
 function add_dealine10()
 {
-    if [[ ! -f ${DCC_PATH} ]]; then
+    if [[ ! -f "${DCC_PATH}" ]]; then
         return 0
     fi
 

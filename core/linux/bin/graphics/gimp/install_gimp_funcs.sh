@@ -5,7 +5,7 @@ set -e
 _INSTALL_GIMP_FUNCS_LOADED=1
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp ${CUR_USER};
+# source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && install_photogimp "${CUR_USER}";
 # ==============================================================================
 
 
@@ -30,12 +30,12 @@ function install_photogimp()
     local tmp_dir="/tmp/${app_name}";
 
     if [[ -d "${tmp_dir}" ]]; then
-        rm -Rf ${tmp_dir};
+        rm -Rf "${tmp_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${cur_user} ]]; then
+    if [[ -z "${cur_user}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -63,8 +63,8 @@ function install_photogimp()
     # /tmp/PhotoGIMP/PhotoGIMP.zip
     if [[ ! -e "${zip_path}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${tmp_dir};
-        chmod 777 ${tmp_dir};
+        mkdir -p "${tmp_dir}";
+        chmod 777 "${tmp_dir}";
         # ----------------------------------------------------------------------
         # /tmp/PhotoGIMP/PhotoGIMP-linux.zip
         # /tmp/PhotoGIMP/PhotoGIMP.zip
@@ -74,7 +74,7 @@ function install_photogimp()
 
     # /tmp/PhotoGIMP/PhotoGIMP-linux.zip
     # /tmp/PhotoGIMP/PhotoGIMP.zip
-    unzip "${zip_path}" -d ${tmp_dir};
+    unzip "${zip_path}" -d "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -86,15 +86,15 @@ function install_photogimp()
         # /tmp/PhotoGIMP/PhotoGIMP-linux/.local
         local local_dir="${tmp_dir}/${app_name}-linux/.local";
 
-        su - ${cur_user} -c "cp -Rf ${conf_dir} ~/";
-        su - ${cur_user} -c "cp -Rf ${local_dir} ~/";
+        su - "${cur_user}" -c "cp -Rf ${conf_dir} ~/";
+        su - "${cur_user}" -c "cp -Rf ${local_dir} ~/";
         # ----------------------------------------------------------------------
     else                                                    # for "deb, rpm"
         # ----------------------------------------------------------------------
         # /tmp/PhotoGIMP/PhotoGIMP-master/.var/app/org.gimp.GIMP/config/GIMP
         local gimp_dir="${tmp_dir}/${app_name}-master/.var/app/org.gimp.GIMP/config/GIMP";
 
-        su - ${cur_user} -c "cp -Rf ${gimp_dir} ~/.config/";
+        su - "${cur_user}" -c "cp -Rf ${gimp_dir} ~/.config/";
         # ----------------------------------------------------------------------
     fi
 

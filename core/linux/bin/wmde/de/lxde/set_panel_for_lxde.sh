@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_panel_for_lxde.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxde/set_panel_for_lxde.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -67,7 +67,7 @@ function set_panel_height()
 
     # --------------------------------------------------------------------------
     # sed -i '/Global {/,/}/s|height=[0-9]*|height=40|' ~/.config/lxpanel/LXDE/panels/panel;
-    sed -i "${scope_ptn}s|${old_str}|${new_str}|" ${DST_LXDE_PANEL_PATH};
+    sed -i "${scope_ptn}s|${old_str}|${new_str}|" "${DST_LXDE_PANEL_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -88,7 +88,7 @@ function set_panel_style()
 
     # --------------------------------------------------------------------------
     # sed -i '/Global {/,/}/s|background=[0-9]*|background=0|' ~/.config/lxpanel/LXDE/panels/panel;
-    sed -i "${scope_ptn}s|${old_str}|${new_str}|" ${DST_LXDE_PANEL_PATH};
+    sed -i "${scope_ptn}s|${old_str}|${new_str}|" "${DST_LXDE_PANEL_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -114,7 +114,7 @@ function set_panel_fontcolor()
 
     # --------------------------------------------------------------------------
     # sed -i '/Global {/,/}/s|usefontcolor=[0-9]*|usefontcolor=0|' ~/.config/lxpanel/LXDE/panels/panel;
-    sed -i "${scope_ptn}s|${old_str}|${new_str}|" ${DST_LXDE_PANEL_PATH};
+    sed -i "${scope_ptn}s|${old_str}|${new_str}|" "${DST_LXDE_PANEL_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -135,7 +135,7 @@ function set_panel_clock()
 
     # --------------------------------------------------------------------------
     # sed -i '/Config {/,/}/s|ClockFmt=\%R|ClockFmt=     %p %I:%M\\n%y-%m-%d (%a)|' ~/.config/lxpanel/LXDE/panels/panel;
-    sed -i "${scope_ptn}s|${old_str}|${new_str}|" ${DST_LXDE_PANEL_PATH};
+    sed -i "${scope_ptn}s|${old_str}|${new_str}|" "${DST_LXDE_PANEL_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -143,11 +143,11 @@ function set_panel_clock()
 function execute_main()
 {
     # --------------------------------------------------------------------------
-    if [[ ! -f ${SRC_LXDE_PANEL_PATH} ]]; then
+    if [[ ! -f "${SRC_LXDE_PANEL_PATH}" ]]; then
         return 0
     fi
-    if [[ ! -f ${DST_LXDE_PANEL_PATH} ]]; then
-        cp ${SRC_LXDE_PANEL_PATH} ${DST_LXDE_PANEL_PATH};
+    if [[ ! -f "${DST_LXDE_PANEL_PATH}" ]]; then
+        cp "${SRC_LXDE_PANEL_PATH}" "${DST_LXDE_PANEL_PATH}";
     fi
     # --------------------------------------------------------------------------
 

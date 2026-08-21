@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -47,7 +47,7 @@ function fix_ssh-port()
     local replace_str="Port ${PORT}"
 
 
-    if [[ ! -f ${dst_path} ]]; then
+    if [[ ! -f "${dst_path}" ]]; then
         return 0
     fi
     if [[ -z $(grep "${search_str}" "${dst_path}") ]]; then

@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -75,11 +75,11 @@ function add_contrib_repo_for_apt()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${NEW_FILE}" ]] && [[ *"$(cat ${NEW_FILE})"* != *"main contrib"* ]]; then
+    if [[ -f "${NEW_FILE}" ]] && [[ $(cat "${NEW_FILE}") != *"main contrib"* ]]; then
         # 단어가 있든 없든 'Components: ' 뒤를 무조건 우리가 원하는 세트로 덮어씌웁니다.
         sed -i 's/^Components: .*/Components: main contrib non-free non-free-firmware/' "${NEW_FILE}"
 
-    elif [[ -f "${OLD_FILE}" ]] && [[ *"$(cat ${OLD_FILE})"* != *"main contrib"* ]]; then
+    elif [[ -f "${OLD_FILE}" ]] && [[ $(cat "${OLD_FILE}") != *"main contrib"* ]]; then
         # 단어가 있든 없든 'main' 뒤를 무조건 우리가 원하는 세트로 덮어씌웁니다.
         sed -i 's/ main.*/ main contrib non-free non-free-firmware/' "${OLD_FILE}"
     fi

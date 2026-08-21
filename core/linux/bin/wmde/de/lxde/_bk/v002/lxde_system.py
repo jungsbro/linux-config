@@ -3,7 +3,7 @@ import sys
 import shutil
 
 # usage ========================================================================
-# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_system.py" ${CUR_USER}
+# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_system.py" "${CUR_USER}"
 
 # import lxde_system
 # lxde_system.set_text_editor(HOME_DIR)

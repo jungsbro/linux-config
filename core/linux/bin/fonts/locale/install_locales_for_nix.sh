@@ -4,7 +4,7 @@ set -e
 # usage ========================================================================
 # nixpkg 사용사, locale 문제가 있을때 사용한다.(nixpkg rofi를 사용할때 필수)
 
-# bash ${CORE_BIN_DIR}/fonts/locale/install_locales_for_nix.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/fonts/locale/install_locales_for_nix.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -20,8 +20,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -42,7 +42,7 @@ APP_CAT="System;Utility"
 function set_locale-archive_env()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------

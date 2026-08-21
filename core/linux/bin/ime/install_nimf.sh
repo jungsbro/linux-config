@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -50,7 +50,7 @@ PC_PATH="${LOCAL_LIB_DIR}/pkgconfig/nimf.pc"
 function set_nimf-env()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -71,7 +71,7 @@ export XMODIFIERS="@im=nimf"
 function set_nimf-autostart()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -84,7 +84,7 @@ function set_nimf-autostart()
     local icon_path="nimf-logo"
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
 
     local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
@@ -176,7 +176,7 @@ function get_anthy-pc()
     local dst_path="${dst_dir}/anthy.dic"
 
     [[ -d "${dst_dir}" ]] || mkdir -p "${dst_dir}";
-    [[ -f "${src_path}" ]] && [[ ! -f ${dst_path} ]] &&  ln -s "${src_path}" "${dst_path}"
+    [[ -f "${src_path}" ]] && [[ ! -f "${dst_path}" ]] &&  ln -s "${src_path}" "${dst_path}"
 
 
     # ~/.nix-profile/lib/pkgconfig/anthy.pc
@@ -218,7 +218,7 @@ function get_rime-pc()
 function get_nimf-pc()
 {
     # --------------------------------------------------------------------------
-    chmod -R +x ${CORE_BIN_DIR}/ime/nimf_for_build;
+    chmod -R +x "${CORE_BIN_DIR}/ime/nimf_for_build";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -253,13 +253,13 @@ function execute_main()
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
-        local app_name="nimf-libhangul"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="nimf-libhangul"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법1)
-        # local app_name="nimf-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="nimf-git"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법2)
-        local app_name="nimf"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="nimf"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

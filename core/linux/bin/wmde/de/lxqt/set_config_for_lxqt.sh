@@ -2,9 +2,9 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh "${CUR_USER}";
 
-# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}
+# dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -20,8 +20,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -43,15 +43,15 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_panel_for_lxqt.sh ${CUR_USER}
+    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_panel_for_lxqt.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_theme_for_lxqt.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_theme_for_lxqt.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

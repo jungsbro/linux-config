@@ -3,9 +3,9 @@ import sys
 import shutil
 
 # usage ========================================================================
-# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py" ${CUR_USER}
+# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py" "${CUR_USER}"
 
-# dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py ${CUR_USER};
+# dbus-run-session python3 ${CORE_BIN_DIR}/wmde/de/lxde/lxde_config.py "${CUR_USER}";
 # ==============================================================================
 
 

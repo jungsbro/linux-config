@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -55,13 +55,13 @@ function set_theme_dark()
 {
     # --------------------------------------------------------------------------
     # 1. 실제 앱들의 색상을 결정 (가장 체감이 큼)
-    kwriteconfig6 --file ${FILE1} --group General --key ColorScheme BreezeDark
+    kwriteconfig6 --file "${FILE1}" --group General --key ColorScheme BreezeDark
 
     # 2. 패널, 위젯 등 바탕화면 껍데기 색상을 결정
-    kwriteconfig6 --file ${FILE2} --group Theme --key name "org.kde.breezedark.desktop"
+    kwriteconfig6 --file "${FILE2}" --group Theme --key name "org.kde.breezedark.desktop"
 
     # 3. GUI 설정창과의 동기화를 위해 "나 지금 다크 모드임"이라고 기록
-    kwriteconfig6 --file ${FILE1} --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
+    kwriteconfig6 --file "${FILE1}" --group KDE --key LookAndFeelPackage "org.kde.breezedark.desktop"
     # --------------------------------------------------------------------------
 }
 

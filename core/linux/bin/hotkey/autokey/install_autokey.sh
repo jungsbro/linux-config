@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -39,9 +39,9 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
-            local app_name="autokey-qt"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+            local app_name="autokey-qt"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         else
-            local app_name="autokey-gtk"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+            local app_name="autokey-gtk"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         fi
         # ----------------------------------------------------------------------
 
@@ -84,8 +84,8 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
-        config_autokey ${CUR_USER} && \
-        set_autokey_autostart ${CUR_USER}
+        config_autokey "${CUR_USER}" && \
+        set_autokey_autostart "${CUR_USER}"
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

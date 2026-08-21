@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -35,9 +35,9 @@ function set_pavucontrol_enable()
 {
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl list-unit-files pipewire.service &>/dev/null; then
-            su - ${CUR_USER} -c "systemctl --user enable --now pipewire";
-            su - ${CUR_USER} -c "systemctl --user enable --now pipewire-pulse";
-            su - ${CUR_USER} -c "systemctl --user enable --now wireplumber";
+            su - "${CUR_USER}" -c "systemctl --user enable --now pipewire";
+            su - "${CUR_USER}" -c "systemctl --user enable --now pipewire-pulse";
+            su - "${CUR_USER}" -c "systemctl --user enable --now wireplumber";
         fi
     fi
 }

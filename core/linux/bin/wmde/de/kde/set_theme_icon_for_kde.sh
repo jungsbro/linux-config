@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -50,7 +50,7 @@ function set_theme_icon()
         # ----------------------------------------------------------------------
         # 아이콘 테마를 Papirus로 설정
         # 기본 Papirus 외에도 Papirus-Dark, Papirus-Light 등이 있으니 취향껏 선택 가능합니다.
-        kwriteconfig6 --file ${FILE} --group Icons --key Theme ${ICON_NAME}
+        kwriteconfig6 --file "${FILE}" --group Icons --key Theme "${ICON_NAME}"
         # ----------------------------------------------------------------------
     fi
 }

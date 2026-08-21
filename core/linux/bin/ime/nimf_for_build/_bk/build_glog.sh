@@ -50,14 +50,14 @@ function build_glog_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) glog build
-    git clone ${app_url} ${src_dir};
+    git clone "${app_url}" "${src_dir}";
 
-    pushd ${src_dir}
+    pushd "${src_dir}"
     # rime has error because of "glog v0.5.0+"
     # git checkout v0.5.0
     # git checkout v0.4.0
@@ -72,7 +72,7 @@ function build_glog_for_dnf()
 
     make -j$(nproc)
     make install
-    ldconfig ${local_lib64_dir}
+    ldconfig "${local_lib64_dir}"
     popd
     # --------------------------------------------------------------------------
 
@@ -90,10 +90,10 @@ Version: 0.4.0
 Libs: -L${libdir} -lglog
 Cflags: -I${includedir}
 "
-        echo "$CONF_CMD" > ${local_lib64_dir}/pkgconfig/${pkg_name}.pc
+        echo "$CONF_CMD" > "${local_lib64_dir}/pkgconfig/${pkg_name}.pc"
     fi
 
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib64_dir}/pkgconfig"
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib64_dir}/pkgconfig"* ]]; then
         # export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig:$PKG_CONFIG_PATH

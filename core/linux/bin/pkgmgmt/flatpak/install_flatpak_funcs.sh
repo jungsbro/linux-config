@@ -33,12 +33,12 @@ function get_core_bin_dir_from_flatpak()
 
 function install_flatpakpkg()
 {
-    # install_flatpakpkg ${app_name}
+    # install_flatpakpkg "${app_name}"
     # install_flatpakpkg "freefilesync"
 
     # 1) env-vars settings -----------------------------------------------------
     # com.github.maoschanz.drawing
-    local app_fullname=${1}
+    local app_fullname="${1}"
 
     # drawing
     local app_name=$(echo "${app_fullname}" | rev | cut -d "." -f 1 | rev 2>/dev/null || true)
@@ -64,7 +64,7 @@ function install_flatpakpkg()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # echo ${app_name}
+    # echo "${app_name}"
 
     [[ -n $(flatpak list --app | grep -i "${app_name}") ]] || flatpak install -y "${app_fullname}";
     # --------------------------------------------------------------------------

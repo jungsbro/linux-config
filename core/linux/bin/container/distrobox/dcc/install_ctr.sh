@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/dcc/install_ctr.sh ${CTR_NAME};
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/install_ctr.sh "${CTR_NAME}";
 # ==============================================================================
 
 
@@ -19,7 +19,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -135,11 +135,11 @@ function execute_main()
     fi
 
     # creating container
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
 
     # pre_init_hooks
     if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 

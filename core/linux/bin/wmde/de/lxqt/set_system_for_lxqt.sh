@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_system_for_lxqt.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -42,19 +42,19 @@ function set_autostart()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -f ${src_desktop_path} ]]; then
+    if [[ ! -f "${src_desktop_path}" ]]; then
         return 0
     fi
-    if [[ -f ${dst_autostart_path} ]]; then
+    if [[ -f "${dst_autostart_path}" ]]; then
         return 0
     fi
-    if [[ ! -d ${dst_autostart_dir} ]]; then
-        mkdir -p ${dst_autostart_dir}
+    if [[ ! -d "${dst_autostart_dir}" ]]; then
+        mkdir -p "${dst_autostart_dir}"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    cp -f ${src_desktop_path} ${dst_autostart_dir}/
+    cp -f "${src_desktop_path}" "${dst_autostart_dir}/"
     # --------------------------------------------------------------------------
 
     echo "${dst_autostart_path}"
@@ -67,12 +67,12 @@ function set_global_keyboard_shortcuts_disable()
     # --------------------------------------------------------------------------
     local filename="lxqt-globalkeyshortcuts.desktop"
 
-    local dst_autostart_path=$(set_autostart ${filename})
+    local dst_autostart_path=$(set_autostart "${filename}")
 
-    # echo ${filename}
-    # echo ${dst_autostart_path}
+    # echo "${filename}"
+    # echo "${dst_autostart_path}"
 
-    if [[ ! -f ${dst_autostart_path} ]]; then
+    if [[ ! -f "${dst_autostart_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -96,12 +96,12 @@ function set_powermanagement_disable()
     # --------------------------------------------------------------------------
     local filename="lxqt-powermanagement.desktop"
 
-    local dst_autostart_path=$(set_autostart ${filename})
+    local dst_autostart_path=$(set_autostart "${filename}")
 
-    # echo ${filename}
-    # echo ${dst_autostart_path}
+    # echo "${filename}"
+    # echo "${dst_autostart_path}"
 
-    if [[ ! -f ${dst_autostart_path} ]]; then
+    if [[ ! -f "${dst_autostart_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -127,19 +127,19 @@ function fix_tmux_for_qterminal()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -f ${tmux_conf_path} ]]; then
+    if [[ ! -f "${tmux_conf_path}" ]]; then
         return 0
     fi
-    if [[ -n $(cat ${tmux_conf_path} | grep -i ${tmux_conf_kwd}) ]]; then
+    if [[ -n $(cat "${tmux_conf_path}" | grep -i "${tmux_conf_kwd}") ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    echo "" >> ${tmux_conf_path};
-    echo ${tmux_conf_cmd} >> ${tmux_conf_path};
+    echo "" >> "${tmux_conf_path}";
+    echo "${tmux_conf_cmd}" >> "${tmux_conf_path}";
 
-    # if [[ -f ${tmux_path} ]]; then
+    # if [[ -f "${tmux_path}" ]]; then
     #     tmux kill-server;
     # fi
     # --------------------------------------------------------------------------

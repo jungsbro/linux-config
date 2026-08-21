@@ -21,7 +21,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -309,7 +309,7 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # maya 2025 ----------------------------------------------------------------
-    # if [[ -e ${MA_PATH} ]]; then
+    # if [[ -e "${MA_PATH}" ]]; then
     #     # cd /mnt/j4105-omv/core/linux/bin/cg/maya/maya2025
     #     # sudo bash ./install_maya2025.sh
     #     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${MA_PATH}"
@@ -328,7 +328,7 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # houdini 19.5 -------------------------------------------------------------
-    # if [[ -e ${HOU_PATH} ]]; then
+    # if [[ -e "${HOU_PATH}" ]]; then
     #     # cd /mnt/j4105-omv/core/linux/bin/cg/houdini/hfs19.5.303
     #     # sudo bash ./sync1_j4105-omv_to_opt_for_hou1905303.sh
     #     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${HOU_PATH}"
@@ -344,7 +344,7 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # nuke 16.0 ----------------------------------------------------------------
-    # if [[ -e ${NK_PATH} ]]; then
+    # if [[ -e "${NK_PATH}" ]]; then
     #     # cd /mnt/j4105-omv/core/linux/bin/cg/nuke/Nuke16.0v6
     #     # sudo bash ./sync1_j4105-omv_to_opt_for_nk1606.sh
     #     distrobox enter "${CTR_NAME}" -- bash -c "sudo bash ${NK_PATH}"

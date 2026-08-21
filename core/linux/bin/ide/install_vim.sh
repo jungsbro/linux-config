@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ide/install_vim.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -81,10 +81,10 @@ function install_vim()
 function config_vim()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
-    if [[ -d ${CONFIG_DIR} ]]; then
+    if [[ -d "${CONFIG_DIR}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -97,29 +97,29 @@ SELECTED_EDITOR="/usr/bin/vim"";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d "${TMP_DIR}" ]] || mkdir -p "${TMP_DIR}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    su - ${CUR_USER} -c "git clone https://github.com/jungsbro/vim-config.git ${CONFIG_DIR}";
-    su - ${CUR_USER} -c "echo \"${SEL_EDIT_CMD}\" > ${SEL_EDIT_PATH}";
+    su - "${CUR_USER}" -c "git clone https://github.com/jungsbro/vim-config.git ${CONFIG_DIR}";
+    su - "${CUR_USER}" -c "echo \"${SEL_EDIT_CMD}\" > ${SEL_EDIT_PATH}";
     # --------------------------------------------------------------------------
 
     # for user -----------------------------------------------------------------
-    su - ${CUR_USER} -c "cp -Rf ${CONFIG_DIR}/.vim ~/";
-    su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc_full";
-    su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc_simple ~/.vimrc_simple";
-    su - ${CUR_USER} -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc";
-    su - ${CUR_USER} -c "cp -f ${SEL_EDIT_PATH} ~/.selected_editor";
+    su - "${CUR_USER}" -c "cp -Rf ${CONFIG_DIR}/.vim ~/";
+    su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc_full";
+    su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.vimrc_simple ~/.vimrc_simple";
+    su - "${CUR_USER}" -c "cp -f ${CONFIG_DIR}/.vimrc ~/.vimrc";
+    su - "${CUR_USER}" -c "cp -f ${SEL_EDIT_PATH} ~/.selected_editor";
     # --------------------------------------------------------------------------
 
     # for root -----------------------------------------------------------------
-    if [[ ${CUR_USER} != "root" ]]; then
-        cp -Rf ${CONFIG_DIR}/.vim /root/;
-        cp -f ${CONFIG_DIR}/.vimrc /root/.vimrc_full;
-        cp -f ${CONFIG_DIR}/.vimrc_simple /root/.vimrc_simple;
-        cp -f ${CONFIG_DIR}/.vimrc_simple /root/.vimrc;
-        cp -f ${SEL_EDIT_PATH} /root/.selected_editor;
+    if [[ "${CUR_USER}" != "root" ]]; then
+        cp -Rf "${CONFIG_DIR}/.vim" "/root/";
+        cp -f "${CONFIG_DIR}/.vimrc" "/root/.vimrc_full";
+        cp -f "${CONFIG_DIR}/.vimrc_simple" "/root/.vimrc_simple";
+        cp -f "${CONFIG_DIR}/.vimrc_simple" "/root/.vimrc";
+        cp -f "${SEL_EDIT_PATH}" "/root/.selected_editor";
     fi
     # --------------------------------------------------------------------------
 }

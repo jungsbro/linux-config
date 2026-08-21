@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -46,7 +46,7 @@ function install_wezterm_for_apt()
     curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
     echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
     apt update;
-    apt install -y ${APP_NAME};
+    apt install -y "${APP_NAME}";
 }
 
 
@@ -57,7 +57,7 @@ function install_wezterm_for_dnf()
     fi
 
     sudo dnf copr enable wezfurlong/wezterm-nightly
-    dnf install -y ${APP_NAME};
+    dnf install -y "${APP_NAME}";
 }
 
 

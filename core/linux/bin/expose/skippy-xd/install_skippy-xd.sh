@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -111,11 +111,11 @@ function install_skippy-xd_for_build()
 
     # checking TMP_DIR ---------------------------------------------------------
     local TMP_DIR="/tmp";
-    [[ -d ${TMP_DIR} ]] || mkdir -p ${TMP_DIR};
+    [[ -d "${TMP_DIR}" ]] || mkdir -p "${TMP_DIR}";
     # --------------------------------------------------------------------------
 
     # compile skippy-xd --------------------------------------------------------
-    cd ${TMP_DIR}
+    cd "${TMP_DIR}"
     git clone https://github.com/felixfung/skippy-xd.git
     cd skippy-xd
 
@@ -142,13 +142,13 @@ function copy_config_to_home()  # not used
         return 0
     fi
     if [[ ! -d "${dst_dir}" ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -f "${src_path}" ]]; then
-        su - ${CUR_USER} -c "cp -f ${src_path} ${dst_path}";
+        su - "${CUR_USER}" -c "cp -f ${src_path} ${dst_path}";
     fi
     # --------------------------------------------------------------------------
 }
@@ -157,7 +157,7 @@ function copy_config_to_home()  # not used
 function set_skippy-xd_autostart()  # not used, becuase of bug (freezing)
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -170,7 +170,7 @@ function set_skippy-xd_autostart()  # not used, becuase of bug (freezing)
     local icon_path=""
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
 
     local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
@@ -187,7 +187,7 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="skippy-xd-git"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="skippy-xd-git"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

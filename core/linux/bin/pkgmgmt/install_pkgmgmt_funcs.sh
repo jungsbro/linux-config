@@ -52,7 +52,7 @@ function show_msg()
     # 1) msg
     local msg="${1}"
 
-    if [[ -n ${msg} ]]; then
+    if [[ -n "${msg}" ]]; then
         msg+="\n"
     fi
     # --------------------------------------------------------------------------
@@ -94,9 +94,11 @@ echo \"\"
 function set_env()
 {
     # --------------------------------------------------------------------------
-    local kwd=${1};
-    local cmd=${2};
-    local cur_user=${3};
+    local kwd="${1}";
+    local cmd="${2}";
+    local cur_user="${3}";
+
+    local home_dir=$(eval echo ~"${cur_user}");
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -105,18 +107,18 @@ function set_env()
     local path_list="";
 
     # 1) cli (tty, xrdp)
-    path_list+="${HOME_DIR}/.bash_profile";
+    path_list+="${home_dir}/.bash_profile";
     path_list+=" ";
 
     # 2) gui (wm, de)
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        local path_list+="${HOME_DIR}/.xprofile";
+        local path_list+="${home_dir}/.xprofile";
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        local path_list+="${HOME_DIR}/.xsessionrc";
+        local path_list+="${home_dir}/.xsessionrc";
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        local path_list+="${HOME_DIR}/.xprofile";
+        local path_list+="${home_dir}/.xprofile";
     else
         return 0
     fi
@@ -146,13 +148,13 @@ function set_env()
 function set_desktop()
 {
     # --------------------------------------------------------------------------
-    local app_name=${1}
-    local app_exec_cmd=${2}
-    local icon_path=${3}
-    local app_cat=${4}
-    local app_hidden=${5}
-    local desktop_path=${6}
-    local cur_user=${7}
+    local app_name="${1}"
+    local app_exec_cmd="${2}"
+    local icon_path="${3}"
+    local app_cat="${4}"
+    local app_hidden="${5}"
+    local desktop_path="${6}"
+    local cur_user="${7}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -170,17 +172,17 @@ Hidden=${app_hidden}";
         return 0
     fi
 
-    local desktop_dir=$(dirname ${desktop_path});
-    su - ${cur_user} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    local desktop_dir=$(dirname "${desktop_path}");
+    su - "${cur_user}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ "${desktop_path}" == *"home"* ]]; then
         # ~/.local/share/applications/galculator.desktop
-        su - ${cur_user} -c "echo \"${desktop_cmd}\" > ${desktop_path}";
+        su - "${cur_user}" -c "echo \"${desktop_cmd}\" > ${desktop_path}";
     else
         # /usr/share/applications/galculator.desktop
-        echo "${desktop_cmd}" > ${desktop_path};
+        echo "${desktop_cmd}" > "${desktop_path}";
     fi
     # --------------------------------------------------------------------------
 }
@@ -192,7 +194,7 @@ function remove_space_for_ini()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local ini_path=${1}
+    local ini_path="${1}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -215,7 +217,7 @@ function remove_space_for_ini()
 # Funcs : service ==============================================================
 function enable_sv()
 {
-    local sv_name=${1}
+    local sv_name="${1}"
 
     # --------------------------------------------------------------------------
     if [[ "${sv_name}" == *"ufw"* ]]; then
@@ -229,7 +231,7 @@ function enable_sv()
         local unit_list=$(systemctl list-unit-files --full --plain --no-legend 2>/dev/null || true)
 
         if [[ "${unit_list}" == *"${sv_name}"* ]]; then
-            systemctl enable --now ${sv_name}
+            systemctl enable --now "${sv_name}"
         fi
     else    # sysVinit
         return 0
@@ -240,14 +242,14 @@ function enable_sv()
 
 function restart_sv()
 {
-    local sv_name=${1}
+    local sv_name="${1}"
 
     # --------------------------------------------------------------------------
     if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         local unit_list=$(systemctl list-unit-files --full --plain --no-legend 2>/dev/null || true)
 
         if [[ "${unit_list}" == *"${sv_name}"* ]]; then
-            systemctl restart ${sv_name}
+            systemctl restart "${sv_name}"
         fi
     else    # sysVinit
         return 0
@@ -261,8 +263,8 @@ function restart_sv()
 function allow_sv-port_for_ufw()    # needs "restart_sv"
 {
     # --------------------------------------------------------------------------
-    local protocol=${1};
-    local port=${2};
+    local protocol="${1}";
+    local port="${2}";
 
     # '3389/tcp'
     local port_protocol="${port}/${protocol}";
@@ -273,7 +275,7 @@ function allow_sv-port_for_ufw()    # needs "restart_sv"
         return 0
     fi
 
-    ufw allow ${port_protocol};
+    ufw allow "${port_protocol}";
 
     restart_sv "ufw";
     # --------------------------------------------------------------------------
@@ -283,8 +285,8 @@ function allow_sv-port_for_ufw()    # needs "restart_sv"
 function allow_sv-port_for_firewalld()    # needs "restart_sv"
 {
     # --------------------------------------------------------------------------
-    local protocol=${1};
-    local port=${2};
+    local protocol="${1}";
+    local port="${2}";
 
     # '3389/tcp'
     local port_protocol="${port}/${protocol}";
@@ -305,8 +307,8 @@ function allow_sv-port_for_firewalld()    # needs "restart_sv"
 function allow_sv-port_for_firewall()
 {
     # --------------------------------------------------------------------------
-    local protocol=${1};
-    local port=${2};
+    local protocol="${1}";
+    local port="${2}";
 
     # '3389/tcp'
     local port_protocol="${port}/${protocol}";
@@ -316,30 +318,30 @@ function allow_sv-port_for_firewall()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(pacman -Q | grep -i ^ufw) ]]; then
-            allow_sv-port_for_ufw ${protocol} ${port};
+            allow_sv-port_for_ufw "${protocol}" "${port}";
         fi
         if [[ -n $(pacman -Q | grep -i ^firewalld) ]]; then
-            allow_sv-port_for_firewalld ${protocol} ${port};
+            allow_sv-port_for_firewalld "${protocol}" "${port}";
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(apt list --installed | grep -i ^ufw) ]]; then
-            allow_sv-port_for_ufw ${protocol} ${port};
+            allow_sv-port_for_ufw "${protocol}" "${port}";
         fi
         if [[ -n $(apt list --installed | grep -i ^firewalld) ]]; then
-            allow_sv-port_for_firewalld ${protocol} ${port};
+            allow_sv-port_for_firewalld "${protocol}" "${port}";
         fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(dnf list --installed | grep -i ^ufw) ]]; then
-            allow_sv-port_for_ufw ${protocol} ${port};
+            allow_sv-port_for_ufw "${protocol}" "${port}";
         fi
         if [[ -n $(dnf list --installed | grep -i ^firewalld) ]]; then
-            allow_sv-port_for_firewalld ${protocol} ${port};
+            allow_sv-port_for_firewalld "${protocol}" "${port}";
         fi
         # ----------------------------------------------------------------------
     fi
@@ -353,13 +355,13 @@ function allow_sv-port_for_selinux()
 {
     # --------------------------------------------------------------------------
     # "ssh_port"
-    local obj_type=${1};
+    local obj_type="${1}";
 
     # "tcp"
-    local protocol=${2};
+    local protocol="${2}";
 
     # "2222"
-    local port=${3};
+    local port="${3}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -372,7 +374,7 @@ function allow_sv-port_for_selinux()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -n $(semanage port -l | grep -i ${port}) ]];then
+    if [[ -n $(semanage port -l | grep -i "${port}") ]];then
         return 0
     fi
 

@@ -20,7 +20,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -96,21 +96,21 @@ function execute_main()
     fi
 
     # creating container
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
 
     # pre_init_hooks
     if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
 
     # xcape --------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall xcape
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall xcape
 
     # bin
-    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
+    distrobox enter "${CTR_NAME}" -- distrobox-export --bin /usr/bin/xcape
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------
@@ -119,13 +119,13 @@ function execute_main()
 
     # autokey ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall autokey-gtk
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall autokey-gtk
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app autokey
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app autokey
 
     # config
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/hotkey/autokey/install_autokey_funcs.sh && \
         config_autokey ${CUR_USER} && \
         set_autokey_autostart ${CUR_USER}"
@@ -133,13 +133,13 @@ function execute_main()
 
     # redshift -----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall redshift-gtk geoclue-2.0
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall redshift-gtk geoclue-2.0
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app redshift
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app redshift
 
     # config
-    distrobox enter ${CTR_NAME} -- bash -c "\
+    distrobox enter "${CTR_NAME}" -- bash -c "\
         source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
         config_redshift ${CUR_USER} && \
         set_redshift_autostart ${CUR_USER}"
@@ -149,20 +149,20 @@ function execute_main()
     # # sandbox안에서 권한문제가 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall firejail firejail-profiles firetools
+    # distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall firejail firejail-profiles firetools
 
     # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app firetools
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --app firetools
     # --------------------------------------------------------------------------
 
     # timeshift ----------------------------------------------------------------
     # # distrobox에서 작동을 안한다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall timeshift
+    # distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall timeshift
 
     # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app timeshift
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --app timeshift
     # --------------------------------------------------------------------------
 
     # gnome-disk-utility -------------------------------------------------------
@@ -170,126 +170,126 @@ function execute_main()
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gnome-disk-utility
+    # distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall gnome-disk-utility
 
     # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app gnome-disks
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --app gnome-disks
     # --------------------------------------------------------------------------
 
     # gnome-keyring ------------------------------------------------------------
     # vscode, remmina에서 사용된다.
 
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gnome-keyring
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall gnome-keyring
     # --------------------------------------------------------------------------
 
     # vscode -------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- bash -c "\
+    distrobox enter "${CTR_NAME}" -- bash -c "\
         sudo bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER}"
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app code
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app code
     # --------------------------------------------------------------------------
 
     # doublecmd ----------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall doublecmd-gtk
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall doublecmd-gtk
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app doublecmd
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app doublecmd
     # --------------------------------------------------------------------------
 
     # google-chrome ------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- bash -c "\
+    distrobox enter "${CTR_NAME}" -- bash -c "\
         sudo bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER}"
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app google-chrome
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app google-chrome
     # --------------------------------------------------------------------------
 
     # firefox ------------------------------------------------------------------
     # # 배포판에 이미 설치되어 있다.
 
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall firefox
+    # distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall firefox
 
     # # desktop
-    # distrobox enter ${CTR_NAME} -- distrobox-export --app firefox
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --app firefox
     # --------------------------------------------------------------------------
 
     # remmina ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall remmina remmina-plugin-rdp
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall remmina remmina-plugin-rdp
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app remmina
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app remmina
     # --------------------------------------------------------------------------
 
     # libreoffice --------------------------------------------------------------
     # 배포판에 이미 설치되어 있다.
 
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall libreoffice
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall libreoffice
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app libreoffice
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app libreoffice
     # --------------------------------------------------------------------------
 
     # qpdf ---------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall qpdfview qpdfview-djvu-plugin \
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall qpdfview qpdfview-djvu-plugin \
     qpdfview-pdf-poppler-plugin qpdfview-ps-plugin qpdfview-translations
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app qpdfview
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app qpdfview
     # --------------------------------------------------------------------------
 
     # gimp ---------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall gimp
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall gimp
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app gimp
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app gimp
 
     # config : photogimp
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/graphics/gimp/install_gimp_funcs.sh && \
         install_photogimp ${CUR_USER}"
     # --------------------------------------------------------------------------
 
     # drawing ------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall drawing
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall drawing
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app drawing
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app drawing
     # --------------------------------------------------------------------------
 
     # vlc ----------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall vlc
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall vlc
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app vlc
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app vlc
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall freefilesync
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall freefilesync
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app FreeFileSync
 
     # fix desktop
     # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && \
         fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${CUR_USER} ${CTR_NAME} freefilesync"
     # --------------------------------------------------------------------------

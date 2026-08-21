@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -45,13 +45,13 @@ function fix_exec_cmd()
 
     # --------------------------------------------------------------------------
     # /usr/share/applications/google-chrome.desktop
-    if [[ ! -f ${GC_DESKTOP_PATH} ]]; then
+    if [[ ! -f "${GC_DESKTOP_PATH}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local GC_DESKTOP_CMDS=$(cat ${GC_DESKTOP_PATH});
+    local GC_DESKTOP_CMDS=$(cat "${GC_DESKTOP_PATH}");
 
     local SRC_STR="google-chrome-stable"
 
@@ -68,8 +68,8 @@ function fix_exec_cmd()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    sed "s/${SRC_STR}/${DST_STR}/g" ${GC_DESKTOP_PATH} > ${GC_DESKTOP_PATH2};
-    mv -f ${GC_DESKTOP_PATH2} ${GC_DESKTOP_PATH}
+    sed "s/${SRC_STR}/${DST_STR}/g" "${GC_DESKTOP_PATH}" > "${GC_DESKTOP_PATH2}";
+    mv -f "${GC_DESKTOP_PATH2}" "${GC_DESKTOP_PATH}";
     # --------------------------------------------------------------------------
 }
 
@@ -119,15 +119,15 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ ! -d ${TMP_DIR} ]]; then
+    if [[ ! -d "${TMP_DIR}" ]]; then
         # /tmp/google-chrome
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
-    if [[ ! -f ${TMP_DIR}/${FNAME} ]]; then
+    if [[ ! -f "${TMP_DIR}/${FNAME}" ]]; then
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        wget ${URL} -O ${TMP_DIR}/${FNAME};
+        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -135,13 +135,13 @@ function install_google-chrome()
     if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-        apt install -y ${TMP_DIR}/${FNAME};
+        apt install -y "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        dnf install -y ${TMP_DIR}/${FNAME};
+        dnf install -y "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -173,18 +173,18 @@ function install_google-chrome_for_apt()    # not used
 
     # --------------------------------------------------------------------------
     # /tmp/google-chrome
-    if [[ ! -d ${TMP_DIR} ]]; then
+    if [[ ! -d "${TMP_DIR}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-        wget ${URL} -O ${TMP_DIR}/${FNAME};
+        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
     fi
 
     # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-    apt install -y ${TMP_DIR}/${FNAME};
+    apt install -y "${TMP_DIR}/${FNAME}";
     # --------------------------------------------------------------------------
 }
 
@@ -212,18 +212,18 @@ function install_google-chrome_for_dnf()    # not used
 
     # --------------------------------------------------------------------------
     # /tmp/google-chrome
-    if [[ ! -d ${TMP_DIR} ]]; then
+    if [[ ! -d "${TMP_DIR}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
         # ----------------------------------------------------------------------
         # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        wget ${URL} -O ${TMP_DIR}/${FNAME};
+        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
         # ----------------------------------------------------------------------
     fi
 
     # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-    dnf install -y ${TMP_DIR}/${FNAME};
+    dnf install -y "${TMP_DIR}/${FNAME}";
     # --------------------------------------------------------------------------
 }
 
@@ -233,7 +233,7 @@ function execute_main()
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="google-chrome"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="google-chrome"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

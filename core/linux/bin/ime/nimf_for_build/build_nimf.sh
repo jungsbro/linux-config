@@ -18,8 +18,8 @@ _BUILD_NIMF_LOADED=1
 function build_nimf_for_dnf()
 {
     # --------------------------------------------------------------------------
-    local cur_user=${1}
-    local home_dir=$(eval echo ~${cur_user});
+    local cur_user="${1}"
+    local home_dir=$(eval echo ~"${cur_user}");
 
     local nix_dir="${home_dir}/.nix-profile"
     local nix_lib_dir="${nix_dir}/lib"
@@ -79,7 +79,7 @@ function build_nimf_for_dnf()
     # 2) nimf가 build시에 언어엔진을 인식할 수 있도록 pkgconfig 경로 등록 (for native)
 
     # export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
     # /usr/local/lib/pkgconfig : m17n-core.pc, anthy.pc
@@ -123,12 +123,12 @@ function build_nimf_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -d ${src_dir} ]]; then
-        rm -rf ${src_dir}
+    if [[ -d "${src_dir}" ]]; then
+        rm -rf "${src_dir}"
     fi
 
     git clone "${app_url}" "${src_dir}"
@@ -141,7 +141,7 @@ function build_nimf_for_dnf()
 
     # --------------------------------------------------------------------------
     # 3) nimf build
-    pushd ${src_dir}
+    pushd "${src_dir}"
     ./autogen.sh
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

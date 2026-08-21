@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -46,13 +46,13 @@ function copy_config_to_home()
 
     # --------------------------------------------------------------------------
     if [[ ! -d "${dst_dir}" ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     if [[ -d "${src_dir}" ]]; then
-        su - ${CUR_USER} -c "cp -rf ${src_dir}/* ${dst_dir}/";
+        su - "${CUR_USER}" -c "cp -Rf ${src_dir}/* ${dst_dir}/";
     fi
     # --------------------------------------------------------------------------
 }

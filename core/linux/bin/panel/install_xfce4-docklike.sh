@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -46,10 +46,10 @@ function copy_nix-dokclike()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f ${app_desktop_path} ]]; then
+    if [[ -f "${app_desktop_path}" ]]; then
         return 0
     fi
-    if [[ -f ${app_so_path} ]]; then
+    if [[ -f "${app_so_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -58,9 +58,9 @@ function copy_nix-dokclike()
     # ln -s ~/.nix-profile/share/xfce4/panel/plugins/docklike.desktop /usr/share/xfce4/panel/plugins/docklike.desktop
     local src_dir="${HOME_DIR}/.nix-profile/share/xfce4/panel/plugins"
 
-    if [[ -d ${src_dir} ]]; then
-        if [[ -d ${app_desktop_dir} ]]; then
-            cp -u -L ${src_dir}/*.desktop "${app_desktop_dir}/"
+    if [[ -d "${src_dir}" ]]; then
+        if [[ -d "${app_desktop_dir}" ]]; then
+            cp -u -L "${src_dir}/*.desktop" "${app_desktop_dir}/"
         fi
     fi
     # --------------------------------------------------------------------------
@@ -69,9 +69,9 @@ function copy_nix-dokclike()
     # ln -s ~/.nix-profile/lib/xfce4/panel/plugins/libdocklike.so /usr/lib/x86_64-linux-gnu/xfce4/panel/plugins/libdocklike.so
     local src_dir="${HOME_DIR}/.nix-profile/lib/xfce4/panel/plugins"
 
-    if [[ -d ${src_dir} ]]; then
-        if [[ -d ${app_so_dir} ]]; then
-            cp -u -L ${src_dir}/*.so "${app_so_dir}/"
+    if [[ -d "${src_dir}" ]]; then
+        if [[ -d "${app_so_dir}" ]]; then
+            cp -u -L "${src_dir}/*.so" "${app_so_dir}/"
         fi
     fi
     # --------------------------------------------------------------------------

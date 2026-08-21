@@ -63,16 +63,16 @@ function build_m17n-db_for_dnf()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    [[ -d ${src_dir} ]] || mkdir -p ${src_dir};
+    [[ -d "${src_dir}" ]] || mkdir -p "${src_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) m17n-db build
-    wget ${app_url} -O ${tgz_path};
-    tar -xvf "${tgz_path}" -C ${src_dir};
+    wget "${app_url}" -O "${tgz_path}";
+    tar -xvf "${tgz_path}" -C "${src_dir}";
 
     # /tmp/m17n-db/m17n-db-1.8.0
-    tgt_dir=$(ls -d ${src_dir}/* | head -n 1)
+    tgt_dir=$(ls -d "${src_dir}/*" | head -n 1)
 
     pushd "${tgt_dir}"
     ./get-glibc.sh
@@ -84,7 +84,7 @@ function build_m17n-db_for_dnf()
 
     # --------------------------------------------------------------------------
     # 3) nimf가 build시에 m17n-db을 인식할 수 있도록 pkgconfig 경로 등록
-    if [[ -z ${PKG_CONFIG_PATH} ]]; then
+    if [[ -z "${PKG_CONFIG_PATH}" ]]; then
         export PKG_CONFIG_PATH="${local_lib_dir}/pkgconfig"
 
     elif [[ "${PKG_CONFIG_PATH}" != *"${local_lib_dir}/pkgconfig"* ]]; then

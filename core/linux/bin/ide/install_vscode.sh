@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ide/install_vscode.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ide/install_vscode.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -102,9 +102,9 @@ function fix_vscode()
 
     grep "${old_str}" "${dst_path}" > /dev/null
 
-    if [[ ${?} == 0 ]]; then
-        sed "s|${old_str}|${new_str}|g" ${dst_path} > ${tmp_path}
-        mv -f ${tmp_path} ${dst_path}
+    if [[ "${?}" == 0 ]]; then
+        sed "s|${old_str}|${new_str}|g" "${dst_path}" > "${tmp_path}"
+        mv -f "${tmp_path}" "${dst_path}"
     fi
 }
 
@@ -118,12 +118,12 @@ function execute_main()
 
         # 방법2) official microsoft
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="visual-studio-code-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="visual-studio-code-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
         # 방법3) opensource (disable telemetry)
         # [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # local app_name="vscodium-bin"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
-        # local app_name="vscodium-bin-marketplace"; yay -Si ${app_name} &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="vscodium-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        # local app_name="vscodium-bin-marketplace"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then

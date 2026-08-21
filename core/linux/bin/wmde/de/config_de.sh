@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/config_de.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/config_de.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -47,13 +47,13 @@ function install_tools()
     # --------------------------------------------------------------------------
     # launcher
     # 방법1)
-    # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh "${CUR_USER}";
 
     # 방법3)
-    bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -62,7 +62,7 @@ function install_pkgs_for_lxde()
 {
     # --------------------------------------------------------------------------
     # screensaver
-    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # screenshot
     # 방법1)
@@ -73,25 +73,25 @@ function install_pkgs_for_lxde()
     bash ${CORE_BIN_DIR}/clipboard/install_xfce4-clipman.sh;
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # hotkey
-    bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
-    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # control-center
-    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER}
+    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -100,28 +100,28 @@ function install_pkgs_for_lxqt()
 {
     # --------------------------------------------------------------------------
     # screensaver
-    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # file-editor
-    bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # hotkey
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
-    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -137,12 +137,12 @@ function install_pkgs_for_xfce4()
     else
         # ----------------------------------------------------------------------
         # hotkey
-        bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
         # calculator
 
         # 방법1)
-        # bash ${CORE_BIN_DIR}/calculator/install_galculator.sh ${CUR_USER}
+        # bash ${CORE_BIN_DIR}/calculator/install_galculator.sh "${CUR_USER}";
 
         # 방법2)
         # bash ${CORE_BIN_DIR}/calculator/install_gnome-calculator.sh;
@@ -151,10 +151,10 @@ function install_pkgs_for_xfce4()
         bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
         # ----------------------------------------------------------------------
         # screensaver
-        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
         # panel
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -167,7 +167,7 @@ function install_pkgs_for_xfce4()
 
     # 하드웨어 및 전원관리
     bash ${CORE_BIN_DIR}/audio/install_xfce4-pulseaudio-plugin.sh;
-    # bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/network/install_nm-connection-editor.sh;
 
     # 시스템 모니터링
@@ -186,19 +186,19 @@ function install_pkgs_for_xfce4()
     bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # file-editor
-    bash ${CORE_BIN_DIR}/ide/install_mousepad.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/ide/install_mousepad.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # panel
-    # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # hotkey
     # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
@@ -209,7 +209,7 @@ function install_pkgs_for_xfce4()
     bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
     # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -227,12 +227,12 @@ function install_pkgs_for_mate()
     bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # hotkey
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
@@ -292,7 +292,7 @@ function install_pkgs_for_kde()
 function config_de()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -303,22 +303,22 @@ function config_de()
 
     if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}";
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}";
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c \
+        su - "${CUR_USER}" -c \
         "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
         dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
         # ----------------------------------------------------------------------
@@ -328,7 +328,7 @@ function config_de()
         if [[ "${CUR_VER}" == *"archlinux"* ]]; then
             # ------------------------------------------------------------------
             echo ""
-            # su - ${CUR_USER} -c \
+            # su - "${CUR_USER}" -c \
             # "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
             # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # ------------------------------------------------------------------
@@ -338,7 +338,7 @@ function config_de()
             # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
             # fi
             # ------------------------------------------------------------------
-            su - ${CUR_USER} -c \
+            su - "${CUR_USER}" -c \
             "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
             dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # ------------------------------------------------------------------
@@ -346,16 +346,16 @@ function config_de()
         elif [[ "${CUR_VER}" == *"rocky"* ]]; then
             # ------------------------------------------------------------------
             # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-            #     su - ${CUR_USER} -c \
+            #     su - "${CUR_USER}" -c \
             #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
             #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
             # else                                                    # rocky9, ...
-            #     su - ${CUR_USER} -c \
+            #     su - "${CUR_USER}" -c \
             #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
             #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
             # fi
 
-            su - ${CUR_USER} -c \
+            su - "${CUR_USER}" -c \
             "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
             dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
             # ------------------------------------------------------------------
@@ -364,14 +364,14 @@ function config_de()
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c \
+        su - "${CUR_USER}" -c \
         "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
         dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
-        su - ${CUR_USER} -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}";
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------

@@ -12,16 +12,16 @@ _SET_FUNCS_FOR_LXDE_LOADED=1
 # ------------------------------------------------------------------------------
 # source ${CORE_BIN_DIR}/wmde/de/lxde/set_funcs_for_lxde.sh
 
-# for window
-# set_hotkey_for_window ${ns} ${hotkey} ${comment} ${action} ${dst_path};
-# set_hotkey_for_half-window ${ns} ${hotkey} ${comment} ${value1} ${value2} ${value3} ${value4} ${dst_path};
+# # for window
+# set_hotkey_for_window "${ns}" "${hotkey}" "${comment}" "${action}" "${dst_path}";
+# set_hotkey_for_half-window "${ns}" "${hotkey}" "${comment}" "${value1}" "${value2}" "${value3}" "${value4}" "${dst_path}";
 
-# for workspace
-# set_hotkey_for_ws ${ns} ${hotkey} ${comment} ${action} ${key1} ${value1} ${dst_path}
-# set_hotkey_for_going-to-desktop ${ns} ${hotkey} ${comment} ${ws_num} ${dst_path}
+# # for workspace
+# set_hotkey_for_ws "${ns}" "${hotkey}" "${comment}" "${action}" "${key1}" "${value1}" "${dst_path}";
+# set_hotkey_for_going-to-desktop "${ns}" "${hotkey}" "${comment}" "${ws_num}" "${dst_path}";
 
-# for app
-# set_hotkey_for_app ${ns} ${hotkey} ${comment} ${action} ${cmd} ${dst_path};
+# # for app
+# set_hotkey_for_app "${ns}" "${hotkey}" "${comment}" "${action}" "${cmd}" "${dst_path}";
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ function is_rpios()
     uname -r | grep -q "rpi"
 
     # true(0), false(1)
-    return ${?}
+    return "${?}"
 }
 # ==============================================================================
 
@@ -74,11 +74,11 @@ function set_hotkey_for_window()
     # --------------------------------------------------------------------------
 
     # env ----------------------------------------------------------------------
-    local ns=${1}
-    local hotkey=${2}
-    local comment=${3}
-    local action=${4}
-    local dst_path=${5}
+    local ns="${1}"
+    local hotkey="${2}"
+    local comment="${3}"
+    local action="${4}"
+    local dst_path="${5}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -98,7 +98,7 @@ function set_hotkey_for_window()
     xmlstarlet ed -L -N x="${ns}" -d "//x:keyboard/x:keybind[@key='${hotkey}']" \
     "${dst_path}"
 
-    if [[ -z ${action} ]]; then
+    if [[ -z "${action}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -159,26 +159,26 @@ function set_hotkey_for_half-window()
 
     # --------------------------------------------------------------------------
     # W-S-Up / W-Dwon / W-Left / W-Right
-    local ns=${1}
-    local hotkey=${2};
-    local comment=${3};
+    local ns="${1}";
+    local hotkey="${2}";
+    local comment="${3}";
 
     local action1="UnmaximizeFull";
 
     local action2="MoveResizeTo";
     local key1="x";
-    local value1=${4};
+    local value1="${4}";
 
     local key2="y";
-    local value2=${5};
+    local value2="${5}";
 
     local key3="width";
-    local value3=${6};
+    local value3="${6}";
 
     local key4="height";
-    local value4=${7};
+    local value4="${7}";
 
-    local dst_path=${8}
+    local dst_path="${8}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -297,13 +297,13 @@ function set_hotkey_for_ws()
     # --------------------------------------------------------------------------
 
     # env ----------------------------------------------------------------------
-    local ns=${1}
-    local hotkey=${2}
-    local comment=${3}
-    local action=${4}
-    local key1=${5}
-    local value1=${6}
-    local dst_path=${7}
+    local ns="${1}"
+    local hotkey="${2}"
+    local comment="${3}"
+    local action="${4}"
+    local key1="${5}"
+    local value1="${6}"
+    local dst_path="${7}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -312,7 +312,7 @@ function set_hotkey_for_ws()
     xmlstarlet ed -L -N x="${ns}" -d "//x:keyboard/x:keybind[@key='${hotkey}']" \
     "${dst_path}"
 
-    if [[ -z ${action} ]]; then
+    if [[ -z "${action}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -380,11 +380,11 @@ function set_hotkey_for_going-to-desktop()
     # --------------------------------------------------------------------------
 
     # env ----------------------------------------------------------------------
-    local ns=${1}
-    local hotkey=${2}
-    local comment=${3}
-    local ws_num=${4}
-    local dst_path=${5}
+    local ns="${1}"
+    local hotkey="${2}"
+    local comment="${3}"
+    local ws_num="${4}"
+    local dst_path="${5}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -454,12 +454,12 @@ function set_hotkey_for_app()
     # --------------------------------------------------------------------------
 
     # env ----------------------------------------------------------------------
-    local ns=${1}
-    local hotkey=${2}
-    local comment=${3}
-    local action=${4}
-    local cmd=${5}
-    local dst_path=${6}
+    local ns="${1}"
+    local hotkey="${2}"
+    local comment="${3}"
+    local action="${4}"
+    local cmd="${5}"
+    local dst_path="${6}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -479,7 +479,7 @@ function set_hotkey_for_app()
     xmlstarlet ed -L -N x="${ns}" -d "//x:keyboard/x:keybind[@key='${hotkey}']" \
     "${dst_path}"
 
-    if [[ -z ${action} ]]; then
+    if [[ -z "${action}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------

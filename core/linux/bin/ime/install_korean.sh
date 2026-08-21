@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/ime/install_korean.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -40,22 +40,22 @@ function execute_main()
 
         # ime ------------------------------------------------------------------
         # 방법1)
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
         # 방법2)
-        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
 
         # 방법3)
-        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
 
         # 방법4)
-        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 
         # 방법5)
-        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
 
         # 방법6)
-        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
@@ -78,22 +78,22 @@ function execute_main()
         # fi
 
         # 방법1)
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
         # 방법2)
-        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
 
         # 방법3)
-        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
 
         # 방법4)
-        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 
         # 방법5)
-        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
 
         # 방법6)
-        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
@@ -103,22 +103,22 @@ function execute_main()
 
         # ime ------------------------------------------------------------------
         # 방법1)
-        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
         # 방법2)
-        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+        bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
 
         # 방법3)
-        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
 
         # 방법4)
-        # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 
         # 방법5)
-        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
 
         # 방법6)
-        # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+        # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
@@ -133,35 +133,35 @@ function execute_main()
 
         # ibus-hangul has a problem at google-docs
         if [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
-            bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+            bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
         else
             # ------------------------------------------------------------------
             # 방법1)
-            # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
             # 방법2)
-            # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
 
             # 방법3)
-            # bash ${CORE_BIN_DIR}/ime/install_ibus.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
 
             # 방법4)
-            # bash ${CORE_BIN_DIR}/ime/install_kime.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 
             # 방법5)
-            bash ${CORE_BIN_DIR}/ime/install_nimf.sh ${CUR_USER};
+            bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
 
             # 방법6)
-            # bash ${CORE_BIN_DIR}/ime/install_uim.sh ${CUR_USER};
+            # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
             # ------------------------------------------------------------------
         fi
         # ----------------------------------------------------------------------
     fi
 
     # fonts --------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-nanum.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-nanum.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

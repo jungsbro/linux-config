@@ -12,7 +12,7 @@ set -e
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-ROOT_DIR="$(dirname "$(realpath "$0")")"
+ROOT_DIR="$(dirname "$(realpath "${0}")")"
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -20,7 +20,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_WM -----------------------------------------------------------------------
 # CUR_WM="openbox";
-CUR_WM=${1};
+CUR_WM="${1}";
 
 if [[ "${CUR_WM}" != *"icewm"* ]] && [[ "${CUR_WM}" != *"fluxbox"* ]] && \
 [[ "${CUR_WM}" != *"openbox"* ]] && [[ "${CUR_WM}" != *"i3"* ]]; then
@@ -34,7 +34,7 @@ fi
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER=${2};
+CUR_USER="${2}";
 
 if [[ -z "${CUR_USER}" ]]; then
 
@@ -422,7 +422,7 @@ function install_calculator()
 function install_wmcc()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 

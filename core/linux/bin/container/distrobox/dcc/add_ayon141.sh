@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_ayon141.sh ${CTR_NAME};
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_ayon141.sh "${CTR_NAME}";
 
 # ------------------------------------------------------------------------------
 # native
@@ -30,7 +30,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -80,7 +80,7 @@ LOCAL_DESKTOP_PATH="${HOME_DIR}/.local/share/applications/${CTR_NAME}-${DCC_NAME
 # Funcs ========================================================================
 function create_desktop()
 {
-    if [[ -f ${LOCAL_ICON_PATH} ]]; then
+    if [[ -f "${LOCAL_ICON_PATH}" ]]; then
         return 0
     fi
 
@@ -91,13 +91,13 @@ Type=Application
 Icon=${LOCAL_ICON_PATH}
 "
     # ~/.local/share/applications/rkl9-ayon141-ayon.desktop
-    echo "${desktop_cmd}" > ${LOCAL_DESKTOP_PATH};
+    echo "${desktop_cmd}" > "${LOCAL_DESKTOP_PATH}";
 }
 
 
 function add_ayon()
 {
-    if [[ ! -f ${DCC_PATH} ]]; then
+    if [[ ! -f "${DCC_PATH}" ]]; then
         return 0
     fi
 
@@ -113,7 +113,7 @@ function add_ayon()
     # --------------------------------------------------------------------------
 
     # 3) ~/.local/share/applications/ayon.desktop ------------------------------
-    if [[ -f ${DCC_APP} ]]; then
+    if [[ -f "${DCC_APP}" ]]; then
         # distrobox-export --app /home/jungs/.local/share/AYON/shim/ayon.desktop
         distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
     else

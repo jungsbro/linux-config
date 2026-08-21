@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -82,18 +82,18 @@ function copy_sxhkdrc_to_home()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f ${dst_sxhkdrc_path} ]]; then
+    if [[ -f "${dst_sxhkdrc_path}" ]]; then
         return 0
     fi
-    if [[ ! -d ${dst_sxhkdrc_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_sxhkdrc_dir}"
+    if [[ ! -d "${dst_sxhkdrc_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_sxhkdrc_dir}"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 1) copy templates to ~/.config/sxhkd
-    if [[ -d ${src_sxhkdrc_dir} ]]; then
-        su - ${CUR_USER} -c "cp -rf ${src_sxhkdrc_dir}/* ${dst_sxhkdrc_dir}"
+    if [[ -d "${src_sxhkdrc_dir}" ]]; then
+        su - "${CUR_USER}" -c "cp -Rf ${src_sxhkdrc_dir}/* ${dst_sxhkdrc_dir}"
     fi
     # --------------------------------------------------------------------------
 
@@ -129,8 +129,8 @@ function copy_sxhkdrc_to_home()
         local src_template_path="${src_template_dir}/wm_sxhkdrc";
     fi
 
-    if [[ -f ${src_template_path} ]]; then
-        su - ${CUR_USER} -c "cp -f ${src_template_path} ${dst_sxhkdrc_path}"
+    if [[ -f "${src_template_path}" ]]; then
+        su - "${CUR_USER}" -c "cp -f ${src_template_path} ${dst_sxhkdrc_path}"
     fi
     # --------------------------------------------------------------------------
 }
@@ -149,16 +149,16 @@ X-LXQt-X11-Only=true
 "
 
     # --------------------------------------------------------------------------
-    if [[ -f ${autostart_path} ]]; then
+    if [[ -f "${autostart_path}" ]]; then
         return 0
     fi
-    if [[ ! -d ${autostart_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${autostart_dir}"
+    if [[ ! -d "${autostart_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${autostart_dir}"
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    printf '%b\n' "${sxhkd_desktop_cmd}" | sudo -u ${CUR_USER} tee ${autostart_path} > /dev/null
+    printf '%b\n' "${sxhkd_desktop_cmd}" | sudo -u "${CUR_USER}" tee "${autostart_path}" > /dev/null
     # --------------------------------------------------------------------------
 }
 
@@ -202,7 +202,7 @@ function set_autostart_for_sxhkd()      # deprecated
 function set_sxhkd_autostart()
 {
     # --------------------------------------------------------------------------
-    if [[ -z ${CUR_USER} ]]; then
+    if [[ -z "${CUR_USER}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -213,7 +213,7 @@ function set_sxhkd_autostart()
     local icon_path=""
 
     local desktop_dir="${HOME_DIR}/.config/autostart"
-    su - ${CUR_USER} -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
+    su - "${CUR_USER}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";
 
     local desktop_path="${desktop_dir}/${APP_NAME}.desktop"
     # --------------------------------------------------------------------------
@@ -241,7 +241,7 @@ function execute_main()
     # --------------------------------------------------------------------------
     # 2) ~/.config/sxhkd/sxhkdrc
     # 방법1)
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/create_sxhkdrc.sh ${CUR_USER};
+    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/create_sxhkdrc.sh "${CUR_USER}";
 
     # 방법2)
     copy_sxhkdrc_to_home;

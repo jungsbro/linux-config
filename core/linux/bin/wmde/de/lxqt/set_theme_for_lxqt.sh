@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_theme_for_lxqt.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_theme_for_lxqt.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -80,20 +80,20 @@ function create_gtkrc()
 {
     # --------------------------------------------------------------------------
     # 1) GTK2-setting
-    if [[ ! -d ${GTKRC2_DIR} ]]; then
+    if [[ ! -d "${GTKRC2_DIR}" ]]; then
         mkdir -p "${GTKRC2_DIR}";
     fi
-    if [[ ! -f ${GTKRC2_PATH} ]]; then
+    if [[ ! -f "${GTKRC2_PATH}" ]]; then
         echo "${GTKRC2_CMD}" > "${GTKRC2_PATH}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) GTK3-setting
-    if [[ ! -d ${GTKRC3_DIR} ]]; then
+    if [[ ! -d "${GTKRC3_DIR}" ]]; then
         mkdir -p "${GTKRC3_DIR}";
     fi
-    if [[ ! -f ${GTKRC3_PATH} ]]; then
+    if [[ ! -f "${GTKRC3_PATH}" ]]; then
         echo "${GTKRC3_CMD}" > "${GTKRC3_PATH}";
     fi
     # --------------------------------------------------------------------------
@@ -113,19 +113,19 @@ function set_icons_theme()
     # --------------------------------------------------------------------------
     # 1) Icon Theme
     # crudini --set ~/.config/lxqt/lxqt.conf General icon_theme Papirus-Dark
-    crudini --set "${HOME_DIR}/.config/lxqt/lxqt.conf" General icon_theme ${ICON_THEME_NAME}
+    crudini --set "${HOME_DIR}/.config/lxqt/lxqt.conf" General icon_theme "${ICON_THEME_NAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) GTK2 Theme
     # sed -i 's|\"Papirus\"|\"Papirus-Dark\}\"|g' ~/.gtkrc-2.0
-    sed -i "s|\"Papirus\"|\"${ICON_THEME_NAME}\"|g" ${GTKRC2_PATH}
+    sed -i "s|\"Papirus\"|\"${ICON_THEME_NAME}\"|g" "${GTKRC2_PATH}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) GTK3 Theme
     # crudini --set ~/.config/gtk-3.0/settings.ini Settings gtk-icon-theme-name Papirus-Dark
-    crudini --set "${GTKRC3_PATH}" Settings gtk-icon-theme-name ${ICON_THEME_NAME}
+    crudini --set "${GTKRC3_PATH}" Settings gtk-icon-theme-name "${ICON_THEME_NAME}"
     # --------------------------------------------------------------------------
 }
 
@@ -204,14 +204,14 @@ function set_gtk_theme()
     # --------------------------------------------------------------------------
     # 2) GTK 2 Theme
     # sed -i 's|\"Adwaita\"|\"Adwaita-dark\"|g' ~/.gtkrc-2.0
-    sed -i "s|\"Adwaita\"|\"${GTK2_THEME_NAME}\"|g" ${GTKRC2_PATH}
+    sed -i "s|\"Adwaita\"|\"${GTK2_THEME_NAME}\"|g" "${GTKRC2_PATH}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) GTK 3 Theme
 
     # crudini --set ~/.config/gtk-3.0/settings.ini Settings gtk-theme-name Adwaita-dark
-    crudini --set "${GTKRC3_PATH}" Settings gtk-theme-name ${GTK3_THEME_NAME}
+    crudini --set "${GTKRC3_PATH}" Settings gtk-theme-name "${GTK3_THEME_NAME}"
     # --------------------------------------------------------------------------
 }
 

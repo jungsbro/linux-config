@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/filemgr/tui/lf/install_lf.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/filemgr/tui/lf/install_lf.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -97,8 +97,8 @@ function install_dependency_for_lf()
         local app_name="tree"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
         local app_name="bat"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        su - ${CUR_USER} -c "mkdir -p ${HOME_DIR}/.local/bin";
-        su - ${CUR_USER} -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
+        su - "${CUR_USER}" -c "mkdir -p ${HOME_DIR}/.local/bin";
+        su - "${CUR_USER}" -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
         # ----------------------------------------------------------------------
         local app_name="lsd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
@@ -224,8 +224,8 @@ function install_lf_for_portable()
     # 2) ZIP_PATH --------------------------------------------------------------
     # /tmp/lf
     if [[ ! -d "${TMP_DIR}" ]]; then
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
     fi
 
     # /tmp/lf/lf-linux-amd64.tar.gz
@@ -270,7 +270,7 @@ function copy_lfrc()
 {
     # --------------------------------------------------------------------------
     local src_path="${CUR_DIR}/lf/config/lfrc"
-    if [[ ! -f ${src_path} ]]; then
+    if [[ ! -f "${src_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -278,8 +278,8 @@ function copy_lfrc()
     # --------------------------------------------------------------------------
     # ~/.config/lf
     local dst_dir="${HOME_DIR}/.config/lf";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
@@ -287,9 +287,9 @@ function copy_lfrc()
     # ~/.config/lf/lfrc
     local dst_path="${dst_dir}/lfrc"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "cp ${src_path} ${dst_path}";
-        chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "cp ${src_path} ${dst_path}";
+        chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
         chmod 664 "${dst_path}"
     fi
     # --------------------------------------------------------------------------
@@ -300,8 +300,8 @@ function set_color_icon_settings()
     # --------------------------------------------------------------------------
     # ~/.config/lf
     local dst_dir="${HOME_DIR}/.config/lf";
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${CUR_USER} -c "mkdir -p ${dst_dir}";
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
     fi
     # --------------------------------------------------------------------------
 
@@ -312,10 +312,10 @@ function set_color_icon_settings()
 
     # ~/.config/lf/lfrc
     local dst_path="${dst_dir}/lfrc";
-    if [[ -f ${dst_path} ]]; then
-        if [[ ! $(cat ${dst_path} | grep -i ${cmd}) ]]; then
+    if [[ -f "${dst_path}" ]]; then
+        if [[ ! $(cat "${dst_path}" | grep -i "${cmd}") ]]; then
             echo "${cmd}" >> "${dst_path}";
-            chown ${CUR_USER}:${CUR_USER} "${dst_path}"
+            chown "${CUR_USER}":"${CUR_USER}" "${dst_path}"
             chmod 644 "${dst_path}"
         fi
     fi
@@ -328,8 +328,8 @@ function set_color_icon_settings()
     # ~/.config/lf/colors
     local dst_path="${dst_dir}/colors"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "curl ${dst_url} -o ${dst_path}";
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "curl ${dst_url} -o ${dst_path}";
     fi
     # --------------------------------------------------------------------------
 
@@ -340,14 +340,14 @@ function set_color_icon_settings()
     # ~/.config/lf/icons
     local dst_path="${dst_dir}/icons"
 
-    if [[ ! -f ${dst_path} ]]; then
-        su - ${CUR_USER} -c "curl ${dst_url} -o ${dst_path}";
+    if [[ ! -f "${dst_path}" ]]; then
+        su - "${CUR_USER}" -c "curl ${dst_url} -o ${dst_path}";
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) HackNerdFont
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh ${CUR_USER};
+    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 

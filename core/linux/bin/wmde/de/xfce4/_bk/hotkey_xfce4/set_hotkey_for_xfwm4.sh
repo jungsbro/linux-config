@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -32,7 +32,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
 
 # Funcs ========================================================================
 # ------------------------------------------------------------------------------
-# set_prop_value ${ch} ${prop} ${typ} ${val};
+# set_prop_value "${ch}" "${prop}" "${typ}" "${val}";
 source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
 # ------------------------------------------------------------------------------
 
@@ -190,9 +190,9 @@ function set_tiling_hotkey()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s ""
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
-    # if [[ -f ${tog_fs_path} ]]; then
+    # if [[ -f "${tog_fs_path}" ]]; then
     #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
-    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" ${tog_fs_path};
+    #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" "${tog_fs_path}";
     # else
     #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
     #     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Up" "string" "fill_window_key";

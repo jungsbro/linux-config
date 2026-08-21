@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -66,8 +66,8 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     source ${CORE_BIN_DIR}/system/redshift/install_redshift_funcs.sh && \
-        config_redshift ${CUR_USER} && \
-        set_redshift_autostart ${CUR_USER};
+        config_redshift "${CUR_USER}" && \
+        set_redshift_autostart "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

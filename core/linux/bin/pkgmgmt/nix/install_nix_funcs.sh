@@ -44,25 +44,25 @@ function get_core_bin_dir_from_nix()
 
 function install_nixpkg()
 {
-    # install_nixpkg ${app_name} ${user_type} ${cur_user}
+    # install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
     # install_nixpkg "freefilesync" "multi" "jungs"
 
     # 1) env-vars settings -----------------------------------------------------
     # freefilesync
-    local app_name=${1}
+    local app_name="${1}"
 
     # multi / single
-    local user_type=${2}
+    local user_type="${2}"
 
     # junsgs
-    local cur_user=${3}
+    local cur_user="${3}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     local core_bin_dir=$(get_core_bin_dir_from_nix);
 
     # /homt/jungs
-    local home_dir=$(eval echo ~${cur_user});
+    local home_dir=$(eval echo ~"${cur_user}");
 
     # x86_64 / aarch64 / i686
     local cur_arch=$(uname -m);
@@ -78,7 +78,7 @@ function install_nixpkg()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -z ${cur_user} ]]; then
+    if [[ -z "${cur_user}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -92,7 +92,7 @@ function install_nixpkg()
     # nix-env -iA nixpkgs.freefilesync
     # nix profile add nixpkgs#freefilesync
 
-    su - ${cur_user} -c "source ${nix_env_path} && \
+    su - "${cur_user}" -c "source ${nix_env_path} && \
     nix profile list 2>/dev/null | grep -iq ${app_name} || \
     nix profile add nixpkgs#${app_name}"
     # --------------------------------------------------------------------------
@@ -114,23 +114,23 @@ function install_nixpkg()
     local src_dir="${home_dir}/.nix-profile/bin"
 
     local dst_dir="${home_dir}/.local/bin"
-    if [[ ! -d ${dst_dir} ]]; then
-        su - ${cur_user} -c "mkdir -p ${dst_dir}"
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${cur_user}" -c "mkdir -p ${dst_dir}"
     fi
 
-    for cur_name in $(ls ${src_dir});
+    for cur_name in $(ls "${src_dir}");
     do
         src_path="${src_dir}/${cur_name}";
-        if [[ ! -f ${src_path} ]]; then
+        if [[ ! -f "${src_path}" ]]; then
             continue
         fi
 
         dst_path="${dst_dir}/${cur_name}";
-        if [[ -f ${dst_path} ]]; then
+        if [[ -f "${dst_path}" ]]; then
             continue
         fi
 
-        su - ${cur_user} -c "ln -s ${src_path} ${dst_path}";
+        su - "${cur_user}" -c "ln -s ${src_path} ${dst_path}";
     done
     # --------------------------------------------------------------------------
 
@@ -145,16 +145,16 @@ function install_nixpkg()
         src_dir="${home_dir}/.nix-profile/share/${cur_name}"
         dst_dir="${home_dir}/.local/share/${cur_name}"
 
-        if [[ -d ${src_dir} ]]; then
-            su - ${cur_user} -c "mkdir -p \"${dst_dir}\""
+        if [[ -d "${src_dir}" ]]; then
+            su - "${cur_user}" -c "mkdir -p \"${dst_dir}\""
 
             # ------------------------------------------------------------------
             # -r : recursive
             # -u : update
             # -L : dereference
-            cp -ru -L ${src_dir}/* "${dst_dir}/"
-            chown -R ${cur_user}:${cur_user} "${dst_dir}"
-            chmod -R 755 ${dst_dir}
+            cp -ru -L "${src_dir}/*" "${dst_dir}/"
+            chown -R "${cur_user}":"${cur_user}" "${dst_dir}"
+            chmod -R 755 "${dst_dir}"
             # ------------------------------------------------------------------
 
             gtk-update-icon-cache "${dst_dir}" 2>/dev/null
@@ -166,15 +166,15 @@ function install_nixpkg()
     local src_dir="${home_dir}/.nix-profile/share/applications"
     local dst_dir="${home_dir}/.local/share/applications"
 
-    if [[ -d ${src_dir} ]]; then
-        su - ${cur_user} -c "mkdir -p \"${dst_dir}\""
+    if [[ -d "${src_dir}" ]]; then
+        su - "${cur_user}" -c "mkdir -p \"${dst_dir}\""
 
         # ----------------------------------------------------------------------
         # -u : update
         # -L : dereference
-        cp -u -L ${src_dir}/*.desktop "${dst_dir}/"
-        chown -R ${cur_user}:${cur_user} "${dst_dir}"
-        chmod -R 744 ${dst_dir}
+        cp -u -L "${src_dir}/*.desktop" "${dst_dir}/"
+        chown -R "${cur_user}":"${cur_user}" "${dst_dir}"
+        chmod -R 744 "${dst_dir}"
         # ----------------------------------------------------------------------
 
         update-desktop-database "${dst_dir}"

@@ -4,7 +4,7 @@ import shutil
 import xml.etree.ElementTree as ET
 
 # usage ========================================================================
-# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_hotkey.py" ${CUR_USER}
+# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_hotkey.py" "${CUR_USER}"
 
 # import lxde_hotkey
 # lxde_hotkey.set_shortcuts(CORE_BIN_DIR, HOME_DIR)

@@ -59,15 +59,15 @@ function build_libhangul_for_dnf()
     # 2) 구버전 libhangul 제거
     [[ -n $(dnf list --installed | grep -i ^libhangul) ]] && dnf remove -y libhangul;
 
-    [[ -d ${tmp_dir} ]] || mkdir -p ${tmp_dir};
+    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) libhangul build
     git clone "${app_url}" "${src_dir}"
-    [[ -d ${BUILD_DIR} ]] || mkdir -p ${BUILD_DIR};
+    [[ -d "${BUILD_DIR}" ]] || mkdir -p "${BUILD_DIR}";
 
-    pushd ${BUILD_DIR}
+    pushd "${BUILD_DIR}";
     cmake ..
     make
     make install
@@ -83,7 +83,7 @@ function build_libhangul_for_dnf()
     # /usr/local/lib64/pkgconfig/libhangul.pc/libhangul.pc
     local rst_path="${rst_dir}/${pkg_name}.pc"
 
-    if [[ -d ${rst_dir} ]] && [[ -f ${rst_path} ]]; then
+    if [[ -d "${rst_dir}" ]] && [[ -f "${rst_path}" ]]; then
         # /usr/local/lib64/pkgconfig/libhangul.pc
         cp "${rst_path}" "${local_lib64_dir}/pkgconfig/${pkg_name}_tmp.pc"
         rm -rf "${rst_dir}"
@@ -93,7 +93,7 @@ function build_libhangul_for_dnf()
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # pkg-config --modversion libhangul
-    # local RST=$(pkg-config --modversion ${pkg_name})
+    # local RST=$(pkg-config --modversion "${pkg_name}")
     # if [[ "${local RST}" == *"not found"* ]]; then
     #     return 0
     # fi
@@ -104,19 +104,19 @@ function build_libhangul_for_dnf()
     # 방법1) /etc/ld.so.conf.d/libhangul.conf (중요)
     if [[ ! -e "${ENV_CONF_PATH}" ]]; then
         # echo "/usr/local/lib64" | tee /etc/ld.so.conf.d/libhangul.conf;
-        echo "${local_lib64_dir}" | tee ${ENV_CONF_PATH};
+        echo "${local_lib64_dir}" | tee "${ENV_CONF_PATH}";
         ldconfig;
     fi
 
     # 방법1) /etc/ld.so.conf.d/libhangul.conf
-    # RST=$(cat ${ENV_CONF_PATH} 2> /dev/null);
+    # RST=$(cat "${ENV_CONF_PATH}" 2> /dev/null);
     # if [[ "${RST}" != *"${local_lib64_dir}"* ]]; then
-    #     echo "${local_lib64_dir}" >> ${ENV_CONF_PATH};
+    #     echo "${local_lib64_dir}" >> "${ENV_CONF_PATH}";
     #     ldconfig;
     # fi
 
     # 방법2)
-    if [[ -z ${LD_LIBRARY_PATH} ]]; then
+    if [[ -z "${LD_LIBRARY_PATH}" ]]; then
         export LD_LIBRARY_PATH="${local_lib64_dir}"
 
     elif [[ "${LD_LIBRARY_PATH}" != *"${local_lib64_dir}"* ]]; then

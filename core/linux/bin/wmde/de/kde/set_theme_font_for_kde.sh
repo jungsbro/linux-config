@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -55,20 +55,20 @@ function set_theme_font()
 {
     # --------------------------------------------------------------------------
     # 1) 일반 폰트들 (General, Toolbar, Menu, Small)
-    kwriteconfig6 --file ${FILE} --group General --key font "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
-    kwriteconfig6 --file ${FILE} --group General --key toolBarFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
-    kwriteconfig6 --file ${FILE} --group General --key menuFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
-    kwriteconfig6 --file ${FILE} --group General --key smallestReadableFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group General --key font "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group General --key toolBarFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group General --key menuFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group General --key smallestReadableFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) 고정폭 폰트 (Fixed width)
-    kwriteconfig6 --file ${FILE} --group General --key fixed "Hack,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group General --key fixed "Hack,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 3) 창 제목 폰트 (Window title)
-    kwriteconfig6 --file ${FILE} --group WM --key activeFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    kwriteconfig6 --file "${FILE}" --group WM --key activeFont "Noto Sans,${FONT_SIZE},-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
     # --------------------------------------------------------------------------
 }
 

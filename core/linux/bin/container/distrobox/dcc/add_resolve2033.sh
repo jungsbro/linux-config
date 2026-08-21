@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_resolve2033.sh ${CTR_NAME};
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_resolve2033.sh "${CTR_NAME}";
 # ==============================================================================
 
 
@@ -19,7 +19,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -90,24 +90,24 @@ function create_ayonresolve()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -e ${AYON_DCC_PATH} ]]; then
+    if [[ -e "${AYON_DCC_PATH}" ]]; then
         return 0
     fi
 
     # 방법1)
     # -e : enable interpretation of backslash escapes
-    echo -e "${cmd}" > ${AYON_DCC_PATH}
+    echo -e "${cmd}" > "${AYON_DCC_PATH}"
 
     # 방법2)
-    # printf '%b\n' "${cmd}" | sudo -u ${CUR_USER} tee ${AYON_DCC_PATH} > /dev/null
+    # printf '%b\n' "${cmd}" | sudo -u "${CUR_USER}" tee "${AYON_DCC_PATH}" > /dev/null
 
-    chmod +x ${AYON_DCC_PATH}
+    chmod +x "${AYON_DCC_PATH}"
     # --------------------------------------------------------------------------
 }
 
 function add_resolve2033()
 {
-    if [[ ! -e ${DCC_PATH} ]]; then
+    if [[ ! -e "${DCC_PATH}" ]]; then
         return 0
     fi
 
@@ -122,7 +122,7 @@ function add_resolve2033()
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} resolve"
     # --------------------------------------------------------------------------
@@ -132,7 +132,7 @@ function add_resolve2033()
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${CUR_USER} ${CTR_NAME} resolve"
     # --------------------------------------------------------------------------

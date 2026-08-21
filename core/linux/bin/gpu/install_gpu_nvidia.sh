@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh ${CUR_USER};
+# bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia.sh "${CUR_USER}";
 # ==============================================================================
 
 
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER=${1};
-HOME_DIR=$(eval echo ~${CUR_USER});
+CUR_USER="${1}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -41,19 +41,19 @@ function set_nvidia-current_dir()
     # 1) symlink /usr/lib/nvidia-current ---------------------------------------
     local LIB_SRC_PATH=$(find /usr -name "libnvidia-ml.so.1" | tail -n 1 2> /dev/null)
 
-    if [[ -f ${LIB_SRC_PATH} ]]; then
-        local LIB_SRC_DIR=$(dirname ${LIB_SRC_PATH})
+    if [[ -f "${LIB_SRC_PATH}" ]]; then
+        local LIB_SRC_DIR=$(dirname "${LIB_SRC_PATH}")
     fi
 
-    if [[ ! -d ${LIB_SRC_DIR} ]]; then
+    if [[ ! -d "${LIB_SRC_DIR}" ]]; then
         return 0
     fi
 
     local LIB_DST_DIR="/usr/lib/nvidia-current"
 
-    if [[ ! -d ${LIB_DST_DIR} ]]; then
+    if [[ ! -d "${LIB_DST_DIR}" ]]; then
         # ln -s /usr/lib/nvidia/current /usr/lib/nvidia-current
-        ln -s ${LIB_SRC_DIR} ${LIB_DST_DIR}
+        ln -s "${LIB_SRC_DIR}" "${LIB_DST_DIR}"
     fi
     # --------------------------------------------------------------------------
 
@@ -62,15 +62,15 @@ function set_nvidia-current_dir()
     # to : ~/.local/share/vulakn/icd.d/nvidia_icd.json
 
     local VK_ICD_DST_DIR="${HOME_DIR}/.local/share/vulkan/icd.d"
-    if [[ ! -d ${VK_ICD_DST_DIR} ]]; then
-        su - ${CUR_USER} -c "mkdir -p \"${VK_ICD_DST_DIR}\"";
+    if [[ ! -d "${VK_ICD_DST_DIR}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p \"${VK_ICD_DST_DIR}\"";
     fi
     local VK_ICD_DST_PATH="${VK_ICD_DST_DIR}/nvidia_icd.json"
 
     local VK_ICD_SRC_PATH=$(find /usr/share/vulkan -name "nvidia_icd*.json" | tail -n 1 2> /dev/null)
 
-    if [[ -f ${VK_ICD_SRC_PATH} ]] && [[ ! -f ${VK_ICD_DST_PATH} ]]; then
-        su - ${CUR_USER} -c "cp \"${VK_ICD_SRC_PATH}\" \"${VK_ICD_DST_PATH}\"";
+    if [[ -f "${VK_ICD_SRC_PATH}" ]] && [[ ! -f "${VK_ICD_DST_PATH}" ]]; then
+        su - "${CUR_USER}" -c "cp \"${VK_ICD_SRC_PATH}\" \"${VK_ICD_DST_PATH}\"";
 
         # ----------------------------------------------------------------------
         # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
@@ -84,7 +84,7 @@ function set_nvidia-current_dir()
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        sed -i -E "s|${VK_ICD_SRC_CMD}|${VK_ICD_DST_CMD}|" ${VK_ICD_DST_PATH}
+        sed -i -E "s|${VK_ICD_SRC_CMD}|${VK_ICD_DST_CMD}|" "${VK_ICD_DST_PATH}"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
@@ -94,13 +94,13 @@ function set_nvidia-current_dir()
     # to : ~/.local/share/OpenCL/vendors/nvidia.icd
 
     local OCL_ICD_DIR="${HOME_DIR}/.local/share/OpenCL/vendors"
-    if [[ ! -d ${OCL_ICD_DIR} ]]; then
-        su - ${CUR_USER} -c "mkdir -p \"${OCL_ICD_DIR}\"";
+    if [[ ! -d "${OCL_ICD_DIR}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p \"${OCL_ICD_DIR}\"";
     fi
 
     local OCL_ICD_PATH="${OCL_ICD_DIR}/nvidia.icd"
-    if [[ ! -f ${OCL_ICD_PATH} ]]; then
-        su - ${CUR_USER} -c "echo \"libnvidia-opencl.so.1\" > ${OCL_ICD_PATH}";
+    if [[ ! -f "${OCL_ICD_PATH}" ]]; then
+        su - "${CUR_USER}" -c "echo \"libnvidia-opencl.so.1\" > ${OCL_ICD_PATH}";
     fi
     # --------------------------------------------------------------------------
 
@@ -129,9 +129,9 @@ export LD_LIBRARY_PATH=/usr/lib/nvidia-current:${LD_LIBRARY_PATH}
         # echo "${cur_rc}"
         rc_path="${HOME_DIR}/${cur_rc}"
 
-        if [[ -f ${rc_path} ]] && [[ *"$(cat ${rc_path})"* != *"${LIB_DIR_KWD}"* ]]; then
-            echo "" >> ${rc_path};
-            echo "${LIB_CMD}" >> ${rc_path};
+        if [[ -f "${rc_path}" ]] && [[ $(cat "${rc_path}") != *"${LIB_DIR_KWD}"* ]]; then
+            echo "" >> "${rc_path}";
+            echo "${LIB_CMD}" >> "${rc_path}";
         fi
     done
     # --------------------------------------------------------------------------
@@ -224,7 +224,7 @@ function add_nvidia_repo_for_apt()  # not used
     fi
 
     if [[ -f "${PKG_PATH}" ]]; then
-        apt install -y ${PKG_PATH};
+        apt install -y "${PKG_PATH}";
     fi
     # --------------------------------------------------------------------------
 

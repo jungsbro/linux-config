@@ -3,7 +3,7 @@ import sys
 import shutil
 
 # usage ========================================================================
-# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_theme.py" ${CUR_USER}
+# python3 "${CORE_BIN_DIR}/wmde/de/lxde/lxde_theme.py" "${CUR_USER}"
 
 # import lxde_theme
 # lxde_theme.set_desktop_icons(HOME_DIR)

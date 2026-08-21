@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER=${1};
-# HOME_DIR=$(eval echo ~${CUR_USER});
+# CUR_USER="${1}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -57,15 +57,15 @@ function install_vbox_for_apt()
 
     # --------------------------------------------------------------------------
     local REPO_PATH="/etc/apt/sources.list";
-    local REPO_CMD=$(cat ${REPO_PATH});
+    local REPO_CMD=$(cat "${REPO_PATH}");
     local VBOX_REPO_CMD="deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian bullseye contrib";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # /etc/apt/sources.list
-    if [[ -e ${REPO_PATH} ]] && [[ "${REPO_CMD}" != *"${VBOX_REPO_CMD}"* ]]; then
-        echo "" >> ${REPO_PATH};
-        echo "${VBOX_REPO_CMD}" >> ${REPO_PATH};
+    if [[ -e "${REPO_PATH}" ]] && [[ "${REPO_CMD}" != *"${VBOX_REPO_CMD}"* ]]; then
+        echo "" >> "${REPO_PATH}";
+        echo "${VBOX_REPO_CMD}" >> "${REPO_PATH}";
     fi
 
     wget -O- "https://www.virtualbox.org/download/oracle_vbox_2016.asc" | gpg --yes --output "/usr/share/keyrings/oracle-virtualbox-2016.gpg" --dearmor;
@@ -104,21 +104,21 @@ function install_vbox_for_ubu20()
 
     # --------------------------------------------------------------------------
     # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
-    if [[ ! -e ${TMP_DIR}/${FNAME1} ]]; then
+    if [[ ! -e "${TMP_DIR}/${FNAME1}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
         # ----------------------------------------------------------------------
         # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
-        wget ${URL1} -O ${TMP_DIR}/${FNAME1};
+        wget "${URL1}" -O "${TMP_DIR}/${FNAME1}";
         # ----------------------------------------------------------------------
         # /core/linux/src/virtualbox-7.0/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
-        wget ${URL2} -O ${TMP_DIR}/${FNAME2};
+        wget "${URL2}" -O "${TMP_DIR}/${FNAME2}";
         # ----------------------------------------------------------------------
     fi
 
     # /core/linux/src/virtualbox-7.0/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
-    apt install -y ${TMP_DIR}/${FNAME1};
+    apt install -y "${TMP_DIR}/${FNAME1}";
     # --------------------------------------------------------------------------
 }
 
@@ -152,21 +152,21 @@ function install_vbox_for_dnf()
 
     # --------------------------------------------------------------------------
     # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
-    if [[ ! -e ${TMP_DIR}/${FNAME1} ]]; then
+    if [[ ! -e "${TMP_DIR}/${FNAME1}" ]]; then
         # ----------------------------------------------------------------------
-        mkdir -p ${TMP_DIR};
-        chmod 777 ${TMP_DIR};
+        mkdir -p "${TMP_DIR}";
+        chmod 777 "${TMP_DIR}";
         # ----------------------------------------------------------------------
         # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
-        wget ${URL1} -O ${TMP_DIR}/${FNAME1};
+        wget "${URL1}" -O "${TMP_DIR}/${FNAME1}";
         # ----------------------------------------------------------------------
         # /core/linux/src/virtualbox-7.0/Oracle_VM_VirtualBox_Extension_Pack-7.0.18.vbox-extpack
-        wget ${URL2} -O ${TMP_DIR}/${FNAME2};
+        wget "${URL2}" -O "${TMP_DIR}/${FNAME2}";
         # ----------------------------------------------------------------------
     fi
 
     # /core/linux/src/virtualbox-7.0/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
-    dnf install -y ${TMP_DIR}/${FNAME1};
+    dnf install -y "${TMP_DIR}/${FNAME1}";
     # --------------------------------------------------------------------------
 }
 

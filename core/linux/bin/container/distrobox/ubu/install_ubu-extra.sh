@@ -19,7 +19,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -130,28 +130,28 @@ function execute_main()
     fi
 
     # creating container
-    distrobox create ${CTR_ARGS};
+    distrobox create "${CTR_ARGS}";
 
     # pre_init_hooks
     if [[ -n "${PRE_INIT_HOOKS}" ]]; then
-        distrobox enter ${CTR_NAME} -- bash -c "${PRE_INIT_HOOKS}";
+        distrobox enter "${CTR_NAME}" -- bash -c "${PRE_INIT_HOOKS}";
     fi
     # --------------------------------------------------------------------------
 
     # xcape --------------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall xcape
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall xcape
 
     # bin
-    distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/xcape
+    distrobox enter "${CTR_NAME}" -- distrobox-export --bin /usr/bin/xcape
     # --------------------------------------------------------------------------
 
     # synapse ------------------------------------------------------------------
     # # installation
-    # distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall synapse
+    # distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall synapse
 
     # # bin
-    # distrobox enter ${CTR_NAME} -- distrobox-export --bin /usr/bin/synapse
+    # distrobox enter "${CTR_NAME}" -- distrobox-export --bin /usr/bin/synapse
     # --------------------------------------------------------------------------
 
     # skippy-xd ----------------------------------------------------------------
@@ -160,19 +160,19 @@ function execute_main()
 
     # freefilesync -------------------------------------------------------------
     # installation
-    distrobox enter ${CTR_NAME} -- sudo apt install -y --no-reinstall freefilesync
+    distrobox enter "${CTR_NAME}" -- sudo apt install -y --no-reinstall freefilesync
 
     # desktop
-    distrobox enter ${CTR_NAME} -- distrobox-export --app FreeFileSync
+    distrobox enter "${CTR_NAME}" -- distrobox-export --app FreeFileSync
 
     # fix desktop
     # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync_funcs.sh && \
         fix_freefilesync_desktop ${CUR_USER} ${CTR_NAME} freefilesync"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${CUR_USER} ${CTR_NAME} freefilesync"
     # --------------------------------------------------------------------------

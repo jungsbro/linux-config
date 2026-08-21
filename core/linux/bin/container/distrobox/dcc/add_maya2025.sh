@@ -2,7 +2,7 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_maya2025.sh ${CTR_NAME};
+# bash ${CORE_BIN_DIR}/container/distrobox/dcc/add_maya2025.sh "${CTR_NAME}";
 # ==============================================================================
 
 
@@ -19,7 +19,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # ------------------------------------------------------------------------------
 CUR_USER=$(whoami);
-HOME_DIR=$(eval echo ~${CUR_USER});
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2> /dev/null);
 
@@ -91,7 +91,7 @@ function create_ayonmaya()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -e ${AYON_DCC_PATH} ]]; then
+    if [[ -e "${AYON_DCC_PATH}" ]]; then
         return 0
     fi
 
@@ -100,16 +100,16 @@ function create_ayonmaya()
     echo -e "${cmd}" > ${AYON_DCC_PATH}
 
     # 방법2)
-    # printf '%b\n' "${cmd}" | sudo -u ${CUR_USER} tee ${AYON_DCC_PATH} > /dev/null
+    # printf '%b\n' "${cmd}" | sudo -u "${CUR_USER}" tee "${AYON_DCC_PATH}" > /dev/null
 
-    chmod +x ${AYON_DCC_PATH}
+    chmod +x "${AYON_DCC_PATH}"
     # --------------------------------------------------------------------------
 }
 
 
 function add_maya2025()
 {
-    if [[ ! -e ${DCC_PATH} ]]; then
+    if [[ ! -e "${DCC_PATH}" ]]; then
         return 0
     fi
 
@@ -124,7 +124,7 @@ function add_maya2025()
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --bin ${DCC_BIN}"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} maya"
     # --------------------------------------------------------------------------
@@ -134,7 +134,7 @@ function add_maya2025()
     distrobox enter "${CTR_NAME}" -- bash -c "distrobox-export --app ${DCC_APP}"
 
     # config (with nvidia)
-    distrobox enter ${CTR_NAME} -- sudo bash -c "\
+    distrobox enter "${CTR_NAME}" -- sudo bash -c "\
         source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${CUR_USER} ${CTR_NAME} maya"
     # --------------------------------------------------------------------------

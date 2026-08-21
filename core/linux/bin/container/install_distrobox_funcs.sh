@@ -42,13 +42,13 @@ function install_apps()
     elif [[ "${pkg_type}" == "yay" ]]; then
         pkg_install="yay -S --noconfirm --needed"
 
-        if ! distrobox enter ${ctr_name} -- yay --version &>/dev/null; then
-            if ! distrobox enter ${ctr_name} -- git --version &>/dev/null; then
-                distrobox enter ${ctr_name} -- sudo pacman -S --noconfirm --needed base-devel git
+        if ! distrobox enter "${ctr_name}" -- yay --version &>/dev/null; then
+            if ! distrobox enter "${ctr_name}" -- git --version &>/dev/null; then
+                distrobox enter "${ctr_name}" -- sudo pacman -S --noconfirm --needed base-devel git
             fi
-            distrobox enter ${ctr_name} -- git clone https://aur.archlinux.org/yay.git /tmp/yay
-            distrobox enter ${ctr_name} -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"
-            distrobox enter ${ctr_name} -- rm -rf /tmp/yay
+            distrobox enter "${ctr_name}" -- git clone https://aur.archlinux.org/yay.git /tmp/yay
+            distrobox enter "${ctr_name}" -- bash -c "cd /tmp/yay && makepkg -si --noconfirm"
+            distrobox enter "${ctr_name}" -- rm -rf /tmp/yay
         fi
 
     else
@@ -64,7 +64,7 @@ function install_apps()
         return 0
     fi
 
-    distrobox enter ${ctr_name} -- ${pkg_install} ${gui_apps} ${cli_apps}
+    distrobox enter "${ctr_name}" -- "${pkg_install}" "${gui_apps}" "${cli_apps}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -73,8 +73,8 @@ function install_apps()
 
     for gui_bin in ${gui_bins};
     do
-        # echo ${gui_bin}
-        distrobox enter ${ctr_name} -- distrobox-export --app ${gui_bin}
+        # echo "${gui_bin}"
+        distrobox enter "${ctr_name}" -- distrobox-export --app "${gui_bin}"
     done
     # --------------------------------------------------------------------------
 
@@ -84,9 +84,9 @@ function install_apps()
 
     for cli_bin in ${cli_bins};
     do
-        cli_cmd=$(distrobox enter ${ctr_name} -- bash -lc "command -v ${cli_bin}" 2>/dev/null)
-        # echo ${cli_cmd}
-        distrobox enter ${ctr_name} -- distrobox-export --bin ${cli_cmd}
+        cli_cmd=$(distrobox enter "${ctr_name}" -- bash -lc "command -v ${cli_bin}" 2>/dev/null)
+        # echo "${cli_cmd}"
+        distrobox enter "${ctr_name}" -- distrobox-export --bin "${cli_cmd}"
     done
     # --------------------------------------------------------------------------
 }
