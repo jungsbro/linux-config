@@ -236,8 +236,7 @@ function install_pkgs_for_mate()
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/install_mate-menu.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/panel/install_mate-menu.sh;
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
@@ -267,7 +266,6 @@ function install_pkgs_for_cinnamon()
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
@@ -318,9 +316,13 @@ function config_de()
 
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        su - "${CUR_USER}" -c \
-        "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
-        dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
+        # 방법1)
+        # su - "${CUR_USER}" -c \
+        # "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
+        # dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
+
+        # 방법2)
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/mate/set_config_for_mate.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
@@ -364,9 +366,13 @@ function config_de()
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
-        su - "${CUR_USER}" -c \
-        "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
-        dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
+        # 방법1)
+        # su - "${CUR_USER}" -c \
+        # "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
+        # dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
+
+        # 방법2)
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/cinnamon/set_config_for_cinnamon.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
