@@ -117,7 +117,7 @@ fi
 
     # --------------------------------------------------------------------------
     # 5) restart xrdp
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+    if systemctl is-system-running >/dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl list-unit-files xrdp.service &>/dev/null; then
             systemctl restart xrdp
         fi

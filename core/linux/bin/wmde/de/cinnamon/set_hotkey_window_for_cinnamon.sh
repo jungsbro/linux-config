@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ function set_hotkey_for_showdesktop()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> General >> Show desktop
-    # gsettings set org.cinnamon.desktop.keybindings.wm show-desktop "['<Super>d']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "show-desktop" "['<Super>d']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="show-desktop";
     local val="['<Super>d']";
@@ -61,7 +61,7 @@ function set_hotkey_for_window-switching()
 
     # 이미  있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> General >> Cycle through open windows
-    # gsettings set org.cinnamon.desktop.keybindings.wm switch-windows "['<Alt>Tab']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-windows" "['<Alt>Tab']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="switch-windows";
     local val="['<Alt>Tab']";
@@ -79,8 +79,8 @@ function set_hotkey_for_expose()    # not used
 
     # expose 초기화했다.
     echo ""
-    # gsettings set org.cinnamon.desktop.keybindings.wm switch-to-workspace-up "['<Control><Alt>Up', '<Alt>F1', '<Shift><Super>Tab']"
-    # gsettings set org.cinnamon.desktop.keybindings.wm switch-to-workspace-down "['<Control><Alt>Down', '<Super>Tab']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-up" "['<Control><Alt>Up', '<Alt>F1', '<Shift><Super>Tab']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-down" "['<Control><Alt>Down', '<Super>Tab']"
     # --------------------------------------------------------------------------
 }
 
@@ -122,7 +122,7 @@ function set_hotkey_for_tile-window-to-top()
 
     # 이미 있음 >> window랑 같은 방식이라 수정(Super+Shift+Up)할필요 없다.
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Tiling and Snapping >> Push tile up
-    # gsettings set org.cinnamon.desktop.keybindings.wm push-tile-up "['<Super>Up']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "push-tile-up" "['<Super>Up']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="push-tile-up";
     local val="['<Super>Up']";
@@ -139,7 +139,7 @@ function set_hotkey_for_tile-window-to-bottom()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Tiling and Snapping >> Push tile down
-    # gsettings set org.cinnamon.desktop.keybindings.wm push-tile-down "['<Super>Down']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "push-tile-down" "['<Super>Down']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="push-tile-down";
     local val="['<Super>Down']";
@@ -156,7 +156,7 @@ function set_hotkey_for_tile-window-to-left()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Tiling and Snapping >> Push tile left
-    # gsettings set org.cinnamon.desktop.keybindings.wm push-tile-left "['<Super>Left']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "push-tile-left" "['<Super>Left']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="push-tile-left";
     local val="['<Super>Left']";
@@ -173,7 +173,7 @@ function set_hotkey_for_tile-window-to-right()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Tiling and Snapping >> Push tile right
-    # gsettings set org.cinnamon.desktop.keybindings.wm push-tile-right "['<Super>Right']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "push-tile-right" "['<Super>Right']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="push-tile-right";
     local val="['<Super>Right']";
@@ -188,7 +188,7 @@ function set_hotkey_for_left-screen()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Positioning >> Move window to upper-left
-    # gsettings set org.cinnamon.desktop.keybindings.wm move-to-monitor-left "['<Shift><Super>Left']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "move-to-monitor-left" "['<Shift><Super>Left']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="move-to-monitor-left";
     local val="['<Shift><Super>Left']";
@@ -204,7 +204,7 @@ function set_hotkey_for_right-screen()
 
     # 이미 있음
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Positioning >> Move window to upper-right
-    # gsettings set org.cinnamon.desktop.keybindings.wm move-to-monitor-right "['<Shift><Super>Right']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "move-to-monitor-right" "['<Shift><Super>Right']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="move-to-monitor-right";
     local val="['<Shift><Super>Right']";

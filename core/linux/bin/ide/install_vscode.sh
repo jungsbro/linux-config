@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ function install_vscode_for_apt()
     apt install -y wget gpg
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |tee /etc/apt/sources.list.d/vscode.list > /dev/null
+    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |tee /etc/apt/sources.list.d/vscode.list >/dev/null
     rm -f packages.microsoft.gpg
     apt install -y apt-transport-https
     apt update
@@ -85,7 +85,7 @@ function install_vscode_for_dnf()
     # --------------------------------------------------------------------------
     # -e : enable interpretation of backslash escapes
     rpm --import https://packages.microsoft.com/keys/microsoft.asc
-    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo >/dev/null
     dnf check-update || true;
     dnf install -y code
     # --------------------------------------------------------------------------
@@ -100,7 +100,7 @@ function fix_vscode()
     tmp_path="./code.desktop"
     dst_path="/usr/share/applications/code.desktop"
 
-    grep "${old_str}" "${dst_path}" > /dev/null
+    grep "${old_str}" "${dst_path}" >/dev/null
 
     if [[ "${?}" == 0 ]]; then
         sed "s|${old_str}|${new_str}|g" "${dst_path}" > "${tmp_path}"

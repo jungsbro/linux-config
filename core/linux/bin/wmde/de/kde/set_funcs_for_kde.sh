@@ -33,7 +33,7 @@ function restart_kglobalaccel()
 {
     # --------------------------------------------------------------------------
     # 단축키 설정 변경 반영
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+    if systemctl is-system-running >/dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl --user list-unit-files plasma-kglobalaccel.service &>/dev/null; then
             # systemd를 통해 서비스를 재시작
             systemctl --user restart plasma-kglobalaccel
@@ -65,7 +65,7 @@ function restart_plasmashell()
 {
     # --------------------------------------------------------------------------
     # 패널 시계, 위젯, 플로팅 설정 반영
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+    if systemctl is-system-running >/dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         if systemctl --user list-unit-files plasma-plasmashell.service &>/dev/null; then
             systemctl --user restart plasma-plasmashell
         fi

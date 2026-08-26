@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ function set_hotkey_for_window-movement()
     # --------------------------------------------------------------------------
     # 추가
     # settings >> Preferences >> Windows >> Behavior >> Special key to move and resize windows:<Super>
-    # gsettings set org.cinnamon.desktop.wm.preferences mouse-button-modifier "<Super>"
+    # gsettings set "org.cinnamon.desktop.wm.preferences" "mouse-button-modifier" "<Super>"
     local attr_path="org.cinnamon.desktop.wm.preferences";
     local attr_name="mouse-button-modifier";
     local val="<Super>";

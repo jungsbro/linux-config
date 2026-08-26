@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -79,12 +79,12 @@ function set_panel_clock()
 
     # /org/gnome/desktop/interface/clock-show-weekday
     #   true
-    gsettings set "org.gnome.desktop.interface" "clock-show-weekday" 'true' 2> /dev/null || true;
+    gsettings set "org.gnome.desktop.interface" "clock-show-weekday" 'true' 2>/dev/null || true;
 
 
     # /org/gnome/desktop/interface/clock-show-date
     #   true
-    gsettings set "org.gnome.desktop.interface" "clock-show-date" 'true' 2> /dev/null || true;
+    gsettings set "org.gnome.desktop.interface" "clock-show-date" 'true' 2>/dev/null || true;
     # --------------------------------------------------------------------------
 }
 

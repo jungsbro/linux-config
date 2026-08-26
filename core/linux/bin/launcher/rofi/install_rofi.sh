@@ -34,11 +34,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ element-icon {
 
     # --------------------------------------------------------------------------
     # su - "${CUR_USER}" -c "echo ${config_cmd} > ${DST_ROFI_CONF_PATH}";
-    printf '%b\n' "${config_cmd}" | sudo -u "${CUR_USER}" tee "${DST_ROFI_CONF_PATH}" > /dev/null;
+    printf '%b\n' "${config_cmd}" | sudo -u "${CUR_USER}" tee "${DST_ROFI_CONF_PATH}" >/dev/null;
     # --------------------------------------------------------------------------
 }
 

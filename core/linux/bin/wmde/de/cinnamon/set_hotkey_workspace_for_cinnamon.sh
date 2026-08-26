@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ function set_hotkey_for_left-ws()
 
     # 추가
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Workspaces >> Switch to left workspace
-    # gsettings set org.cinnamon.desktop.keybindings.wm switch-to-workspace-left "['<Control><Alt>Left', '<Primary><Super>Left']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-left" "['<Control><Alt>Left', '<Primary><Super>Left']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="switch-to-workspace-left";
     local val="['<Control><Alt>Left', '<Primary><Super>Left']";
@@ -63,7 +63,7 @@ function set_hotkey_for_right-ws()
 
     # 추가
     # System Settings >> Hardware >> Keyboard >> Shortcuts >> Workspaces >> Switch to right workspace
-    # gsettings set org.cinnamon.desktop.keybindings.wm switch-to-workspace-right "['<Control><Alt>Right', '<Primary><Super>Right']"
+    # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-right" "['<Control><Alt>Right', '<Primary><Super>Right']"
     local attr_path="org.cinnamon.desktop.keybindings.wm";
     local attr_name="switch-to-workspace-right";
     local val="['<Control><Alt>Right', '<Primary><Super>Right']";
@@ -112,7 +112,7 @@ function set_hotkey_for_fkey-ws()
 
         # 추가
         # System Settings >> Hardware >> Keyboard >> Shortcuts >> Workspaces >> Direct Nvigation >> Switch to workspace 1
-        # gsettings set org.cinnamon.desktop.keybindings.wm switch-to-workspace-${cur_num} "['<Super>F${cur_num}']"
+        # gsettings set "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-${cur_num}" "['<Super>F${cur_num}']"
         attr_path="org.cinnamon.desktop.keybindings.wm";
         attr_name="switch-to-workspace-${cur_num}";
         val="['<Super>F${cur_num}']";
@@ -141,7 +141,7 @@ function set_hotkey_for_app-to-ws()
 
         # 추가
         # System Settings >> Hardware >> Keyboard >> Shortcuts >> Windows >> Inter-workspace >> Move window to workspace1
-        # gsettings set org.cinnamon.desktop.keybindings.wm move-to-workspace-${cur_num} "['<Shift><Super>F${cur_num}']"
+        # gsettings set "org.cinnamon.desktop.keybindings.wm" "move-to-workspace-${cur_num}" "['<Shift><Super>F${cur_num}']"
         attr_path="org.cinnamon.desktop.keybindings.wm";
         attr_name="move-to-workspace-${cur_num}";
         val="['<Shift><Super>F${cur_num}']";

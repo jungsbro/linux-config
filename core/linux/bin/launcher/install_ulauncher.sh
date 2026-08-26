@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ function install_ulauncher_for_apt()
 
     # --------------------------------------------------------------------------
     gpg --keyserver keyserver.ubuntu.com --recv 0xfaf1020699503176;
-    gpg --export 0xfaf1020699503176 | tee "${GPG_PATH}" > /dev/null;
+    gpg --export 0xfaf1020699503176 | tee "${GPG_PATH}" >/dev/null;
 
     echo "deb [signed-by=${GPG_PATH}] \
               http://ppa.launchpad.net/agornostal/ulauncher/ubuntu jammy main" \

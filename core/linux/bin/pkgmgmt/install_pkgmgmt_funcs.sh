@@ -227,7 +227,7 @@ function enable_sv()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+    if systemctl is-system-running >/dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         local unit_list=$(systemctl list-unit-files --full --plain --no-legend 2>/dev/null || true)
 
         if [[ "${unit_list}" == *"${sv_name}"* ]]; then
@@ -245,7 +245,7 @@ function restart_sv()
     local sv_name="${1}"
 
     # --------------------------------------------------------------------------
-    if systemctl is-system-running > /dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
+    if systemctl is-system-running >/dev/null 2>&1 || [ -d /run/systemd/system ]; then # systemd
         local unit_list=$(systemctl list-unit-files --full --plain --no-legend 2>/dev/null || true)
 
         if [[ "${unit_list}" == *"${sv_name}"* ]]; then

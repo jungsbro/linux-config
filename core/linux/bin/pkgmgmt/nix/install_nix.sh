@@ -39,11 +39,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -88,7 +88,7 @@ function install_nix()
         # fi
         # ----------------------------------------------------------------------
     else                            # single
-        if [[ -z $(ls "/nix" 2> /dev/null) ]]; then
+        if [[ -z $(ls "/nix" 2>/dev/null) ]]; then
             # ------------------------------------------------------------------
             if [[ ! -d /nix ]]; then
                 mkdir -m 0755 "/nix"

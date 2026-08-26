@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2> /dev/null);
+CUR_VER=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2> /dev/null || true);
+CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -92,6 +92,18 @@ function set_hotkey_for_window-movement()
     # --------------------------------------------------------------------------
 }
 
+function set_gnome-extensions_enabled()
+{
+    # --------------------------------------------------------------------------
+    # Extensions >> Extensions: on
+
+    # 수정
+    # /org/gnome/shell/disable-user-extensions
+    #   true
+    gsettings set "org.gnome.shell" "disable-user-extensions" "false"
+    # --------------------------------------------------------------------------
+}
+
 
 function execute_main()
 {
@@ -99,6 +111,7 @@ function execute_main()
     set_desktop_iconsize;
     set_nightlight;
     set_hotkey_for_window-movement;
+    # set_gnome-extensions_enabled;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

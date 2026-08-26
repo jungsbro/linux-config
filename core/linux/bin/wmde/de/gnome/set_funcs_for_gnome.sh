@@ -66,7 +66,7 @@ function get_custom_path()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if $(pgrep -x "gnome-shell" &> /dev/null) && [[ -f "/usr/bin/gnome-shell" ]]; then
+    if $(pgrep -x "gnome-shell" &>/dev/null) && [[ -f "/usr/bin/gnome-shell" ]]; then
         # "org.gnome.settings-daemon.plugins.media-keys"
         local path1="org.gnome.settings-daemon.plugins.media-keys"
 
@@ -76,7 +76,7 @@ function get_custom_path()
         # "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
         local full_path="${path1}.custom-keybinding:${path2}"
 
-    # elif $(pgrep -x "mate-session" &> /dev/null) && [[ -f "/usr/bin/mate-session" ]]; then
+    # elif $(pgrep -x "mate-session" &>/dev/null) && [[ -f "/usr/bin/mate-session" ]]; then
     elif [[ -f "/usr/bin/mate-session" ]]; then
         # "org.mate.settings-daemon.plugins.media-keys"
         local path1="org.mate.settings-daemon.plugins.media-keys"
@@ -87,7 +87,7 @@ function get_custom_path()
         # "org.mate.settings-daemon.plugins.media-keys.custom-keybinding:/org/mate/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
         local full_path="${path1}.custom-keybinding:${path2}"
 
-    elif $(pgrep -x "cinnamon" &> /dev/null) && [[ -f "/usr/bin/cinnamon" ]]; then
+    elif $(pgrep -x "cinnamon" &>/dev/null) && [[ -f "/usr/bin/cinnamon" ]]; then
         # "org.cinnamon.desktop.keybindings"
         local path1="org.cinnamon.desktop.keybindings"
 
