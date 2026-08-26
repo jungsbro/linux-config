@@ -104,12 +104,6 @@ function execute_main()
     bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
-    # bluelight ----------------------------------------------------------------
-    if [[ "${CUR_WMDE}" != *"gnome"* ]] && [[ "${CUR_WMDE}" != *"plasma"* ]]; then
-        bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
-    fi
-    # --------------------------------------------------------------------------
-
     # sandbox ------------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/system/install_firejail.sh;
     # --------------------------------------------------------------------------

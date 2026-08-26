@@ -132,29 +132,25 @@ function execute_main()
         local app_name="gtk3-immodule-xim"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # ibus-hangul has a problem at google-docs
-        if [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then    # gnome
-            bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
-        else
-            # ------------------------------------------------------------------
-            # 방법1)
-            # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
-            # 방법2)
-            # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
+        # 방법1)
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx.sh "${CUR_USER}";
 
-            # 방법3)
-            # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
+        # 방법2)
+        # bash ${CORE_BIN_DIR}/ime/install_fcitx5.sh "${CUR_USER}";
 
-            # 방법4)
-            # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
+        # 방법3)
+        # bash ${CORE_BIN_DIR}/ime/install_ibus.sh "${CUR_USER}";
 
-            # 방법5)
-            bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
+        # 방법4)
+        # bash ${CORE_BIN_DIR}/ime/install_kime.sh "${CUR_USER}";
 
-            # 방법6)
-            # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
-            # ------------------------------------------------------------------
-        fi
+        # 방법5)
+        bash ${CORE_BIN_DIR}/ime/install_nimf.sh "${CUR_USER}";
+
+        # 방법6)
+        # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
+
         # ----------------------------------------------------------------------
     fi
 

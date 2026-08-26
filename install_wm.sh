@@ -243,6 +243,14 @@ function install_compositor()
 }
 
 
+function install_nightlight()
+{
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+}
+
+
 function install_power-manager()
 {
     # --------------------------------------------------------------------------
@@ -449,6 +457,7 @@ function execute_main()
     install_ime;
     install_screen-manager;
     install_compositor;
+    install_nightlight;
     install_power-manager;
     install_audio;
     install_network;

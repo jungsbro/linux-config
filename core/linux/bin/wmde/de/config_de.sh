@@ -93,6 +93,9 @@ function install_pkgs_for_lxde()
     # control-center
     bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
+    # nightlight
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
 }
 
 
@@ -122,6 +125,9 @@ function install_pkgs_for_lxqt()
     # terminal
     bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+    # nightlight
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -211,6 +217,9 @@ function install_pkgs_for_xfce4()
     # terminal
     bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
+    # nightlight
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
 }
 
 
@@ -236,12 +245,15 @@ function install_pkgs_for_mate()
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/panel/install_mate-menu.sh;
+    bash ${CORE_BIN_DIR}/wmde/de/mate/install_mate-menu.sh;
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_caja.sh;
     bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
+    # --------------------------------------------------------------------------
+    # nightlight
+    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -251,7 +263,7 @@ function install_pkgs_for_gnome()
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/wmde/de/gnome/install_gnome-tweaks.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
@@ -317,62 +329,67 @@ function config_de()
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/mate/set_config_for_mate.sh ${CUR_USER}"
+
+        # 방법2)
         # su - "${CUR_USER}" -c \
         # "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
         # dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
-
-        # 방법2)
-        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/mate/set_config_for_mate.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+
         # ----------------------------------------------------------------------
-        if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-            # ------------------------------------------------------------------
-            echo ""
-            # su - "${CUR_USER}" -c \
-            # "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-            # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-            # ------------------------------------------------------------------
+        # 방법1)
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/gnome/set_config_for_gnome.sh ${CUR_USER}";
 
-        elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-            # ------------------------------------------------------------------
-            # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
-            # fi
-            # ------------------------------------------------------------------
-            su - "${CUR_USER}" -c \
-            "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-            dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-            # ------------------------------------------------------------------
+        # 방법2)
+        # if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+        #     # ------------------------------------------------------------------
+        #     echo ""
+        #     # su - "${CUR_USER}" -c \
+        #     # "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
+        #     # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
+        #     # ------------------------------------------------------------------
 
-        elif [[ "${CUR_VER}" == *"rocky"* ]]; then
-            # ------------------------------------------------------------------
-            # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-            #     su - "${CUR_USER}" -c \
-            #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
-            #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
-            # else                                                    # rocky9, ...
-            #     su - "${CUR_USER}" -c \
-            #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-            #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-            # fi
+        # elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        #     # ------------------------------------------------------------------
+        #     # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
+        #     # fi
+        #     # ------------------------------------------------------------------
+        #     su - "${CUR_USER}" -c \
+        #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
+        #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
+        #     # ------------------------------------------------------------------
 
-            su - "${CUR_USER}" -c \
-            "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
-            dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
-            # ------------------------------------------------------------------
-        fi
+        # elif [[ "${CUR_VER}" == *"rocky"* ]]; then
+        #     # ------------------------------------------------------------------
+        #     # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
+        #     #     su - "${CUR_USER}" -c \
+        #     #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
+        #     #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
+        #     # else                                                    # rocky9, ...
+        #     #     su - "${CUR_USER}" -c \
+        #     #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
+        #     #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
+        #     # fi
+
+        #     su - "${CUR_USER}" -c \
+        #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
+        #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
+        #     # ------------------------------------------------------------------
+        # fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
+        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/cinnamon/set_config_for_cinnamon.sh ${CUR_USER}"
+
+        # 방법2)
         # su - "${CUR_USER}" -c \
         # "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
         # dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
-
-        # 방법2)
-        su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/cinnamon/set_config_for_cinnamon.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then

@@ -2,16 +2,16 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/panel/install_mate-menu.sh;
+# bash ${CORE_BIN_DIR}/wmde/de/mate/install_mate-menu.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/panel
+# /core/linux/bin/wmde/de/mate
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"

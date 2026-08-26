@@ -2,16 +2,16 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/wmde/de/install_gnome-tweaks.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/wmde/de/gnome/install_gnome-tweaks.sh "${CUR_USER}";
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/wmde/de
+# /core/linux/bin/wmde/de/gnome
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
