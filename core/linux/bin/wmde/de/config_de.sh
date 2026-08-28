@@ -328,68 +328,17 @@ function config_de()
 
     elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/mate/set_config_for_mate.sh ${CUR_USER}"
-
-        # 방법2)
-        # su - "${CUR_USER}" -c \
-        # "[[ -f ${CORE_BIN_DIR}/wmde/de/mate/mate-conf ]] && \
-        # dbus-run-session dconf load /org/mate/ < ${CORE_BIN_DIR}/wmde/de/mate/mate-conf";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
-
         # ----------------------------------------------------------------------
-        # 방법1)
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/gnome/set_config_for_gnome.sh ${CUR_USER}";
-
-        # 방법2)
-        # if [[ "${CUR_VER}" == *"archlinux"* ]]; then
-        #     # ------------------------------------------------------------------
-        #     echo ""
-        #     # su - "${CUR_USER}" -c \
-        #     # "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-        #     # dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-        #     # ------------------------------------------------------------------
-
-        # elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        #     # ------------------------------------------------------------------
-        #     # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then    # deb12 (gnome4309)
-        #     # fi
-        #     # ------------------------------------------------------------------
-        #     su - "${CUR_USER}" -c \
-        #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-        #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-        #     # ------------------------------------------------------------------
-
-        # elif [[ "${CUR_VER}" == *"rocky"* ]]; then
-        #     # ------------------------------------------------------------------
-        #     # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-        #     #     su - "${CUR_USER}" -c \
-        #     #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
-        #     #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
-        #     # else                                                    # rocky9, ...
-        #     #     su - "${CUR_USER}" -c \
-        #     #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf ]] && \
-        #     #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome4010-conf";
-        #     # fi
-
-        #     su - "${CUR_USER}" -c \
-        #     "[[ -f ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf ]] && \
-        #     dbus-run-session dconf load /org/gnome/ < ${CORE_BIN_DIR}/wmde/de/gnome/gnome0332-conf";
-        #     # ------------------------------------------------------------------
-        # fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/cinnamon/set_config_for_cinnamon.sh ${CUR_USER}"
-
-        # 방법2)
-        # su - "${CUR_USER}" -c \
-        # "[[ -f ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf ]] && \
-        # dbus-run-session dconf load /org/cinnamon/ < ${CORE_BIN_DIR}/wmde/de/cinnamon/cinnamon-conf";
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then

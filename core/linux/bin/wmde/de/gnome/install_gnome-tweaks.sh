@@ -44,7 +44,7 @@ function install_gnome-tweaks()
         # ----------------------------------------------------------------------
         # 방법1)
         # extension-web-manager (gnome)
-        # local app_name="gnome-browser-connector"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="gnome-browser-connector"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
         # extension-gui-manager (gnome)
         # gnome 구조변경에 따른 gnome-shell에 통합 추정
@@ -72,14 +72,10 @@ function install_gnome-tweaks()
         # ----------------------------------------------------------------------
         # 방법1)
         # extension-web-manager (gnome)
-        # if [[ "${CUR_VER}" == *"VERSION_ID=\"12"* ]]; then  # debian 12
-        #     local app_name="chrome-gnome-shell"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # else
-        #     local app_name="gnome-browser-connector"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # fi
+        local app_name="gnome-browser-connector"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # extension-gui-manager (gnome)
-        # local app_name="gnome-shell-extension-prefs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="gnome-shell-extension-prefs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2)
         # extension-gui-manager (community)
@@ -117,10 +113,10 @@ function install_gnome-tweaks()
         # ----------------------------------------------------------------------
         # 방법1)
         # extension-web-manager (gnome)
-        # local app_name="gnome-browser-connector"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="gnome-browser-connector"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # extension-gui-manager (gnome)
-        # local app_name="gnome-shell-extensions-prefs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="gnome-shell-extensions-prefs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # 방법2)
         # extension-gui-manager (community)
@@ -144,10 +140,10 @@ function install_gnome-tweaks()
         # ----------------------------------------------------------------------
         # 방법1)
         # extension-web-manager (gnome)
-        # local app_name="gnome-browser-connector"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="gnome-browser-connector"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # extension-gui-manager (gnome)
-        # local app_name="gnome-extensions-app"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="gnome-extensions-app"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
         # extension-gui-manager (community)
@@ -187,15 +183,10 @@ function install_gnome-tweaks()
         # ----------------------------------------------------------------------
         # 방법1)
         # extension-web-manager (gnome)
-        # local app_name="chrome-gnome-shell"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="chrome-gnome-shell"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # extension-gui-manager (gnome)
-        # if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then     # rocky8
-        #     # gnome-extensions-app을 rhel8이 지원하지 않는다.
-        #     echo ""
-        # else
-        #     local app_name="gnome-extensions-app"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # fi
+        local app_name="gnome-extensions-app"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 
         # 방법2)
         # extension-gui-manager (community)
