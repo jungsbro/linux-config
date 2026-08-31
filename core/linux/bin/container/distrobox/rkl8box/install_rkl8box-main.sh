@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/container/distrobox/rkl8/install_rkl8-main.sh;
+# bash ${CORE_BIN_DIR}/container/distrobox/rkl8box/install_rkl8box-main.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/container/distrobox/rkl8
+# /core/linux/bin/container/distrobox/rkl8box
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -29,7 +29,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CTR_NAME="rkl8-main"
+CTR_NAME="rkl8box-main"
 
 # rokcy9/glibc가 x86-64-v2 요구 >> 구형 CPU에서는 실행 불가
 # rokcy8/glibc가 x86-64-v1 기반 >> 구형 CPU에서도 문제 없이 실행 가능
@@ -57,43 +57,40 @@ function execute_main()
     # true / false
     local vfx_deps="${VFX_DEPS}";
 
-    # core/linux/bin
-    local core_bin_dir="${CORE_BIN_DIR}";
-
     # "jungs"
     local cur_user="${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # container
-    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${core_bin_dir}" "${cur_user}";
+    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${cur_user}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # apps
 
-    # install_xcape "${ctr_name}";
-    # install_synapse "${ctr_name}";
-    # install_skippy-xd "${ctr_name}";
-    # install_freefilesync "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_xcape "${ctr_name}";                      # not used
+    install_synapse "${ctr_name}";                    # not used
+    install_skippy-xd "${ctr_name}";                  # not used
+    install_freefilesync "${ctr_name}" "${cur_user}"; # not used
 
-    # install_terminal "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_autokey "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_redshift "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_terminal "${ctr_name}" "${cur_user}";     # not used
+    install_autokey "${ctr_name}" "${cur_user}";
+    install_redshift "${ctr_name}" "${cur_user}";
     install_gnome-keyring "${ctr_name}";
-    install_vscode "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_doublecmd "${ctr_name}";
-    install_chromium "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_google-chrome "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_firefox "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_vscode "${ctr_name}" "${cur_user}";
+    install_doublecmd "${ctr_name}";
+    install_chromium "${ctr_name}" "${cur_user}";     # not used
+    install_google-chrome "${ctr_name}" "${cur_user}";
+    install_firefox "${ctr_name}" "${cur_user}";      # not used
     install_remmina "${ctr_name}";
-    install_libreoffice "${ctr_name}";
+    install_libreoffice "${ctr_name}";                # not used
     install_qpdf "${ctr_name}";
-    # install_gimp "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_drawing "${ctr_name}";
-    install_vlc "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_kdenlive "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_shotcut "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_gimp "${ctr_name}" "${cur_user}";         # not used
+    install_drawing "${ctr_name}";
+    install_vlc "${ctr_name}" "${cur_user}";
+    install_kdenlive "${ctr_name}" "${cur_user}";     # not used
+    install_shotcut "${ctr_name}" "${cur_user}";      # not used
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

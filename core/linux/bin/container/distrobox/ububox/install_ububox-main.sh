@@ -56,43 +56,40 @@ function execute_main()
     # true / false
     local vfx_deps="${VFX_DEPS}";
 
-    # core/linux/bin
-    local core_bin_dir="${CORE_BIN_DIR}";
-
     # "jungs"
     local cur_user="${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # container
-    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${core_bin_dir}" "${cur_user}";
+    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${cur_user}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # apps
 
-    # install_xcape "${ctr_name}";
-    # install_synapse "${ctr_name}";
-    # install_skippy-xd "${ctr_name}";
-    # install_freefilesync "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_xcape "${ctr_name}";                      # not used
+    install_synapse "${ctr_name}";                    # not used
+    install_skippy-xd "${ctr_name}";                  # not used
+    install_freefilesync "${ctr_name}" "${cur_user}"; # not used
 
-    # install_terminal "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_autokey "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_redshift "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_terminal "${ctr_name}" "${cur_user}";     # not used
+    install_autokey "${ctr_name}" "${cur_user}";
+    install_redshift "${ctr_name}" "${cur_user}";
     install_gnome-keyring "${ctr_name}";
-    install_vscode "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_vscode "${ctr_name}" "${cur_user}";
     install_doublecmd "${ctr_name}";
-    # install_chromium "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    install_google-chrome "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_firefox "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_chromium "${ctr_name}" "${cur_user}";     # not used
+    install_google-chrome "${ctr_name}" "${cur_user}";
+    install_firefox "${ctr_name}" "${cur_user}";      # not used
     install_remmina "${ctr_name}";
-    # install_libreoffice "${ctr_name}";
+    install_libreoffice "${ctr_name}";                # not used
     install_qpdf "${ctr_name}";
-    # install_gimp "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_gimp "${ctr_name}" "${cur_user}";         # not used
     install_drawing "${ctr_name}";
-    install_vlc "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_kdenlive "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-    # install_shotcut "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+    install_vlc "${ctr_name}" "${cur_user}";
+    install_kdenlive "${ctr_name}" "${cur_user}";     # not used
+    install_shotcut "${ctr_name}" "${cur_user}";      # not used
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

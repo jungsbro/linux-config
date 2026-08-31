@@ -166,6 +166,8 @@ function install_doublecmd_for_appimage()
     local src_url="https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/${FNAME}";
     # --------------------------------------------------------------------------
 
+
+
     # 2) exec_path -------------------------------------------------------------
     # /opt/doublecmd/doublecmd-gtk-latest-x86_64.AppImage
     local exec_path="${APP_DIR}/${fname}"

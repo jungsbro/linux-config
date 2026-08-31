@@ -63,16 +63,13 @@ function execute_main()
     # true / false
     local vfx_deps="${VFX_DEPS}";
 
-    # core/linux/bin
-    local core_bin_dir="${CORE_BIN_DIR}";
-
     # "jungs"
     local cur_user="${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # container
-    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${core_bin_dir}" "${cur_user}";
+    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${cur_user}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

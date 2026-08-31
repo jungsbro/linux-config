@@ -17,9 +17,6 @@ _INSTALL_DEBBOX_FUNCS_LOADED=1
 # # true / false
 # local vfx_deps="${VFX_DEPS}";
 
-# # core/linux/bin
-# local core_bin_dir="${CORE_BIN_DIR}";
-
 # # "jungs"
 # local cur_user="${CUR_USER}";
 # ------------------------------------------------------------------------------
@@ -27,35 +24,35 @@ _INSTALL_DEBBOX_FUNCS_LOADED=1
 # ------------------------------------------------------------------------------
 # # container
 # local ctr_args=$(get_ctr_args "${ctr_name}" "${image}");
-# local pre_init_hooks=$(get_pre_init_hooks "${vfx_deps}" "${core_bin_dir}" "${cur_user}");
-# create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${core_bin_dir}" "${cur_user}";
+# local pre_init_hooks=$(get_pre_init_hooks "${vfx_deps}" "${cur_user}");
+# create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${cur_user}";
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # # apps
 
-# install_xcape "${ctr_name}";
-# install_synapse "${ctr_name}";
-# install_skippy-xd "${ctr_name}";
-# install_freefilesync "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_xcape "${ctr_name}";                      # not used
+# install_synapse "${ctr_name}";                    # not used
+# install_skippy-xd "${ctr_name}";                  # not used
+# install_freefilesync "${ctr_name}" "${cur_user}"; # not used
 
-# install_terminal "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_autokey "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_redshift "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_terminal "${ctr_name}" "${cur_user}";     # not used
+# install_autokey "${ctr_name}" "${cur_user}";
+# install_redshift "${ctr_name}" "${cur_user}";
 # install_gnome-keyring "${ctr_name}";
-# install_vscode "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_vscode "${ctr_name}" "${cur_user}";
 # install_doublecmd "${ctr_name}";
-# install_chromium "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_google-chrome "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_firefox "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_chromium "${ctr_name}" "${cur_user}";     # not used
+# install_google-chrome "${ctr_name}" "${cur_user}";
+# install_firefox "${ctr_name}" "${cur_user}";      # not used
 # install_remmina "${ctr_name}";
-# install_libreoffice "${ctr_name}";
+# install_libreoffice "${ctr_name}";                # not used
 # install_qpdf "${ctr_name}";
-# install_gimp "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_gimp "${ctr_name}" "${cur_user}";         # not used
 # install_drawing "${ctr_name}";
-# install_vlc "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_kdenlive "${ctr_name}" "${core_bin_dir}" "${cur_user}";
-# install_shotcut "${ctr_name}" "${core_bin_dir}" "${cur_user}";
+# install_vlc "${ctr_name}" "${cur_user}";
+# install_kdenlive "${ctr_name}" "${cur_user}";     # not used
+# install_shotcut "${ctr_name}" "${cur_user}";      # not used
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -66,6 +63,20 @@ _INSTALL_DEBBOX_FUNCS_LOADED=1
 
 
 # Funcs ========================================================================
+function get_core_bin_dir_from_debbox()
+{
+    # /core/linux/bin/container/distrobox/debbox
+    local cur_dir="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+    local root_dir="${cur_dir}/../../../../../.."
+
+    # core/linux/bin
+    local core_bin_dir="${root_dir}/core/linux/bin"
+
+    echo "${core_bin_dir}"
+}
+
+
 function get_ctr_args()
 {
     # --------------------------------------------------------------------------
@@ -125,13 +136,13 @@ function get_pre_init_hooks()
 {
     # --------------------------------------------------------------------------
     # true / false
-    local vfx_deps="${1}"
-
-    # core/linux/bin
-    local core_bin_dir="${2}";
+    local vfx_deps="${1}";
 
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -227,19 +238,16 @@ function create_ctr()
     local image="${2}";
 
     # true / false
-    local vfx_deps="${3}"
-
-    # core/linux/bin
-    local core_bin_dir="${4}";
+    local vfx_deps="${3}";
 
     # "jungs"
-    local cur_user="${5}";
+    local cur_user="${4}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     local ctr_args=$(get_ctr_args "${ctr_name}" "${image}");
 
-    local pre_init_hooks=$(get_pre_init_hooks "${vfx_deps}" "${core_bin_dir}" "${cur_user}");
+    local pre_init_hooks=$(get_pre_init_hooks "${vfx_deps}" "${cur_user}");
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -263,7 +271,7 @@ function create_ctr()
 function install_xcape()
 {
     # --------------------------------------------------------------------------
-    # "archbox-main"
+    # "debbox-main"
     local ctr_name="${1}";
     # --------------------------------------------------------------------------
 
@@ -280,7 +288,7 @@ function install_xcape()
 function install_synapse()
 {
     # --------------------------------------------------------------------------
-    # "archbox-main"
+    # "debbox-main"
     local ctr_name="${1}";
     # --------------------------------------------------------------------------
 
@@ -297,7 +305,7 @@ function install_synapse()
 function install_skippy-xd()
 {
     # --------------------------------------------------------------------------
-    # "archbox-main"
+    # "debbox-main"
     local ctr_name="${1}";
     # --------------------------------------------------------------------------
 
@@ -311,14 +319,14 @@ function install_skippy-xd()
 function install_freefilesync()
 {
     # --------------------------------------------------------------------------
-    # "archbox-main"
+    # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -350,11 +358,11 @@ function install_terminal()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -382,11 +390,11 @@ function install_autokey()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -410,11 +418,11 @@ function install_redshift()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -516,11 +524,11 @@ function install_vscode()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -557,11 +565,11 @@ function install_chromium()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -585,11 +593,11 @@ function install_google-chrome()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -614,11 +622,11 @@ function install_firefox()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -697,11 +705,11 @@ function install_gimp()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -747,11 +755,11 @@ function install_vlc()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -775,11 +783,11 @@ function install_kdenlive()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -803,11 +811,11 @@ function install_shotcut()
     # "debbox-main"
     local ctr_name="${1}";
 
-    # core/linux/bin
-    local core_bin_dir="${2}";
-
     # "jungs"
-    local cur_user="${3}";
+    local cur_user="${2}";
+
+    # core/linux/bin
+    local core_bin_dir=$(get_core_bin_dir_from_debbox);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
