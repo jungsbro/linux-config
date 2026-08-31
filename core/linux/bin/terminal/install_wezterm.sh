@@ -56,7 +56,10 @@ function install_wezterm_for_dnf()
         return 0
     fi
 
+    # echo "y" | sudo dnf copr enable wezfurlong/wezterm-nightly
+    # yes | sudo dnf copr enable wezfurlong/wezterm-nightly
     sudo dnf copr enable wezfurlong/wezterm-nightly
+
     dnf install -y "${APP_NAME}";
 }
 

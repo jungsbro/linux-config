@@ -50,14 +50,25 @@ function install_vscode_for_apt()
     # --------------------------------------------------------------------------
 
     # method 1) ----------------------------------------------------------------
-    apt install -y wget gpg
+    # 1) 임시 디렉터리로 이동하여 권한 문제 방지
+    pushd "/tmp"
+
+    # 2) 필수 패키지 설치
+    apt install -y wget gpg apt-transport-https
+
+    # 3) Microsoft GPG 키 다운로드 및 등록
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+
+    # 4) VS Code 레포지토리 추가
     echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |tee /etc/apt/sources.list.d/vscode.list >/dev/null
+
+    # 5) 임시 파일 삭제 및 VS Code 설치
     rm -f packages.microsoft.gpg
-    apt install -y apt-transport-https
     apt update
     apt install -y code
+
+    popd
     # --------------------------------------------------------------------------
 
     # method 2) ----------------------------------------------------------------
