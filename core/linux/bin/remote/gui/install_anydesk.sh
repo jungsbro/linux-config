@@ -29,19 +29,23 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="anydesk";
+APP_NAME="anydesk";
 
 # /tmp/anydesk
-TMP_DIR="/tmp/${NAME}";
+TMP_DIR="/tmp/${APP_NAME}";
 
-# https://download.anydesk.com/linux/anydesk_7.0.1-1_x86_64.rpm
-VER="7.0.1-1"
+# https://download.anydesk.com/linux/anydesk_8.0.4-1_amd64.deb
+# https://download.anydesk.com/rpi/anydesk_8.0.4-1_arm64.deb
+
+# https://download.anydesk.com/linux/anydesk_8.0.4-1_x86_64.rpm
+# https://download.anydesk.com/rpi/anydesk_8.0.4-1_aarch64.rpm
+VER="8.0.4-1"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_anydesk_for_apt()
+function install_anydesk_for_apt()      # not used
 {
     # --------------------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
@@ -63,42 +67,80 @@ function install_anydesk_for_apt()
 }
 
 
-function install_anydesk_for_dnf()
+function install_anydesk_for_deb()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="amd64";
+        local cur_hw="linux"
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        local cur_arch="arm64";
+        local cur_hw="rpi"
+
+    else
         return 0
     fi
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # anydesk_8.0.4-1_amd64.deb
+    # anydesk_8.0.4-1_arm64.deb
+    local deb_fname="${APP_NAME}_${VER}_${cur_arch}.deb";
+
+    # https://download.anydesk.com/linux/anydesk_8.0.4-1_amd64.deb
+    # https://download.anydesk.com/rpi/anydesk_8.0.4-1_arm64.deb
+    local deb_url="https://download.anydesk.com/${cur_hw}/${deb_fname}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
+    # local deb_url="${DEB_URL}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/deb/install_deb_funcs.sh && \
+    install_debpkg "${app_name}" "${deb_url}";
+    # --------------------------------------------------------------------------
+}
+
+
+function install_anydesk_for_rpm()
+{
+    # --------------------------------------------------------------------------
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="x86_64";
+        local cur_hw="linux"
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        local cur_arch="aarch64";
+        local cur_hw="rpi"
+
+    else
         return 0
     fi
-    if [[ -n $(dnf list --installed | grep -i ^anydesk) ]]; then
-        return 0
-    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # anydesk-6.3.2-1.el7.x86_64.rpm
-    local FNAME="${NAME}-${VER}.el7.x86_64.rpm";
+    # anydesk_8.0.4-1_x86_64.rpm
+    # anydesk_8.0.4-1_aarch64.rpm
+    local rpm_fname="${APP_NAME}_${VER}_${cur_arch}.rpm";
 
-    # https://download.anydesk.com/linux/anydesk-6.3.2-1.el7.x86_64.rpm
-    local URL="https://download.anydesk.com/linux/${FNAME}";
+    # https://download.anydesk.com/linux/anydesk_8.0.4-1_x86_64.rpm
+    # https://download.anydesk.com/rpi/anydesk_8.0.4-1_aarch64.rpm
+    local rpm_url="https://download.anydesk.com/${cur_hw}/${rpm_fname}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-    if [[ ! -e "${TMP_DIR}/${FNAME}" ]]; then
-        # ----------------------------------------------------------------------
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-        # ----------------------------------------------------------------------
-        # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
+    local app_name="${APP_NAME}";
+    # local rpm_url="${RPM_URL}";
 
-    # /tmp/anydesk/anydesk-6.3.2-1.el7.x86_64.rpm
-    dnf install -y "${TMP_DIR}/${FNAME}";
+    source ${CORE_BIN_DIR}/pkgmgmt/rpm/install_rpm_funcs.sh && \
+    install_rpmpkg "${app_name}" "${rpm_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -118,12 +160,12 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_anydesk_for_apt;
+        install_anydesk_for_deb;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_anydesk_for_dnf;
+        install_anydesk_for_rpm;
         # ----------------------------------------------------------------------
     fi
 }

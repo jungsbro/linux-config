@@ -30,8 +30,6 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="freefilesync"
-
-APP_FULLNAME="org.freefilesync.FreeFileSync";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -40,69 +38,72 @@ APP_FULLNAME="org.freefilesync.FreeFileSync";
 # Funcs ========================================================================
 function install_freefilesync_for_portable()
 {
-    # for x86_64
     # --------------------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        echo "";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
-    fi
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
+
+    else
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # 1) Setting env-vars ------------------------------------------------------
-    local APP_NAME="FreeFileSync"
+    local app_name="FreeFileSync"
 
-    local VER="14.5"
+    local ver="14.11"
 
     # /tmp/FreeFileSync
-    local TMP_DIR="/tmp/${APP_NAME}";
+    local tmp_dir="/tmp/${app_name}";
 
     # /opt/FreeFileSync
-    local FFS_DIR="/opt/${APP_NAME}";
+    local ffs_dir="/opt/${app_name}";
 
+    # FreeFileSync_14.11_Linux_x86_64.tar.gz
+    local ffs_fname="${app_name}_${ver}_Linux_${CUR_ARCH}.tar.gz";
 
-    # FreeFileSync_14.5_Linux_x86_64.tar.gz
-    # FreeFileSync_14.5_Linux_i686.tar.gz
-    local FNAME="${APP_NAME}_${VER}_Linux_${CUR_ARCH}.tar.gz";
+    # https://freefilesync.org/download/FreeFileSync_14.11_Linux_x86_64.tar.gz
+    local ffs_url="https://freefilesync.org/download/${ffs_fname}";
 
-    # https://freefilesync.org/download/FreeFileSync_14.5_Linux_x86_64.tar.gz
-    local URL="https://freefilesync.org/download/${FNAME}";
+    # /tmp/FreeFileSync/FreeFileSync_14.11_Linux_x86_64.tar.gz
+    local tmp_path="${tmp_dir}/${ffs_fname}";
 
-    # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
-    local TGZ_PATH="${TMP_DIR}/${FNAME}";
-
-    # /tmp/FreeFileSync/FreeFileSync_14.5_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
-    local EXEC_CMD="${TMP_DIR}/${APP_NAME}_${VER}_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview";
+    # /tmp/FreeFileSync/FreeFileSync_14.11_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    local exec_cmd="${tmp_dir}/${app_name}_${ver}_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview";
     # --------------------------------------------------------------------------
 
     # 2) Downloading and Extracting --------------------------------------------
     # /opt/FreeFileSync
-    if [[ -d "${FFS_DIR}" ]]; then
+    if [[ -d "${ffs_dir}" ]]; then
         return 0
     fi
 
     # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
-    if [[ ! -e "${TGZ_PATH}" ]]; then
+    if [[ ! -f "${tmp_path}" ]]; then
         # ----------------------------------------------------------------------
         # /tmp/FreeFileSync
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
+        mkdir -p "${tmp_dir}";
+        chmod 777 "${tmp_dir}";
         # ----------------------------------------------------------------------
         # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
-        wget "${URL}" -O "${TGZ_PATH}";
+        wget "${ffs_url}" -O "${tmp_path}";
         # ----------------------------------------------------------------------
     fi
 
     # tar -zxvf /tmp/FreeFileSync/FreeFileSync_*_Linux_x86_64.tar.gz -C /tmp/FreeFileSync;
-    tar -zxvf "${TGZ_PATH}" -C "${TMP_DIR}";
+    tar -xvf "${tmp_path}" -C "${tmp_dir}";
     # --------------------------------------------------------------------------
 
     # 3) Installation ----------------------------------------------------------
     # /tmp/FreeFileSync/FreeFileSync_14.5_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
-    eval "${EXEC_CMD}";
+    eval "${exec_cmd}";
 
-    #rm -rf "${TMP_DIR}";
+    #rm -rf "${tmp_dir}";
     # --------------------------------------------------------------------------
 }
 

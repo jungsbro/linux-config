@@ -31,9 +31,6 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="doublecmd";
 
-# doublecmd
-APP_FULLNAME="${APP_NAME}"
-
 # /tmp/doublecmd
 TMP_DIR="/tmp/${APP_NAME}";
 
@@ -41,13 +38,12 @@ TMP_DIR="/tmp/${APP_NAME}";
 OPT_DIR="/opt"
 APP_DIR="${OPT_DIR}/${APP_NAME}";
 
-# https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%201.1.26/doublecmd-1.1.26.gtk2.x86_64.tar.xz/download
-APP_VER="1.1.26";
+# https://sourceforge.net/p/doublecmd/wiki/Download/
+# https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.x86_64.tar.xz
+APP_VER="1.2.8";
 
 APP_ICON_URL="https://doublecmd.sourceforge.io/site/images/logo.png";
-
-# doublecmd.png
-APP_ICON_NAME="${APP_FULLNAME}.png";
+APP_ICON_PATH="${HOME_DIR}/.local/share/icons/${APP_NAME}.png";
 
 APP_CAT="System;FileTools;Utility;Core;GTK;FileManager;Development"
 
@@ -61,146 +57,100 @@ APP_HIDDEN="false"
 function install_doublecmd_for_portable()
 {
     # --------------------------------------------------------------------------
-    # /opt/doublecmd
-    if [[ -d "${APP_DIR}" ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="x86_64";
 
-    # 1) src_url ---------------------------------------------------------------
-    # "https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%201.1.26/doublecmd-1.1.26.gtk2.x86_64.tar.xz"
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # ----------------------------------------------------------------------
-        local fname="doublecmd-${APP_VER}.gtk2.aarch64.tar.xz";
-        local src_url="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
-        # ----------------------------------------------------------------------
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        # ----------------------------------------------------------------------
-        local fname="doublecmd-${APP_VER}.gtk2.i386.tar.xz";
-        local src_url="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2032%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
-        # ----------------------------------------------------------------------
+        local cur_arch="i386";
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        local cur_arch="aarch64";
+
     else
-        # ----------------------------------------------------------------------
-        local fname="doublecmd-${APP_VER}.gtk2.x86_64.tar.xz";
-        local src_url="https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%20${APP_VER}/${FNAME}"
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # 2) zip_path --------------------------------------------------------------
-    if [[ ! -e "${TMP_DIR}" ]]; then
-        # /tmp/doublecmd
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-    fi
-
-    # /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz
-    zip_path="${TMP_DIR}/${fname}"
-
-    if [[ ! -e "${zip_path}" ]]; then
-        wget "${src_url}" -O "${zip_path}";
-    fi
-    # --------------------------------------------------------------------------
-
-    # 3) APP_DIR ----------------------------------------------------------------
-    # tar -Jxvf /tmp/doublecmd/doublecmd-1.1.16.gtk2.x86_64.tar.xz -C /opt;
-    tar -Jxvf "${zip_path}" -C ${OPT_DIR};
-    rm -f "${zip_path}";
-
-    # /opt/doublecmd
-    if [[ ! -d "${APP_DIR}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
-    # 4) exec_path -------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # https://sourceforge.net/p/doublecmd/wiki/Download/
+    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8
+    local portable_root_url="https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v${APP_VER}";
+
+    # doublecmd-1.2.8.gtk2.x86_64.tar.xz
+    # doublecmd-1.2.8.gtk2.i386.tar.xz
+    # doublecmd-1.2.8.gtk2.aarch64.tar.xz
+    local portable_fname="doublecmd-${APP_VER}.gtk2.${cur_arch}.tar.xz";
+
+    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.x86_64.tar.xz
+    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.i386.tar.xz
+    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.aarch64.tar.xz
+    local portable_url="${portable_root_url}/${portable_fname}"
+
     # /opt/doublecmd/doublecmd
-    local exec_path="${APP_DIR}/${APP_NAME}"
-    # --------------------------------------------------------------------------
-
-    # 5) icon_path -------------------------------------------------------------
-    # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /opt/doublecmd/doublecmd.png
-    # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget "${APP_ICON_URL}" -O "${icon_path}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_FULLNAME}.svg";
-    local icon_path="${APP_FULLNAME}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # --------------------------------------------------------------------------
-
-    # 6) desktop_path ----------------------------------------------------------
-    # /usr/share/applications/doublecmd.deskop
-    local desktop_path="/usr/share/applications/${APP_FULLNAME}.desktop";
+    local portable_path="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
-    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
+    local app_name="${APP_NAME}";
+
+    # local portable_url="${PORTABLE_URL}";
+    # local portable_path="${PORTABLE_PATH}";
+
+    local icon_url="${APP_ICON_URL}";
+    local icon_path="${APP_ICON_PATH}";
+
+    local app_cat="${APP_CAT}";
+    local app_hidden="${APP_HIDDEN}";
+    local cur_user="${CUR_USER}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/portable/install_portable_funcs.sh && \
+    install_portablepkg "${app_name}" "${portable_url}" "${portable_path}" "${icon_url}" "${icon_path}" "${app_cat}" "${app_hidden}" "${cur_user}";
     # --------------------------------------------------------------------------
 }
 
 
 function install_doublecmd_for_appimage()
 {
-    # appimage for only x86_64 -------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+    # --------------------------------------------------------------------------
+    # for x86_64 / aarch64
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        # https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/doublecmd-gtk-latest-x86_64.AppImage
+        local appimage_url="https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/doublecmd-gtk-latest-x86_64.AppImage";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        return 0
+
+    else
         return 0
     fi
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    # /opt/doublecmd
-    if [[ -e "${APP_DIR}" ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # 1) src_url ---------------------------------------------------------------
-    local fname="doublecmd-gtk-latest-x86_64.AppImage";
-
-    # https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/doublecmd-gtk-latest-x86_64.AppImage
-    local src_url="https://download.opensuse.org/repositories/home:/Alexx2000/AppImage/${FNAME}";
-    # --------------------------------------------------------------------------
-
-
-
-    # 2) exec_path -------------------------------------------------------------
-    # /opt/doublecmd/doublecmd-gtk-latest-x86_64.AppImage
-    local exec_path="${APP_DIR}/${fname}"
-
-    # /opt/doublecmd
-    mkdir -p "${APP_DIR}";
-
-    wget "${src_url}" -O "${exec_path}";
-    chmod +x "${exec_path}";
-    # --------------------------------------------------------------------------
-
-    # 3) icon_path -------------------------------------------------------------
-    # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /opt/doublecmd/doublecmd.png
-    # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget "${APP_ICON_URL}" -O "${icon_path}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /usr/share/icons/Papirus/48x48/apps/doublecmd.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_FULLNAME}.svg";
-    local icon_path="${APP_FULLNAME}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # --------------------------------------------------------------------------
-
-    # 4) desktop_path ----------------------------------------------------------
-    # /usr/share/applications/doublecmd.deskop
-    local desktop_path="/usr/share/applications/${APP_FULLNAME}.desktop";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
-    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
+    # doublecmd-gtk-latest-x86_64.AppImage
+    local appimage_fname=$(basename "${appimage_url}");
+
+    # /opt/doublecmd/doublecmd
+    local appimage_path="${APP_DIR}/${appimage_fname}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
+
+    # local appimage_url="${APPIMAGE_URL}";
+    # local appimage_path="${APPIMAGE_PATH}";
+
+    local icon_url="${APP_ICON_URL}";
+    local icon_path="${APP_ICON_PATH}";
+
+    local app_cat="${APP_CAT}";
+    local app_hidden="${APP_HIDDEN}";
+    local cur_user="${CUR_USER}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/appimage/install_appimage_funcs.sh && \
+    install_appimagepkg "${app_name}" "${appimage_url}" "${appimage_path}" "${icon_url}" "${icon_path}" "${app_cat}" "${app_hidden}" "${cur_user}";
     # --------------------------------------------------------------------------
 }
 

@@ -31,9 +31,6 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="font-manager"
 
-APP_FULLNAME="org.gnome.FontManager"
-NIX_UNIQUE_NAME="com.github.FontManager.FontManager"
-
 APP_CAT="Utility;GTK;GNOME;"
 # ------------------------------------------------------------------------------
 # ==============================================================================

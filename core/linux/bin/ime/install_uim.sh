@@ -31,9 +31,6 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="uim"
 
-# com.github.uim
-APP_FULLNAME="com.github.${APP_NAME}"
-
 APP_CAT="Settings;System;"
 
 APP_HIDDEN="false"

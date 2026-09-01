@@ -204,21 +204,21 @@ function install_lf_for_portable()
         return 0
     fi
 
-    # 1) SRC_URL ---------------------------------------------------------------
+    # 1) portable_url ----------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-arm64.tar.gz
-        local FNAME="lf-linux-arm64.tar.gz";
+        local portable_fname="lf-linux-arm64.tar.gz";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-386.tar.gz
-        local FNAME="lf-linux-386.tar.gz";
+        local portable_fname="lf-linux-386.tar.gz";
 
     else
         # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
-        local FNAME="lf-linux-amd64.tar.gz";
+        local portable_fname="lf-linux-amd64.tar.gz";
     fi
 
-    local SRC_URL="https://github.com/gokcehan/lf/releases/download/${APP_VER}/${FNAME}"
+    local portable_url="https://github.com/gokcehan/lf/releases/download/${APP_VER}/${portable_fname}"
     # --------------------------------------------------------------------------
 
     # 2) ZIP_PATH --------------------------------------------------------------
@@ -229,10 +229,10 @@ function install_lf_for_portable()
     fi
 
     # /tmp/lf/lf-linux-amd64.tar.gz
-    ZIP_PATH="${TMP_DIR}/${FNAME}"
+    local tmp_path="${TMP_DIR}/${portable_fname}"
 
-    if [[ ! -e "${ZIP_PATH}" ]]; then
-        wget "${SRC_URL}" -O "${ZIP_PATH}";
+    if [[ ! -e "${tmp_path}" ]]; then
+        wget "${portable_url}" -O "${tmp_path}";
     fi
     # --------------------------------------------------------------------------
 
@@ -244,8 +244,8 @@ function install_lf_for_portable()
 
     # tar -xzvf /tmp/lf/lf-1.1.16.gtk2.x86_64.tar.xz -C /usr/local/bin;
     # /usr/local/bin/lf
-    tar -xzvf "${ZIP_PATH}" -C ${LOCAL_BIN_DIR};
-    rm -f "${ZIP_PATH}";
+    tar -xzvf "${tmp_path}" -C "${LOCAL_BIN_DIR}";
+    rm -f "${tmp_path}";
     # --------------------------------------------------------------------------
 }
 

@@ -139,52 +139,43 @@ function install_dependency_for_yazi()
 }
 
 
-function install_yazi_for_apt()
+function install_yazi_for_deb()
 {
-    # if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
-    #     return 0
-    # fi
-
-    # 1) SRC_URL ---------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.deb
-        local FNAME="yazi-aarch64-unknown-linux-gnu";
+    # --------------------------------------------------------------------------
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="x86_64";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        # # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.deb
-        # local FNAME="yazi-i686-unknown-linux-gnu";
+        local cur_arch="i686";
         # yazi not found for i686_deb
         return 0
 
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        local cur_arch="aarch64";
+
     else
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
-        local FNAME="yazi-x86_64-unknown-linux-gnu";
-    fi
-
-    local DEB_FNAME="${FNAME}.deb"
-    local SRC_URL="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${DEB_FNAME}"
-    # --------------------------------------------------------------------------
-
-    # 2) DEB_PATH --------------------------------------------------------------
-    # /tmp/yazi
-    if [[ ! -d "${TMP_DIR}" ]]; then
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-    fi
-
-    # /tmp/yazi/yazi-x86_64-unknown-linux-gnu.deb
-    DEB_PATH="${TMP_DIR}/${DEB_FNAME}"
-
-    if [[ ! -f "${DEB_PATH}" ]]; then
-        wget "${SRC_URL}" -O "${DEB_PATH}";
+        return 0
     fi
     # --------------------------------------------------------------------------
 
-    # 3) Install DEB_PATH ------------------------------------------------------
-    # apt install -y /tmp/yazi/yazi-x86_64-unknown-linux-gnu.deb
-    [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]] || apt install -y "${DEB_PATH}";
+    # --------------------------------------------------------------------------
+    # yazi-x86_64-unknown-linux-gnu.deb
+    # yazi-i686-unknown-linux-gnu.deb
+    # yazi-aarch64-unknown-linux-gnu.deb
+    local deb_fname="yazi-${cur_arch}-unknown-linux-gnu.deb"
 
-    rm -f "${DEB_PATH}";
+    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
+    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.deb
+    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.deb
+    local deb_url="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${deb_fname}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
+    # local deb_url="${DEB_URL}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/deb/install_deb_funcs.sh && \
+    install_debpkg "${app_name}" "${deb_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -196,40 +187,41 @@ function install_yazi_for_portable()
     fi
 
 
-    # 1) SRC_URL ---------------------------------------------------------------
+    # 1) portable_url ----------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-musl.zip
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.zip
 
         if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-            local FNAME="yazi-aarch64-unknown-linux-musl";
+            local portable_name="yazi-aarch64-unknown-linux-musl";
 
         else
-            local FNAME="yazi-aarch64-unknown-linux-gnu";
+            local portable_name="yazi-aarch64-unknown-linux-gnu";
         fi
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.zip
 
-        local FNAME="yazi-i686-unknown-linux-gnu";
+        local portable_name="yazi-i686-unknown-linux-gnu";
 
     else
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-musl.zip
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
 
         if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-            local FNAME="yazi-x86_64-unknown-linux-musl";
+            local portable_name="yazi-x86_64-unknown-linux-musl";
         else
-            local FNAME="yazi-x86_64-unknown-linux-gnu";
+            local portable_name="yazi-x86_64-unknown-linux-gnu";
         fi
 
     fi
 
-    local ZIP_FNAME="${FNAME}.zip"
-    local SRC_URL="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${ZIP_FNAME}"
+    local portable_fname="${portable_name}.zip"
+
+    local portable_url="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${portable_fname}"
     # --------------------------------------------------------------------------
 
-    # 2) ZIP_PATH --------------------------------------------------------------
+    # 2) tmp_path --------------------------------------------------------------
     # /tmp/yazi
     if [[ ! -d "${TMP_DIR}" ]]; then
         mkdir -p "${TMP_DIR}";
@@ -237,10 +229,10 @@ function install_yazi_for_portable()
     fi
 
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu.zip
-    ZIP_PATH="${TMP_DIR}/${ZIP_FNAME}"
+    local tmp_path="${TMP_DIR}/${portable_fname}"
 
-    if [[ ! -e "${ZIP_PATH}" ]]; then
-        wget "${SRC_URL}" -O "${ZIP_PATH}";
+    if [[ ! -e "${tmp_path}" ]]; then
+        wget "${portable_url}" -O "${tmp_path}";
     fi
     # --------------------------------------------------------------------------
 
@@ -251,25 +243,33 @@ function install_yazi_for_portable()
     fi
 
     # unzip /tmp/yazi/yazi-x86_64-unknown-linux-gnu.zip -d /tmp/yazi
-    unzip "${ZIP_PATH}" -d "${TMP_DIR}";
+    unzip "${tmp_path}" -d "${TMP_DIR}";
 
+    # 3-1) yazi
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu/yazi
-    local SRC_PATH="${TMP_DIR}/${FNAME}/${APP_NAME}"
+    local src_path="${TMP_DIR}/${portable_name}/${APP_NAME}"
+
     # /usr/local/bin/yazi
-    local DST_PATH="${LOCAL_BIN_DIR}/${APP_NAME}"
-    if [[ -f "${SRC_PATH}" ]] && [[ ! -f "${DST_PATH}" ]]; then
-        cp "${SRC_PATH}" "${LOCAL_BIN_DIR}"
+    local dst_path="${LOCAL_BIN_DIR}/${APP_NAME}"
+
+    if [[ -f "${src_path}" ]] && [[ ! -f "${dst_path}" ]]; then
+        cp "${src_path}" "${LOCAL_BIN_DIR}"
     fi
 
+
+    # 3-2) ya
     # /tmp/yazi/yazi-x86_64-unknown-linux-gnu/ya
-    local SRC_PATH="${TMP_DIR}/${FNAME}/${APP_NAME2}"
+    local src_path="${TMP_DIR}/${portable_name}/${APP_NAME2}"
+
     # /usr/local/bin/ya
-    local DST_PATH="${LOCAL_BIN_DIR}/${APP_NAME}"
-    if [[ -f "${SRC_PATH}" ]] && [[ ! -f "${DST_PATH}" ]]; then
-        cp "${SRC_PATH}" "${LOCAL_BIN_DIR}"
+    local dst_path="${LOCAL_BIN_DIR}/${APP_NAME}"
+
+    if [[ -f "${src_path}" ]] && [[ ! -f "${dst_path}" ]]; then
+        cp "${src_path}" "${LOCAL_BIN_DIR}"
     fi
 
-    rm -f "${ZIP_PATH}";
+
+    rm -f "${tmp_path}";
     # --------------------------------------------------------------------------
 }
 
@@ -283,7 +283,7 @@ function install_yazi()
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then
             install_yazi_for_portable;
         else
-            install_yazi_for_apt;
+            install_yazi_for_deb;
         fi
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then

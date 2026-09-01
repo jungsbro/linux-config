@@ -31,9 +31,6 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 APP_NAME="nimf"
 
-# com.github.hamonikr.nimf
-APP_FULLNAME="com.github.hamonikr.${APP_NAME}"
-
 APP_CAT="Settings;System;"
 
 APP_HIDDEN="false";

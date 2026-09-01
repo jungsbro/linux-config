@@ -40,14 +40,14 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /opt/freetube
 APP_DIR="/opt/${APP_NAME}";
 
-APP_VER="0.23.5"
+APP_VER="0.25.3"
 
+# https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-amd64-portable.zip
+# https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-amd64.AppImage
 APP_ROOT_URL="https://github.com/FreeTubeApp/FreeTube/releases/download"
 
 APP_ICON_URL="https://freetubeapp.io/images/iconWhite.png";
-
-# freetube-icon.png
-APP_ICON_NAME="${APP_NAME}-icon.png";
+APP_ICON_PATH="${HOME_DIR}/.local/share/icons/${APP_NAME}.png";
 
 APP_CAT="AudioVideo;Player"
 
@@ -56,49 +56,40 @@ APP_HIDDEN="false";
 # ==============================================================================
 
 
-
 # Funcs ========================================================================
-function install_freetube_for_apt()
+function install_freetube_for_deb()
 {
     # --------------------------------------------------------------------------
-    # for x86_64, aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    if [[ -n $(apt list --installed | grep -i ^freetube) ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        # freetube_0.23.5_amd64.deb
-        local FNAME="${APP_NAME}_${APP_VER}_amd64.deb";
+        local cur_arch="amd64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # freetube_0.23.5_arm64.deb
-        local FNAME="${APP_NAME}_${APP_VER}_arm64.deb";
-    fi
+        local cur_arch="arm64";
 
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_amd64.deb
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube_0.23.5_arm64.deb
-    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}"
+    else
+        return 0
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/freetube/freetube_0.23.5_amd64.deb
-    # /tmp/freetube/freetube_0.23.5_arm64.deb
-    local SRC_PATH="${TMP_DIR}/${FNAME}"
+    # freetube_0.25.3_beta_amd64.deb
+    # freetube_0.25.3_beta_arm64.deb
+    local deb_fname="${APP_NAME}_${APP_VER}_beta_${cur_arch}.deb";
 
-    if [[ ! -e "${SRC_PATH}" ]]; then
-        # /tmp/freetube
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_amd64.deb
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_arm64.deb
+    local deb_url="${APP_ROOT_URL}/v${APP_VER}-beta/${deb_fname}"
+    # --------------------------------------------------------------------------
 
-        wget "${SRC_URL}" -O "${SRC_PATH}"
-    fi
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
+    # local deb_url="${DEB_URL}";
 
-    apt install -y "${SRC_PATH}"
+    source ${CORE_BIN_DIR}/pkgmgmt/deb/install_deb_funcs.sh && \
+    install_debpkg "${app_name}" "${deb_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -106,44 +97,36 @@ function install_freetube_for_apt()
 function install_freetube_for_rpm()
 {
     # --------------------------------------------------------------------------
-    # for x86_64, aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    if [[ -n $(apt list --installed | grep -i ^freetube) ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        # freetube-0.23.5.amd64.rpm
-        local FNAME="${APP_NAME}-${APP_VER}.amd64.rpm";
+        local cur_arch="amd64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # freetube-0.23.5_arm64.rpm
-        local FNAME="${APP_NAME}-${APP_VER}.arm64.rpm";
-    fi
+        local cur_arch="arm64";
 
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5.amd64.rpm
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5.arm64.rpm
-    local SRC_URL="${APP_ROOT_URL}/v${APP_VER}-beta/${FNAME}"
+    else
+        return 0
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/freetube/freetube-0.23.5.amd64.rpm
-    # /tmp/freetube/freetube-0.23.5.arm64.rpm
-    local SRC_PATH="${TMP_DIR}/${FNAME}"
+    # freetube-0.25.3-beta.amd64.rpm
+    # freetube-0.25.3-beta.arm64.rpm
+    local rpm_fname="${APP_NAME}-${APP_VER}-beta.${cur_arch}.rpm";
 
-    if [[ ! -e "${SRC_PATH}" ]]; then
-        # /tmp/freetube
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.amd64.rpm
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.arm64.rpm
+    local rpm_url="${APP_ROOT_URL}/v${APP_VER}-beta/${rpm_fname}"
+    # --------------------------------------------------------------------------
 
-        wget "${SRC_URL}" -O "${SRC_PATH}"
-    fi
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
+    # local rpm_url="${RPM_URL}";
 
-    dnf install -y "${SRC_PATH}"
+    source ${CORE_BIN_DIR}/pkgmgmt/rpm/install_rpm_funcs.sh && \
+    install_rpmpkg "${app_name}" "${rpm_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -151,148 +134,98 @@ function install_freetube_for_rpm()
 function install_freetube_for_portable()
 {
     # --------------------------------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-
-    # /opt/freetube
-    if [[ -e "${APP_DIR}" ]]; then
-        return 0
-    fi
-    # --------------------------------------------------------------------------
-
-    # 1) src_url ---------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        # freetube-0.23.5-linux-x64-portable.zip
-        local fname="${APP_NAME}-${APP_VER}-linux-x64-portable.zip";
+        local cur_arch="x64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # freetube-0.23.5-linux-arm64-portable.zip
-        local fname="${APP_NAME}-${APP_VER}-linux-arm64-portable.zip";
-    fi
+        local cur_arch="arm64";
 
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5-linux-x64-portable.zip
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5-linux-arm64-portable.zip
-    local src_url="${APP_ROOT_URL}/v${APP_VER}-beta/${fname}";
-    # --------------------------------------------------------------------------
-
-    # 2) zip_path --------------------------------------------------------------
-    if [[ ! -e "${TMP_DIR}" ]]; then
-        # /tmp/freetube
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-    fi
-
-    # /tmp/freetube/freetube-0.23.5-linux-x64-portable.zip
-    # /tmp/freetube/freetube-0.23.5-linux-arm64-portable.zip
-    local zip_path="${TMP_DIR}/${fname}";
-
-    if [[ ! -e "${zip_path}" ]]; then
-        wget "${src_url}" -O "${zip_path}";
-    fi
-    # --------------------------------------------------------------------------
-
-    # 3) APP_DIR ----------------------------------------------------------------
-    # unzip /core/linux/src/freetube/freetube-0.23.5-linux-x64-portable.zip -d /opt/freetube;
-    unzip "${zip_path}" -d ${APP_DIR};
-    rm -f "${zip_path}";
-
-    # /opt/freetube
-    if [[ ! -d "${APP_DIR}" ]]; then
+    else
         return 0
     fi
     # --------------------------------------------------------------------------
 
-    # 4) exec_path -------------------------------------------------------------
+    # --------------------------------------------------------------------------
+    # freetube-0.25.3-beta-linux-x64-portable.zip
+    # freetube-0.25.3-beta-linux-arm64-portable.zip
+    local portable_fname="${APP_NAME}-${APP_VER}-beta-linux-${cur_arch}-portable.zip";
+
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-x64-portable.zip
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-arm64-portable.zip
+    local portable_url="${APP_ROOT_URL}/v${APP_VER}-beta/${portable_fname}";
+
     # /opt/freetube/freetube
-    local exec_path="${APP_DIR}/${APP_NAME}"
+    local portable_path="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------
 
-    # 5) icon_path -------------------------------------------------------------
-    # 5-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /opt/freetube/freetube-icon.png
-    # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget "${APP_ICON_URL}" -O "${icon_path}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    # 5-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /usr/share/icons/Papirus/48x48/apps/freetube.svg
-    # local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_NAME}.svg";
-    local icon_path="${APP_NAME}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
 
-    # 6) desktop_path ----------------------------------------------------------
-    # /usr/share/applications/freetube.deskop
-    local desktop_path="/usr/share/applications/${APP_NAME}.desktop";
+    # local portable_url="${PORTABLE_URL}";
+    # local portable_path="${PORTABLE_PATH}";
 
-    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
-    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
+    local icon_url="${APP_ICON_URL}";
+    local icon_path="${APP_ICON_PATH}";
+
+    local app_cat="${APP_CAT}";
+    local app_hidden="${APP_HIDDEN}";
+    local cur_user="${CUR_USER}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/portable/install_portable_funcs.sh && \
+    install_portablepkg "${app_name}" "${portable_url}" "${portable_path}" "${icon_url}" "${icon_path}" "${app_cat}" "${app_hidden}" "${cur_user}";
     # --------------------------------------------------------------------------
 }
 
 
-
 function install_freetube_for_appimage()
 {
-    # appimage for only x86_64 -------------------------------------------------
-    # for x86_64 / aarch64
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-
-    # /opt/freetube
-    if [[ -e "${APP_DIR}" ]]; then
-        return 0
-    fi
     # --------------------------------------------------------------------------
-
-    # 1) src_url ---------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        # FreeTube-0.23.5-amd64.AppImage
-        local fname="FreeTube-${APP_VER}-amd64.AppImage";
+        local cur_arch="amd64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
+        return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # FreeTube-0.23.5-arm64.AppImage
-        local fname="FreeTube-${APP_VER}-arm64.AppImage";
+        local cur_arch="arm64";
+
+    else
+        return 0
     fi
-
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/FreeTube-0.23.5-amd64.AppImage
-    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/FreeTube-0.23.5-arm64.AppImage
-    local src_url="${APP_ROOT_URL}/v${APP_VER}-beta/${fname}";
-
-    # 2) exec_path -------------------------------------------------------------
-    # /opt/freetube/FreeTube-0.23.5-amd64.AppImage
-    # /opt/freetube/FreeTube-0.23.5-arm64.AppImage
-    local exec_path="${APP_DIR}/${fname}";
-
-    # /opt/freetube
-    mkdir -p "${APP_DIR}";
-
-    wget "${src_url}" -O "${exec_path}";
-    chmod +x "${exec_path}";
     # --------------------------------------------------------------------------
 
-    # 3) icon_path -------------------------------------------------------------
-    # 3-1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /opt/freetube/freetube-icon.png
-    # local icon_path="${APP_DIR}/${APP_ICON_NAME}";
-    # wget "${APP_ICON_URL}" -O "${icon_path}";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # --------------------------------------------------------------------------
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-amd64.AppImage
+    # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-arm64.AppImage
+    local appimage_url="${APP_ROOT_URL}/v${APP_VER}-beta/${APP_NAME}-${APP_VER}-beta-${cur_arch}.AppImage";
 
-    # 3-2) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # /usr/share/icons/Papirus/48x48/apps/freetube.svg
-    local icon_path="/usr/share/icons/Papirus/48x48/apps/${APP_NAME}.svg";
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # freetube-0.25.3-amd64.AppImage
+    # freetube-0.25.3-arm64.AppImage
+    local appimage_fname=$(basename "${appimage_url}");
+
+    # /opt/freetube/freetube-0.25.3-amd64.AppImage
+    # /opt/freetube/freetubee-0.25.3-arm64.AppImage
+    local appimage_path="${APP_DIR}/${appimage_fname}";
     # --------------------------------------------------------------------------
 
-    # 4) desktop_path ----------------------------------------------------------
-    # /usr/share/applications/freetube.deskop
-    local desktop_path="/usr/share/applications/${APP_NAME}.desktop";
+    # --------------------------------------------------------------------------
+    local app_name="${APP_NAME}";
 
-    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && \
-    set_desktop "${APP_NAME}" "${exec_path}" "${icon_path}" "${APP_CAT}" "${APP_HIDDEN}" "${desktop_path}" "${CUR_USER}";
+    # local appimage_url="${APPIMAGE_URL}";
+    # local appimage_path="${APPIMAGE_PATH}";
+
+    local icon_url="${APP_ICON_URL}";
+    local icon_path="${APP_ICON_PATH}";
+
+    local app_cat="${APP_CAT}";
+    local app_hidden="${APP_HIDDEN}";
+    local cur_user="${CUR_USER}";
+
+    source ${CORE_BIN_DIR}/pkgmgmt/appimage/install_appimage_funcs.sh && \
+    install_appimagepkg "${app_name}" "${appimage_url}" "${appimage_path}" "${icon_url}" "${icon_path}" "${app_cat}" "${app_hidden}" "${cur_user}";
     # --------------------------------------------------------------------------
 }
 
@@ -323,7 +256,7 @@ function execute_main()
             # local cur_user="${CUR_USER}";
             # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         else                                        # x86_64, aarch64
-            install_freetube_for_apt;
+            install_freetube_for_deb;
         fi
 
         # 방법2)

@@ -29,10 +29,10 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="google-chrome";
+APP_NAME="google-chrome";
 
 # /tmp/google-chrome
-TMP_DIR="/tmp/${NAME}";
+TMP_DIR="/tmp/${APP_NAME}";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -40,190 +40,106 @@ TMP_DIR="/tmp/${NAME}";
 # Funcs ========================================================================
 function fix_exec_cmd()
 {
-    local GC_DESKTOP_PATH="/usr/share/applications/google-chrome.desktop"
-    local GC_DESKTOP_PATH2="/usr/share/applications/google-chrome.desktop2"
+    local gc_desktop_path="/usr/share/applications/google-chrome.desktop"
+    local gc_desktop_path2="/usr/share/applications/google-chrome.desktop2"
 
     # --------------------------------------------------------------------------
     # /usr/share/applications/google-chrome.desktop
-    if [[ ! -f "${GC_DESKTOP_PATH}" ]]; then
+    if [[ ! -f "${gc_desktop_path}" ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local GC_DESKTOP_CMDS=$(cat "${GC_DESKTOP_PATH}");
+    local gc_desktop_cmds=$(cat "${gc_desktop_path}");
 
-    local SRC_STR="google-chrome-stable"
+    local src_str="google-chrome-stable"
 
-    local PW_STORE="--password-store=basic";
+    local pw_store="--password-store=basic";
 
     # google-chrome-stable --password-store=basic
-    local DST_STR="${SRC_STR} ${PW_STORE}";
+    local dst_str="${src_str} ${pw_store}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${GC_DESKTOP_CMDS}" == *"${PW_STORE}"* ]]; then
+    if [[ "${gc_desktop_cmds}" == *"${pw_store}"* ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    sed "s/${SRC_STR}/${DST_STR}/g" "${GC_DESKTOP_PATH}" > "${GC_DESKTOP_PATH2}";
-    mv -f "${GC_DESKTOP_PATH2}" "${GC_DESKTOP_PATH}";
+    sed "s/${src_str}/${dst_str}/g" "${gc_desktop_path}" > "${gc_desktop_path2}";
+    mv -f "${gc_desktop_path2}" "${gc_desktop_path}";
     # --------------------------------------------------------------------------
 }
 
-function install_google-chrome()
+
+function install_google-chrome_for_deb()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="amd64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
-    fi
 
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         return 0
-    fi
 
-    if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
-            return 0
-        fi
-        # ----------------------------------------------------------------------
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
-            return 0
-        fi
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local FNAME="google-chrome-stable_current_amd64.deb";
-        # ----------------------------------------------------------------------
-        # "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-        local URL="https://dl.google.com/linux/direct/${FNAME}";
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local FNAME="google-chrome-stable_current_x86_64.rpm";
-        # ----------------------------------------------------------------------
-        # "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
-        local URL="https://dl.google.com/linux/direct/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    if [[ ! -d "${TMP_DIR}" ]]; then
-        # /tmp/google-chrome
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-    fi
-    if [[ ! -f "${TMP_DIR}/${FNAME}" ]]; then
-        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-        apt install -y "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        dnf install -y "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
-    # --------------------------------------------------------------------------
-
-    fix_exec_cmd;
-}
-
-
-function install_google-chrome_for_apt()    # not used
-{
-    # --------------------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        return 0
-    fi
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-    fi
-    if [[ -n $(apt list --installed | grep -i ^google-chrome) ]]; then
+    else
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local FNAME="google-chrome-stable_current_amd64.deb";
+    # google-chrome-stable_current_amd64.deb
+    local deb_fname="google-chrome-stable_current_${cur_arch}.deb";
 
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-    local URL="https://dl.google.com/linux/direct/${FNAME}";
+    local deb_url="https://dl.google.com/linux/direct/${deb_fname}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/google-chrome
-    if [[ ! -d "${TMP_DIR}" ]]; then
-        # ----------------------------------------------------------------------
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
+    local app_name="${APP_NAME}";
+    # local deb_url="${DEB_URL}";
 
-    # /tmp/google-chrome/google-chrome-stable_current_amd64.deb
-    apt install -y "${TMP_DIR}/${FNAME}";
+    source ${CORE_BIN_DIR}/pkgmgmt/deb/install_deb_funcs.sh && \
+    install_debpkg "${app_name}" "${deb_url}";
     # --------------------------------------------------------------------------
 }
 
 
-function install_google-chrome_for_dnf()    # not used
+function install_google-chrome_for_rpm()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        local cur_arch="amd64";
+
+    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
-    fi
-    if [[ "${CUR_ARCH}" == *"i686"* ]]; then
+
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         return 0
-    fi
-    if [[ -n $(dnf list --installed | grep -i ^google-chrome) ]]; then
+
+    else
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    local FNAME="google-chrome-stable_current_x86_64.rpm";
+    # google-chrome-stable_current_x86_64.rpm
+    local rpm_fname="google-chrome-stable_current_x86_64.rpm";
 
     # "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
-    local URL="https://dl.google.com/linux/direct/${FNAME}";
+    local rpm_url="https://dl.google.com/linux/direct/${rpm_fname}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # /tmp/google-chrome
-    if [[ ! -d "${TMP_DIR}" ]]; then
-        # ----------------------------------------------------------------------
-        mkdir -p "${TMP_DIR}";
-        chmod 777 "${TMP_DIR}";
-        # ----------------------------------------------------------------------
-        # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-        wget "${URL}" -O "${TMP_DIR}/${FNAME}";
-        # ----------------------------------------------------------------------
-    fi
+    local app_name="${APP_NAME}";
+    # local rpm_url="${RPM_URL}";
 
-    # /tmp/google-chrome/google-chrome-stable_current_x86_64.rpm
-    dnf install -y "${TMP_DIR}/${FNAME}";
+    source ${CORE_BIN_DIR}/pkgmgmt/rpm/install_rpm_funcs.sh && \
+    install_rpmpkg "${app_name}" "${rpm_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -238,14 +154,18 @@ function execute_main()
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_google-chrome;
+        install_google-chrome_for_deb;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_google-chrome;
+        install_google-chrome_for_rpm;
         # ----------------------------------------------------------------------
     fi
+
+    # --------------------------------------------------------------------------
+    fix_exec_cmd;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 
