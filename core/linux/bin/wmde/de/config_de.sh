@@ -263,7 +263,7 @@ function install_pkgs_for_gnome()
     # --------------------------------------------------------------------------
     # theme
     bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/wmde/de/gnome/install_gnome-tweaks.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/wmde/de/gnome/install_gnome-extensions.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
