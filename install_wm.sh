@@ -20,7 +20,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_WM -----------------------------------------------------------------------
 # CUR_WM="openbox";
-CUR_WM="${1}";
+CUR_WM="${1:? 'WM not provided.'}";
 
 if [[ "${CUR_WM}" != *"icewm"* ]] && [[ "${CUR_WM}" != *"fluxbox"* ]] && \
 [[ "${CUR_WM}" != *"openbox"* ]] && [[ "${CUR_WM}" != *"i3"* ]]; then
@@ -34,7 +34,7 @@ fi
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER="${2}";
+CUR_USER="${2:? 'Username not provided.'}";
 
 if [[ -z "${CUR_USER}" ]]; then
 

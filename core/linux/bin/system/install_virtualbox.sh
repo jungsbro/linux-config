@@ -18,7 +18,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1}";
+# CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2>/dev/null);
@@ -29,10 +29,10 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-NAME="virtualbox-7.0";
+APP_NAME="virtualbox-7.0";
 
 # /core/linux/src/virtualbox-7.0
-TMP_DIR= "/core/linux/src/${NAME}";
+TMP_DIR= "/core/linux/src/${APP_NAME}";
 
 # https://download.virtualbox.org/virtualbox/7.1.12/virtualbox-7.1_7.1.12-169651~Debian~bookworm_amd64.deb
 VER="7.1.12"
@@ -90,7 +90,7 @@ function install_vbox_for_ubu20()
 
     # --------------------------------------------------------------------------
     # virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
-    local FNAME1="${NAME}_${VER}-162988~Ubuntu~focal_amd64.deb";
+    local FNAME1="${APP_NAME}_${VER}-162988~Ubuntu~focal_amd64.deb";
 
     # https://download.virtualbox.org/virtualbox/7.0.18/virtualbox-7.0_7.0.18-162988~Ubuntu~focal_amd64.deb
     local URL1="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";
@@ -138,7 +138,7 @@ function install_vbox_for_dnf()
 
     # --------------------------------------------------------------------------
     # VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
-    local FNAME1="${NAME}-${VER}_162988_el7-1.x86_64.rpm";
+    local FNAME1="${APP_NAME}-${VER}_162988_el7-1.x86_64.rpm";
 
     # https://download.virtualbox.org/virtualbox/7.0.18/VirtualBox-7.0-7.0.18_162988_el7-1.x86_64.rpm
     local URL1="https://download.virtualbox.org/virtualbox/${VER}/${FNAME1}";

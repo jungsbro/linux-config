@@ -18,7 +18,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER="${1}";
+CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2>/dev/null);
@@ -43,7 +43,7 @@ function execute_main()
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             local app_name="pcmanfm-qt"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         else
-            local app_name="pcmanfm"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+            local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ function execute_main()
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             local app_name="pcmanfm-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
-            local app_name="pcmanfm"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+            local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ function execute_main()
         if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
             local app_name="pcmanfm-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
-            local app_name="pcmanfm"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+            local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
 

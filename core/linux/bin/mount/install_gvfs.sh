@@ -18,7 +18,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1}";
+# CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_VER=$(cat /etc/*-release 2>/dev/null);
@@ -26,6 +26,10 @@ CUR_VER=$(cat /etc/*-release 2>/dev/null);
 CUR_ARCH=$(uname -m);
 
 CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="gvfs";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -41,7 +45,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 
 function install_gvfs_for_pacman()
 {
-    local app_name="gvfs"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+    local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
     local app_name="gvfs-smb"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
     if [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
@@ -55,7 +59,7 @@ function install_gvfs_for_pacman()
 
 function install_gvfs_for_apt()
 {
-    local app_name="gvfs"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     local app_name="gvfs-backends"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     local app_name="gvfs-fuse"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
@@ -70,7 +74,7 @@ function install_gvfs_for_apt()
 function install_gvfs_for_dnf()
 {
     [[ -n $(dnf list --installed | grep -i ^gvfs$) ]] || dnf install -y gvfs gvfs-smb gvfs-fuse;
-    local app_name="gvfs"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+    local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     local app_name="gvfs-smb"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     local app_name="gvfs-fuse"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
 

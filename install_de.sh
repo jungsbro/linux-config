@@ -15,7 +15,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 
 # CUR_USER ---------------------------------------------------------------------
 # CUR_USER="jungs";
-CUR_USER="${1}"
+CUR_USER="${1:? 'Username not provided.'}";
 
 while [[ -z "${CUR_USER}" ]]
 do

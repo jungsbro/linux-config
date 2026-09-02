@@ -21,7 +21,7 @@ function set_xprofile_enable()
     # only working for fedora and rhel
     local cur_ver=$(cat /etc/*-release 2>/dev/null);
 
-    if [[ "${CUR_VER}" != *"Fedora"* ]] && [[ "${CUR_VER}" != *"CentOS"* ]] && [[ "${CUR_VER}" != *"rocky"* ]]; then
+    if [[ "${cur_ver}" != *"Fedora"* ]] && [[ "${cur_ver}" != *"CentOS"* ]] && [[ "${cur_ver}" != *"rocky"* ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
