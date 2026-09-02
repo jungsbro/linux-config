@@ -297,7 +297,7 @@ function install_yazi()
 function copy_yazirc()
 {
     # --------------------------------------------------------------------------
-    local src_dir="${CUR_DIR}/yazi/config"
+    local src_dir="${CUR_DIR}/config"
     if [[ ! -f "${src_dir}/yazi.toml" ]]; then
         return 0
     fi

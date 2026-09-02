@@ -230,7 +230,14 @@ function install_ime()
 function install_screen-manager()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_arandr.sh "${CUR_USER}";
+    # 방법1) for x11
+    bash ${CORE_BIN_DIR}/display/install_arandr.sh "${CUR_USER}";
+
+    # 방법2) for wayland
+    # bash ${CORE_BIN_DIR}/display/install_nwg-displays.sh "${CUR_USER}";
+
+    # 방법3) for wayland
+    # bash ${CORE_BIN_DIR}/display/install_wdisplays.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -398,7 +405,14 @@ function install_clipboard()
 function install_theme()
 {
     # --------------------------------------------------------------------------
+    # 방법1)
     bash ${CORE_BIN_DIR}/theme/install_lxappearance.sh "${CUR_USER}";
+
+    # 방법2)
+    # bash ${CORE_BIN_DIR}/theme/install_nwg-look.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
 }

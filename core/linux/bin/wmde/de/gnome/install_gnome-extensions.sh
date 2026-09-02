@@ -105,7 +105,7 @@ function install_gnome-extensions_for_debian()
     local app_name="gnome-shell-extensions"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
     # 방법2)
-    # local app_name="gnome-shell-extension-app-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-apps-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # local app_name="gnome-shell-extension-drive-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # local app_name="gnome-shell-extension-places-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # local app_name="gnome-shell-extension-window-list"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -159,7 +159,24 @@ function install_gnome-extensions_for_ubuntu()
     # --------------------------------------------------------------------------
     # gnome-shell-extensions (패키지 모음)
 
+    # 방법1)
     local app_name="gnome-shell-extensions"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+    # 방법2)
+    # local app_name="gnome-shell-extension-apps-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-drive-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-places-menu"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-window-list"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-auto-move-windows"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-launch-new-instance"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-native-window-placement"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-widndows-navigator"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-workspace-indicator"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-user-theme"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-light-style"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-system-monitor"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-screenshot-window-sizer"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+    # local app_name="gnome-shell-extension-common"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

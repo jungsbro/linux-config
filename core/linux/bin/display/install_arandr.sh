@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/gpu/install_arandr.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/display/install_arandr.sh "${CUR_USER}";
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/gpu
+# /core/linux/bin/display
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../.."
@@ -30,6 +30,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="arandr"
+
 APP_CAT="System;Utility;"
 # ------------------------------------------------------------------------------
 # ==============================================================================
@@ -40,17 +41,17 @@ function execute_main()
 {
     if [[ "${CUR_VER}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="arandr"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="arandr"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="arandr"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
