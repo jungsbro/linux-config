@@ -35,7 +35,7 @@ function execute_main()
 {
     # --------------------------------------------------------------------------
     # container
-    distrobox-assemble create --file ${CUR_DIR}/install_nixbox.ini;
+    distrobox-assemble create --file "${CUR_DIR}/install_nixbox.ini";
     # distrobox-upgrade --all
     # --------------------------------------------------------------------------
 }

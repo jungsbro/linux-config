@@ -98,6 +98,7 @@ function add_universe_repo_for_apt()
         return 0
     fi
 
+    local app_name="software-properties-common"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
     add-apt-repository -y universe restricted multiverse
     # --------------------------------------------------------------------------
 
