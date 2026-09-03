@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -105,10 +105,10 @@ function set_extension_enable()     # not used
 
     # --------------------------------------------------------------------------
     # gnome-extensions list
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         echo "";
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]]; then
         # ubuntu-appindicators@ubuntu.com
         # caffeine@patapon.info
         # ding@rastersoft.com
@@ -128,7 +128,7 @@ function set_extension_enable()     # not used
         su - "${CUR_USER}" -c "gnome-extensions enable window-list@gnome-shell-extensions.gcampax.github.com" 2>/dev/null || true;
         su - "${CUR_USER}" -c "gnome-extensions enable ubuntu-appindicators@ubuntu.com" 2>/dev/null || true;
 
-    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ding@rastersoft.com
         # snapd-prompting@canonical.com
         # snapd-search-provider@canonical.com
@@ -153,7 +153,7 @@ function set_extension_enable()     # not used
         su - "${CUR_USER}" -c "gnome-extensions enable ubuntu-appindicators@ubuntu.com" 2>/dev/null || true;
         echo "";
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # apps-menu@gnome-shell-extensions.gcampax.github.com
         # drive-menu@gnome-shell-extensions.gcampax.github.com
         # launch-new-instance@gnome-shell-extensions.gcampax.github.com
@@ -165,7 +165,7 @@ function set_extension_enable()     # not used
         su - "${CUR_USER}" -c "gnome-extensions enable window-list@gnome-shell-extensions.gcampax.github.com" 2>/dev/null || true;
         su - "${CUR_USER}" -c "gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com" 2>/dev/null || true;
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # desktop-icons@gnome-shell-extensions.gcampax.github.com
         # caffeine@patapon.info
         # panel-favorites@gnome-shell-extensions.gcampax.github.com

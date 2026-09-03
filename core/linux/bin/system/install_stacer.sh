@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ APP_CAT="Utility;"
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
@@ -53,7 +53,7 @@ function execute_main()
         # local app_name="stacer"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) distrobox를 사용한다.
         echo "stacer is not avialable on Debian13+"
@@ -62,12 +62,12 @@ function execute_main()
         # local app_name="stacer"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="stacer"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) distrobox를 사용한다.
         echo "stacer is not avialable on RHEL and Fedora"

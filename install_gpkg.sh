@@ -44,11 +44,11 @@ done
 # ------------------------------------------------------------------------------
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ${CORE_BIN_DIR}/ -------------------------------------------------------------
@@ -84,10 +84,10 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # snap ---------------------------------------------------------------------
-    # if [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    # if [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
     #     echo "";
 
-    # elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    # elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
     #     bash ${CORE_BIN_DIR}/pkgmgmt/install_snap.sh "${CUR_USER}";
     # fi
     # --------------------------------------------------------------------------
@@ -174,7 +174,7 @@ function execute_main()
 
     # paint ---------------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh "${CUR_USER}";
-    if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
     else
         bash ${CORE_BIN_DIR}/graphics/install_drawing.sh "${CUR_USER}";

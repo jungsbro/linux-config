@@ -23,11 +23,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -316,7 +316,7 @@ function show_ui()
         # ----------------------------------------------------------------------
         cur_name=$(echo "${item}" | jq -r '.name')
 
-        if [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+        if [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
             cur_name=$(set_text_with_emoji "${cur_name}")
         fi
         # ----------------------------------------------------------------------

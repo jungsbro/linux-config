@@ -23,11 +23,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ fi
 
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}";
         local user_type="multi";
@@ -74,7 +74,7 @@ function execute_main()
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}";
         local user_type="multi";
@@ -82,7 +82,7 @@ function execute_main()
         source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "glibcLocales is not avialable on RHEL and Fedora"
         local app_name="${APP_NAME}";

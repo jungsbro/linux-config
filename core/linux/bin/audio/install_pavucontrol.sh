@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ function set_pavucontrol_enable()
 
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="pipewire"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="pipewire-alsa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="pipewire-pulse"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
-        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
             local app_name="pavucontrol-qt"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         else
             local app_name="pavucontrol"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
@@ -64,14 +64,14 @@ function execute_main()
         local app_name="wireplumber"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="pipewire"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="pipewire-alsa"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="pipewire-pulse"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="pipewire-audio-client-libraries"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
-        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
             local app_name="pavucontrol-qt"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         else
             local app_name="pavucontrol"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -80,13 +80,13 @@ function execute_main()
         local app_name="wireplumber"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="pipewire"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="pipewire-alsa"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="pipewire-pulseaudio"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        if [[ "${CUR_WMDE}" == *"lxqt"* ]] || [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
             local app_name="pavucontrol-qt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         else
             local app_name="pavucontrol"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -95,7 +95,7 @@ function execute_main()
         local app_name="wireplumber"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         # ----------------------------------------------------------------------

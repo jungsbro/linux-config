@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ==============================================================================
@@ -34,22 +34,22 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="nala"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         echo ""
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         echo ""
         # ----------------------------------------------------------------------

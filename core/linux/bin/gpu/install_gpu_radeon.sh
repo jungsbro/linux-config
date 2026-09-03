@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -148,7 +148,7 @@ function install_radeon_for_dnf()
 
     # --------------------------------------------------------------------------
     # OpenCL
-    if [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         local app_name="mesa-libOpenCL"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -156,7 +156,7 @@ function install_radeon_for_dnf()
         # 방법2)
         # local app_name="rocm-opencl"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         # local app_name="mesa-libOpenCL"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -184,17 +184,17 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_pacman
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_apt;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_radeon_for_dnf;
         # ----------------------------------------------------------------------

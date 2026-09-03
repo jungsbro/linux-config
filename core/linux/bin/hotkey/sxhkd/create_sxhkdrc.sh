@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ NEWLINE_CMD2="\n\n";
 function set_hotkey_for_restartwm()
 {
     # 3) cmd for WM ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="super + shift + r"
         SXHKDRC_CMD+="${NEWLINE_CMD1}"
@@ -107,33 +107,33 @@ function set_hoteky_for_expose()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # expose cmd를 찾지 못했다.
         SXHKDRC_CMD+="${expose_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # expose
         SXHKDRC_CMD+="cinnamon-dbus-command ShowOverview"
@@ -142,7 +142,7 @@ function set_hoteky_for_expose()
         # SXHKDRC_CMD+="cinnamon-dbus-command ShowExpo"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # expose
         # 방법1)
@@ -192,12 +192,12 @@ function set_hotkey_for_startmenu()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxpanelctl menu"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         # fancy-menu cmd를 찾지 못했다.
         # 방법1)
@@ -206,29 +206,29 @@ function set_hotkey_for_startmenu()
         # SXHKDRC_CMD+="xdotool key alt+F1"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-popup-whiskermenu"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # start-menu cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # start-menu cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.activateLauncherMenu"
         # ----------------------------------------------------------------------
@@ -268,39 +268,39 @@ function set_hotkey_for_spotlight()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxqt-runner"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-appfinder"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # old
         # SXHKDRC_CMD+="gdbus call --session --dest org.kde.krunner --object-path /App --method org.kde.krunner.App.display"
@@ -344,39 +344,39 @@ function set_hotkey_for_rundialog()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxpanelctl run"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxqt-runner"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-appfinder"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # old
         # SXHKDRC_CMD+="gdbus call --session --dest org.kde.krunner --object-path /App --method org.kde.krunner.App.display"
@@ -419,39 +419,39 @@ function set_hotkey_for_searchdialog()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxqt-runner"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-appfinder"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # launcher cmd를 찾지 못했다.
         SXHKDRC_CMD+="rofi -show drun -theme '~/.config/rofi/themes/j_launcher.rasi'"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # old
         # SXHKDRC_CMD+="gdbus call --session --dest org.kde.krunner --object-path /App --method org.kde.krunner.App.display"
@@ -507,7 +507,7 @@ function set_hotkey_for_logout()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         # 방법1)
@@ -519,7 +519,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         # multi 창
         # SXHKDRC_CMD+="lxqt-leave"
@@ -531,7 +531,7 @@ function set_hotkey_for_logout()
         SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="xfce4-session-logout"
@@ -543,7 +543,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="mate-session-save --logout-dialog"
@@ -555,7 +555,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="gnome-session-quit --logout"
@@ -567,7 +567,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="cinnamon-session-quit --logout"
@@ -579,7 +579,7 @@ function set_hotkey_for_logout()
         # SXHKDRC_CMD+="${logout_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # logout 확인창
         SXHKDRC_CMD+="qdbus6 org.kde.LogoutPrompt /LogoutPrompt org.kde.LogoutPrompt.promptLogout"
@@ -635,7 +635,7 @@ function set_hotkey_for_lockscreen()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
         # 방법1)
@@ -646,7 +646,7 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
         # 방법1)
@@ -657,7 +657,7 @@ function set_hotkey_for_lockscreen()
         SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         # lock 확인창
         # 방법1)
@@ -676,7 +676,7 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
         # 방법1)
@@ -687,7 +687,7 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
         # 방법1)
@@ -696,7 +696,7 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="${lock_cmd}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # lock 확인창
         # 방법1)
@@ -712,20 +712,20 @@ function set_hotkey_for_lockscreen()
         # SXHKDRC_CMD+="cinnamon-screensaver-command --lock && xset dpms force off"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # 확인없이 lock
 
         # 시스템 어딘가 숨어있는 kscreenlocker_greet의 진짜 좌표 탐색
         # find /usr -name "kscreenlocker_greet" 2>/dev/null
-        if [[ "${CUR_VER}" == *"archlinux"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]] || [[ "${CUR_VER}" == *"Fedora"* ]]; then
+        if [[ "${CUR_RELEASE}" == *"archlinux"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]] || [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
             # 방법1)
             # SXHKDRC_CMD+="/usr/libexec/kscreenlocker_greet"
 
             # 방법2)
             SXHKDRC_CMD+="/usr/libexec/kscreenlocker_greet --testing"
 
-        elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+        elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
             # 방법1)
             # SXHKDRC_CMD+="/usr/lib/x86_64-linux-gnu/libexec/kscreenlocker_greet"
 
@@ -784,14 +784,14 @@ function set_hotkey_for_screenshot()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # sudo apt install -y scrot
         # -s: select, -q: quality, 100: 100%
         SXHKDRC_CMD+="scrot -s -q 100 ~/Pictures/Screenshot_$(date +%Y%m%d_%H%M%S).png"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) gui창이 뜬다.
         SXHKDRC_CMD+="screengrab"
@@ -800,7 +800,7 @@ function set_hotkey_for_screenshot()
         # SXHKDRC_CMD+="lximage-qt --screenshot"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         # gui창이 뜬다.
         SXHKDRC_CMD+="xfce4-screenshooter"
@@ -815,7 +815,7 @@ function set_hotkey_for_screenshot()
         # SXHKDRC_CMD+="xfce4-screenshooter -r"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         # gui창이 뜬다.
         # -i --interactive
@@ -831,13 +831,13 @@ function set_hotkey_for_screenshot()
         # SXHKDRC_CMD+="mate-screenshot -a"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # gnome이 gnome-screenshot을 폐기했다.
         SXHKDRC_CMD+="gnome-screenshot -i"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # -i --interactive
         SXHKDRC_CMD+="gnome-screenshot -i"
@@ -857,7 +857,7 @@ function set_hotkey_for_screenshot()
         # SXHKDRC_CMD+="gnome-screenshot -a -c"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # gui창이 뜬다.
         SXHKDRC_CMD+="spectacle"
@@ -929,19 +929,19 @@ function set_hotkey_for_display()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="lxrandr"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="lxqt-config-monitor"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         # SXHKDRC_CMD+="xfce4-display-settings"
@@ -951,23 +951,23 @@ function set_hotkey_for_display()
         SXHKDRC_CMD+="xfce4-display-settings -m"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # display resolution 설정 창
         SXHKDRC_CMD+="mate-display-properties"
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="gnome-control-center display"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="cinnamon-settings display"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         # display resolution 설정 창
         SXHKDRC_CMD+="systemsettings kcm_kscreen"
@@ -1018,37 +1018,37 @@ function set_hotkey_for_taskmanager()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxtask"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="qps"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-taskmanager"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="mate-system-monitor"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-system-monitor"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-system-monitor"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="plasma-systemmonitor"
         # ----------------------------------------------------------------------
@@ -1088,37 +1088,37 @@ function set_hotkey_for_finder()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="pcmanfm"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="pcmanfm-qt"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="thunar"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="caja"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="nautilus"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="nemo"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="dolphin"
         # ----------------------------------------------------------------------
@@ -1169,7 +1169,7 @@ function set_hotkey_for_controlcenter()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         # control center
         SXHKDRC_CMD+="python3 ~/.local/bin/wmcc.py"
@@ -1181,32 +1181,32 @@ function set_hotkey_for_controlcenter()
         # SXHKDRC_CMD+="lxpanelctl run"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxqt-config"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-settings-manager"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="mate-control-center"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-control-center"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="cinnamon-settings"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="systemsettings"
         # ----------------------------------------------------------------------
@@ -1249,40 +1249,40 @@ function set_hotkey_for_terminal()
     # --------------------------------------------------------------------------
 
     # 2) cmd for DE ------------------------------------------------------------
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="lxterminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="qterminal"
         # SXHKDRC_CMD+="xfce4-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="xfce4-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="mate-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         # gnome이 gnome-terminal cmd를 막았다.
         # Error creating terminal: Object does not exist at path “/org/gnome/Terminal/Factory0”
         SXHKDRC_CMD+="gnome-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="gnome-terminal"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         SXHKDRC_CMD+="konsole"
         # ----------------------------------------------------------------------

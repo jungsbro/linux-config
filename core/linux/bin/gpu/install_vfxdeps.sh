@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -110,7 +110,7 @@ function install_vfxdeps_for_dnf()
 
     # Rocky Linux 9은 보안상의 이유로 구형 암호화 방식(libcrypt.so.1)을 기본적으로 지원하지 않는데
     # 이 구형 라이브러리가 없으면 실행 직후 튕기는 경우가 매우 많습니다.
-    if [[ "${CUR_VER}" == *"VERSION_ID=\"8"* ]]; then       # rocky8
+    if [[ "${CUR_RELEASE}" == *"VERSION_ID=\"8"* ]]; then       # rocky8
         local app_name="libxcrypt"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     else                                                    # rocky9, ...
         local app_name="libxcrypt-compat"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -128,22 +128,22 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not avialable on Arch"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not avialable on Debian/Ubuntu"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         echo "vfx-dcc is not avialable on Fedora"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # for rocky8 or rocky9
         install_vfxdeps_for_dnf;

@@ -101,7 +101,7 @@ function set_env()
     local cur_user="${3}";
     local home_dir=$(eval echo ~"${cur_user}");
 
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -114,13 +114,13 @@ function set_env()
     path_list+=" ";
 
     # 2) gui (wm, de)
-    if [[ "${cur_ver}" == *"archlinux"* ]]; then
+    if [[ "${cur_release}" == *"archlinux"* ]]; then
         local path_list+="${home_dir}/.xprofile";
 
-    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_release}" == *"debian.org"* ]] || [[ "${cur_release}" == *"ubuntu"* ]]; then
         local path_list+="${home_dir}/.xsessionrc";
 
-    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
+    elif [[ "${cur_release}" == *"Fedora"* ]] || [[ "${cur_release}" == *"CentOS"* ]] || [[ "${cur_release}" == *"rocky"* ]]; then
         local path_list+="${home_dir}/.xprofile";
     else
         return 0
@@ -316,11 +316,11 @@ function allow_sv-port_for_firewall()
     # '3389/tcp'
     local port_protocol="${port}/${protocol}";
 
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${cur_ver}" == *"archlinux"* ]]; then
+    if [[ "${cur_release}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(pacman -Q | grep -i ^ufw) ]]; then
             allow_sv-port_for_ufw "${protocol}" "${port}";
@@ -330,7 +330,7 @@ function allow_sv-port_for_firewall()
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_release}" == *"debian.org"* ]] || [[ "${cur_release}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(apt list --installed | grep -i ^ufw) ]]; then
             allow_sv-port_for_ufw "${protocol}" "${port}";
@@ -340,7 +340,7 @@ function allow_sv-port_for_firewall()
         fi
         # ----------------------------------------------------------------------
 
-    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
+    elif [[ "${cur_release}" == *"Fedora"* ]] || [[ "${cur_release}" == *"CentOS"* ]] || [[ "${cur_release}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         if [[ -n $(dnf list --installed | grep -i ^ufw) ]]; then
             allow_sv-port_for_ufw "${protocol}" "${port}";
@@ -368,11 +368,11 @@ function allow_sv-port_for_selinux()
     # "2222"
     local port="${3}";
 
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ "${cur_ver}" != *"Fedora"* ]] && [[ "${cur_ver}" != *"CentOS"* ]] && [[ "${cur_ver}" != *"rocky"* ]]; then
+    if [[ "${cur_release}" != *"Fedora"* ]] && [[ "${cur_release}" != *"CentOS"* ]] && [[ "${cur_release}" != *"rocky"* ]]; then
         return 0
     fi
     if [[ -z $(dnf list --installed | grep -i semanage) ]]; then

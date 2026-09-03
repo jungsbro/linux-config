@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ function set_workspace()
 
 function set_panel_clock()
 {
-    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then  # mxlinux
         local sel_plugin="plugin-1"
     else
         local sel_plugin="plugin-12"

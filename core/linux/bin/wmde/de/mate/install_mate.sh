@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -80,7 +80,7 @@ function execute_main()
     bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     # --------------------------------------------------------------------------
 
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 확인 필요
 
@@ -88,7 +88,7 @@ function execute_main()
         local app_name="mate-extra"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1) tasksel
         local app_name="task-mate-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -108,7 +108,7 @@ function execute_main()
         # bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # ubuntu mate
         local app_name="ubuntu-mate-desktop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -117,7 +117,7 @@ function execute_main()
         # bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
         local app_name="@mate-desktop"; dnf install -y "${app_name}" || true
@@ -133,7 +133,7 @@ function execute_main()
         bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         install_mate_for_dnf;
 

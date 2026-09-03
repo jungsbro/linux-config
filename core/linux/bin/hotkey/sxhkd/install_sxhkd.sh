@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -42,22 +42,22 @@ APP_HIDDEN="false"
 function install_sxhkd()
 {
     # for x86_64, aarch64, i686
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # echo "sxhkd is not avialable on RHEL"
         # return 0
@@ -101,28 +101,28 @@ function copy_sxhkdrc_to_home()
     # 2) copy sxhkdrc to ~/.config/sxhkd
     local src_template_dir="${src_sxhkdrc_dir}/templates";
 
-    if [[ "${CUR_WMDE}" != *"lxsession"* ]] && [[ "${CUR_WMDE}" == *"openbox"* ]]; then
+    if [[ "${CUR_SESSION}" != *"lxsession"* ]] && [[ "${CUR_SESSION}" == *"openbox"* ]]; then
         local src_template_path="${src_template_dir}/wm_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         local src_template_path="${src_template_dir}/lxde_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         local src_template_path="${src_template_dir}/lxqt_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         local src_template_path="${src_template_dir}/xfce4_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         local src_template_path="${src_template_dir}/mate_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         local src_template_path="${src_template_dir}/gnome_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         local src_template_path="${src_template_dir}/cinnamon_sxhkdrc";
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         local src_template_path="${src_template_dir}/kde_sxhkdrc";
 
     else
@@ -165,25 +165,25 @@ X-LXQt-X11-Only=true
 
 function set_autostart_for_sxhkd()      # deprecated
 {
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         create_desktop_for_sxhkd;
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         create_desktop_for_sxhkd;
     fi
 
@@ -228,7 +228,7 @@ function set_sxhkd_autostart()
 function execute_main()
 {
     # --------------------------------------------------------------------------
-    # if [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    # if [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
     #     return 0
     # fi
     # --------------------------------------------------------------------------

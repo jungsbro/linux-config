@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -135,7 +135,7 @@ function install_pkgs_for_lxqt()
 function install_pkgs_for_xfce4()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then    # mxlinux xfce4
+    if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then    # mxlinux xfce4
         # ----------------------------------------------------------------------
         # screensaver
         bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
@@ -311,37 +311,37 @@ function config_de()
     source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
     # --------------------------------------------------------------------------
 
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxqt/set_config_for_lxqt.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/xfce4/set_config_for_xfce4.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/mate/set_config_for_mate.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/gnome/set_config_for_gnome.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/cinnamon/set_config_for_cinnamon.sh ${CUR_USER}"
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/kde/set_config_for_kde.sh ${CUR_USER}";
         # ----------------------------------------------------------------------
@@ -356,25 +356,25 @@ function execute_main()
     # 1) install packages for de
     install_tools;
 
-    if [[ "${CUR_WMDE}" == *"lxsession"* ]]; then
+    if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         install_pkgs_for_lxde;
 
-    elif [[ "${CUR_WMDE}" == *"lxqt"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"lxqt"* ]]; then
         install_pkgs_for_lxqt;
 
-    elif [[ "${CUR_WMDE}" == *"xfce4"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"xfce4"* ]]; then
         install_pkgs_for_xfce4;
 
-    elif [[ "${CUR_WMDE}" == *"mate"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"mate"* ]]; then
         install_pkgs_for_mate;
 
-    elif [[ "${CUR_WMDE}" != *"cinnamon"* ]] && [[ "${CUR_WMDE}" == *"gnome"* ]]; then
+    elif [[ "${CUR_SESSION}" != *"cinnamon"* ]] && [[ "${CUR_SESSION}" == *"gnome"* ]]; then
         install_pkgs_for_gnome;
 
-    elif [[ "${CUR_WMDE}" == *"cinnamon"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"cinnamon"* ]]; then
         install_pkgs_for_cinnamon;
 
-    elif [[ "${CUR_WMDE}" == *"plasma"* ]]; then
+    elif [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         install_pkgs_for_kde;
     fi
     # --------------------------------------------------------------------------

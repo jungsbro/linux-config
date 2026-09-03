@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ function set_hotkey_for_tile-window-to-right()
 function set_hotkey_for_left-screen()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then  # mxlinux
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -207,7 +207,7 @@ function set_hotkey_for_left-screen()
 function set_hotkey_for_right-screen()
 {
     # --------------------------------------------------------------------------
-    if [[ "${CUR_VER}" == *"ID=MX"* ]]; then  # mxlinux
+    if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then  # mxlinux
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -254,17 +254,17 @@ function set_all_hotkey_for_window()
 
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(pacman -Q | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(apt list --installed | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         [[ -n $(dnf list --installed | grep -i ^xfwm4) ]] && set_all_hotkey_for_window;
         # ----------------------------------------------------------------------

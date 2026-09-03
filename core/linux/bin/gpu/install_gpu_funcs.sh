@@ -15,17 +15,17 @@ _INSTALL_GPU_FUNCS_LOADED=1
 # Funcs ========================================================================
 function set_vendor()
 {
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
 
     # --------------------------------------------------------------------------
     # pciutils is needed for lspci
-    if [[ "${cur_ver}" == *"archlinux"* ]]; then
+    if [[ "${cur_release}" == *"archlinux"* ]]; then
         local app_name="pciutils"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
 
-    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_release}" == *"debian.org"* ]] || [[ "${cur_release}" == *"ubuntu"* ]]; then
         local app_name="pciutils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
-    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
+    elif [[ "${cur_release}" == *"Fedora"* ]] || [[ "${cur_release}" == *"CentOS"* ]] || [[ "${cur_release}" == *"rocky"* ]]; then
         local app_name="pciutils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
     fi
     # --------------------------------------------------------------------------

@@ -55,14 +55,14 @@ function fix_startwm_for_xsession()
 
     local search_str='#!/usr/bin/bash -l'
 
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # 2) tmp_path, append_kwd, append_str
     local tmp_path="/tmp/startwm_snippet.txt"
 
-    if [[ "${cur_ver}" == *"archlinux"* ]]; then
+    if [[ "${cur_release}" == *"archlinux"* ]]; then
         local append_kwd="Xclients";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ if [ -r ~/.Xclients ]; then
 fi
 # ------------------------------------------------------------------------------
 '
-    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_release}" == *"debian.org"* ]] || [[ "${cur_release}" == *"ubuntu"* ]]; then
         local append_kwd="xsession";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ if [ -r ~/.xsession ]; then
 fi
 # ------------------------------------------------------------------------------
 '
-    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
+    elif [[ "${cur_release}" == *"Fedora"* ]] || [[ "${cur_release}" == *"CentOS"* ]] || [[ "${cur_release}" == *"rocky"* ]]; then
         local append_kwd="Xclients";
         local append_str='
 # ------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ function set_xsession()
 
     local cur_user="${2}";
 
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -182,13 +182,13 @@ function set_xsession()
 
     # --------------------------------------------------------------------------
     # 3) cur_path
-    if [[ "${cur_ver}" == *"archlinux"* ]]; then
+    if [[ "${cur_release}" == *"archlinux"* ]]; then
         local cur_path="${HOME_DIR}/.Xclients";
 
-    elif [[ "${cur_ver}" == *"debian.org"* ]] || [[ "${cur_ver}" == *"ubuntu"* ]]; then
+    elif [[ "${cur_release}" == *"debian.org"* ]] || [[ "${cur_release}" == *"ubuntu"* ]]; then
         local cur_path="${HOME_DIR}/.xsession";
 
-    elif [[ "${cur_ver}" == *"Fedora"* ]] || [[ "${cur_ver}" == *"CentOS"* ]] || [[ "${cur_ver}" == *"rocky"* ]]; then
+    elif [[ "${cur_release}" == *"Fedora"* ]] || [[ "${cur_release}" == *"CentOS"* ]] || [[ "${cur_release}" == *"rocky"* ]]; then
         local cur_path="${HOME_DIR}/.Xclients";
     else
         return 0

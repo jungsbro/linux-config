@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -39,9 +39,9 @@ function fix_lightdm-xsession()     # not used
 {
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
-    local cur_ver=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null);
 
-    if [[ "${cur_ver}" != *"Fedora"* ]] && [[ "${cur_ver}" != *"CentOS"* ]] && [[ "${cur_ver}" != *"rocky"* ]]; then
+    if [[ "${cur_release}" != *"Fedora"* ]] && [[ "${cur_release}" != *"CentOS"* ]] && [[ "${cur_release}" != *"rocky"* ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -120,7 +120,7 @@ function set_logind-check-graphical_enable()
 
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
-    if [[ "${CUR_VER}" != *"Fedora"* ]] && [[ "${CUR_VER}" != *"CentOS"* ]] && [[ "${CUR_VER}" != *"rocky"* ]]; then
+    if [[ "${CUR_RELEASE}" != *"Fedora"* ]] && [[ "${CUR_RELEASE}" != *"CentOS"* ]] && [[ "${CUR_RELEASE}" != *"rocky"* ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
@@ -166,18 +166,18 @@ function set_lightdm_enable()
 
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="lightdm-gtk-greeter"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]] || [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="lightdm-gtk"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true

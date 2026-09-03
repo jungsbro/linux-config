@@ -21,11 +21,11 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_VER=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
 CUR_ARCH=$(uname -m);
 
-CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -33,7 +33,7 @@ CUR_WMDE=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_VER}" == *"archlinux"* ]]; then
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # fontconfig -----------------------------------------------------------
         local app_name="fontconfig"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
@@ -58,14 +58,14 @@ function execute_main()
         # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"debian.org"* ]] || [[ "${CUR_VER}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # fontconfig -----------------------------------------------------------
         local app_name="fontconfig"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
         # ime ------------------------------------------------------------------
         # 방법0)
-        # if [[ "${CUR_VER}" == *"ID=MX"* ]] || [[ "${CUR_VER}" == *"antix"* ]]; then
+        # if [[ "${CUR_RELEASE}" == *"ID=MX"* ]] || [[ "${CUR_RELEASE}" == *"antix"* ]]; then
         #     # echo "mxlinux and anix needs to use package installer"
         #     local app_name="fcitx"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         #     local app_name="fcitx-hangul"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -96,7 +96,7 @@ function execute_main()
         # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # fontconfig -----------------------------------------------------------
         local app_name="fontconfig"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
@@ -121,7 +121,7 @@ function execute_main()
         # bash ${CORE_BIN_DIR}/ime/install_uim.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_VER}" == *"CentOS"* ]] || [[ "${CUR_VER}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # fontconfig -----------------------------------------------------------
         local app_name="fontconfig"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
