@@ -60,27 +60,45 @@ function set_workspace()
 }
 
 
+function set_compositor_disable()
+{
+    # compositor ---------------------------------------------------------------
+    # xfconf-query -c "xfwm4" -p "/general/use_compositing" -t "bool" -s "false"
+    set_prop_value "xfwm4" "/general/use_compositing" "bool" "false";
+    # --------------------------------------------------------------------------
+}
+
+
 function set_panel_clock()
 {
-    if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then  # mxlinux
-        local sel_plugin="plugin-1"
-    else
-        local sel_plugin="plugin-12"
+    source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
+
+    # /plugins/plugin-8                      clock
+    # /plugins/plugin-8    >>   plugin-8
+    local sel_plugin=$(get_sel_plugin "xfce4-panel" "clock");
+    if [[ -z "${sel_plugin}" ]]; then
+        return 0
     fi
 
     # digital layout -----------------------------------------------------------
-    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-layout" -t "uint" -s "1"
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-8/digital-layout" -t "uint" -s "1"
     set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-layout" "uint" "1";
     # --------------------------------------------------------------------------
 
     # date : 25-12-12 ----------------------------------------------------------
-    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-date-format" -t "string" -s "%y-%m-%d (%a)"
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-8/digital-date-format" -t "string" -s "%y-%m-%d (%a)"
     set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-date-format" "string" "%y-%m-%d (%a)";
+
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-8/digital-time-font" -t "string" -s "Sans Bold 12"
+    set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-date-font" "string" "Sans Bold 12";
     # --------------------------------------------------------------------------
 
     # time : 12:00:AM ----------------------------------------------------------
-    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-1/digital-time-format" -t "string" -s "%I:%M %p"
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-8/digital-time-format" -t "string" -s "%I:%M %p"
     set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-time-format" "string" "%I:%M %p";
+
+    # xfconf-query -c "xfce4-panel" -p "/plugins/plugin-8/digital-time-font" -t "string" -s "Sans Bold 12"
+    set_prop_value "xfce4-panel" "/plugins/${sel_plugin}/digital-time-font" "string" "Sans Bold 12";
     # --------------------------------------------------------------------------
 }
 
@@ -89,6 +107,7 @@ function execute_main()
 {
     # --------------------------------------------------------------------------
     set_workspace;
+    set_compositor_disable;
     set_panel_clock;
     # --------------------------------------------------------------------------
 }
