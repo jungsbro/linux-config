@@ -49,8 +49,13 @@ function set_pavucontrol_enable()
 
 function execute_main()
 {
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    # --------------------------------------------------------------------------
+
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
+        # pw-cli
         local app_name="pipewire"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="pipewire-alsa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="pipewire-pulse"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
@@ -61,6 +66,10 @@ function execute_main()
             local app_name="pavucontrol"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
+        # pactl
+        local app_name="libpulse"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+
+        # wpctl
         local app_name="wireplumber"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
@@ -77,10 +86,17 @@ function execute_main()
             local app_name="pavucontrol"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         fi
         # ----------------------------------------------------------------------
+        # pactl
+        local app_name="pulseaudio-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # pw-cli
+        local app_name="pipewire-bin"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # wpctl
         local app_name="wireplumber"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="pipewire"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="pipewire-alsa"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -93,19 +109,12 @@ function execute_main()
         fi
         # ----------------------------------------------------------------------
         local app_name="wireplumber"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^pipewire) ]] || dnf install -y pipewire;
-        [[ -n $(dnf list --installed | grep -i ^pipewire-alsa) ]] || dnf install -y pipewire-alsa;
-        [[ -n $(dnf list --installed | grep -i ^pipewire-pulseaudio) ]] || dnf install -y pipewire-pulseaudio;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^pavucontrol) ]] || dnf install -y pavucontrol;
-        # ----------------------------------------------------------------------
-        [[ -n $(dnf list --installed | grep -i ^wireplumber) ]] || dnf install -y wireplumber;
+        # pactl
+        local app_name="pulseaudio-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+
+        # pw-cli, wpctl
+        local app_name="pipewire-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 
