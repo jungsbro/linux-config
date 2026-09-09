@@ -2,12 +2,14 @@
 set -e
 
 # usage ========================================================================
+# ------------------------------------------------------------------------------
 # bash ./install_wm.sh "${CUR_WM}" "${CUR_USER}";
 
 # bash ./install_wm.sh "icewm" "${CUR_USER}";
 # bash ./install_wm.sh "fluxbox" "${CUR_USER}";
 # bash ./install_wm.sh "openbox" "${CUR_USER}";
 # bash ./install_wm.sh "i3" "${CUR_USER}";
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 # ENV ==========================================================================
@@ -126,7 +128,17 @@ function install_wm()
 function install_dm()
 {
     # --------------------------------------------------------------------------
+    # 방밥1)
+    # bash ${CORE_BIN_DIR}/wmde/dm/install_gdm.sh;
+
+    # 방밥2)
+    # bash ${CORE_BIN_DIR}/wmde/dm/install_sddm.sh;
+
+    # 방밥3)
     bash ${CORE_BIN_DIR}/wmde/dm/install_lightdm.sh;
+
+    # 방밥4)
+    # bash ${CORE_BIN_DIR}/wmde/dm/install_lxdm.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -177,9 +189,16 @@ function install_panel()
 function install_terminal()
 {
     # --------------------------------------------------------------------------
+    # 방밥1)
     bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+
+    # 방밥2)
     # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
+
+    # 방밥3)
     # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
+
+    # 방밥4)
     # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
     # --------------------------------------------------------------------------
 }

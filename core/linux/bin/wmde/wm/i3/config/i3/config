@@ -350,7 +350,7 @@ bindsym $mod+p exec arandr
 
 # control center  --------------------------------------------------------------
 # win + i
-bindsym $mod+p exec "python3 ~/.local/bin/wmcc.py"
+# bindsym $mod+p exec "python3 ~/.local/bin/wmcc.py"
 # bindsym $mod+p exec "bash ~/.local/bin/wmcc.sh"
 # ------------------------------------------------------------------------------
 
@@ -522,5 +522,11 @@ exec --no-startup-id xfce4-screensaver &
 
 # exec --no-startup-id picom --backend xrender -b -f
 # exec --no-startup-id picom --backend glx -b -f
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# 14) xrdp-pipewire
+
+# exec --no-startup-id /usr/local/libexec/pipewire-module-xrdp/load_pw_modules.sh &
 # ------------------------------------------------------------------------------
 # ==============================================================================

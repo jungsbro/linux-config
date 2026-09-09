@@ -2,7 +2,16 @@
 set -e
 
 # usage ========================================================================
+# ------------------------------------------------------------------------------
 # bash ${CORE_BIN_DIR}/remote/gui/xrdp/install_xrdp.sh "${CUR_USER}";
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# wm에서는 수동으로 load_pw_modules.sh를 실행해야한다.
+# if [ -n "${XRDP_SESSION}" ] && [ -f "/usr/local/libexec/pipewire-module-xrdp/load_pw_modules.sh" ]; then
+#     /usr/local/libexec/pipewire-module-xrdp/load_pw_modules.sh &
+# fi
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
@@ -217,12 +226,31 @@ function intall_pipewire-module-xrdp()
         make
         sudo make install
     fi
-
     popd
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 5) for fedora, rhel (SELinux)
+    # 5) for wm : wm은 수동으로 pipewire-module-xrdp를 load해야한다.
+
+    local src_fname="load_pw_modules.sh"
+
+    # /tmp/pipewire-module-xrdp/instfiles/load_pw_modules.sh
+    local src_dir="${tmp_dir}/instfiles"
+    local src_path="${src_dir}/${src_fname}"
+
+    # /usr/local/libexec/pipewire-module-xrdp/load_pw_modules.sh
+    local dst_dir="/usr/local/libexec/pipewire-module-xrdp"
+    local dst_path="${dst_dir}/${src_fname}"
+
+    if [[ -f "${src_path}" ]] && [[ ! -f "${dst_path}" ]]; then
+        [[ ! -d "${dst_dir}" ]] && mkdir -p "${dst_dir}";
+        cp "${src_path}" "${dst_path}";
+        chmod 755 "${dst_path}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 6) for fedora, rhel (SELinux)
 
     if [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
@@ -247,6 +275,7 @@ function intall_pipewire-module-xrdp()
 
 function execute_main()
 {
+    # 1) xrdp
     # --------------------------------------------------------------------------
     install_xrdp;
 
@@ -270,6 +299,13 @@ function execute_main()
 
     # ~/.xsession, ~/.Xclients
     # source ${CORE_BIN_DIR}/remote/gui/xrdp/install_xrdp_funcs.sh && set_xsession "${APP_NAME}" "${CUR_USER}"
+    # --------------------------------------------------------------------------
+
+
+    # 2) spice-vdagent
+    # --------------------------------------------------------------------------
+    # for proxmox : spice-vdagent / qemu-guest-agent
+    bash ${CORE_BIN_DIR}/remote/gui/xrdp/install_spice-vdagent.sh
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -47,7 +47,7 @@ function set_pavucontrol_enable()
 }
 
 
-function execute_main()
+function install_pipewire()
 {
     # --------------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
@@ -120,6 +120,41 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     set_pavucontrol_enable;
+    # --------------------------------------------------------------------------
+}
+
+
+function install_alsamixer()
+{
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        # alsamixer
+        local app_name="alsa-utils"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        # alsamixer
+        local app_name="alsa-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        # alsamixer
+        local app_name="alsa-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
+function execute_main()
+{
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+
+    install_pipewire;
+
+    install_alsamixer;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

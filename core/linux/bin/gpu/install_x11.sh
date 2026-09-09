@@ -50,12 +50,15 @@ function execute_main()
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="xorg"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="xserver-xorg-input-libinput"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="xserver-xorg-input-evdev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # for startx
         local app_name="xinit"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
 
         # xorg-x11-utils
         local app_name="x11-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="x11-xserver-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
