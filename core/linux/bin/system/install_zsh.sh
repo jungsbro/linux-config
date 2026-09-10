@@ -57,7 +57,8 @@ function install_zsh()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
         local app_name="autojump"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
-        local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # 검색/이동
+        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="fd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="zoxide"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
@@ -73,7 +74,8 @@ function install_zsh()
         # ----------------------------------------------------------------------
         local app_name="autojump"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # 검색/이동
+        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="fd-find"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="zoxide"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
@@ -89,7 +91,8 @@ function install_zsh()
         # ----------------------------------------------------------------------
         local app_name="autojump"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # 검색/이동
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
@@ -107,13 +110,19 @@ function install_zsh()
         # ----------------------------------------------------------------------
         local app_name="autojump"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # 검색/이동
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # for ohmyzsh ----------------------------------------------------------
         local app_name="mercurial"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 검색/이동
+    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

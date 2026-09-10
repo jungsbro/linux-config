@@ -78,6 +78,8 @@ function install_nix()
 
         # ----------------------------------------------------------------------
         # install nix multi-user (without interactive prompt)
+
+        # curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --daemon
         sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon --yes
         # ----------------------------------------------------------------------
 
@@ -103,6 +105,7 @@ function install_nix()
             # su - "${CUR_USER}" -c "echo $PATH | grep -iq nix-profile || curl -L https://nixos.org/nix/install | sh";
             # su - "${CUR_USER}" -c "echo $PATH | grep -iq nix-profile || sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon";
 
+            # curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install | sh -s -- --no-daemon
             su - "${CUR_USER}" -c "\
             echo ${PATH} | grep -iq nix-profile || \
             sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --no-daemon\
@@ -242,10 +245,17 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_nix "multi";
-        config_nix "multi";
-        set_nix_env "multi";
-        # reload_shell "multi";
+        if [[ "${CUR_ARCH}" == *"i686"* ]]; then    # antix: systemd free
+            install_nix "single";
+            config_nix "single";
+            set_nix_env "single";
+            # reload_shell "single";
+        else
+            install_nix "multi";
+            config_nix "multi";
+            set_nix_env "multi";
+            # reload_shell "multi";
+        fi
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then

@@ -189,17 +189,7 @@ function install_panel()
 function install_terminal()
 {
     # --------------------------------------------------------------------------
-    # 방밥1)
     bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
-
-    # 방밥2)
-    # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
-
-    # 방밥3)
-    # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
-
-    # 방밥4)
-    # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
     # --------------------------------------------------------------------------
 }
 

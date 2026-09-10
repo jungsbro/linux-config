@@ -107,7 +107,7 @@ function install_dependency_for_ranger()
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="fasd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="findutils"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="plocate"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
@@ -117,7 +117,6 @@ function install_dependency_for_ranger()
         # 기타
         local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="trash-cli"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="mpv"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
@@ -155,7 +154,7 @@ function install_dependency_for_ranger()
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="fasd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="findutils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # local app_name="mlocate"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -164,7 +163,6 @@ function install_dependency_for_ranger()
         # 기타
         local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="trash-cli"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="mpv"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
@@ -205,7 +203,7 @@ function install_dependency_for_ranger()
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # local app_name="fasd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="findutils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="plocate"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -215,7 +213,6 @@ function install_dependency_for_ranger()
         # 기타
         local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mpv"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
@@ -259,7 +256,7 @@ function install_dependency_for_ranger()
 
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # local app_name="fasd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="findutils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="mlocate"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -269,9 +266,18 @@ function install_dependency_for_ranger()
         # 기타
         local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mpv"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
+
+    # --------------------------------------------------------------------------
+    # 검색/이동
+    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 기타
+    bash ${CORE_BIN_DIR}/multimedia/mpv/install_mpv.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
 }
 
 function install_ranger()

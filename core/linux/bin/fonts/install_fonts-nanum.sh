@@ -30,6 +30,9 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="fonts-nanum";
+
+FONT_NAME="nanum";
+FONT_URL="https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -38,45 +41,10 @@ APP_NAME="fonts-nanum";
 function install_fonts-nanum()
 {
     # --------------------------------------------------------------------------
-    # local FONT_URL="https://hangeul.naver.com/hangeul_static/webfont/zips/nanum-all_new.zip"
+    local font_name="${FONT_NAME}";
+    local font_url="${FONT_URL}";
 
-    # NanumGothicCoding
-    local FONT_NAME="nanum"
-    local FONT_URL="https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip"
-    local FONT_ZIP_PATH="/tmp/${FONT_NAME}.zip";
-
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/TTF";
-        if [[ -f "${FONT_DST_DIR}/${FONT_NAME}Gothic.ttf" ]]; then
-            return 0
-        fi
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/truetype/${FONT_NAME}";
-        if [[ -d "${FONT_DST_DIR}" ]]; then
-            return 0
-        fi
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        local FONT_DST_DIR="/usr/share/fonts/${FONT_NAME}";
-        if [[ -d "${FONT_DST_DIR}" ]]; then
-            return 0
-        fi
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # wget "https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip" -O "/tmp/nanum.zip"
-    wget "${FONT_URL}" -O "${FONT_ZIP_PATH}"
-
-    # sudo unzip /tmp/nanum.zip -d /usr/share/fonts/nanum
-    sudo unzip "${FONT_ZIP_PATH}" -d "${FONT_DST_DIR}"
-    rm -f "${FONT_ZIP_PATH}"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    fc-cache -fv
-    # fc-list | grep -i "nanum"
+    source ${CORE_BIN_DIR}/fonts/install_fonts_funcs.sh && install_fonts_with_curl "${font_name}" "${font_url}";
     # --------------------------------------------------------------------------
 }
 
@@ -91,7 +59,6 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        # install_fonts-nanum;
         local app_name="fonts-nanum"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="fonts-nanum-eco"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="fonts-nanum-extra"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -104,7 +71,7 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_fonts-nanum;
+        install_fonts-nanum
         # ----------------------------------------------------------------------
     fi
 }

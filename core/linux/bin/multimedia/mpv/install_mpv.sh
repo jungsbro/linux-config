@@ -2,16 +2,16 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/multimedia/mpv/install_mpv.sh "${CUR_USER}";
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/fonts
+# /core/linux/bin/multimedia/mpv
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -29,54 +29,66 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="fonts-d2coding";
-
-FONT_NAME="D2Coding";
-FONT_URL="https://github.com/naver/d2codingfont/releases/download/VER1.3.2/D2Coding-Ver1.3.2-20180524.zip";
+APP_NAME="mpv"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_fonts-d2coding()
+function install_mpv()
+{
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
+function copy_config_to_home()
 {
     # --------------------------------------------------------------------------
-    local font_name="${FONT_NAME}";
-    local font_url="${FONT_URL}";
+    local src_dir="${CUR_DIR}/config";
 
-    source ${CORE_BIN_DIR}/fonts/install_fonts_funcs.sh && install_fonts_with_curl "${font_name}" "${font_url}";
+    local dst_dir="${HOME_DIR}/.config/mpv";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ ! -d "${dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p ${dst_dir}";
+    fi
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    if [[ -d "${src_dir}" ]]; then
+        su - "${CUR_USER}" -c "cp -Rf ${src_dir}/* ${dst_dir}/";
+    fi
     # --------------------------------------------------------------------------
 }
 
 
 function execute_main()
 {
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    # --------------------------------------------------------------------------
+    install_mpv;
 
-        # 방법1) D2Coding
-        local app_name="ttf-d2coding"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
-
-        # 방법2) Nerd Fonts
-        # local app_name="ttf-d2coding-nerd"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        install_fonts-d2coding;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        install_fonts-d2coding;
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        install_fonts-d2coding;
-        # ----------------------------------------------------------------------
-    fi
+    copy_config_to_home;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

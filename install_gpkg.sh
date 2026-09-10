@@ -120,6 +120,20 @@ function execute_main()
     bash ${CORE_BIN_DIR}/monitoring/install_gnome-disk-utility.sh;
     # --------------------------------------------------------------------------
 
+    # terminal -----------------------------------------------------------------
+    # 방밥1)
+    # bash ${CORE_BIN_DIR}/terminal/kitty/install_kitty.sh "${CUR_USER}";
+
+    # 방밥2)
+    # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
+
+    # 방밥3)
+    # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
+
+    # 방밥4)
+    # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+    # --------------------------------------------------------------------------
+
     # virtualbox ---------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/system/install_virtualbox.sh;
     # --------------------------------------------------------------------------
@@ -190,6 +204,9 @@ function execute_main()
     # multimedia ---------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/mpv/install_mpv.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/yt-x/install_yt-x.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/ytsurf/install_ytsurf.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # edit ---------------------------------------------------------------------

@@ -40,7 +40,7 @@ function install_dependency_for_nnn()
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="zoxide"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="fd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         local app_name="ripgrep"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
@@ -71,7 +71,7 @@ function install_dependency_for_nnn()
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="zoxide"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="fd-find"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         local app_name="ripgrep"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
@@ -108,7 +108,7 @@ function install_dependency_for_nnn()
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -138,7 +138,7 @@ function install_dependency_for_nnn()
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # 검색/이동
-        local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
@@ -164,6 +164,11 @@ function install_dependency_for_nnn()
         local app_name="tmux"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
+
+    # --------------------------------------------------------------------------
+    # 검색/이동
+    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
 }
 
 function install_nnn()

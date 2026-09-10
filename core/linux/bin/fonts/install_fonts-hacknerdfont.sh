@@ -27,62 +27,23 @@ CUR_ARCH=$(uname -m);
 
 CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+FONT_NAME="HackNerdFont";
+
+FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip";
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
 function install_fonts-hacknerdfont()
 {
-    if [[ -n $(fc-list |grep -i hacknerdfont) ]]; then
-        return 0
-    fi
-
     # --------------------------------------------------------------------------
-    local font_name="HackNerdFont"
-    local font_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
-    local font_zip_path="/tmp/${font_name}.zip";
+    local font_name="${FONT_NAME}";
+    local font_url="${FONT_URL}";
 
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        local font_dir="/usr/share/fonts/TTF"
-        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
-
-        local font_dst_dir="${font_dir}";
-        if [[ -f "${font_dst_dir}/${font_name}-Regular.ttf" ]]; then
-            return 0
-        fi
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        local font_dir="/usr/share/fonts/truetype"
-        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
-
-        local font_dst_dir="${font_dir}/${font_name}";
-        if [[ -d "${font_dst_dir}" ]]; then
-            return 0
-        fi
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        local font_dir="/usr/share/fonts"
-        [[ -d "${font_dir}" ]] || mkdir -p "${font_dir}"
-
-        local font_dst_dir="${font_dir}/${font_name}";
-        if [[ -d "${font_dst_dir}" ]]; then
-            return 0
-        fi
-    fi
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip" -O "/tmp/HackNerdFont.zip"
-    wget "${font_url}" -O "${font_zip_path}"
-
-    # sudo unzip /tmp/HackNerdFont.zip -d /usr/share/fonts/HackNerdFont
-    sudo unzip "${font_zip_path}" -d "${font_dst_dir}"
-    rm -f "${font_zip_path}"
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    fc-cache -fv
-    # fc-list | grep -i "hacknerdfont"
+    source ${CORE_BIN_DIR}/fonts/install_fonts_funcs.sh && install_fonts_with_curl "${font_name}" "${font_url}";
     # --------------------------------------------------------------------------
 }
 

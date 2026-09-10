@@ -61,6 +61,9 @@ function install_tools()
 function install_pkgs_for_lxde()
 {
     # --------------------------------------------------------------------------
+    # 하드웨어 및 전원관리
+    bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
     # screensaver
     bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
