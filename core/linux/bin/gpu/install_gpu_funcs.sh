@@ -6,8 +6,13 @@ _INSTALL_GPU_FUNCS_LOADED=1
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# VENDOR
-# source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
+# source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh
+# VENDOR=$(set_vendor);
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh
+# local vendor=$(set_vendor);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -38,17 +43,19 @@ function set_vendor()
     local gpu_lower="${gpu_info,,}"
 
     if [[ "${gpu_lower}" =~ nvidia ]]; then
-        VENDOR="nvidia"
+        local vendor="nvidia";
 
     elif [[ "${gpu_lower}" =~ (amd|radeon) ]]; then
-        VENDOR="radeon"
+        local vendor="radeon";
 
     elif [[ "${gpu_lower}" =~ intel ]]; then
-        VENDOR="intel"
+        local vendor="intel";
 
     else
-        return 0
+        local vendor="unknown";
     fi
+
+    echo "${vendor}"
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

@@ -39,7 +39,7 @@ APP_FULLNAME="org.wezfurlong.wezterm";
 # Funcs ========================================================================
 function install_wezterm_for_apt()
 {
-    if [[ -n $(apt list --installed | grep -i ^${APP_NAME}) ]]; then
+    if [[ -n $(apt list --installed | grep -i ^"${APP_NAME}") ]]; then
         return 0
     fi
 
@@ -52,7 +52,7 @@ function install_wezterm_for_apt()
 
 function install_wezterm_for_dnf()
 {
-    if [[ -n $(dnf list --installed | grep -i ^${APP_NAME}) ]]; then
+    if [[ -n $(dnf list --installed | grep -i ^"${APP_NAME}") ]]; then
         return 0
     fi
 

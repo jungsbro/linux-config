@@ -29,8 +29,8 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# VENDOR
-source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
+source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh
+VENDOR=$(set_vendor);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -39,79 +39,79 @@ source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
 function set_nvidia-current_dir()
 {
     # 1) symlink /usr/lib/nvidia-current ---------------------------------------
-    local LIB_SRC_PATH=$(find /usr -name "libnvidia-ml.so.1" | tail -n 1 2>/dev/null)
+    local lib_src_path=$(find /usr -name "libnvidia-ml.so.1" | tail -n 1 2>/dev/null)
 
-    if [[ -f "${LIB_SRC_PATH}" ]]; then
-        local LIB_SRC_DIR=$(dirname "${LIB_SRC_PATH}")
+    if [[ -f "${lib_src_path}" ]]; then
+        local lib_src_dir=$(dirname "${lib_src_path}")
     fi
 
-    if [[ ! -d "${LIB_SRC_DIR}" ]]; then
+    if [[ ! -d "${lib_src_dir}" ]]; then
         return 0
     fi
 
-    local LIB_DST_DIR="/usr/lib/nvidia-current"
+    local lib_dst_dir="/usr/lib/nvidia-current"
 
-    if [[ ! -d "${LIB_DST_DIR}" ]]; then
+    if [[ ! -d "${lib_dst_dir}" ]]; then
         # ln -s /usr/lib/nvidia/current /usr/lib/nvidia-current
-        ln -s "${LIB_SRC_DIR}" "${LIB_DST_DIR}"
+        ln -s "${lib_src_dir}" "${lib_dst_dir}"
     fi
     # --------------------------------------------------------------------------
 
-    # 2) VK_ICD_PATH -----------------------------------------------------------
+    # 2) vk_icd_path -----------------------------------------------------------
     # from : /user/share/vulkan/icd.d/nvidia_icd.json
     # to : ~/.local/share/vulakn/icd.d/nvidia_icd.json
 
-    local VK_ICD_DST_DIR="${HOME_DIR}/.local/share/vulkan/icd.d"
-    if [[ ! -d "${VK_ICD_DST_DIR}" ]]; then
-        su - "${CUR_USER}" -c "mkdir -p \"${VK_ICD_DST_DIR}\"";
+    local vk_icd_dst_dir="${HOME_DIR}/.local/share/vulkan/icd.d"
+    if [[ ! -d "${vk_icd_dst_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p \"${vk_icd_dst_dir}\"";
     fi
-    local VK_ICD_DST_PATH="${VK_ICD_DST_DIR}/nvidia_icd.json"
+    local vk_icd_dst_path="${vk_icd_dst_dir}/nvidia_icd.json"
 
-    local VK_ICD_SRC_PATH=$(find /usr/share/vulkan -name "nvidia_icd*.json" | tail -n 1 2>/dev/null)
+    local vk_icd_src_path=$(find /usr/share/vulkan -name "nvidia_icd*.json" | tail -n 1 2>/dev/null)
 
-    if [[ -f "${VK_ICD_SRC_PATH}" ]] && [[ ! -f "${VK_ICD_DST_PATH}" ]]; then
-        su - "${CUR_USER}" -c "cp \"${VK_ICD_SRC_PATH}\" \"${VK_ICD_DST_PATH}\"";
+    if [[ -f "${vk_icd_src_path}" ]] && [[ ! -f "${vk_icd_dst_path}" ]]; then
+        su - "${CUR_USER}" -c "cp \"${vk_icd_src_path}\" \"${vk_icd_dst_path}\"";
 
         # ----------------------------------------------------------------------
         # "[[:space:]]*(.*)"로 캡쳐해서 "\1"로 보낸다.
         # "library_path": "/usr/lib64/libGLX_nvidia.so.0",
-        local VK_ICD_SRC_CMD="\"library_path\": [[:space:]]*(.*)"
+        local vk_icd_src_cmd="\"library_path\": [[:space:]]*(.*)"
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
         # "library_path": "libGLX_nvidia.so.0"
-        local VK_ICD_DST_CMD="\"library_path\": \"libGLX_nvidia.so.0\","
+        local vk_icd_dst_cmd="\"library_path\": \"libGLX_nvidia.so.0\","
         # ----------------------------------------------------------------------
 
         # ----------------------------------------------------------------------
-        sed -i -E "s|${VK_ICD_SRC_CMD}|${VK_ICD_DST_CMD}|" "${VK_ICD_DST_PATH}"
+        sed -i -E "s|${vk_icd_src_cmd}|${vk_icd_dst_cmd}|" "${vk_icd_dst_path}"
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 
-    # 3) OCL_ICD_PATH ----------------------------------------------------------
+    # 3) ocl_icd_path ----------------------------------------------------------
     # from : /etc/OpenCL/vendors/nvidia.icd
     # to : ~/.local/share/OpenCL/vendors/nvidia.icd
 
-    local OCL_ICD_DIR="${HOME_DIR}/.local/share/OpenCL/vendors"
-    if [[ ! -d "${OCL_ICD_DIR}" ]]; then
-        su - "${CUR_USER}" -c "mkdir -p \"${OCL_ICD_DIR}\"";
+    local ocl_icd_dir="${HOME_DIR}/.local/share/OpenCL/vendors"
+    if [[ ! -d "${ocl_icd_dir}" ]]; then
+        su - "${CUR_USER}" -c "mkdir -p \"${ocl_icd_dir}\"";
     fi
 
-    local OCL_ICD_PATH="${OCL_ICD_DIR}/nvidia.icd"
-    if [[ ! -f "${OCL_ICD_PATH}" ]]; then
-        su - "${CUR_USER}" -c "echo \"libnvidia-opencl.so.1\" > ${OCL_ICD_PATH}";
+    local ocl_icd_path="${ocl_icd_dir}/nvidia.icd"
+    if [[ ! -f "${ocl_icd_path}" ]]; then
+        su - "${CUR_USER}" -c "echo \"libnvidia-opencl.so.1\" > ${ocl_icd_path}";
     fi
     # --------------------------------------------------------------------------
 
     # 4) fix ~/.bashrc ---------------------------------------------------------
     # .zshrc(for host)까지 수정하면 nix에서 애러가 나서 .bashrc(for container)만 수정했다.
-    # local RC_LIST=".bashrc .zshrc"
+    # local rc_list=".bashrc .zshrc"
     local cur_rc="";
-    local RC_LIST=".bashrc"
+    local rc_list=".bashrc"
     local rc_path="";
-    local LIB_DIR_KWD="nvidia-current"
-    local LIB_CMD='
+    local lib_dir_kwd="nvidia-current"
+    local lib_cmd='
 # ==============================================================================
 # Vulkan Path
 export VK_ICD_FILENAMES=$HOME/.local/share/vulkan/icd.d/nvidia_icd.json
@@ -124,14 +124,14 @@ export LD_LIBRARY_PATH=/usr/lib/nvidia-current:${LD_LIBRARY_PATH}
 # ==============================================================================
 '
 
-    for cur_rc in ${RC_LIST};
+    for cur_rc in ${rc_list};
     do
         # echo "${cur_rc}"
         rc_path="${HOME_DIR}/${cur_rc}"
 
-        if [[ -f "${rc_path}" ]] && [[ $(cat "${rc_path}") != *"${LIB_DIR_KWD}"* ]]; then
+        if [[ -f "${rc_path}" ]] && [[ $(cat "${rc_path}") != *"${lib_dir_kwd}"* ]]; then
             echo "" >> "${rc_path}";
-            echo "${LIB_CMD}" >> "${rc_path}";
+            echo "${lib_cmd}" >> "${rc_path}";
         fi
     done
     # --------------------------------------------------------------------------
@@ -153,29 +153,29 @@ function add_nvidia_repo_for_apt()  # not used
 
     # VERSION_ID="12" >> 12
     # VERSION_ID="24.04" >> 24.04
-    local VERSION_ID="$(cat /etc/*-release | grep -i VERSION_ID | cut -d "\"" -f 2)"
+    local version_id="$(cat /etc/*-release | grep -i version_id | cut -d "\"" -f 2)"
 
 
-    local TMP_DIR="/tmp";
-    local KEYRING_NAME="cuda-keyring";
+    local tmp_dir="/tmp";
+    local keyring_name="cuda-keyring";
 
-    local PKG_NAME="${KEYRING_NAME}_1.1-1_all.deb";
-    local PKG_PATH="${TMP_DIR}/${PKG_NAME}"
+    local pkg_name="${keyring_name}_1.1-1_all.deb";
+    local pkg_path="${tmp_dir}/${pkg_name}"
 
 
     if [[ "${CUR_RELEASE}" == *"debian.org"* ]]; then
         # 12
-        local DISTRO_VER=${VERSION_ID}
+        local distro_ver="${version_id}"
 
         # https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/cuda-keyring_1.1-1_all.deb
-        local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/debian${DISTRO_VER}/x86_64/${PKG_NAME}";
+        local src_url="https://developer.download.nvidia.com/compute/cuda/repos/debian${distro_ver}/x86_64/${pkg_name}";
 
     elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # 24.04 >> 2404
-        local DISTRO_VER=echo "$(echo $VERSION_ID | cut -d "." -f 1)$(echo $VERSION_ID | cut -d "." -f 2)"
+        local distro_ver=echo "$(echo ${version_id} | cut -d "." -f 1)$(echo ${version_id} | cut -d "." -f 2)"
 
         # https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
-        local SRC_URL="https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${DISTRO_VER}/x86_64/${PKG_NAME}"
+        local src_url="https://developer.download.nvidia.com/compute/cuda/repos/ubuntu${distro_ver}/x86_64/${pkg_name}"
     else
         return 0
     fi
@@ -201,7 +201,7 @@ function add_nvidia_repo_for_apt()  # not used
     # 조건) repo에 nvidia가 있는지 확인
 
     # 방법1)
-    if [[ -n $(apt list --installed | grep -i ^${KEYRING_NAME}) ]]; then
+    if [[ -n $(apt list --installed | grep -i ^"${keyring_name}") ]]; then
         return 0
     fi
 
@@ -219,12 +219,12 @@ function add_nvidia_repo_for_apt()  # not used
 
     # --------------------------------------------------------------------------
     # 2) NVIDIA 공식 저장소 키 등록
-    if [[ ! -f "${PKG_PATH}" ]]; then
-        wget "${SRC_URL}" -O "${PKG_PATH}";
+    if [[ ! -f "${pkg_path}" ]]; then
+        wget "${src_url}" -O "${pkg_path}";
     fi
 
-    if [[ -f "${PKG_PATH}" ]]; then
-        apt install -y "${PKG_PATH}";
+    if [[ -f "${pkg_path}" ]]; then
+        apt install -y "${pkg_path}";
     fi
     # --------------------------------------------------------------------------
 
@@ -254,8 +254,8 @@ function add_nvidia_repo_for_dnf()
     # --------------------------------------------------------------------------
     # 조건) repo에 nvidia가 있는지 확인
 
-    local REPO_KWD="cuda-rhel"
-    if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
+    local repo_kwd="cuda-rhel"
+    if [[ -n $(dnf repolist | grep -i ^"${repo_kwd}") ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------

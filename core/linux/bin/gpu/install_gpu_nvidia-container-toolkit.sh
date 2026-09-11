@@ -29,8 +29,8 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# VENDOR
-source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh && set_vendor;
+source ${CORE_BIN_DIR}/gpu/install_gpu_funcs.sh
+VENDOR=$(set_vendor);
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -57,11 +57,11 @@ function add_nvidia-container-toolkit_repo_for_apt()
     # --------------------------------------------------------------------------
     # 조건) repo에 nvidia가 있는지 확인
 
-    local REPO_KWD="libnvidia-container";
+    local repo_kwd="libnvidia-container";
     # local SRC_URL="https://nvidia.github.io/libnvidia-container/gpgkey";
 
     # 방법1)
-    if [[ -n $(apt list --installed | grep -i ^${REPO_KWD}) ]]; then
+    if [[ -n $(apt list --installed | grep -i ^"${repo_kwd}") ]]; then
         return 0
     fi
 
@@ -111,8 +111,8 @@ function add_nvidia-container-toolkit_repo_for_dnf()
     # --------------------------------------------------------------------------
     # 조건) repo에 nvidia가 있는지 확인
 
-    local REPO_KWD="nvidia-container-toolkit"
-    if [[ -n $(dnf repolist | grep -i ^${REPO_KWD}) ]]; then
+    local repo_kwd="nvidia-container-toolkit"
+    if [[ -n $(dnf repolist | grep -i ^"${repo_kwd}") ]]; then
         return 0
     fi
     # --------------------------------------------------------------------------
