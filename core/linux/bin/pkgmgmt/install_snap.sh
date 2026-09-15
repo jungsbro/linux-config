@@ -44,9 +44,8 @@ function install_snapd_for_pacman()
     # --------------------------------------------------------------------------
 
     # 방법1) --------------------------------------------------------------------
-    # 1) base-devel / git
-    local app_name="base-devel"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-    local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+    # 1) develop tools
+    bash ${CORE_BIN_DIR}/develop/cli/install_base-devel.sh;
 
     # 2) snapd for aur
     git clone https://aur.archlinux.org/snapd.git /tmp/snapd

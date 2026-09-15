@@ -1,0 +1,144 @@
+#!/bin/bash
+set -e
+
+# usage ========================================================================
+# bash ${CORE_BIN_DIR}/ide/gui/install_mousepad.sh "${CUR_USER}";
+# ==============================================================================
+
+
+# ENV ==========================================================================
+# ------------------------------------------------------------------------------
+# /core/linux/bin/ide/gui
+CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+ROOT_DIR="${CUR_DIR}/../../../../.."
+
+# core/linux/bin
+CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+CUR_USER="${1:? 'Username not provided.'}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
+
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+
+CUR_ARCH=$(uname -m);
+
+CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+APP_NAME="mousepad";
+# ------------------------------------------------------------------------------
+# ==============================================================================
+
+
+# Funcs ========================================================================
+function set_mousepad_settings()
+{
+    # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # gsettings list-recursively org.xfce.mousepad
+
+    # :0.0
+    # echo $DISPLAY
+
+    # unix:path=/run/user/1000/bus
+    # echo $DBUS_SESSION_BUS_ADDRESS
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    su - "${CUR_USER}" <<"EOF"
+export DISPLAY=:0
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u ${USER})/bus"
+
+# view
+gsettings set org.xfce.mousepad.preferences.view show-line-numbers true;
+gsettings set org.xfce.mousepad.preferences.view show-whitespace true;
+gsettings set org.xfce.mousepad.preferences.view show-line-endings true;
+gsettings set org.xfce.mousepad.preferences.view show-right-margin true
+gsettings set org.xfce.mousepad.preferences.view right-margin-position 'uint32 80';
+gsettings set org.xfce.mousepad.preferences.view highlight-current-line true;
+gsettings set org.xfce.mousepad.preferences.view match-braces true;
+gsettings set org.xfce.mousepad.preferences.view word-wrap false;
+gsettings set org.xfce.mousepad.preferences.view use-default-monospace-font false;
+gsettings set org.xfce.mousepad.preferences.view font-name 'Monospace 14';
+gsettings set org.xfce.mousepad.preferences.view color-scheme 'oblivion';
+
+# Editor
+gsettings set org.xfce.mousepad.preferences.view tab-width 'uint32 4';
+gsettings set org.xfce.mousepad.preferences.view insert-spaces true;
+gsettings set org.xfce.mousepad.preferences.view auto-indent true;
+
+# Window
+gsettings set org.xfce.mousepad.preferences.window toolbar-visible true;
+gsettings set org.xfce.mousepad.preferences.window toolbar-style 'icons';
+gsettings set org.xfce.mousepad.preferences.window toolbar-icon-size 'small-toolbar';
+EOF
+    # --------------------------------------------------------------------------
+}
+
+function set_mousepad_association()
+{
+    # --------------------------------------------------------------------------
+    # [Default Applications]
+    # text/plain=org.xfce.mousepad.desktop
+
+    # [Added Associations]
+    # text/plain=org.xfce.mousepad.desktop;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    su - "${CUR_USER}" <<"EOF"
+crudini --set ~/.config/mimeapps.list "Default Applications" "text/plain" "org.xfce.mousepad.desktop";
+crudini --set ~/.config/mimeapps.list "Added Associations" "text/plain" "org.xfce.mousepad.desktop";
+EOF
+    # --------------------------------------------------------------------------
+}
+
+
+function execute_main()
+{
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+    fi
+
+    # --------------------------------------------------------------------------
+    set_mousepad_settings;
+
+    set_mousepad_association;
+    # --------------------------------------------------------------------------
+}
+# ==============================================================================
+
+
+# Main =========================================================================
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    execute_main;
+
+    source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
+fi
+# ==============================================================================

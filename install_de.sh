@@ -50,14 +50,14 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # korean -------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/ime/install_korean.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/fonts/install_font-manager.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/ime/gui/install_korean.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/gui/install_font-manager.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # terminal -----------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
-    # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
-    # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_alacritty.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

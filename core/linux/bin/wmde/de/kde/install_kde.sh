@@ -84,7 +84,7 @@ function execute_main()
         # 방법2)
         # ID                   Name Installed
         # kde-desktop          KDE         no
-        # local app_name="kde-desktop"; dnf groupinstall -y "${app_name}" || true
+        # local app_name="kde-desktop"; dnf group install -y "${app_name}" || true
 
         # dm 설정 필수
         bash ${CORE_BIN_DIR}/wmde/dm/install_sddm.sh;
@@ -97,10 +97,10 @@ function execute_main()
         #   KDE Plasma Workspaces
 
         # 방법1) minimal
-        # local app_name="KDE (K Desktop Environment)"; dnf groupinstall -y "${app_name}" || true
+        # local app_name="KDE (K Desktop Environment)"; dnf group install -y "${app_name}" || true
 
         # 방법2) full
-        local app_name="KDE Plasma Workspaces"; dnf groupinstall -y "${app_name}" || true
+        local app_name="KDE Plasma Workspaces"; dnf group install -y "${app_name}" || true
 
         # dm 설정 필수
         bash ${CORE_BIN_DIR}/wmde/dm/install_sddm.sh;

@@ -2,7 +2,8 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/utilities/tools/install_util-tools.sh "${CUR_USER}";
+# rsync
+# bash ${CORE_BIN_DIR}/utilities/tools/install_util-tools.sh;
 # ==============================================================================
 
 
@@ -18,8 +19,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER="${1:? 'Username not provided.'}";
-HOME_DIR=$(eval echo ~"${CUR_USER}");
+# CUR_USER="${1:? 'Username not provided.'}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
@@ -34,24 +35,8 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="rsync"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="rsync"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="rsync"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
-
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/utilities/install_tldr.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/sync/cli/install_rsync.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

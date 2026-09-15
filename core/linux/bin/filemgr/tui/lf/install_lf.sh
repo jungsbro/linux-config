@@ -44,162 +44,56 @@ APP_VER="r41";
 
 
 # Funcs ========================================================================
-function install_dependency_for_lf()
+function install_deps_for_lf()
 {
-    # 확장기능을 사용하기 위한 의존성
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="zoxide"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="fd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="ripgrep"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 폴더/파일
-        local app_name="eza"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="tree"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="bat"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="lsd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="highlight"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="imagemagick"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="djvulibre"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="poppler"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="chafa"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="mediainfo"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="atool"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="7zip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="jq"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 터미널 ui
-        local app_name="tmux"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 휴지통
-        local app_name="trash-cli"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="zoxide"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="fd-find"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="ripgrep"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 폴더/파일
-        local app_name="eza"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="tree"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-        local app_name="bat"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        su - "${CUR_USER}" -c "mkdir -p ${HOME_DIR}/.local/bin";
-        su - "${CUR_USER}" -c "ln -s /usr/bin/batcat ${HOME_DIR}/.local/bin/bat";
-        # ----------------------------------------------------------------------
-        local app_name="lsd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="highlight"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="imagemagick"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="djvulibre-bin"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="poppler-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="chafa"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="mediainfo"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="atool"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="7zip"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="jq"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 터미널 ui
-        local app_name="tmux"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 휴지통
-        local app_name="trash-cli"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 폴더/파일
-        local app_name="tree"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="bat"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="lsd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="highlight"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="djvulibre"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="chafa"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mediainfo"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="atool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="jq"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 터미널 ui
-        local app_name="tmux"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 휴지통
-        local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 폴더/파일
-        local app_name="tree"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="bat"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="highlight"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="djvulibre"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="chafa"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mediainfo"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="atool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="jq"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 터미널 ui
-        local app_name="tmux"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 휴지통
-        local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
+    # --------------------------------------------------------------------------
+    # 압축관리
+    bash ${CORE_BIN_DIR}/archive/cli/install_7zip.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_atool.sh;
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 검색/이동
-    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
+    # 데이터관리
+    bash ${CORE_BIN_DIR}/datamgmt/cli/install_jq.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 코드 문법강조
+    bash ${CORE_BIN_DIR}/ide/cli/install_highlight.sh;
+
+    # thumbnail생성
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_ffmpegthumbnailer.sh;
+
+    # 이미지 가공/포맷 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_imagemagick.sh;
+
+    # pdf를 이미지로 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_poppler.sh;
+
+    # 스캔문서 가공 도구
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_djvulibre.sh;
+
+    # 메타데이터 분석
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_mediainfo.sh;
+
+    # 터미널 이미지
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_chafa.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # fzf, ripgrep, fd-find, zoxide, fasd, plocate
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_find-tools.sh "${CUR_USER}";
+
+    # bat, eza, lsd, tree
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_ls-tools.sh "${CUR_USER}";
+
+    # 휴지통
+    bash ${CORE_BIN_DIR}/system/cli/install_trash-cli.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # tmux
+    bash ${CORE_BIN_DIR}/system/cli/install_tmux.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -352,13 +246,13 @@ function set_color_icon_settings()
 
     # --------------------------------------------------------------------------
     # 3) HackNerdFont
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-hacknerdfont.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
 function execute_main()
 {
-    install_dependency_for_lf;
+    install_deps_for_lf;
     install_lf;
     copy_lfrc;
     set_color_icon_settings;

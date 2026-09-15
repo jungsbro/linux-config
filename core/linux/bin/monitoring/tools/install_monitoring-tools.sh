@@ -2,6 +2,7 @@
 set -e
 
 # usage ========================================================================
+# btop, glances, htop, nmon, powertop
 # bash ${CORE_BIN_DIR}/monitoring/tools/install_monitoring-tools.sh;
 # ==============================================================================
 
@@ -34,33 +35,13 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="htop"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="btop"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="nmon"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="glances"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="powertop"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="htop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="btop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="nmon"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="glances"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="powertop"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="htop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="btop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="nmon"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="glances"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="powertop"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/monitoring/cli/install_btop.sh;
+    bash ${CORE_BIN_DIR}/monitoring/cli/install_glances.sh;
+    bash ${CORE_BIN_DIR}/monitoring/cli/install_htop.sh;
+    bash ${CORE_BIN_DIR}/monitoring/cli/install_nmon.sh;
+    bash ${CORE_BIN_DIR}/monitoring/cli/install_powertop.sh;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

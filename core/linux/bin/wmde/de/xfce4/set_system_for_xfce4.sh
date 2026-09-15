@@ -46,10 +46,10 @@ function get_core_bin_dir_from_xfce4()
     echo "${core_bin_dir}"
 }
 
-core_bin_dir=$(get_core_bin_dir_from_xfce4);
+CORE_BIN_DIR=$(get_core_bin_dir_from_xfce4);
 
 # set_prop_value "${ch}" "${prop}" "${typ}" "${val}";
-source ${core_bin_dir}/wmde/de/xfce4/set_funcs_for_xfce4.sh
+source ${CORE_BIN_DIR}/wmde/de/xfce4/set_funcs_for_xfce4.sh
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

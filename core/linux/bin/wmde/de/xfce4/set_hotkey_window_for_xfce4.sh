@@ -90,7 +90,7 @@ function set_hotkey_for_maximizing-window()
 function set_hotkey_for_filling-window()
 {
     # window tile (not used) ---------------------------------------------------
-    # local tog_fs_path="${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
+    # local tog_fs_path="${CORE_BIN_DIR}/tiling/cli/toggle_fullscreen.sh"
 
     # win+keypad_up >> win+up
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>KP_Up" -t "string" -s ""
@@ -100,7 +100,7 @@ function set_hotkey_for_filling-window()
     # set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Super>Up" "string" "";
 
     # if [[ -f "${tog_fs_path}" ]]; then
-    #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/toggle_fullscreen.sh"
+    #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Super>Up" -t "string" -s "${CORE_BIN_DIR}/tiling/cli/toggle_fullscreen.sh"
     #     set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Super>Up" "string" "${tog_fs_path}";
     # else
     #     xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Up" -t "string" -s "fill_window_key"
@@ -198,8 +198,8 @@ function set_hotkey_for_left-screen()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Left" -t "string" -s "move_window_to_monitor_left_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Left" "string" "move_window_to_monitor_left_key";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash ${CORE_BIN_DIR}/tiling/move_l_screen.sh"
-    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash ${CORE_BIN_DIR}/tiling/move_l_screen.sh";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Left" -t "string" -s "bash ${CORE_BIN_DIR}/tiling/cli/move_l_screen.sh"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Left" "string" "bash ${CORE_BIN_DIR}/tiling/cli/move_l_screen.sh";
     # --------------------------------------------------------------------------
 }
 
@@ -223,8 +223,8 @@ function set_hotkey_for_right-screen()
     # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/xfwm4/custom/<Shift><Super>Right" -t "string" -s "move_window_to_monitor_right_key"
     set_prop_value "xfce4-keyboard-shortcuts" "/xfwm4/custom/<Shift><Super>Right" "string" "move_window_to_monitor_right_key";
 
-    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash ${CORE_BIN_DIR}/tiling/move_r_screen.sh"
-    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash ${CORE_BIN_DIR}/tiling/move_r_screen.sh";
+    # xfconf-query -c "xfce4-keyboard-shortcuts" -p "/commands/custom/<Shift><Super>Right" -t "string" -s "bash ${CORE_BIN_DIR}/tiling/cli/move_r_screen.sh"
+    # set_prop_value "xfce4-keyboard-shortcuts" "/commands/custom/<Shift><Super>Right" "string" "bash ${CORE_BIN_DIR}/tiling/cli/move_r_screen.sh";
     # --------------------------------------------------------------------------
 }
 

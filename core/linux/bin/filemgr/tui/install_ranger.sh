@@ -64,7 +64,8 @@ function install_ranger_pip()   # not used
     # --------------------------------------------------------------------------
 }
 
-function install_dependency_for_ranger()
+
+function install_deps_for_ranger()
 {
     # --------------------------------------------------------------------------
     if [[ -z "${CUR_USER}" ]]; then
@@ -72,213 +73,59 @@ function install_dependency_for_ranger()
     fi
     # --------------------------------------------------------------------------
 
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        local app_name="python"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        local app_name="highlight"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        local app_name="w3m"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="ffmpeg"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="imagemagick"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="catimg"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="libcaca"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        local app_name="poppler"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="mediainfo"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        local app_name="atool"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="tar"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="7zip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="fasd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="findutils"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="plocate"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 기타
-        local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="trash-cli"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        local app_name="python3"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        local app_name="highlight"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        local app_name="w3m"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="ffmpeg"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="imagemagick"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="catimg"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="caca-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        local app_name="poppler-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="mediainfo"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        local app_name="atool"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="tar"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="p7zip-full"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="fasd"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="findutils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # local app_name="mlocate"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="plocate"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-        # 기타
-        local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="trash-cli"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        local app_name="python3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        local app_name="highlight"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        local app_name="w3m"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="ffmpeg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="catimg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="caca-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mediainfo"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        local app_name="atool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="tar"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # local app_name="fasd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="findutils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="plocate"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 기타
-        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # 필수엔진
-        local app_name="python3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 코드강조
-        local app_name="highlight"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 이미지/비디오
-        [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="w3m"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="ffmpeg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="catimg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="caca-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 문서/미디어 정보
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mediainfo"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 압축관리
-        local app_name="atool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="tar"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # local app_name="fasd"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="findutils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="mlocate"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-        # ----------------------------------------------------------------------
-        # 기타
-        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="trash-cli"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
-
     # --------------------------------------------------------------------------
-    # 검색/이동
-    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
+    # develop-tools
+    bash ${CORE_BIN_DIR}/develop/cli/install_git.sh;
+    bash ${CORE_BIN_DIR}/develop/cli/install_python.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 기타
-    bash ${CORE_BIN_DIR}/multimedia/mpv/install_mpv.sh "${CUR_USER}";
+    # 압축관리
+    bash ${CORE_BIN_DIR}/archive/cli/install_7zip.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_atool.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_tar.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 코드 문법강조
+    bash ${CORE_BIN_DIR}/ide/cli/install_highlight.sh;
+
+    # 영상코덱
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_ffmpeg.sh;
+
+    # 이미지 가공/포맷 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_imagemagick.sh;
+
+    # pdf를 이미지로 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_poppler.sh;
+
+    # 메타데이터 분석
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_mediainfo.sh;
+
+    # 터미널 이미지 (ranger는 구세대를 사용한다.)
+    # bash ${CORE_BIN_DIR}/multimedia/cli/install_chafa.sh;       # 신세대
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_catimg.sh;    # 중간세대
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_libcaca.sh;   # 구세대
+
+    # player
+    bash ${CORE_BIN_DIR}/multimedia/gui/mpv/install_mpv.sh "${CUR_USER}";
+
+    # 터미널 브라우저
+    bash ${CORE_BIN_DIR}/webbrowser/tui/install_w3m.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # fzf, ripgrep, fd-find, zoxide, fasd, plocate
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_find-tools.sh "${CUR_USER}";
+
+    # bat, eza, lsd, tree
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_ls-tools.sh "${CUR_USER}";
+
+    # 휴지통
+    bash ${CORE_BIN_DIR}/system/cli/install_trash-cli.sh;
     # --------------------------------------------------------------------------
 }
+
 
 function install_ranger()
 {
@@ -303,6 +150,7 @@ function install_ranger()
     fi
 }
 
+
 function config_ranger_pip()
 {
     # --------------------------------------------------------------------------
@@ -323,6 +171,7 @@ fi';
     fi
     # --------------------------------------------------------------------------
 }
+
 
 function config_ranger()
 {
@@ -361,11 +210,14 @@ function config_ranger()
     # --------------------------------------------------------------------------
 }
 
+
 function execute_main()
 {
-    install_dependency_for_ranger;
+    # --------------------------------------------------------------------------
+    install_deps_for_ranger;
     install_ranger;
     config_ranger;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

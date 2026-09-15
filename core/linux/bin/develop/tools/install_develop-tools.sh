@@ -2,6 +2,7 @@
 set -e
 
 # usage ========================================================================
+# base-devel, python
 # bash ${CORE_BIN_DIR}/develop/tools/install_develop-tools.sh;
 # ==============================================================================
 
@@ -33,32 +34,11 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="git"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="python"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="python-pip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="python-setuptools"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="build-essential"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="python3-pip"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="python3-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="python3-setuptools"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="python3"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="python3-libs"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="python3-pip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="python3-setuptools"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
+    # --------------------------------------------------------------------------
+    # develop tools
+    bash ${CORE_BIN_DIR}/develop/cli/install_base-devel.sh;
+    bash ${CORE_BIN_DIR}/develop/cli/install_python.sh;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

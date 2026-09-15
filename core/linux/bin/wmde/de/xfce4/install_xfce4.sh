@@ -34,7 +34,7 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 function install_xfce4_for_dnf()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_x11.sh;
+    bash ${CORE_BIN_DIR}/gpu/cli/install_x11.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -146,7 +146,7 @@ function execute_main()
         # 방법1) gnome,gdm을 함께 설치한다.
         # Available Environment Groups:
         #    Xfce
-        # local app_name="Xfce"; dnf groupinstall -y "${app_name}" || true
+        # local app_name="Xfce"; dnf group install -y "${app_name}" || true
 
         # 방법2) gnome, gdm없이 xfce4만 설치한다.
         install_xfce4_for_dnf;

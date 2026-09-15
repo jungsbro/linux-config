@@ -40,20 +40,26 @@ function install_tools()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/develop/tools/install_crud-tools.sh "${CUR_USER}";
+    # crudini, xmlstarlet, jq, yq
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_data-tools.sh "${CUR_USER}";
+
+    # yad, tkinter
+    bash ${CORE_BIN_DIR}/develop/tools/install_ui-tools.sh;
+
+    # fontconfig, fonts-d2coding, fonts-hacknerdfont, fonts-nanum, locales, fonts-emoji, gnome-characters
     bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
     # launcher
     # 방법1)
-    # bash ${CORE_BIN_DIR}/launcher/install_ulauncher.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/launcher/gui/install_ulauncher.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/launcher/install_synapse.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/launcher/gui/install_synapse.sh "${CUR_USER}";
 
     # 방법3)
-    bash ${CORE_BIN_DIR}/launcher/rofi/install_rofi.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/launcher/gui/rofi/install_rofi.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -62,42 +68,64 @@ function install_pkgs_for_lxde()
 {
     # --------------------------------------------------------------------------
     # 하드웨어 및 전원관리
-    bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/audio/gui/install_pavucontrol.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # screensaver
-    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/screensaver/gui/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # screenshot
     # 방법1)
-    # bash ${CORE_BIN_DIR}/screenshot/install_gnome-screenshot.sh;
+    # bash ${CORE_BIN_DIR}/screenshot/gui/install_gnome-screenshot.sh;
 
     # 방법2)
-    bash ${CORE_BIN_DIR}/screenshot/install_xfce4-screenshooter.sh;
-    bash ${CORE_BIN_DIR}/clipboard/install_xfce4-clipman.sh;
+    bash ${CORE_BIN_DIR}/screenshot/gui/install_xfce4-screenshooter.sh;
+    bash ${CORE_BIN_DIR}/clipboard/gui/install_xfce4-clipman.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/expose/gui/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # hotkey
-    bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/hotkey/cli/install_xcape.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/hotkey/cli/install_xdotool.sh;
+    # bash ${CORE_BIN_DIR}/hotkey/cli/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/lxterminal/install_lxterminal.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/terminal/gui/lxterminal/install_lxterminal.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # control-center
-    bash ${CORE_BIN_DIR}/system/wmcc/install_wmcc.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/gui/wmcc/install_wmcc.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # nightlight
-    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/gui/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -106,31 +134,45 @@ function install_pkgs_for_lxqt()
 {
     # --------------------------------------------------------------------------
     # screensaver
-    bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/screensaver/gui/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-editor
-    bash ${CORE_BIN_DIR}/ide/featherpad/install_featherpad.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/ide/gui/featherpad/install_featherpad.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/expose/gui/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # hotkey
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/hotkey/cli/install_xcape.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/hotkey/cli/install_xdotool.sh;
+    bash ${CORE_BIN_DIR}/hotkey/cli/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_pcmanfm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/qterminal/install_qterminal.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/terminal/gui/qterminal/install_qterminal.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/terminal/gui/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # nightlight
-    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/gui/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -141,87 +183,111 @@ function install_pkgs_for_xfce4()
     if [[ "${CUR_RELEASE}" == *"ID=MX"* ]]; then    # mxlinux xfce4
         # ----------------------------------------------------------------------
         # screensaver
-        bash ${CORE_BIN_DIR}/screensaver/install_xfce4-screensaver.sh;
+        bbash ${CORE_BIN_DIR}/screensaver/gui/install_xfce4-screensaver.sh;
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
         # hotkey
-        bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/hotkey/cli/install_xcape.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
         # calculator
 
         # 방법1)
-        # bash ${CORE_BIN_DIR}/calculator/install_galculator.sh "${CUR_USER}";
+        # bash ${CORE_BIN_DIR}/calculator/gui/install_galculator.sh "${CUR_USER}";
 
         # 방법2)
-        # bash ${CORE_BIN_DIR}/calculator/install_gnome-calculator.sh;
+        # bash ${CORE_BIN_DIR}/calculator/gui/install_gnome-calculator.sh;
 
         # 방법3)
-        bash ${CORE_BIN_DIR}/calculator/install_mate-calc.sh;
+        bash ${CORE_BIN_DIR}/calculator/gui/install_mate-calc.sh;
         # ----------------------------------------------------------------------
         # screensaver
-        bash ${CORE_BIN_DIR}/screensaver/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/screensaver/gui/xscreensaver/install_xscreensaver.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
         # panel
-        bash ${CORE_BIN_DIR}/panel/install_xfce4-docklike.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/panel/gui/install_xfce4-docklike.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # 파일 및 미디어도구
-    bash ${CORE_BIN_DIR}/archive/install_file-roller.sh
-    bash ${CORE_BIN_DIR}/archive/install_thunar-archive-plugin.sh;
-    bash ${CORE_BIN_DIR}/mount/install_thunar-volman.sh;
+    bash ${CORE_BIN_DIR}/archive/gui/install_file-roller.sh
+    bash ${CORE_BIN_DIR}/archive/gui/install_thunar-archive-plugin.sh;
+    bash ${CORE_BIN_DIR}/mount/gui/install_thunar-volman.sh;
     # 무거움
-    # bash ${CORE_BIN_DIR}/graphics/install_tumbler.sh
+    # bash ${CORE_BIN_DIR}/graphics/gui/install_tumbler.sh
 
     # 하드웨어 및 전원관리
-    bash ${CORE_BIN_DIR}/audio/install_xfce4-pulseaudio-plugin.sh;
-    # bash ${CORE_BIN_DIR}/audio/install_pavucontrol.sh "${CUR_USER}";
-    # bash ${CORE_BIN_DIR}/network/install_nm-connection-editor.sh;
+    bash ${CORE_BIN_DIR}/audio/gui/install_xfce4-pulseaudio-plugin.sh;
+    # bash ${CORE_BIN_DIR}/audio/gui/install_pavucontrol.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/network/gui/install_nm-connection-editor.sh;
 
     # 시스템 모니터링
-    bash ${CORE_BIN_DIR}/monitoring/install_xfce4-taskmanager.sh;
-    bash ${CORE_BIN_DIR}/monitoring/install_xfce4-sensors-plugin.sh;
-    bash ${CORE_BIN_DIR}/monitoring/install_xfce4-fsguard-plugin.sh;
-    bash ${CORE_BIN_DIR}/monitoring/install_xfce4-mount-plugin.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_xfce4-fsguard-plugin.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_xfce4-mount-plugin.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_xfce4-sensors-plugin.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_xfce4-taskmanager.sh;
 
     # 생산성 및 업무 편의도구
-    bash ${CORE_BIN_DIR}/panel/install_xfce4-whiskermenu-plugin.sh;
+    bash ${CORE_BIN_DIR}/panel/gui/install_xfce4-whiskermenu-plugin.sh;
 
     # 고급 사용자용 확장 및 자동화
-    bash ${CORE_BIN_DIR}/panel/install_xfce4-panel-profiles.sh;
+    bash ${CORE_BIN_DIR}/panel/gui/install_xfce4-panel-profiles.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # appmenu
-    bash ${CORE_BIN_DIR}/panel/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/panel/gui/install_xfce4-appmenu-plugin.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-editor
-    bash ${CORE_BIN_DIR}/ide/install_mousepad.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/ide/gui/install_mousepad.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/expose/gui/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # panel
-    # bash ${CORE_BIN_DIR}/panel/inatll_plank.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/panel/gui/inatll_plank.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # hotkey
-    # bash ${CORE_BIN_DIR}/tiling/install_wmctrl.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
-    # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/tiling/cli/install_wmctrl.sh;
+    # bash ${CORE_BIN_DIR}/hotkey/cli/install_xcape.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/hotkey/cli/install_xdotool.sh;
+    # bash ${CORE_BIN_DIR}/hotkey/cli/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_thunar.sh;
-    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/gui/install_gvfs.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # terminal
-    bash ${CORE_BIN_DIR}/terminal/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/terminal/gui/xfce4-terminal/install_xfce4-terminal.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # nightlight
-    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/gui/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -230,33 +296,51 @@ function install_pkgs_for_mate()
 {
     # --------------------------------------------------------------------------
     # compositor
-    bash ${CORE_BIN_DIR}/gpu/compositor/install_marco.sh
+    bash ${CORE_BIN_DIR}/compositor/cli/install_marco.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # screenshot
-    bash ${CORE_BIN_DIR}/screenshot/install_mate-screenshot.sh;
+    bash ${CORE_BIN_DIR}/screenshot/gui/install_mate-screenshot.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # task-manager
-    bash ${CORE_BIN_DIR}/monitoring/install_gnome-system-monitor.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_gnome-system-monitor.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # expose
-    bash ${CORE_BIN_DIR}/expose/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/expose/gui/skippy-xd/install_skippy-xd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # hotkey
-    # bash ${CORE_BIN_DIR}/hotkey/install_xcape.sh "${CUR_USER}";
-    # bash ${CORE_BIN_DIR}/hotkey/install_xdotool.sh;
-    # bash ${CORE_BIN_DIR}/hotkey/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/hotkey/cli/install_xcape.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/hotkey/cli/install_xdotool.sh;
+    # bash ${CORE_BIN_DIR}/hotkey/cli/sxhkd/install_sxhkd.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
     bash ${CORE_BIN_DIR}/wmde/de/mate/install_mate-menu.sh;
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_caja.sh;
-    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/gui/install_gvfs.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # nightlight
-    bash ${CORE_BIN_DIR}/system/redshift/install_redshift.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/gui/redshift/install_redshift.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
@@ -264,14 +348,20 @@ function install_pkgs_for_mate()
 function install_pkgs_for_gnome()
 {
     # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
     bash ${CORE_BIN_DIR}/wmde/de/gnome/install_gnome-extensions.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_nautilus.sh;
-    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/gui/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -279,13 +369,19 @@ function install_pkgs_for_gnome()
 function install_pkgs_for_cinnamon()
 {
     # --------------------------------------------------------------------------
+    # glib2(gsettings), dconf
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_dconf-tools.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/develop/install_dconf.sh;
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_nemo.sh;
-    bash ${CORE_BIN_DIR}/mount/install_gvfs.sh;
+    bash ${CORE_BIN_DIR}/mount/gui/install_gvfs.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -294,7 +390,7 @@ function install_pkgs_for_kde()
 {
     # --------------------------------------------------------------------------
     # theme
-    bash ${CORE_BIN_DIR}/theme/install_papirus-icon-theme.sh;
+    bash ${CORE_BIN_DIR}/theme/gui/install_papirus-icon-theme.sh;
     # --------------------------------------------------------------------------
     # file-manager
     bash ${CORE_BIN_DIR}/filemgr/gui/install_dolphin.sh;

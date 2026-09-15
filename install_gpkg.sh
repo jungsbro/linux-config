@@ -97,54 +97,54 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # monitoring ---------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/monitoring/install_conky.sh;
+    # bash ${CORE_BIN_DIR}/monitoring/gui/install_conky.sh;
     # --------------------------------------------------------------------------
 
     # autohotkey ---------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/hotkey/autokey/install_autokey.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/hotkey/gui/autokey/install_autokey.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # sandbox ------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/system/install_firejail.sh;
+    # bash ${CORE_BIN_DIR}/system/gui/install_firejail.sh;
     # --------------------------------------------------------------------------
 
     # cleaner ------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/system/install_stacer.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/system/gui/install_stacer.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # snapshot -----------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/system/install_timeshift.sh;
+    # bash ${CORE_BIN_DIR}/system/gui/install_timeshift.sh;
     # --------------------------------------------------------------------------
 
     # disk mount ---------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/monitoring/install_gnome-disk-utility.sh;
+    bash ${CORE_BIN_DIR}/monitoring/gui/install_gnome-disk-utility.sh;
     # --------------------------------------------------------------------------
 
     # terminal -----------------------------------------------------------------
     # 방밥1)
-    # bash ${CORE_BIN_DIR}/terminal/kitty/install_kitty.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/terminal/gui/kitty/install_kitty.sh "${CUR_USER}";
 
     # 방밥2)
-    # bash ${CORE_BIN_DIR}/terminal/install_alacritty.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_alacritty.sh;
 
     # 방밥3)
-    # bash ${CORE_BIN_DIR}/terminal/install_foot.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh;
 
     # 방밥4)
-    # bash ${CORE_BIN_DIR}/terminal/install_wezterm.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh;
     # --------------------------------------------------------------------------
 
     # virtualbox ---------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/system/install_virtualbox.sh;
+    # bash ${CORE_BIN_DIR}/system/gui/install_virtualbox.sh;
     # --------------------------------------------------------------------------
 
     # security -----------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/security/install_gnome-keyring.sh;
+    bash ${CORE_BIN_DIR}/security/gui/install_gnome-keyring.sh;
     # --------------------------------------------------------------------------
 
     # ide ----------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/ide/geany/install_geany.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/ide/install_vscode.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/ide/gui/geany/install_geany.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/ide/gui/install_vscode.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # file-manager -------------------------------------------------------------
@@ -154,19 +154,19 @@ function execute_main()
     # web-browser --------------------------------------------------------------
     if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
+        bash ${CORE_BIN_DIR}/webbrowser/gui/install_chromium.sh;
         # ----------------------------------------------------------------------
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/internet/install_chromium.sh;
+        bash ${CORE_BIN_DIR}/webbrowser/gui/install_chromium.sh;
         # ----------------------------------------------------------------------
     else
         # ----------------------------------------------------------------------
-        bash ${CORE_BIN_DIR}/internet/install_google-chrome.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/webbrowser/gui/install_google-chrome.sh "${CUR_USER}";
         # ----------------------------------------------------------------------
     fi
 
-    bash ${CORE_BIN_DIR}/internet/install_firefox.sh;
+    bash ${CORE_BIN_DIR}/webbrowser/gui/install_firefox.sh;
     # --------------------------------------------------------------------------
 
     # ftp ----------------------------------------------------------------------
@@ -182,44 +182,44 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # office -------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/office/install_libreoffice.sh;
-    bash ${CORE_BIN_DIR}/office/install_qpdfview.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/office/gui/install_libreoffice.sh;
+    bash ${CORE_BIN_DIR}/office/gui/install_qpdfview.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # paint ---------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/gimp/install_gimp.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/gimp/install_gimp.sh "${CUR_USER}";
     if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
-        bash ${CORE_BIN_DIR}/graphics/install_kolourpaint.sh;
+        bash ${CORE_BIN_DIR}/graphics/gui/install_kolourpaint.sh;
     else
-        bash ${CORE_BIN_DIR}/graphics/install_drawing.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/graphics/gui/install_drawing.sh "${CUR_USER}";
     fi
-    # bash ${CORE_BIN_DIR}/graphics/install_inkscape.sh;
-    # bash ${CORE_BIN_DIR}/graphics/install_pinta.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/install_inkscape.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/install_pinta.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # xnview -------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/install_xnviewmp.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/install_xnviewmp.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # multimedia ---------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/multimedia/install_freetube.sh "${CUR_USER}";
-    # bash ${CORE_BIN_DIR}/multimedia/install_vlc.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/multimedia/mpv/install_mpv.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/multimedia/yt-x/install_yt-x.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/multimedia/ytsurf/install_ytsurf.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/multimedia/gui/install_freetube.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/multimedia/gui/install_vlc.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/gui/mpv/install_mpv.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/tui/yt-x/install_yt-x.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/multimedia/tui/ytsurf/install_ytsurf.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # edit ---------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/edit/install_kdenlive.sh;
-    # bash ${CORE_BIN_DIR}/graphics/edit/install_shotcut.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/edit/install_kdenlive.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/edit/install_shotcut.sh;
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/utilities/freefilesync/install_freefilesync.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/sync/gui/freefilesync/install_freefilesync.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # simplescreenrecorder -----------------------------------------------------
-    # bash ${CORE_BIN_DIR}/screenshot/install_simplescreenrecorder.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/screenshot/gui/install_simplescreenrecorder.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

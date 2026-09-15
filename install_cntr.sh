@@ -55,14 +55,14 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # graphic driver -----------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_gpu.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/gpu/install_gpu_top.sh;
+    bash ${CORE_BIN_DIR}/gpu/cli/install_gpu.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/gpu/cli/install_gpu_top.sh;
     # --------------------------------------------------------------------------
 
     # container ----------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/gpu/install_gpu_nvidia-container-toolkit.sh;
-    bash ${CORE_BIN_DIR}/container/install_podman.sh;
-    bash ${CORE_BIN_DIR}/container/install_distrobox.sh;
+    bash ${CORE_BIN_DIR}/gpu/cli/install_gpu_nvidia-container-toolkit.sh;
+    bash ${CORE_BIN_DIR}/container/cli/install_podman.sh;
+    bash ${CORE_BIN_DIR}/container/cli/install_distrobox.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

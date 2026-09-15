@@ -60,34 +60,62 @@ function execute_main()
     bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
     # --------------------------------------------------------------------------
 
-    # tools (group) ------------------------------------------------------------
+    # tools1 -------------------------------------------------------------------
+    # firewall, ssh, clamav
     bash ${CORE_BIN_DIR}/security/tools/install_security-tools.sh;
 
+    # base-devel, python
     bash ${CORE_BIN_DIR}/develop/tools/install_develop-tools.sh;
-    bash ${CORE_BIN_DIR}/develop/tools/install_crud-tools.sh "${CUR_USER}";
 
+    # crudini, xmlstarlet, jq, yq
+    bash ${CORE_BIN_DIR}/datamgmt/tools/install_data-tools.sh "${CUR_USER}";
+
+    # nala
     bash ${CORE_BIN_DIR}/pkgmgmt/tools/install_pkgmgmt-tools.sh;
+    # --------------------------------------------------------------------------
 
-    bash ${CORE_BIN_DIR}/mount/tools/install_mount-tools.sh "${CUR_USER}";
+    # tools2 -------------------------------------------------------------------
+    # autofs, exfat, nfs, ntfs-3g, rclone, samba
+    bash ${CORE_BIN_DIR}/mount/tools/install_mount-tools.sh;
+
+    # axcel, curl, iputils, net-tools, speedtest-cli, whois
     bash ${CORE_BIN_DIR}/network/tools/install_network-tools.sh;
 
-    bash ${CORE_BIN_DIR}/monitoring/tools/install_info-tools.sh;
-    bash ${CORE_BIN_DIR}/monitoring/tools/install_monitoring-tools.sh;
+    # fastfetch, hdparm, ncdu, procps, tldr
+    bash ${CORE_BIN_DIR}/info/tools/install_info-tools.sh "${CUR_USER}";
 
-    bash ${CORE_BIN_DIR}/filemgr/cli/tools/install_filemgr-tools.sh "${CUR_USER}";
+    # btop, glances, htop, nmon, powertop
+    bash ${CORE_BIN_DIR}/monitoring/tools/install_monitoring-tools.sh;
+    # --------------------------------------------------------------------------
+
+    # tools3 -------------------------------------------------------------------
+    # fzf, ripgrep, fd-find, zoxide, fasd, plocate
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_find-tools.sh "${CUR_USER}";
+
+    # bat, eza, lsd, tree
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_ls-tools.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # tools4 -------------------------------------------------------------------
+    # atool, 7zip, unzip, tar, libarchive
     bash ${CORE_BIN_DIR}/archive/tools/install_archive-tools.sh;
+
+    # fontconfig, fonts-d2coding, fonts-hacknerdfont, fonts-nanum, locales, fonts-emoji, gnome-characters
     bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
 
-    bash ${CORE_BIN_DIR}/utilities/tools/install_util-tools.sh "${CUR_USER}";
+    # rsync
+    bash ${CORE_BIN_DIR}/utilities/tools/install_util-tools.sh;
+
+    # cmatrix, tty-clock, nyancat
     # bash ${CORE_BIN_DIR}/screensaver/tools/install_screensaver-tools.sh;
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/ide/install_vim.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/ide/tui/install_vim.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/system/install_tmux.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/cli/install_tmux.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # file-manager -------------------------------------------------------------
@@ -98,12 +126,12 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/system/install_zsh.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/system/cli/install_zsh.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/mount/config_swap.sh;
-    bash ${CORE_BIN_DIR}/mount/config_fstab.sh;
+    bash ${CORE_BIN_DIR}/mount/cli/config_swap.sh;
+    bash ${CORE_BIN_DIR}/mount/cli/config_fstab.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

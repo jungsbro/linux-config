@@ -90,13 +90,13 @@ function execute_main()
         #     GNOME Desktop Environment
 
         # 방법1)
-        local app_name="Server with GUI"; dnf groupinstall -y "${app_name}" || true
+        local app_name="Server with GUI"; dnf group install -y "${app_name}" || true
 
         # 방법2)
-        # local app_name="Workstation"; dnf groupinstall -y "${app_name}" || true
+        # local app_name="Workstation"; dnf group install -y "${app_name}" || true
 
         # 방법2)
-        # local app_name="GNOME Desktop Environment"; dnf groupinstall -y "${app_name}" || true
+        # local app_name="GNOME Desktop Environment"; dnf group install -y "${app_name}" || true
 
         # dm 설정 필수
         bash ${CORE_BIN_DIR}/wmde/dm/install_gdm.sh;

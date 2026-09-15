@@ -157,6 +157,15 @@ function get_pre_init_hooks()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # development tools
+    pre_init_hooks+=" && \
+        sudo apt install -y --no-reinstall build-essential"
+
+    pre_init_hooks+=" && \
+        sudo apt install -y --no-reinstall autoconf automake libtool pkg-config"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     # container에서 사용하는 git wget curl
     pre_init_hooks+=" && \
         sudo apt install -y --no-reinstall git wget curl"
@@ -195,17 +204,17 @@ function get_pre_init_hooks()
     # --------------------------------------------------------------------------
     # gpu-driver (opengl,vulkan,vaapi,opencl)
     pre_init_hooks+=" && \
-        sudo bash ${core_bin_dir}/gpu/install_gpu.sh ${cur_user}"
+        sudo bash ${core_bin_dir}/gpu/cli/install_gpu.sh ${cur_user}"
 
     if [[ "${vfx_deps}" == "true" ]]; then
         # vfx-dcc-dependencies for rocky8 or rocky9
         pre_init_hooks+=" && \
-            sudo bash ${core_bin_dir}/gpu/install_vfxdeps.sh"
+            sudo bash ${core_bin_dir}/gpu/cli/install_vfxdeps.sh"
     fi
 
     # gpu_top
     pre_init_hooks+=" && \
-        sudo bash ${core_bin_dir}/gpu/install_gpu_top.sh"
+        sudo bash ${core_bin_dir}/gpu/cli/install_gpu_top.sh"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -338,12 +347,12 @@ function install_freefilesync()
     # fix desktop
     # host에 생성된 desktop에서 Path=/usr/share/freefilesync를 삭제해야 한다.
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/utilities/freefilesync/install_freefilesync_funcs.sh && \
+        source ${core_bin_dir}/sync/gui/freefilesync/install_freefilesync_funcs.sh && \
         fix_freefilesync_desktop ${cur_user} ${ctr_name} freefilesync"
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} freefilesync"
     # --------------------------------------------------------------------------
 }
@@ -375,7 +384,7 @@ function install_terminal()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} wezterm"
     # --------------------------------------------------------------------------
 }
@@ -403,7 +412,7 @@ function install_autokey()
 
     # config (sudo로 실행하면 password를 묻지 않는다.)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/hotkey/autokey/install_autokey_funcs.sh && \
+        source ${core_bin_dir}/hotkey/gui/autokey/install_autokey_funcs.sh && \
         config_autokey ${cur_user} && \
         set_autokey_autostart ${cur_user}"
     # --------------------------------------------------------------------------
@@ -431,7 +440,7 @@ function install_redshift()
 
     # config
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/system/redshift/install_redshift_funcs.sh && \
+        source ${core_bin_dir}/system/gui/redshift/install_redshift_funcs.sh && \
         config_redshift ${cur_user} && \
         set_redshift_autostart ${cur_user}"
     # --------------------------------------------------------------------------
@@ -531,7 +540,7 @@ function install_vscode()
     # --------------------------------------------------------------------------
     # installation
     distrobox enter "${ctr_name}" -- bash -c "\
-        sudo bash ${core_bin_dir}/ide/install_vscode.sh ${cur_user}"
+        sudo bash ${core_bin_dir}/ide/gui/install_vscode.sh ${cur_user}"
 
     # desktop
     distrobox enter "${ctr_name}" -- distrobox-export --app code
@@ -578,7 +587,7 @@ function install_chromium()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} chromium-browser"
     # --------------------------------------------------------------------------
 }
@@ -600,14 +609,14 @@ function install_google-chrome()
     # --------------------------------------------------------------------------
     # installation
     distrobox enter "${ctr_name}" -- bash -c "\
-        sudo bash ${core_bin_dir}/internet/install_google-chrome.sh ${cur_user}"
+        sudo bash ${core_bin_dir}/webbrowser/gui/install_google-chrome.sh ${cur_user}"
 
     # desktop
     distrobox enter "${ctr_name}" -- distrobox-export --app google-chrome
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} google-chrome"
     # --------------------------------------------------------------------------
 }
@@ -639,7 +648,7 @@ function install_firefox()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} firefox"
     # --------------------------------------------------------------------------
 }
@@ -720,12 +729,12 @@ function install_gimp()
 
     # config : photogimp
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/graphics/gimp/install_gimp_funcs.sh && \
+        source ${core_bin_dir}/graphics/gui/gimp/install_gimp_funcs.sh && \
         install_photogimp ${cur_user}"
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} gimp"
     # --------------------------------------------------------------------------
 }
@@ -770,7 +779,7 @@ function install_vlc()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} vlc"
     # --------------------------------------------------------------------------
 }
@@ -798,7 +807,7 @@ function install_kdenlive()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} kdenlive"
     # --------------------------------------------------------------------------
 }
@@ -826,7 +835,7 @@ function install_shotcut()
 
     # config (with nvidia)
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${core_bin_dir}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${cur_user} ${ctr_name} shotcut"
     # --------------------------------------------------------------------------
 }

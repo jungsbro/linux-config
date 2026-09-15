@@ -2,6 +2,7 @@
 set -e
 
 # usage ========================================================================
+# firewall, ssh, clamav
 # bash ${CORE_BIN_DIR}/security/tools/install_security-tools.sh;
 # ==============================================================================
 
@@ -34,11 +35,11 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    yes | bash ${CORE_BIN_DIR}/security/install_firewall.sh;
+    yes | bash ${CORE_BIN_DIR}/security/cli/install_firewall.sh;
 
     bash ${CORE_BIN_DIR}/remote/cli/install_ssh.sh;
 
-    bash ${CORE_BIN_DIR}/security/install_clamav.sh;
+    bash ${CORE_BIN_DIR}/security/cli/install_clamav.sh;
 }
 # ==============================================================================
 

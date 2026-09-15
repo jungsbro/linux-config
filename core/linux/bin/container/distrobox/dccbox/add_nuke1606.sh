@@ -123,7 +123,7 @@ function add_nk1606()
 
     # config (with nvidia)
     distrobox enter "${CTR_NAME}" -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${CORE_BIN_DIR}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_bin_with_nvidia ${CUR_USER} ${CTR_NAME} nuke"
     # --------------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ function add_nk1606()
 
     # config (with nvidia)
     distrobox enter "${CTR_NAME}" -- sudo bash -c "\
-        source ${CORE_BIN_DIR}/gpu/install_gpu_nvidia_funcs.sh && \
+        source ${CORE_BIN_DIR}/gpu/cli/install_gpu_nvidia_funcs.sh && \
         set_app_with_nvidia ${CUR_USER} ${CTR_NAME} nuke"
     # --------------------------------------------------------------------------
 

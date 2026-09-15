@@ -2,6 +2,7 @@
 set -e
 
 # usage ========================================================================
+# atool, 7zip, unzip, tar, libarchive
 # bash ${CORE_BIN_DIR}/archive/tools/install_archive-tools.sh;
 # ==============================================================================
 
@@ -33,25 +34,14 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # Funcs ========================================================================
 function execute_main()
 {
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="7zip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="unzip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="p7zip-full"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="unzip"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="p7zip-plugins"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="unzip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
+    # --------------------------------------------------------------------------
+    # cli
+    bash ${CORE_BIN_DIR}/archive/cli/install_atool.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_7zip.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_unzip.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_tar.sh;
+    bash ${CORE_BIN_DIR}/archive/cli/install_libarchive.sh;
+    # --------------------------------------------------------------------------
 }
 # ==============================================================================
 

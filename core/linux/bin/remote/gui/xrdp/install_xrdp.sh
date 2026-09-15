@@ -89,6 +89,58 @@ function install_xrdp()
 }
 
 
+function install_deps_for_pipewire-module-xrdp()
+{
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    bash ${CORE_BIN_DIR}/develop/cli/install_base-devel.sh;
+    # --------------------------------------------------------------------------
+
+
+    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
+        # ----------------------------------------------------------------------
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        local app_name="pipewire-module-xrdp"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+
+        # pactl
+        local app_name="libpulse"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+
+        # pw-cli
+        local app_name="pipewire"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+
+        # wpctl
+        local app_name="wireplumber"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="pipewire"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        local app_name="libpipewire-0.3-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # pactl
+        local app_name="pulseaudio-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # pw-cli
+        local app_name="pipewire-bin"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+
+        # wpctl
+        local app_name="wireplumber"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="pipewire-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+
+        # pactl
+        local app_name="pulseaudio-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+
+        # pw-cli, wpctl
+        local app_name="pipewire-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
+    fi
+}
+
+
 function intall_pipewire-module-xrdp()
 {
     # --------------------------------------------------------------------------
@@ -134,67 +186,11 @@ function intall_pipewire-module-xrdp()
 
     # --------------------------------------------------------------------------
     # 3) 의존성 패키지 설치
-
-    bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+    install_deps_for_pipewire-module-xrdp;
 
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="pipewire-module-xrdp"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
-
-        # pactl
-        local app_name="libpulse"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # pw-cli
-        local app_name="pipewire"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # wpctl
-        local app_name="wireplumber"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        # arch doesn't need to buile pipewire-module-xrdp, just have pipewire-module-xrdp
         return 0
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="git"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="build-essential"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="pipewire"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="libpipewire-0.3-dev"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # autoconf
-        local app_name="autoconf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="automake"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="libtool"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="pkg-config"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # pactl
-        local app_name="pulseaudio-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # pw-cli
-        local app_name="pipewire-bin"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # wpctl
-        local app_name="wireplumber"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        local app_name="git"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="gcc"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="make"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="pipewire-devel"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # autoconf
-        local app_name="autoconf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="automake"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="libtool"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="pkgconfig"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # pactl
-        local app_name="pulseaudio-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # pw-cli, wpctl
-        local app_name="pipewire-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
     fi
     # --------------------------------------------------------------------------
 

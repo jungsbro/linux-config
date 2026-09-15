@@ -45,101 +45,41 @@ APP_VER="v26.1.22";
 
 
 # Funcs ========================================================================
-function install_dependency_for_yazi()
+function install_deps_for_yazi()
 {
-    # 확장기능을 사용하기 위한 의존성
-    if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="zoxide"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="fd"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="ripgrep"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="imagemagick"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="poppler"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="ffmpeg"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="7zip"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        local app_name="jq"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="zoxide"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="fd-find"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="ripgrep"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="imagemagick"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="poppler-utils"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="ffmpeg"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="7zip"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        local app_name="jq"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="ffmpeg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="jq"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # 검색/이동
-        # local app_name="fzf"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="zoxide"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="fd-find"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="ripgrep"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 이미지/문서
-        local app_name="ImageMagick"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="poppler-utils"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 미디어
-        local app_name="ffmpegthumbnailer"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # [[ -n $(dnf list --installed | grep -i ^rpmfusion) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        [[ -n $(dnf repolist | grep -i ^crb) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="ffmpeg"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 압축/데이터
-        local app_name="p7zip"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        local app_name="jq"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-    fi
+    # --------------------------------------------------------------------------
+    # 압축관리
+    bash ${CORE_BIN_DIR}/archive/cli/install_7zip.sh;
+    # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # 검색/이동
-    bash ${CORE_BIN_DIR}/filemgr/cli/install_fzf.sh "${CUR_USER}";
+    # 데이터관리
+    bash ${CORE_BIN_DIR}/datamgmt/cli/install_jq.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # 영상코덱
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_ffmpeg.sh;
+
+    # thumbnail생성
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_ffmpegthumbnailer.sh;
+
+    # 이미지 가공/포맷 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_imagemagick.sh;
+
+    # pdf를 이미지로 변환
+    bash ${CORE_BIN_DIR}/multimedia/cli/install_poppler.sh;
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # fzf, ripgrep, fd-find, zoxide, fasd, plocate
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_find-tools.sh "${CUR_USER}";
+
+    # bat, eza, lsd, tree
+    bash ${CORE_BIN_DIR}/filemgr/tools/install_ls-tools.sh "${CUR_USER}";
+
+    # 휴지통
+    bash ${CORE_BIN_DIR}/system/cli/install_trash-cli.sh;
     # --------------------------------------------------------------------------
 }
 
@@ -342,14 +282,14 @@ function install_nerd_font()
 {
     # --------------------------------------------------------------------------
     # HackNerdFont
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-hacknerdfont.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 
 
 function execute_main()
 {
-    install_dependency_for_yazi;
+    install_deps_for_yazi;
     install_yazi;
     copy_yazirc;
     install_nerd_font;
@@ -364,4 +304,3 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
-

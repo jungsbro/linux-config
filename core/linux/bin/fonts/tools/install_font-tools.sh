@@ -2,6 +2,7 @@
 set -e
 
 # usage ========================================================================
+# fontconfig, fonts-d2coding, fonts-hacknerdfont, fonts-nanum, locales, fonts-emoji, gnome-characters
 # bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
 # ==============================================================================
 
@@ -35,19 +36,19 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 function execute_main()
 {
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/fonts/install_fontconfig.sh
-    # --------------------------------------------------------------------------
-    
-    # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-d2coding.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-hacknerdfont.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-nanum.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fontconfig.sh
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    bash ${CORE_BIN_DIR}/fonts/install_fonts-emoji.sh;
-    bash ${CORE_BIN_DIR}/fonts/install_gnome-characters.sh;
-    bash ${CORE_BIN_DIR}/fonts/locale/install_locales.sh;
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-d2coding.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-hacknerdfont.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-nanum.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    bash ${CORE_BIN_DIR}/fonts/cli/locale/install_locales.sh;
+    bash ${CORE_BIN_DIR}/fonts/cli/install_fonts-emoji.sh;
+    bash ${CORE_BIN_DIR}/fonts/gui/install_gnome-characters.sh;
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
