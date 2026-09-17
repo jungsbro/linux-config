@@ -103,7 +103,7 @@ function execute_main()
     # fontconfig, fonts-d2coding, fonts-hacknerdfont, fonts-nanum, locales, fonts-emoji, gnome-characters
     bash ${CORE_BIN_DIR}/fonts/tools/install_font-tools.sh "${CUR_USER}";
 
-    # rsync
+    # rsync, inotify-tools
     bash ${CORE_BIN_DIR}/utilities/tools/install_util-tools.sh;
 
     # cmatrix, tty-clock, nyancat

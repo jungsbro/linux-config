@@ -3,19 +3,23 @@ set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# bash ${CORE_BIN_DIR}/wmde/de/kde/set_theme_icon_for_kde.sh
+# bash ${CORE_BIN_DIR}/container/distrobox/fedo/install_fedobox-comfyui.sh;
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# 어떤 파일의 설정이 변경됐는지 알수 있다. (inotify-tools)
-# inotifywait -m -r -e modify ~/.config/
+# 아래에 설치
+# ~/github/ComfyUI
+
+# 실행
+# fedobox-comfyui
+# 127.0.0.1:8188
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/wmde/de/kde
+# /core/linux/bin/container/distrobox/dccbox
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -25,8 +29,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1:? 'Username not provided.'}";
-# HOME_DIR=$(eval echo ~"${CUR_USER}");
+CUR_USER=$(whoami);
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
 
@@ -36,43 +40,46 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# vi ~/.config/kdeglobals
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# [Icons]
-# Theme=Papirus-Dark
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CTR_NAME="fedobox-comfyui"
 
-FILE="kdeglobals"
+# fedora43에서 애러가 난다. >> sudo: /etc/sudo.conf is owned by uid 1000 error
+IMAGE="docker.io/library/fedora:latest"
+# IMAGE="docker.io/library/fedora:41"
 
-ICON_DIR="/usr/share/icons/Papirus"
-ICON_NAME="Papirus-Dark"
+# true / false (for rhel / vfx-dcc)
+VFX_DEPS="false"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function set_theme_icon()
-{
-    if [[ -d "${ICON_DIR}" ]]; then
-        # ----------------------------------------------------------------------
-        # 아이콘 테마를 Papirus로 설정
-        # 기본 Papirus 외에도 Papirus-Dark, Papirus-Light 등이 있으니 취향껏 선택 가능합니다.
-        kwriteconfig6 --file "${FILE}" --group Icons --key Theme "${ICON_NAME}"
-        # ----------------------------------------------------------------------
-    fi
-}
-
-
 function execute_main()
 {
     # --------------------------------------------------------------------------
-    set_theme_icon;
+    source ${CORE_BIN_DIR}/container/distrobox/fedobox/install_fedobox_funcs.sh;
+
+    # "fedobox-comfyui"
+    local ctr_name="${CTR_NAME}";
+
+    # "docker.io/library/fedora:latest"
+    local image="${IMAGE}";
+
+    # true / false
+    local vfx_deps="${VFX_DEPS}";
+
+    # "jungs"
+    local cur_user="${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # source ${CORE_BIN_DIR}/wmde/de/kde/set_funcs_for_kde.sh && restart_kwin;
-    # source ${CORE_BIN_DIR}/wmde/de/kde/set_funcs_for_kde.sh && restart_kded6;
-    # source ${CORE_BIN_DIR}/wmde/de/kde/set_funcs_for_kde.sh && restart_plasmashell;
+    # container
+    create_ctr "${ctr_name}" "${image}" "${vfx_deps}" "${cur_user}";
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # comfyui
+    bash ${CORE_BIN_DIR}/container/distrobox/dccbox/add_comfyui.sh "${CTR_NAME}";
+    # --------------------------------------------------------------------------
     # --------------------------------------------------------------------------
 }
 # ==============================================================================
