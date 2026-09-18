@@ -63,7 +63,7 @@ function install_apps()
 
     for cli_bin in ${cli_bins};
     do
-        cli_cmd=$(distrobox enter "${ctr_name}" -- bash -lc "command -v ${cli_bin}" 2>/dev/null)
+        cli_cmd=$(distrobox enter "${ctr_name}" -- bash -lc "command -v ${cli_bin}" 2>/dev/null || true)
         # echo "${cli_cmd}"
         distrobox enter "${ctr_name}" -- distrobox-export --bin "${cli_cmd}"
     done

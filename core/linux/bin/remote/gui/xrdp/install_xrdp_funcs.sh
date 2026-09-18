@@ -55,7 +55,7 @@ function fix_startwm_for_xsession()
 
     local search_str='#!/usr/bin/bash -l'
 
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -138,7 +138,7 @@ function set_xsession()
 
     local cur_user="${2}";
 
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

@@ -30,7 +30,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 
@@ -251,7 +251,7 @@ function intall_pipewire-module-xrdp()
     if [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
         # ls -Z /usr/lib64/pipewire-0.3/libpipewire-module-xrdp.so
-        local cur_context=$(ls -Z "${module_path}" 2>/dev/null);
+        local cur_context=$(ls -Z "${module_path}" 2>/dev/null || true);
 
         # system_u:object_r:lib_t:s0 /usr/lib64/pipewire-0.3/libpipewire-module-xrdp.so
         if echo "${cur_context}" | grep -qE "lib_t|textrel_shlib_t"; then

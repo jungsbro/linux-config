@@ -101,7 +101,7 @@ function set_env()
     local cur_user="${3}";
     local home_dir=$(eval echo ~"${cur_user}");
 
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -316,7 +316,7 @@ function allow_sv-port_for_firewall()
     # '3389/tcp'
     local port_protocol="${port}/${protocol}";
 
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -368,7 +368,7 @@ function allow_sv-port_for_selinux()
     # "2222"
     local port="${3}";
 
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

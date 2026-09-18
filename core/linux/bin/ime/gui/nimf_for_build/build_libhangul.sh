@@ -122,7 +122,7 @@ function build_libhangul_for_dnf()
     fi
 
     # 방법1) /etc/ld.so.conf.d/libhangul.conf
-    # RST=$(cat "${ENV_CONF_PATH}" 2>/dev/null);
+    # RST=$(cat "${ENV_CONF_PATH}" 2>/dev/null || true);
     # if [[ "${RST}" != *"${local_lib64_dir}"* ]]; then
     #     echo "${local_lib64_dir}" >> "${ENV_CONF_PATH}";
     #     ldconfig;

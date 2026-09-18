@@ -19,7 +19,7 @@ function set_xprofile_enable()
 {
     # --------------------------------------------------------------------------
     # only working for fedora and rhel
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
 
     if [[ "${cur_release}" != *"Fedora"* ]] && [[ "${cur_release}" != *"CentOS"* ]] && [[ "${cur_release}" != *"rocky"* ]]; then
         return 0

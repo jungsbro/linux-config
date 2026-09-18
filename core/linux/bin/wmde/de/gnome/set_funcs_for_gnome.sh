@@ -38,7 +38,7 @@ function set_attr_value()
 
     # --------------------------------------------------------------------------
     # gsettings get "org.cinnamon.desktop.keybindings.wm" "switch-to-workspace-down"
-    local old_val=$(gsettings get "${attr_path}" "${attr_name}" 2>/dev/null);
+    local old_val=$(gsettings get "${attr_path}" "${attr_name}" 2>/dev/null || true);
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -157,7 +157,7 @@ function check_app-name_in_custom-list()
         # "org.cinnamon.desktop.keybindings.custom-keybinding:/org/cinnamon/desktop/keybindings/custom-keybindings/custom1/"
         full_path=$(cut -d ',' -f 2 <<< "${result}");
 
-        old_app_name=$(gsettings get "${full_path}" "name" 2>/dev/null);
+        old_app_name=$(gsettings get "${full_path}" "name" 2>/dev/null || true);
         # echo "${old_app_name}";
 
         if [[ "${old_app_name}" == *"${app_name}"* ]]; then
@@ -204,7 +204,7 @@ function set_custom_binding()
     # gsettings get "org.mate.settings-daemon.plugins.media-keys" "custom-list"
     # gsettings get "org.cinnamon.desktop.keybindings" "custom-list"
     # ['custom0']
-    local old_custom_list=$(gsettings get "${path1}" "custom-list" 2>/dev/null);
+    local old_custom_list=$(gsettings get "${path1}" "custom-list" 2>/dev/null || true);
     # echo "${old_custom_list}";
 
     if [[ -z "${old_custom_list}" ]]; then

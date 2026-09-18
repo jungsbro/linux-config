@@ -21,7 +21,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 
@@ -413,6 +413,7 @@ function config_de()
     source ${CORE_BIN_DIR}/wmde/dm/install_dm_funcs.sh && set_xprofile_enable;
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
     if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
         # ----------------------------------------------------------------------
         su - "${CUR_USER}" -c "dbus-run-session bash ${CORE_BIN_DIR}/wmde/de/lxde/set_config_for_lxde.sh ${CUR_USER}";
@@ -456,6 +457,7 @@ function execute_main()
 {
     # --------------------------------------------------------------------------
     # 1) install packages for de
+
     install_tools;
 
     if [[ "${CUR_SESSION}" == *"lxsession"* ]]; then
@@ -483,6 +485,7 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     # 2) de-settings
+    
     config_de;
     # --------------------------------------------------------------------------
 }

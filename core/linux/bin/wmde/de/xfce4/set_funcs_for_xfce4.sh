@@ -43,7 +43,7 @@ function get_sel_plugin()
     # --------------------------------------------------------------------------
     # /plugins/plugin-8                      clock
 
-    local sel_prop=$(xfconf-query -c "${ch}" -l -v | grep -i "${kwd}" 2>/dev/null);
+    local sel_prop=$(xfconf-query -c "${ch}" -l -v | grep -i "${kwd}" 2>/dev/null || true);
     if [[ -z "${sel_prop}" ]]; then
         return 0
     fi
@@ -55,7 +55,7 @@ function get_sel_plugin()
     # 1    2      3
     # /plugins/plugin-8    >>   plugin-8
 
-    local sel_plugin=$(echo "${sel_prop}" | awk '{print $1}' | cut -d '/' -f 3 2>/dev/null);
+    local sel_plugin=$(echo "${sel_prop}" | awk '{print $1}' | cut -d '/' -f 3 2>/dev/null  || true);
     if [[ -z "${sel_plugin}" ]]; then
         return 0
     fi

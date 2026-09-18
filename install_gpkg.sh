@@ -44,7 +44,7 @@ done
 # ------------------------------------------------------------------------------
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 
@@ -187,7 +187,6 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # paint ---------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/gui/gimp/install_gimp.sh "${CUR_USER}";
     if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
         bash ${CORE_BIN_DIR}/graphics/gui/install_kolourpaint.sh;
     else
@@ -195,6 +194,11 @@ function execute_main()
     fi
     # bash ${CORE_BIN_DIR}/graphics/gui/install_inkscape.sh;
     # bash ${CORE_BIN_DIR}/graphics/gui/install_pinta.sh "${CUR_USER}";
+
+
+    # bash ${CORE_BIN_DIR}/graphics/gui/gimp/install_gimp.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/graphics/gui/install_photocrea.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/install_photonstudio.sh;
     # --------------------------------------------------------------------------
 
     # xnview -------------------------------------------------------------------

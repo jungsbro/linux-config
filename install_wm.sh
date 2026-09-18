@@ -50,7 +50,7 @@ fi
 # ------------------------------------------------------------------------------
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 

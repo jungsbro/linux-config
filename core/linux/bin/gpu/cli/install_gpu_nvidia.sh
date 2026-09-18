@@ -21,7 +21,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 CUR_USER="${1:? 'Username not provided.'}";
 HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 
@@ -39,7 +39,7 @@ VENDOR=$(set_vendor);
 function set_nvidia-current_dir()
 {
     # 1) symlink /usr/lib/nvidia-current ---------------------------------------
-    local lib_src_path=$(find /usr -name "libnvidia-ml.so.1" | tail -n 1 2>/dev/null)
+    local lib_src_path=$(find /usr -name "libnvidia-ml.so.1" | tail -n 1 2>/dev/null || true)
 
     if [[ -f "${lib_src_path}" ]]; then
         local lib_src_dir=$(dirname "${lib_src_path}")
@@ -67,7 +67,7 @@ function set_nvidia-current_dir()
     fi
     local vk_icd_dst_path="${vk_icd_dst_dir}/nvidia_icd.json"
 
-    local vk_icd_src_path=$(find /usr/share/vulkan -name "nvidia_icd*.json" | tail -n 1 2>/dev/null)
+    local vk_icd_src_path=$(find /usr/share/vulkan -name "nvidia_icd*.json" | tail -n 1 2>/dev/null || true)
 
     if [[ -f "${vk_icd_src_path}" ]] && [[ ! -f "${vk_icd_dst_path}" ]]; then
         su - "${CUR_USER}" -c "cp \"${vk_icd_src_path}\" \"${vk_icd_dst_path}\"";

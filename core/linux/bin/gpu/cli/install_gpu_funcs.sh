@@ -20,7 +20,7 @@ _INSTALL_GPU_FUNCS_LOADED=1
 # Funcs ========================================================================
 function set_vendor()
 {
-    local cur_release=$(cat /etc/*-release 2>/dev/null);
+    local cur_release=$(cat /etc/*-release 2>/dev/null || true);
 
     # --------------------------------------------------------------------------
     # pciutils is needed for lspci

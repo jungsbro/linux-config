@@ -23,7 +23,7 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # CUR_USER="${1:? 'Username not provided.'}";
 # HOME_DIR=$(eval echo ~"${CUR_USER}");
 
-CUR_RELEASE=$(cat /etc/*-release 2>/dev/null);
+CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
 CUR_ARCH=$(uname -m);
 
@@ -114,10 +114,10 @@ function create_db()
 
             cur_path="${cur_dir}/${cur_fname}";
 
-            cur_name=$(crudini --get "${cur_path}" "Desktop Entry" "Name" 2>/dev/null);
-            cur_exec=$(crudini --get "${cur_path}" "Desktop Entry" "Exec" 2>/dev/null);
-            cur_icon=$(crudini --get "${cur_path}" "Desktop Entry" "Icon" 2>/dev/null);
-            cur_cat=$(crudini --get "${cur_path}" "Desktop Entry" "Categories" 2>/dev/null);
+            cur_name=$(crudini --get "${cur_path}" "Desktop Entry" "Name" 2>/dev/null || true);
+            cur_exec=$(crudini --get "${cur_path}" "Desktop Entry" "Exec" 2>/dev/null || true);
+            cur_icon=$(crudini --get "${cur_path}" "Desktop Entry" "Icon" 2>/dev/null || true);
+            cur_cat=$(crudini --get "${cur_path}" "Desktop Entry" "Categories" 2>/dev/null || true);
 
             if [[ -z $(echo "${cur_cat}" | grep "${CAT_KWD}") ]]; then
                 continue
