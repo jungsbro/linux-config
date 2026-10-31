@@ -37,8 +37,11 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /usr/local/bin
 LOCAL_BIN_DIR="/usr/local/bin"
 
-# https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
-APP_VER="r41";
+
+APP_REPO_NAME="gokcehan/lf";
+
+# https://api.github.com/repos/gokcehan/lf/releases/latest
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -104,20 +107,34 @@ function install_lf_for_portable()
     fi
 
     # 1) portable_url ----------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-arm64.tar.gz
-        local portable_fname="lf-linux-arm64.tar.gz";
+    # curl -s https://api.github.com/repos/gokcehan/lf/releases/latest | jq -r '.assets[].browser_download_url'
+
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        # https://github.com/gokcehan/lf/releases/download/r42/lf-linux-amd64.tar.gz
+        local cur_arch="linux-amd64";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-386.tar.gz
-        local portable_fname="lf-linux-386.tar.gz";
+        # https://github.com/gokcehan/lf/releases/download/r42/lf-linux-386.tar.gz
+        local cur_arch="linux-386";
 
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        # https://github.com/gokcehan/lf/releases/download/r42/lf-linux-arm64.tar.gz
+        local cur_arch="linux-arm64";
     else
-        # https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
-        local portable_fname="lf-linux-amd64.tar.gz";
+        return 0
     fi
 
-    local portable_url="https://github.com/gokcehan/lf/releases/download/${APP_VER}/${portable_fname}"
+    # https://github.com/gokcehan/lf/releases/download/r42/lf-linux-amd64.tar.gz
+    # curl -s "https://api.github.com/repos/gokcehan/lf/releases/latest" | jq -r '.assets[] | select(.name | test("linux-amd64")) | .browser_download_url'
+    local portable_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${portable_url}"
+    if [[ -z "${portable_url}" ]]; then
+        return 0
+    fi
+
+    # lf-linux-amd64.tar.gz
+    local portable_fname=$(basename ${portable_url});
+    # echo "${portable_fname}"
     # --------------------------------------------------------------------------
 
     # 2) ZIP_PATH --------------------------------------------------------------

@@ -2,23 +2,16 @@
 set -e
 
 # usage ========================================================================
-# ------------------------------------------------------------------------------
-# bash ${CORE_BIN_DIR}/graphics/gui/install_photonstudio.sh;
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
-# 실행
-# flatpak run com.tenzen.photon
-# ------------------------------------------------------------------------------
+# bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_shotcut.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/video_edit
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -36,59 +29,35 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="photonstudio"
+APP_NAME="shotcut"
 
-APP_FULLNAME="com.tenzen.photon"
-
-APP_DIR="/mnt/j4105-omv/program_backup/2D_program/protonStudio"
-APP_FNAME="Photon-Studio-0.1.9-linux-x64.flatpak";
-APP_PATH="${APP_DIR}/${APP_FNAME}";
-
-APP_CAT="Graphics;GNOME;GTK;"
+APP_FULLNAME="org.shotcut.Shotcut";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # Funcs ========================================================================
-function install_photonstudio_for_flatpak()
-{
-    if [[ ! -f "${APP_PATH}" ]]; then
-        return
-    fi
-
-    # --------------------------------------------------------------------------
-    # install flatpak
-    bash ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak.sh || true
-    # --------------------------------------------------------------------------
-
-    # --------------------------------------------------------------------------
-    # install photonstudio
-    flatpak install -y "${APP_PATH}";
-    # --------------------------------------------------------------------------
-}
-
-
 function execute_main()
 {
-    # for x86_64, i686, aarch64
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        install_photonstudio_for_flatpak;
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_photonstudio_for_flatpak;
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        install_photonstudio_for_flatpak;
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_photonstudio_for_flatpak;
+        local app_fullname="${APP_FULLNAME}";
+        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }
@@ -102,4 +71,3 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
-

@@ -2,24 +2,24 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/install_tumbler.sh
+# bash ${CORE_BIN_DIR}/graphics/gui/painter/install_pinta.sh "${CUR_USER}";
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/painter
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1:? 'Username not provided.'}";
-# HOME_DIR=$(eval echo ~"${CUR_USER}");
+CUR_USER="${1:? 'Username not provided.'}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
@@ -29,7 +29,9 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="tumbler"
+APP_NAME="pinta"
+
+APP_FULLNAME="com.github.PintaProject.Pinta";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -39,10 +41,28 @@ function execute_main()
 {
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
+        local app_name="${APP_NAME}"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"debian.org"* ]]; then
+        # ----------------------------------------------------------------------
+        # 방법1)
+        # distrobox를 사용한다.
+        # echo "pinta is not avialable on Debian"
+
+        # 방법2)
+        local app_name="${APP_NAME}";
+        local user_type="multi";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
+
+        # 방법3)
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
@@ -54,7 +74,19 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # 방법1)
+        # distrobox를 사용한다.
+        # echo "pinta is not avialable on RHEL"
+
+        # 방법2)
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
+
+        # 방법3)
+        # local app_fullname="${APP_FULLNAME}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
         # ----------------------------------------------------------------------
     fi
 }

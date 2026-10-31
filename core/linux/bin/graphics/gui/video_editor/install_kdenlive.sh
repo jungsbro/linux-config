@@ -2,16 +2,16 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/install_kolourpaint.sh;
+# bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_kdenlive.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/video_edit
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -29,9 +29,7 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="kolourpaint"
-
-APP_FULLNAME="org.kde.kolourpaint";
+APP_NAME="kdenlive"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -51,18 +49,13 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
+        # 설치하면 애러가 난다.
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1)
-        # [[ -n $(dnf list --installed | grep -i ^epel-release) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        # local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-
-        # 방법2)
-        local app_fullname="${APP_FULLNAME}";
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 }

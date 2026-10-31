@@ -749,7 +749,7 @@ function install_gimp()
 
     # config (sudo로 실행하면 password를 묻지 않는다.) : photogimp
     distrobox enter "${ctr_name}" -- sudo bash -c "\
-        source ${core_bin_dir}/graphics/gui/gimp/install_gimp_funcs.sh && \
+        source ${core_bin_dir}/graphics/gui/photo_editor/gimp/install_gimp_funcs.sh && \
         install_photogimp ${cur_user}"
 
     # config (with nvidia)

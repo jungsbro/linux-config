@@ -2,16 +2,25 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/install_inkscape.sh;
+# ------------------------------------------------------------------------------
+# bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh;
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# photopea 비공식 flatpak
+
+# 실행
+# flatpak run com.github.vikdevelop.photopea_app
+# ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/photo_editor
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -29,28 +38,44 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="inkscape";
+APP_NAME="photocrea"
+
+APP_FULLNAME="com.github.vikdevelop.photopea_app"
+
+APP_CAT="Graphics;GNOME;GTK;"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
-# Main =========================================================================
+# Funcs ========================================================================
+function install_photocrea_for_flatpak()
+{
+    local app_fullname="${APP_FULLNAME}";
+    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+}
+
+
 function execute_main()
 {
+    # for x86_64, i686, aarch64
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
+        install_photocrea_for_flatpak;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        install_photocrea_for_flatpak;
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        # appstream
-        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        install_photocrea_for_flatpak;
+        # ----------------------------------------------------------------------
+
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        install_photocrea_for_flatpak;
         # ----------------------------------------------------------------------
     fi
 }
@@ -64,3 +89,4 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     source ${CORE_BIN_DIR}/pkgmgmt/install_pkgmgmt_funcs.sh && show_msg "";
 fi
 # ==============================================================================
+

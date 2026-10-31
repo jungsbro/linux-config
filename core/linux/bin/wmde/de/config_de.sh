@@ -219,7 +219,7 @@ function install_pkgs_for_xfce4()
     bash ${CORE_BIN_DIR}/archive/gui/install_thunar-archive-plugin.sh;
     bash ${CORE_BIN_DIR}/mount/gui/install_thunar-volman.sh;
     # 무거움
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_tumbler.sh
+    # bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_tumbler.sh
 
     # 하드웨어 및 전원관리
     bash ${CORE_BIN_DIR}/audio/gui/install_xfce4-pulseaudio-plugin.sh;
@@ -485,7 +485,7 @@ function execute_main()
 
     # --------------------------------------------------------------------------
     # 2) de-settings
-    
+
     config_de;
     # --------------------------------------------------------------------------
 }

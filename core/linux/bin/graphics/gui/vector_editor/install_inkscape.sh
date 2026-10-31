@@ -2,24 +2,24 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/install_feh.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/graphics/gui/vector_editor/install_inkscape.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/vector_editor
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER="${1:? 'Username not provided.'}";
-HOME_DIR=$(eval echo ~"${CUR_USER}");
+# CUR_USER="${1:? 'Username not provided.'}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
@@ -29,13 +29,12 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="feh"
-APP_CAT="System;Utility;"
+APP_NAME="inkscape";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
-# Funcs ========================================================================
+# Main =========================================================================
 function execute_main()
 {
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
@@ -48,22 +47,10 @@ function execute_main()
         local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
+        # appstream
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
-        # ----------------------------------------------------------------------
-
-    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-        # ----------------------------------------------------------------------
-        # 방법1)
-        # distrobox를 사용한다.
-        # echo "feh is not avialable on RHEL"
-
-        # 방법2)
-        local app_name="${APP_NAME}";
-        local user_type="single";
-        local cur_user="${CUR_USER}";
-        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 }

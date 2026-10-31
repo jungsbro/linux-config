@@ -2,13 +2,13 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/edit/install_kdenlive.sh;
+# bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_feh.sh "${CUR_USER}";
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui/edit
+# /core/linux/bin/graphics/gui/viewer
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 ROOT_DIR="${CUR_DIR}/../../../../../.."
@@ -18,8 +18,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1:? 'Username not provided.'}";
-# HOME_DIR=$(eval echo ~"${CUR_USER}");
+CUR_USER="${1:? 'Username not provided.'}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
@@ -29,7 +29,8 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="kdenlive"
+APP_NAME="feh"
+APP_CAT="System;Utility;"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -49,13 +50,20 @@ function execute_main()
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        # 설치하면 애러가 난다.
         local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # 방법1)
+        # distrobox를 사용한다.
+        # echo "feh is not avialable on RHEL"
+
+        # 방법2)
+        local app_name="${APP_NAME}";
+        local user_type="single";
+        local cur_user="${CUR_USER}";
+        source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 }

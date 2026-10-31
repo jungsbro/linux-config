@@ -5,7 +5,7 @@ set -e
 _INSTALL_GIMP_FUNCS_LOADED=1
 
 # usage ========================================================================
-# source ${CORE_BIN_DIR}/graphics/gui/gimp/install_gimp_funcs.sh && install_photogimp "${CUR_USER}";
+# source ${CORE_BIN_DIR}/graphics/gui/photo_editor/gimp/install_gimp_funcs.sh && install_photogimp "${CUR_USER}";
 # ==============================================================================
 
 

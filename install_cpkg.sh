@@ -119,10 +119,10 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # file-manager -------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/filemgr/tui/install_mc.sh;
+    bash ${CORE_BIN_DIR}/filemgr/tui/install_mc.sh;
     # bash ${CORE_BIN_DIR}/filemgr/tui/nnn/install_nnn.sh "${CUR_USER}";
     bash ${CORE_BIN_DIR}/filemgr/tui/install_ranger.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/filemgr/tui/yazi/install_yazi.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

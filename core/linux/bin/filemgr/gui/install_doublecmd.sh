@@ -38,9 +38,11 @@ TMP_DIR="/tmp/${APP_NAME}";
 OPT_DIR="/opt"
 APP_DIR="${OPT_DIR}/${APP_NAME}";
 
-# https://sourceforge.net/p/doublecmd/wiki/Download/
-# https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.x86_64.tar.xz
-APP_VER="1.2.8";
+
+APP_REPO_NAME="doublecmd/doublecmd";
+# https://api.github.com/repos/doublecmd/doublecmd/releases/latest
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
+
 
 APP_ICON_URL="https://doublecmd.sourceforge.io/site/images/logo.png";
 APP_ICON_PATH="${HOME_DIR}/.local/share/icons/${APP_NAME}.png";
@@ -57,14 +59,30 @@ APP_HIDDEN="false"
 function install_doublecmd_for_portable()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/doublecmd/doublecmd/releases/latest | jq -r '.assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="x86_64";
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
+            # local cur_arch="qt.x86_64.tar.xz";
+            local cur_arch="qt6.x86_64.tar.xz";
+        else
+            local cur_arch="gtk2.x86_64.tar.xz";
+        fi
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        local cur_arch="i386";
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
+            local cur_arch="qt.i386.tar.xz";
+        else
+            local cur_arch="gtk2.i386.tar.xz";
+        fi
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="aarch64";
+        if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
+            # local cur_arch="qt.aarch64.tar.xz";
+            local cur_arch="qt6.aarch64.tar.xz";
+        else
+            local cur_arch="gtk2.aarch64.tar.xz";
+        fi
 
     else
         return 0
@@ -72,19 +90,28 @@ function install_doublecmd_for_portable()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # https://sourceforge.net/p/doublecmd/wiki/Download/
-    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8
-    local portable_root_url="https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v${APP_VER}";
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.gtk2.aarch64.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.gtk2.i386.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.gtk2.x86_64.tar.xz
 
-    # doublecmd-1.2.8.gtk2.x86_64.tar.xz
-    # doublecmd-1.2.8.gtk2.i386.tar.xz
-    # doublecmd-1.2.8.gtk2.aarch64.tar.xz
-    local portable_fname="doublecmd-${APP_VER}.gtk2.${cur_arch}.tar.xz";
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.qt.aarch64.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.qt.i386.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.qt.x86_64.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.qt6.aarch64.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.qt6.x86_64.tar.xz
 
-    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.x86_64.tar.xz
-    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.i386.tar.xz
-    # https://sourceforge.net/projects/doublecmd/files/Double%20Commander/v1.2.8/doublecmd-1.2.8.gtk2.aarch64.tar.xz
-    local portable_url="${portable_root_url}/${portable_fname}"
+    # curl -s "https://api.github.com/repos/doublecmd/doublecmd/releases/latest" | jq -r '.assets[] | select(.name | test("gtk2.x86_64.tar.xz")) | .browser_download_url'
+    local portable_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${portable_url}"
+    if [[ -z "${portable_url}" ]]; then
+        return 0
+    fi
+
+    # doublecmd-1.2.9.gtk2.x86_64.tar.xz
+    # doublecmd-1.2.9.gtk2.i386.tar.xz
+    # doublecmd-1.2.9.gtk2.aarch64.tar.xz
+    local portable_fname=$(basename ${portable_url});
+    # echo "${portable_fname}"
 
     # /opt/doublecmd/doublecmd
     local portable_path="${APP_DIR}/${APP_NAME}"

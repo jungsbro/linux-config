@@ -2,24 +2,24 @@
 set -e
 
 # usage ========================================================================
-# bash ${CORE_BIN_DIR}/graphics/gui/install_xnviewmp.sh "${CUR_USER}";
+# bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_ristretto.sh;
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/viewer
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-CUR_USER="${1:? 'Username not provided.'}";
-HOME_DIR=$(eval echo ~"${CUR_USER}");
+# CUR_USER="${1:? 'Username not provided.'}";
+# HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
@@ -29,9 +29,9 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="xnviewmp"
+APP_NAME="ristretto"
 
-APP_FULLNAME="com.xnview.XnViewMP";
+APP_CAT="Graphics;GTK;"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -41,28 +41,22 @@ function execute_main()
 {
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
-        local app_name="${APP_NAME}"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
+        local app_name="${APP_NAME}"; pacman -Si "${app_name}" &>/dev/null && pacman -S --noconfirm --needed "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ "${CUR_ARCH}" == *"aarch64"* ]] || [[ "${CUR_ARCH}" == *"i686"* ]]; then
-            return 0
-        fi
-
-        local app_fullname="${APP_FULLNAME}";
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
-    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+    elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        if [[ "${CUR_ARCH}" == *"aarch64"* ]] || [[ "${CUR_ARCH}" == *"i686"* ]]; then
-            return 0
-        fi
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
+        # ----------------------------------------------------------------------
 
-        local app_fullname="${APP_FULLNAME}";
-        source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+    elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
+        # ----------------------------------------------------------------------
+        local app_name="${APP_NAME}"; dnf info "${app_name}" &>/dev/null && dnf install -y "${app_name}" || true
         # ----------------------------------------------------------------------
     fi
 }

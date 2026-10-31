@@ -31,7 +31,13 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 FONT_NAME="HackNerdFont";
 
-FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip";
+APP_REPO_NAME="ryanoasis/nerd-fonts";
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
+
+FNAME="Hack.zip";
+# https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip";
+# curl -s "https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest" | jq -r ".assets[] | select(.name | test(\"Hack.zip\")) | .browser_download_url"
+FONT_URL=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${FNAME}\")) | .browser_download_url")
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

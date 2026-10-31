@@ -3,24 +3,22 @@ set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# bash ${CORE_BIN_DIR}/graphics/gui/install_photocrea.sh;
+# bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photonstudio.sh;
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# photopea 비공식 flatpak
-
 # 실행
-# flatpak run com.github.vikdevelop.photopea_app
+# flatpak run com.tenzen.photon
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 # ENV ==========================================================================
 # ------------------------------------------------------------------------------
-# /core/linux/bin/graphics/gui
+# /core/linux/bin/graphics/gui/photo_editor
 CUR_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-ROOT_DIR="${CUR_DIR}/../../../../.."
+ROOT_DIR="${CUR_DIR}/../../../../../.."
 
 # core/linux/bin
 CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
@@ -38,9 +36,13 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-APP_NAME="photocrea"
+APP_NAME="photonstudio"
 
-APP_FULLNAME="com.github.vikdevelop.photopea_app"
+APP_FULLNAME="com.tenzen.photon"
+
+APP_DIR="/mnt/j4105-omv/program_backup/2D_program/protonStudio"
+APP_FNAME="Photon-Studio-0.1.9-linux-x64.flatpak";
+APP_PATH="${APP_DIR}/${APP_FNAME}";
 
 APP_CAT="Graphics;GNOME;GTK;"
 # ------------------------------------------------------------------------------
@@ -48,10 +50,21 @@ APP_CAT="Graphics;GNOME;GTK;"
 
 
 # Funcs ========================================================================
-function install_photocrea_for_flatpak()
+function install_photonstudio_for_flatpak()
 {
-    local app_fullname="${APP_FULLNAME}";
-    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+    if [[ ! -f "${APP_PATH}" ]]; then
+        return
+    fi
+
+    # --------------------------------------------------------------------------
+    # install flatpak
+    bash ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak.sh || true
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # install photonstudio
+    flatpak install -y "${APP_PATH}";
+    # --------------------------------------------------------------------------
 }
 
 
@@ -60,22 +73,22 @@ function execute_main()
     # for x86_64, i686, aarch64
     if [[ "${CUR_RELEASE}" == *"archlinux"* ]]; then
         # ----------------------------------------------------------------------
-        install_photocrea_for_flatpak;
+        install_photonstudio_for_flatpak;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
-        install_photocrea_for_flatpak;
+        install_photonstudio_for_flatpak;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]]; then
         # ----------------------------------------------------------------------
-        install_photocrea_for_flatpak;
+        install_photonstudio_for_flatpak;
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        install_photocrea_for_flatpak;
+        install_photonstudio_for_flatpak;
         # ----------------------------------------------------------------------
     fi
 }

@@ -188,21 +188,21 @@ function execute_main()
 
     # paint ---------------------------------------------------------------------
     if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
-        bash ${CORE_BIN_DIR}/graphics/gui/install_kolourpaint.sh;
+        bash ${CORE_BIN_DIR}/graphics/gui/painter/install_kolourpaint.sh;
     else
-        bash ${CORE_BIN_DIR}/graphics/gui/install_drawing.sh "${CUR_USER}";
+        bash ${CORE_BIN_DIR}/graphics/gui/painter/install_drawing.sh "${CUR_USER}";
     fi
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_inkscape.sh;
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_pinta.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/vector_editor/install_inkscape.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/painter/install_pinta.sh "${CUR_USER}";
 
 
-    # bash ${CORE_BIN_DIR}/graphics/gui/gimp/install_gimp.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/graphics/gui/install_photocrea.sh;
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_photonstudio.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/gimp/install_gimp.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photonstudio.sh;
     # --------------------------------------------------------------------------
 
     # xnview -------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_xnviewmp.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_xnviewmp.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # multimedia ---------------------------------------------------------------
@@ -214,8 +214,8 @@ function execute_main()
     # --------------------------------------------------------------------------
 
     # edit ---------------------------------------------------------------------
-    # bash ${CORE_BIN_DIR}/graphics/gui/edit/install_kdenlive.sh;
-    # bash ${CORE_BIN_DIR}/graphics/gui/edit/install_shotcut.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_kdenlive.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_shotcut.sh;
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------

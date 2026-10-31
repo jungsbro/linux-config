@@ -353,10 +353,10 @@ function install_wallpaper()
 {
     # --------------------------------------------------------------------------
     # 방법1)
-    bash ${CORE_BIN_DIR}/graphics/gui/install_feh.sh "${CUR_USER}";
+    bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_feh.sh "${CUR_USER}";
 
     # 방법2)
-    # bash ${CORE_BIN_DIR}/graphics/gui/install_nitrogen.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/viewer/install_nitrogen.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 

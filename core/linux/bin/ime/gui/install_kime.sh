@@ -35,7 +35,11 @@ APP_CAT="Settings;System;"
 
 APP_HIDDEN="false";
 
-APP_VER="v3.1.1"
+
+APP_REPO_NAME="Riey/kime";
+
+# https://api.github.com/repos/Riey/kime/releases/latest
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -149,9 +153,36 @@ function install_kime_for_debian()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # https://github.com/Riey/kime/releases/download/v3.1.1/kime_debian-buster_v3.1.1_amd64.deb
-    local tmp_url="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_debian-buster_${APP_VER}_amd64.deb"
-    local tmp_path="/tmp/kime.deb"
+    # curl -s https://api.github.com/repos/Riey/kime/releases/latest | jq -r '.assets[].browser_download_url'
+
+    if [[ "${CUR_RELEASE}" == *"bookworm"* ]]; then
+        # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_debian-bookworm.deb
+        local cur_arch="debian-bookworm.deb";
+
+    elif [[ "${CUR_RELEASE}" == *"trixie"* ]]; then
+        # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_debian-trixie.deb
+        local cur_arch="debian-trixie.deb";
+
+    else
+        return 0
+    fi
+
+    # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_debian-trixie.deb
+    # curl -s "https://api.github.com/repos/Riey/kime/releases/latest" | jq -r '.assets[] | select(.name | test("debian-trixie.deb")) | .browser_download_url'
+    local tmp_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${tmp_url}"
+    if [[ -z "${tmp_url}" ]]; then
+        return 0
+    fi
+
+    # kime-v3.2.0_amd64_debian-trixie.deb
+    local tmp_fname=$(basename ${tmp_url});
+    # echo "${tmp_fname}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local tmp_path="/tmp/${tmp_fname}";
+
     wget "${tmp_url}" -O "${tmp_path}";
     apt install -y "${tmp_path}";
     # --------------------------------------------------------------------------
@@ -182,9 +213,36 @@ function install_kime_for_ubuntu()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # https://github.com/Riey/kime/releases/download/v3.1.1/kime_ubuntu-22.04_v3.1.1_amd64.deb
-    local tmp_url="https://github.com/Riey/kime/releases/download/${APP_VER}/kime_ubuntu-22.04_${APP_VER}_amd64.deb"
-    local tmp_path="/tmp/kime.deb"
+    # curl -s https://api.github.com/repos/Riey/kime/releases/latest | jq -r '.assets[].browser_download_url'
+
+    if [[ "${CUR_RELEASE}" == *"22.04"* ]]; then
+        # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_ubuntu-22.04.deb
+        local cur_arch="ubuntu-22.04.deb";
+
+    elif [[ "${CUR_RELEASE}" == *"24.04"* ]]; then
+        # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_ubuntu-24.04.deb
+        local cur_arch="ubuntu-24.04.deb";
+
+    else
+        return 0
+    fi
+
+    # https://github.com/Riey/kime/releases/download/v3.2.0/kime-v3.2.0_amd64_ubuntu-24.04.deb
+    # curl -s "https://api.github.com/repos/Riey/kime/releases/latest" | jq -r '.assets[] | select(.name | test("ubuntu-24.04.deb")) | .browser_download_url'
+    local tmp_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${tmp_url}"
+    if [[ -z "${tmp_url}" ]]; then
+        return 0
+    fi
+
+    # kime-v3.2.0_amd64_debian-trixie.deb
+    local tmp_fname=$(basename ${tmp_url});
+    # echo "${tmp_fname}"
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    local tmp_path="/tmp/${tmp_fname}";
+
     wget "${tmp_url}" -O "${tmp_path}";
     apt install -y "${tmp_path}";
     # --------------------------------------------------------------------------

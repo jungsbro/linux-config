@@ -38,8 +38,11 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /usr/local/bin
 LOCAL_BIN_DIR="/usr/local/bin"
 
-# https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
-APP_VER="v26.1.22";
+
+APP_REPO_NAME="sxyazi/yazi";
+
+# https://api.github.com/repos/sxyazi/yazi/releases/latest
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -87,32 +90,40 @@ function install_deps_for_yazi()
 function install_yazi_for_deb()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest | jq -r '.assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="x86_64";
+        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
+        local cur_arch="x86_64-unknown-linux-gnu.deb";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        local cur_arch="i686";
+        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.deb
+        local cur_arch="i686-unknown-linux-gnu.deb";
         # yazi not found for i686_deb
         return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="aarch64";
-
+        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.deb
+        local cur_arch="aarch64-unknown-linux-gnu.deb";
     else
         return 0
     fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
+    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
+    # curl -s "https://api.github.com/repos/sxyazi/yazi/releases/latest" | jq -r '.assets[] | select(.name | test("x86_64-unknown-linux-gnu.deb")) | .browser_download_url'
+    local deb_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${deb_url}"
+    if [[ -z "${deb_url}" ]]; then
+        return 0
+    fi
+
     # yazi-x86_64-unknown-linux-gnu.deb
     # yazi-i686-unknown-linux-gnu.deb
     # yazi-aarch64-unknown-linux-gnu.deb
-    local deb_fname="yazi-${cur_arch}-unknown-linux-gnu.deb"
-
-    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.deb
-    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.deb
-    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.deb
-    local deb_url="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${deb_fname}"
+    local deb_fname=$(basename ${deb_url});
+    # echo "${deb_fname}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -127,43 +138,45 @@ function install_yazi_for_deb()
 
 function install_yazi_for_portable()
 {
+    # --------------------------------------------------------------------------
     if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
         return 0
     fi
-
+    # --------------------------------------------------------------------------
 
     # 1) portable_url ----------------------------------------------------------
-    if [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-musl.zip
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.zip
+    # curl -s https://api.github.com/repos/sxyazi/yazi/releases/latest | jq -r '.assets[].browser_download_url'
 
-        if [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-            local portable_name="yazi-aarch64-unknown-linux-musl";
-
-        else
-            local portable_name="yazi-aarch64-unknown-linux-gnu";
-        fi
+    if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
+        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
+        local portable_name="yazi-x86_64-unknown-linux-gnu";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-i686-unknown-linux-gnu.zip
-
         local portable_name="yazi-i686-unknown-linux-gnu";
 
+    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
+        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-aarch64-unknown-linux-gnu.zip
+        local portable_name="yazi-aarch64-unknown-linux-gnu";
     else
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-musl.zip
-        # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
+        return 0
+    fi
+    local cur_arch="${portable_name}.zip";
 
-        if [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
-            local portable_name="yazi-x86_64-unknown-linux-musl";
-        else
-            local portable_name="yazi-x86_64-unknown-linux-gnu";
-        fi
 
+    # https://github.com/sxyazi/yazi/releases/download/v26.1.22/yazi-x86_64-unknown-linux-gnu.zip
+    # curl -s "https://api.github.com/repos/sxyazi/yazi/releases/latest" | jq -r '.assets[] | select(.name | test("x86_64-unknown-linux-gnu.zip")) | .browser_download_url'
+    local portable_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${portable_url}"
+    if [[ -z "${portable_url}" ]]; then
+        return 0
     fi
 
-    local portable_fname="${portable_name}.zip"
-
-    local portable_url="https://github.com/sxyazi/yazi/releases/download/${APP_VER}/${portable_fname}"
+    # yazi-x86_64-unknown-linux-gnu.zip
+    # yazi-i686-unknown-linux-gnu.zip
+    # yazi-aarch64-unknown-linux-gnu.zip
+    local portable_fname=$(basename ${portable_url});
+    # echo "${portable_fname}"
     # --------------------------------------------------------------------------
 
     # 2) tmp_path --------------------------------------------------------------
