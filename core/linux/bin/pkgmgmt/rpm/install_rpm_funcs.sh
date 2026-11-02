@@ -28,9 +28,10 @@ function install_rpmpkg()
     # freetube
     local app_name="${1}";
 
-    if [[ -n $(dnf list --installed | grep -i ^"${app_name}") ]]; then
-        return 0
-    fi
+    # beacuse of photocraft
+    # if [[ -n $(dnf list --installed | grep -i ^"${app_name}") ]]; then
+    #     return 0
+    # fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

@@ -28,9 +28,10 @@ function install_debpkg()
     # freetube
     local app_name="${1}";
 
-    if [[ -n $(apt list --installed | grep -i ^"${app_name}") ]]; then
-        return 0
-    fi
+    # beacuse of photocraft
+    # if [[ -n $(apt list --installed | grep -i ^"${app_name}") ]]; then
+    #     return 0
+    # fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

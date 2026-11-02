@@ -56,8 +56,8 @@ function execute_main()
 
     # terminal -----------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/terminal/gui/install_alacritty.sh;
-    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh;
-    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 }
 # ==============================================================================

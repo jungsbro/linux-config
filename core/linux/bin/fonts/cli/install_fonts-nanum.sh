@@ -33,6 +33,8 @@ APP_NAME="fonts-nanum";
 
 FONT_NAME="nanum";
 FONT_URL="https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip";
+
+# curl -s https://api.github.com/repos/naver/nanumfont/releases/latest | jq -r '.'
 # ------------------------------------------------------------------------------
 # ==============================================================================
 

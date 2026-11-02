@@ -35,9 +35,7 @@ APP_CAT="Settings;System;"
 
 APP_HIDDEN="false";
 
-
 APP_REPO_NAME="Riey/kime";
-
 # https://api.github.com/repos/Riey/kime/releases/latest
 API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------

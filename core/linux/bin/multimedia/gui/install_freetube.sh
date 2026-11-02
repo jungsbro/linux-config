@@ -40,11 +40,9 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /opt/freetube
 APP_DIR="/opt/${APP_NAME}";
 
-APP_VER="0.25.3"
-
-# https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-amd64-portable.zip
-# https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-amd64.AppImage
-APP_ROOT_URL="https://github.com/FreeTubeApp/FreeTube/releases/download"
+APP_REPO_NAME="FreeTubeApp/FreeTube";
+# https://api.github.com/repos/FreeTubeApp/FreeTube/releases
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases";
 
 APP_ICON_URL="https://freetubeapp.io/images/iconWhite.png";
 APP_ICON_PATH="${HOME_DIR}/.local/share/icons/${APP_NAME}.png";
@@ -60,14 +58,18 @@ APP_HIDDEN="false";
 function install_freetube_for_deb()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/FreeTubeApp/FreeTube/releases | jq -r '.[0].assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="amd64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_amd64.deb
+        local cur_arch="amd64.deb";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="arm64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_arm64.deb
+        local cur_arch="arm64.deb";
 
     else
         return 0
@@ -75,13 +77,14 @@ function install_freetube_for_deb()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # freetube_0.25.3_beta_amd64.deb
-    # freetube_0.25.3_beta_arm64.deb
-    local deb_fname="${APP_NAME}_${APP_VER}_beta_${cur_arch}.deb";
-
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_amd64.deb
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube_0.25.3_beta_arm64.deb
-    local deb_url="${APP_ROOT_URL}/v${APP_VER}-beta/${deb_fname}"
+    # curl -s "https://api.github.com/repos/FreeTubeApp/FreeTube/releases" | jq -r '.[0].assets[] | select(.name | test("amd64.deb")) | .browser_download_url'
+    local deb_url=$(curl -s "${API_URL}" | jq -r ".[0].assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${deb_url}"
+    if [[ -z "${deb_url}" ]]; then
+        return 0
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -97,14 +100,18 @@ function install_freetube_for_deb()
 function install_freetube_for_rpm()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/FreeTubeApp/FreeTube/releases | jq -r '.[0].assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="amd64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.amd64.rpm
+        local cur_arch="amd64.rpm";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="arm64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.arm64.rpm
+        local cur_arch="arm64.rpm";
 
     else
         return 0
@@ -112,13 +119,14 @@ function install_freetube_for_rpm()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # freetube-0.25.3-beta.amd64.rpm
-    # freetube-0.25.3-beta.arm64.rpm
-    local rpm_fname="${APP_NAME}-${APP_VER}-beta.${cur_arch}.rpm";
-
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.amd64.rpm
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta.arm64.rpm
-    local rpm_url="${APP_ROOT_URL}/v${APP_VER}-beta/${rpm_fname}"
+    # curl -s "https://api.github.com/repos/FreeTubeApp/FreeTube/releases" | jq -r '.[0].assets[] | select(.name | test("amd64.rpm")) | .browser_download_url'
+    local rpm_url=$(curl -s "${API_URL}" | jq -r ".[0].assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${rpm_url}"
+    if [[ -z "${rpm_url}" ]]; then
+        return 0
+    fi
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -134,14 +142,18 @@ function install_freetube_for_rpm()
 function install_freetube_for_portable()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/FreeTubeApp/FreeTube/releases | jq -r '.[0].assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="x64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-x64-portable.zip
+        local cur_arch="linux-x64-portable.zip";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="arm64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-arm64-portable.zip
+        local cur_arch="linux-arm64-portable.zip";
 
     else
         return 0
@@ -149,14 +161,16 @@ function install_freetube_for_portable()
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    # freetube-0.25.3-beta-linux-x64-portable.zip
-    # freetube-0.25.3-beta-linux-arm64-portable.zip
-    local portable_fname="${APP_NAME}-${APP_VER}-beta-linux-${cur_arch}-portable.zip";
-
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-x64-portable.zip
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-linux-arm64-portable.zip
-    local portable_url="${APP_ROOT_URL}/v${APP_VER}-beta/${portable_fname}";
+    # curl -s "https://api.github.com/repos/FreeTubeApp/FreeTube/releases" | jq -r '.[0].assets[] | select(.name | test("linux-x64-portable.zip")) | .browser_download_url'
+    local portable_url=$(curl -s "${API_URL}" | jq -r ".[0].assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${portable_url}"
+    if [[ -z "${portable_url}" ]]; then
+        return 0
+    fi
 
+    # portable_path 설정시, 정확한 위치를 설정해야한다.
     # /opt/freetube/freetube
     local portable_path="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------
@@ -183,14 +197,18 @@ function install_freetube_for_portable()
 function install_freetube_for_appimage()
 {
     # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/FreeTubeApp/FreeTube/releases | jq -r '.[0].assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        local cur_arch="amd64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-amd64.AppImage
+        local cur_arch="amd64.AppImage";
 
     elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
         return 0
 
     elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        local cur_arch="arm64";
+        # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-arm64.AppImage
+        local cur_arch="arm64.AppImage";
 
     else
         return 0
@@ -200,7 +218,12 @@ function install_freetube_for_appimage()
     # --------------------------------------------------------------------------
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-amd64.AppImage
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.25.3-beta/freetube-0.25.3-beta-arm64.AppImage
-    local appimage_url="${APP_ROOT_URL}/v${APP_VER}-beta/${APP_NAME}-${APP_VER}-beta-${cur_arch}.AppImage";
+    # curl -s "https://api.github.com/repos/FreeTubeApp/FreeTube/releases" | jq -r '.[0].assets[] | select(.name | test("amd64.AppImage$")) | .browser_download_url'
+    local appimage_url=$(curl -s "${API_URL}" | jq -r ".[0].assets[] | select(.name | test(\"${cur_arch}\$\")) | .browser_download_url")
+    # echo "${appimage_url}"
+    if [[ -z "${appimage_url}" ]]; then
+        return 0
+    fi
 
     # freetube-0.25.3-amd64.AppImage
     # freetube-0.25.3-arm64.AppImage
@@ -261,7 +284,8 @@ function execute_main()
 
         # 방법2)
         # local app_fullname="${APP_FULLNAME}";
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
 
         # 방법3)
         # install_freetube_for_portable;

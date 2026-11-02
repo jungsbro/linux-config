@@ -3,7 +3,7 @@ set -e
 
 # usage ========================================================================
 # ------------------------------------------------------------------------------
-# bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh;
+# bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh "${CUR_USER}";
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
@@ -27,8 +27,8 @@ CORE_BIN_DIR="${ROOT_DIR}/core/linux/bin"
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
-# CUR_USER="${1:? 'Username not provided.'}";
-# HOME_DIR=$(eval echo ~"${CUR_USER}");
+CUR_USER="${1:? 'Username not provided.'}";
+HOME_DIR=$(eval echo ~"${CUR_USER}");
 
 CUR_RELEASE=$(cat /etc/*-release 2>/dev/null || true);
 
@@ -50,8 +50,11 @@ APP_CAT="Graphics;GNOME;GTK;"
 # Funcs ========================================================================
 function install_photocrea_for_flatpak()
 {
+    # --------------------------------------------------------------------------
     local app_fullname="${APP_FULLNAME}";
-    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
+    # --------------------------------------------------------------------------
 }
 
 

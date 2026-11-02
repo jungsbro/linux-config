@@ -30,67 +30,98 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 
 # ------------------------------------------------------------------------------
 APP_NAME="freefilesync"
+
+# /tmp/freefilesync
+TMP_DIR="/tmp/${APP_NAME}";
+
+# /opt/freefilesync
+OPT_DIR="/opt"
+APP_DIR="${OPT_DIR}/${APP_NAME}";
+
+
+APP_REPO_NAME="hkneptune/FreeFileSync";
+# https://api.github.com/repos/hkneptune/FreeFileSync/releases/latest
+API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
+
+
+APP_ICON_URL="https://freefilesync.org/images/FreeFileSync.png";
+APP_ICON_PATH="${HOME_DIR}/.local/share/icons/${APP_NAME}.png";
+
+APP_CAT="System;FileTools;Utility;Core;GTK;Development"
+
+APP_HIDDEN="false"
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
 
 
 # Funcs ========================================================================
-function install_freefilesync_for_portable()
+function install_freefilesync_for_portable()    # not working
 {
     # --------------------------------------------------------------------------
+    # 14.13에서 argument가 인식을 하지 않는다.
+    # nixpkgs를 사용하면 된다.
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
+    # curl -s https://api.github.com/repos/hkneptune/FreeFileSync/releases/latest | jq -r '.assets[].browser_download_url'
+
     if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then
-        echo "";
-
-    elif [[ "${CUR_ARCH}" == *"i686"* ]]; then
-        return 0
-
-    elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then
-        return 0
-
+        # https://github.com/hkneptune/FreeFileSync/releases/download/v14.13/FreeFileSync_14.13_Linux_x86_64.tar.gz
+        local cur_arch="Linux_x86_64.tar.gz";
     else
         return 0
     fi
     # --------------------------------------------------------------------------
 
+    # --------------------------------------------------------------------------
+    # https://github.com/hkneptune/FreeFileSync/releases/download/v14.13/FreeFileSync_14.13_Linux_x86_64.tar.gz
+    # curl -s "https://api.github.com/repos/hkneptune/FreeFileSync/releases/latest" | jq -r '.assets[] | select(.name | test("Linux_x86_64.tar.gz")) | .browser_download_url'
+    local ffs_url=$(curl -s "${API_URL}" | jq -r ".assets[] | select(.name | test(\"${cur_arch}\")) | .browser_download_url")
+    # echo "${ffs_url}"
+    if [[ -z "${ffs_url}" ]]; then
+        return 0
+    fi
+
+    # FreeFileSync_14.13_Linux_x86_64.tar.gz
+    local ffs_fname="$(basename "${ffs_url}")";
+
+    # FreeFileSync_14.13_Install.run
+    local ffs_run_fanme=$(echo "${ffs_fname}" | cut -d "_" -f 1)_$(echo "${ffs_fname}" | cut -d "_" -f 2)_Install.run;
+    # --------------------------------------------------------------------------
+
     # 1) Setting env-vars ------------------------------------------------------
     local app_name="FreeFileSync"
-
-    local ver="14.11"
 
     # /tmp/FreeFileSync
     local tmp_dir="/tmp/${app_name}";
 
     # /opt/FreeFileSync
-    local ffs_dir="/opt/${app_name}";
+    local opt_dir="/opt"
+    local app_dir="${opt_dir}/${app_name}";
 
-    # FreeFileSync_14.11_Linux_x86_64.tar.gz
-    local ffs_fname="${app_name}_${ver}_Linux_${CUR_ARCH}.tar.gz";
-
-    # https://freefilesync.org/download/FreeFileSync_14.11_Linux_x86_64.tar.gz
-    local ffs_url="https://freefilesync.org/download/${ffs_fname}";
-
-    # /tmp/FreeFileSync/FreeFileSync_14.11_Linux_x86_64.tar.gz
+    # /tmp/FreeFileSync/FreeFileSync_14.13_Linux_x86_64.tar.gz
     local tmp_path="${tmp_dir}/${ffs_fname}";
 
-    # /tmp/FreeFileSync/FreeFileSync_14.11_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
-    local exec_cmd="${tmp_dir}/${app_name}_${ver}_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview";
+    # 14.13에서 argument가 인식을 하지 않는다.
+    # /tmp/FreeFileSync/FreeFileSync_14.13_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    local exec_cmd="${tmp_dir}/${ffs_run_fanme} --accept-license --for-all-users true --create-shortcuts false --skip-overview";
     # --------------------------------------------------------------------------
 
     # 2) Downloading and Extracting --------------------------------------------
     # /opt/FreeFileSync
-    if [[ -d "${ffs_dir}" ]]; then
+    if [[ -d "${app_dir}" ]]; then
         return 0
     fi
 
-    # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
+    # /tmp/FreeFileSync/FreeFileSync_14.13_Linux_x86_64.tar.gz
     if [[ ! -f "${tmp_path}" ]]; then
         # ----------------------------------------------------------------------
         # /tmp/FreeFileSync
         mkdir -p "${tmp_dir}";
-        chmod 777 "${tmp_dir}";
+        chmod 755 "${tmp_dir}";
         # ----------------------------------------------------------------------
-        # /tmp/FreeFileSync/FreeFileSync_14.5_Linux_x86_64.tar.gz
+        # /tmp/FreeFileSync/FreeFileSync_14.13_Linux_x86_64.tar.gz
         wget "${ffs_url}" -O "${tmp_path}";
         # ----------------------------------------------------------------------
     fi
@@ -100,10 +131,10 @@ function install_freefilesync_for_portable()
     # --------------------------------------------------------------------------
 
     # 3) Installation ----------------------------------------------------------
-    # /tmp/FreeFileSync/FreeFileSync_14.5_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
+    # /tmp/FreeFileSync/FreeFileSync_14.13_Install.run --accept-license --for-all-users true --create-shortcuts false --skip-overview
     eval "${exec_cmd}";
 
-    #rm -rf "${tmp_dir}";
+    #rm -rf "${TMP_DIR}";
     # --------------------------------------------------------------------------
 }
 
@@ -131,30 +162,34 @@ function execute_main()
         [[ -n $(pacman -Q | grep -i ^yay) ]] || bash ${CORE_BIN_DIR}/pkgmgmt/update_repo.sh;
 
         # 방법1)
+        # install_freefilesync_for_portable
+
+        # 방법2)
         # local app_name="freefilesync-bin"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
 
-        # 방법2) build하는데 20분 걸린다
+        # 방법3) build하는데 20분 걸린다
         local app_name="${APP_NAME}"; yay -Si "${app_name}" &>/dev/null && su - "${CUR_USER}" -c "yay -S --noconfirm --needed ${app_name}";
-
-        # 방법3) distrobox를 사용한다.
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"debian.org"* ]] || [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
         # ----------------------------------------------------------------------
         # 방법1)
-        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
+        # install_freefilesync_for_portable
 
         # 방법2) nixpkg
         # local app_name="${APP_NAME}";
         # local user_type="multi";
         # local cur_user="${CUR_USER}";
         # source ${CORE_BIN_DIR}/pkgmgmt/nix/install_nix_funcs.sh && install_nixpkg "${app_name}" "${user_type}" "${cur_user}"
+
+        # 방법3)
+        local app_name="${APP_NAME}"; apt-cache show "${app_name}" &>/dev/null && apt install -y --no-reinstall "${app_name}" || true
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"Fedora"* ]] || [[ "${CUR_RELEASE}" == *"CentOS"* ]] || [[ "${CUR_RELEASE}" == *"rocky"* ]]; then
         # ----------------------------------------------------------------------
-        # 방법1) distrobox를 사용한다.
-        # echo "freefilesync is not avialable on RHEL and Fedora"
+        # 방법1)
+        # install_freefilesync_for_portable
 
         # 방법2)
         if [[ "${CUR_ARCH}" == *"i686"* ]]; then

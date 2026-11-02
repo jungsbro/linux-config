@@ -128,10 +128,10 @@ function execute_main()
     # bash ${CORE_BIN_DIR}/terminal/gui/install_alacritty.sh;
 
     # 방밥3)
-    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_foot.sh "${CUR_USER}";
 
     # 방밥4)
-    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh;
+    # bash ${CORE_BIN_DIR}/terminal/gui/install_wezterm.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # virtualbox ---------------------------------------------------------------
@@ -183,22 +183,43 @@ function execute_main()
 
     # office -------------------------------------------------------------------
     bash ${CORE_BIN_DIR}/office/gui/install_libreoffice.sh;
+    # bash ${CORE_BIN_DIR}/office/gui/install_wordcraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/office/gui/install_gridcraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/office/gui/install_deckcraft.sh "${CUR_USER}";
+
     bash ${CORE_BIN_DIR}/office/gui/install_qpdfview.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/office/gui/install_pdfcraft.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # paint ---------------------------------------------------------------------
     if [[ "${CUR_SESSION}" == *"lxqt"* ]] || [[ "${CUR_SESSION}" == *"plasma"* ]]; then
-        bash ${CORE_BIN_DIR}/graphics/gui/painter/install_kolourpaint.sh;
+        bash ${CORE_BIN_DIR}/graphics/gui/painter/install_kolourpaint.sh "${CUR_USER}";
     else
         bash ${CORE_BIN_DIR}/graphics/gui/painter/install_drawing.sh "${CUR_USER}";
     fi
-    # bash ${CORE_BIN_DIR}/graphics/gui/vector_editor/install_inkscape.sh;
     # bash ${CORE_BIN_DIR}/graphics/gui/painter/install_pinta.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
 
-
+    # photo editor -------------------------------------------------------------
     # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/gimp/install_gimp.sh "${CUR_USER}";
-    bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh;
+    bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photocrea.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_photonstudio.sh;
+
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_lightcraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_texturecraft.sh "${CUR_USER}";
+
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_designcraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/photo_editor/install_figcraft.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # vector-editor ------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/graphics/gui/vector_editor/install_vectorcraft.sh "${CUR_USER}";
+    # bash ${CORE_BIN_DIR}/graphics/gui/vector_editor/install_inkscape.sh;
+    # --------------------------------------------------------------------------
+
+    # cad-editor ---------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/graphics/gui/cad_editor/install_cadcraft.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # xnview -------------------------------------------------------------------
@@ -213,9 +234,14 @@ function execute_main()
     bash ${CORE_BIN_DIR}/multimedia/tui/ytsurf/install_ytsurf.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
-    # edit ---------------------------------------------------------------------
+    # motion-edit --------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/graphics/gui/motion_editor/install_effectcraft.sh "${CUR_USER}";
+    # --------------------------------------------------------------------------
+
+    # video-edit ---------------------------------------------------------------
+    # bash ${CORE_BIN_DIR}/graphics/gui/video_editor/install_filmcraft.sh "${CUR_USER}";
     # bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_kdenlive.sh;
-    # bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_shotcut.sh;
+    # bash ${CORE_BIN_DIR}/graphics/gui/video_edit/install_shotcut.sh "${CUR_USER}";
     # --------------------------------------------------------------------------
 
     # freefilesync -------------------------------------------------------------

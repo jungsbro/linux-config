@@ -59,7 +59,8 @@ function execute_main()
 
         # 방법3)
         # local app_fullname="${APP_FULLNAME}";
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
         # ----------------------------------------------------------------------
 
     elif [[ "${CUR_RELEASE}" == *"ubuntu"* ]]; then
@@ -86,7 +87,8 @@ function execute_main()
 
         # 방법3)
         # local app_fullname="${APP_FULLNAME}";
-        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+        # local cur_user="${CUR_USER}";
+        # source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
         # ----------------------------------------------------------------------
     fi
 }

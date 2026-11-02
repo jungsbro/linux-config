@@ -212,7 +212,8 @@ function install_gnome-extensions_for_fedora()
     # 방법2)
     # extension-gui-manager (community)
     local app_fullname="com.mattjakeman.ExtensionManager";
-    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -268,7 +269,8 @@ function install_gnome-extensions_for_rhel()
     # 방법2)
     # extension-gui-manager (community)
     local app_fullname="com.mattjakeman.ExtensionManager";
-    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+    local cur_user="${CUR_USER}";
+    source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------

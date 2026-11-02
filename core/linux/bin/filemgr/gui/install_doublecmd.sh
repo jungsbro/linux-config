@@ -107,12 +107,7 @@ function install_doublecmd_for_portable()
         return 0
     fi
 
-    # doublecmd-1.2.9.gtk2.x86_64.tar.xz
-    # doublecmd-1.2.9.gtk2.i386.tar.xz
-    # doublecmd-1.2.9.gtk2.aarch64.tar.xz
-    local portable_fname=$(basename ${portable_url});
-    # echo "${portable_fname}"
-
+    # portable_path 설정시, 정확한 위치를 설정해야한다.
     # /opt/doublecmd/doublecmd
     local portable_path="${APP_DIR}/${APP_NAME}"
     # --------------------------------------------------------------------------

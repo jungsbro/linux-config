@@ -32,7 +32,11 @@ CUR_SESSION=$(ls /usr/bin/*session 2>/dev/null || true);
 APP_NAME="fonts-d2coding";
 
 FONT_NAME="D2Coding";
-FONT_URL="https://github.com/naver/d2codingfont/releases/download/VER1.3.2/D2Coding-Ver1.3.2-20180524.zip";
+
+# curl -s https://api.github.com/repos/naver/d2codingfont/releases/latest | jq -r '.'
+APP_REPO_NAME="71328084";
+# https://api.github.com/repositories/71328084/releases/latest
+API_URL="https://api.github.com/repositories/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
 # ==============================================================================
 
@@ -42,7 +46,11 @@ function install_fonts-d2coding()
 {
     # --------------------------------------------------------------------------
     local font_name="${FONT_NAME}";
-    local font_url="${FONT_URL}";
+
+    # https://github.com/naver/d2-coding-font/releases/download/VER1.4.0/D2Coding-Ver1.4.0-20261003.zip
+    # curl -s https://api.github.com/repositories/71328084/releases/latest | jq -r '.assets[].browser_download_url'
+    local font_url=$(curl -s "${API_URL}" | jq -r '.assets[].browser_download_url')
+
 
     source ${CORE_BIN_DIR}/fonts/cli/install_fonts_funcs.sh && install_fonts_with_curl "${font_name}" "${font_url}";
     # --------------------------------------------------------------------------

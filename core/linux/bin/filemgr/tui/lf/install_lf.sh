@@ -37,9 +37,7 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /usr/local/bin
 LOCAL_BIN_DIR="/usr/local/bin"
 
-
 APP_REPO_NAME="gokcehan/lf";
-
 # https://api.github.com/repos/gokcehan/lf/releases/latest
 API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
@@ -102,9 +100,15 @@ function install_deps_for_lf()
 
 function install_lf_for_portable()
 {
+    # --------------------------------------------------------------------------
+    # tui용이라서 install_portablepkg를 사용하지 않았다.
+    # --------------------------------------------------------------------------
+
+    # --------------------------------------------------------------------------
     if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
         return 0
     fi
+    # --------------------------------------------------------------------------
 
     # 1) portable_url ----------------------------------------------------------
     # curl -s https://api.github.com/repos/gokcehan/lf/releases/latest | jq -r '.assets[].browser_download_url'

@@ -171,9 +171,9 @@ Hidden=${app_hidden}";
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
-    if [[ -f "${desktop_path}" ]]; then
-        return 0
-    fi
+    # if [[ -f "${desktop_path}" ]]; then
+    #     return 0
+    # fi
 
     local desktop_dir=$(dirname "${desktop_path}");
     su - "${cur_user}" -c "[[ -d ${desktop_dir} ]] || mkdir -p ${desktop_dir}";

@@ -38,9 +38,7 @@ TMP_DIR="/tmp/${APP_NAME}";
 # /usr/local/bin
 LOCAL_BIN_DIR="/usr/local/bin"
 
-
 APP_REPO_NAME="sxyazi/yazi";
-
 # https://api.github.com/repos/sxyazi/yazi/releases/latest
 API_URL="https://api.github.com/repos/${APP_REPO_NAME}/releases/latest";
 # ------------------------------------------------------------------------------
@@ -118,12 +116,6 @@ function install_yazi_for_deb()
     if [[ -z "${deb_url}" ]]; then
         return 0
     fi
-
-    # yazi-x86_64-unknown-linux-gnu.deb
-    # yazi-i686-unknown-linux-gnu.deb
-    # yazi-aarch64-unknown-linux-gnu.deb
-    local deb_fname=$(basename ${deb_url});
-    # echo "${deb_fname}"
     # --------------------------------------------------------------------------
 
     # --------------------------------------------------------------------------
@@ -138,6 +130,10 @@ function install_yazi_for_deb()
 
 function install_yazi_for_portable()
 {
+    # --------------------------------------------------------------------------
+    # tui용이라서 install_portablepkg를 사용하지 않았다.
+    # --------------------------------------------------------------------------
+
     # --------------------------------------------------------------------------
     if [[ -f "${LOCAL_BIN_DIR}/${APP_NAME}" ]]; then
         return 0

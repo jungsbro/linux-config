@@ -55,7 +55,8 @@ function execute_main()
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             # bottles is avaialable for onlxy x86_64
             local app_fullname="${APP_FULLNAME}";
-            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+            local cur_user="${CUR_USER}";
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on Debian"
@@ -79,7 +80,8 @@ function execute_main()
         if [[ "${CUR_ARCH}" == *"x86_64"* ]]; then    # x86_64
             # bottles is avaialable for onlxy x86_64
             local app_fullname="${APP_FULLNAME}";
-            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}"
+            local cur_user="${CUR_USER}";
+            source ${CORE_BIN_DIR}/pkgmgmt/flatpak/install_flatpak_funcs.sh && install_flatpakpkg "${app_fullname}" "${cur_user}"
 
         elif [[ "${CUR_ARCH}" == *"aarch64"* ]]; then # aarch64
             echo "bottles-aarch64 is not avialable on RHEL"

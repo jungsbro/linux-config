@@ -72,11 +72,13 @@ function install_portablepkg()
     # 2) portable_path
 
     # https://github.com/FreeTubeApp/FreeTube/releases/download/v0.23.5-beta/freetube-0.23.5-linux-x64-portable.zip
-    # https://sourceforge.net/projects/doublecmd/files/DC%20for%20Linux%2064%20bit/Double%20Commander%201.1.26/doublecmd-1.1.26.gtk2.x86_64.tar.xz
+    # https://github.com/doublecmd/doublecmd/releases/download/v1.2.9/doublecmd-1.2.9.gtk2.x86_64.tar.xz
     local portable_url="${2}"
 
+    # portable_path 설정시, 정확한 위치를 설정해야한다.
     # /opt/freetube/freetube
     # /opt/doublecmd/doublecmd
+    # /opt/photocraft-0.18.0-linux-x86_64/bin/photocraft
     local portable_path="${3}"
 
     if [[ -f "${portable_path}" ]]; then
@@ -97,19 +99,27 @@ function install_portablepkg()
     [[ -d "${portable_dir}" ]] || mkdir -p "${portable_dir}";
 
     if [[ "${tmp_path}" == *".zip"* ]]; then
+        # ----------------------------------------------------------------------
         # unzip /tmp/freetube/freetube-0.23.5-linux-x64-portable.zip -d /opt/freetube;
         unzip "${tmp_path}" -d "${portable_dir}";
+        # ----------------------------------------------------------------------
 
     elif [[ "${tmp_path}" == *".tar"* ]]; then
+        # ----------------------------------------------------------------------
         # /opt/doublecmd >> /opt
-        local portable_dir2=$(dirname "${portable_dir}");
-        [[ -d "${portable_dir2}" ]] || mkdir -p "${portable_dir2}";
+        # /opt/photocraft-0.18.0-linux-x86_64/bin/photocraft >> /opt
+        local portable_root_dir="/$(echo "${portable_path}" | cut -d "/" -f 2)";
+        [[ -d "${portable_root_dir}" ]] || mkdir -p "${portable_root_dir}";
 
         # tar -xvf /tmp/doublecmd/doublecmd-1.1.26.gtk2.x86_64.tar.xz -C /opt
-        tar -xvf "${tmp_path}" -C "${portable_dir2}";
+        tar -xvf "${tmp_path}" -C "${portable_root_dir}";
+        # ----------------------------------------------------------------------
+
     else
+        # ----------------------------------------------------------------------
         echo "Unknown file type: ${tmp_path}";
         return 0
+        # ----------------------------------------------------------------------
     fi
 
     rm -f "${tmp_path}";
